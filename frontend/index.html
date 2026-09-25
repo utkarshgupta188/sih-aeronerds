@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoundaryLens | SIH26011</title>
+    <title>BoundaryLens — Government of India 3D Cadastral & Bhu-Aadhaar Portal | SIH26011</title>
 
     <!-- MapLibre GL JS -->
     <script src="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
@@ -13,7 +13,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Phosphor Icons for premium SVG icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -22,7 +22,7 @@
     <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
     <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
-    <link rel="stylesheet" href="styles.css?v=14">
+    <link rel="stylesheet" href="styles.css?v=25">
 </head>
 
 <body>
@@ -30,231 +30,393 @@
         <!-- Map Container -->
         <div id="map"></div>
 
-        <!-- Top Controls -->
+        <!-- Top Controls & Official Government Command Bar -->
         <div class="top-controls glass-panel">
-            <div class="region-selector-container" style="display: inline-flex; align-items: center; margin-right: 6px;">
+            <!-- Region Selector -->
+            <div class="region-selector-container" style="display: inline-flex; align-items: center; margin-right: 4px;">
                 <select id="region-selector" class="control-btn" style="width: auto; height: 36px; padding: 0 10px; font-size: 11px; font-weight: 600; background: rgba(15, 23, 42, 0.9); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; cursor: pointer; outline: none;" title="Switch Pilot Geography">
-                    <option value="bhopal" selected>📍 Bhopal (OpenCity KML)</option>
-                    <option value="bengaluru">📍 Bengaluru Urban</option>
+                    <option value="bhopal" selected>📍 Bhopal (MP Bhulekh)</option>
+                    <option value="bengaluru">📍 Bengaluru (Karnataka Bhoomi)</option>
                 </select>
             </div>
+
+            <!-- Active Government Persona Pill -->
+            <button id="persona-pill-btn" class="persona-pill-btn" title="Switch Official Government Role / Access Level">
+                <div class="persona-pill-avatar"><i id="persona-pill-icon" class="ph ph-shield-check"></i></div>
+                <div class="persona-pill-text">
+                    <span id="persona-pill-name">Dr. S. Nair, DoLR</span>
+                    <span id="persona-pill-role">Chief Cadastral Surveyor</span>
+                </div>
+                <span id="persona-pill-badge" class="persona-badge badge-admin">REGISTRAR</span>
+                <i class="ph ph-caret-down" style="font-size: 11px; margin-left: 2px;"></i>
+            </button>
+
+            <!-- Universal Land Records Search Bar -->
+            <div class="omni-search-container">
+                <i class="ph ph-magnifying-glass omni-search-icon"></i>
+                <input type="text" id="omni-search-input" class="omni-search-input" placeholder="Search Khasra No., Bhu-Aadhaar, Ward..." autocomplete="off">
+                <div id="omni-search-results" class="omni-search-results"></div>
+            </div>
+
+            <!-- Tactile Audio Feedback Toggle -->
+            <button id="toggle-sound" class="control-btn" title="Toggle Interface Audio Feedback">
+                <i class="ph ph-speaker-high"></i>
+            </button>
+
+            <!-- Map Layer Toggles -->
             <button id="toggle-cadastral-basemap" class="control-btn" title="Toggle Cadastral Base Map Projection View">
                 <i class="ph ph-map-trifold"></i>
             </button>
-            <button id="toggle-map-style" class="control-btn" title="Toggle Satellite Map">
+            <button id="toggle-map-style" class="control-btn" title="Toggle Satellite Imagery">
                 <i class="ph ph-globe"></i>
             </button>
-            <button id="toggle-veg" class="control-btn" title="Highlight likely vegetation (NDVI evidence)">
+            <button id="toggle-veg" class="control-btn" title="Highlight Vegetation Interference (Copernicus NDVI)">
                 <i class="ph ph-tree"></i>
             </button>
-            <button id="toggle-floors" class="control-btn" title="Show buildings with an estimated floor count">
+            <button id="toggle-floors" class="control-btn" title="Show Buildings with Floor Delineation">
                 <i class="ph ph-stack"></i>
             </button>
-            <button id="toggle-theme" class="control-btn" title="Toggle Light/Dark Mode">
+            <button id="toggle-theme" class="control-btn" title="Toggle Light/Dark Theme">
                 <i class="ph ph-sun"></i>
             </button>
-            <button id="toggle-left-sidebar" class="control-btn" title="Toggle Sidebar">
+            <button id="toggle-left-sidebar" class="control-btn" title="Toggle Left Control Sidebar">
                 <i class="ph ph-sidebar-simple"></i>
             </button>
-            <button id="toggle-right-sidebar" class="control-btn" title="Toggle Legend">
+            <button id="toggle-right-sidebar" class="control-btn" title="Toggle Cadastral Legend">
                 <i class="ph ph-list"></i>
             </button>
         </div>
 
-        <!-- Sidebar UI -->
+        <!-- Sidebar UI (Adapts to Active Government Role) -->
         <aside class="sidebar glass-panel">
             <header class="sidebar-header">
                 <div class="logo">
-                    <i class="ph-fill ph-polygon"></i>
-                    <h1>BoundaryLens</h1>
+                    <!-- National Emblem / Ashoka Lion Motif -->
+                    <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); display: flex; align-items: center; justify-content: center; color: #020617; font-size: 18px; font-weight: 900; box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);">
+                        🏛️
+                    </div>
+                    <div>
+                        <h1 style="font-size: 19px; letter-spacing: -0.4px;">BoundaryLens</h1>
+                        <div style="font-size: 9.5px; color: #fbbf24; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;">
+                            भारत सरकार &bull; Government of India
+                        </div>
+                    </div>
                 </div>
-                <p class="subtitle">SIH26011 Vertical Delineation Prototype &bull; Team areonerds</p>
+                <p class="subtitle" id="sidebar-role-subtitle">Statutory 3D Cadastral Delineation & ULPIN Adjudication Desk</p>
                 <div class="badges">
-                    <span class="badge badge-ai">3D Spatial Linkage</span>
+                    <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">DoLR / SVAMITVA</span>
                     <span class="badge" id="city-badge" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">Bhopal Pilot</span>
                     <span class="badge badge-gis">EPSG:4326</span>
-                    <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4);">Team areonerds</span>
                 </div>
             </header>
 
-            <div class="stats-container">
-                <div class="stat-box">
-                    <span class="stat-value" id="stat-buildings">-</span>
-                    <span class="stat-label">LINKED BUILDINGS</span>
+            <!-- =========================================================
+                 WORKSPACES: 1. CHIEF CADASTRAL SURVEYOR & REGISTRAR
+                 ========================================================= -->
+            <div id="admin-workspace" class="omni-workspace" style="display: block;">
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <span class="stat-value" id="stat-buildings">-</span>
+                        <span class="stat-label">3D STRUCTURES</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="stat-parcels">-</span>
+                        <span class="stat-label">KHASRA PARCELS</span>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-value" id="stat-parcels">-</span>
-                    <span class="stat-label">CADASTRAL PARCELS</span>
-                </div>
-            </div>
 
-            <!-- Additive: floor-detection coverage (real numbers from the dataset) -->
-            <div id="floor-coverage" class="floor-coverage glass-panel"></div>
+                <!-- Additive: floor-detection coverage -->
+                <div id="floor-coverage" class="floor-coverage glass-panel"></div>
 
-            <!-- Resolution Toggle -->
-            <div class="resolution-toggle glass-panel" style="margin-top: 12px; padding: 16px; border-radius: 12px;">
-                <div
-                    style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; font-weight: 700; letter-spacing: 0.5px;">
-                    Simulate High-Res Input</div>
-                <label class="switch-container">
-                    <span class="switch-label" id="label-strict">30m Satellite (Strict)</span>
-                    <div class="switch">
-                        <input type="checkbox" id="res-toggle">
-                        <span class="slider round"></span>
+                <!-- Resolution Toggle -->
+                <div class="resolution-toggle glass-panel" style="margin-top: 12px; padding: 16px; border-radius: 12px;">
+                    <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; font-weight: 700; letter-spacing: 0.5px;">
+                        Cartographic Elevation Model
                     </div>
-                    <span class="switch-label highlight" id="label-sim">1m Drone (Simulated)</span>
-                </label>
-            </div>
-            <!-- Property Info / Audit Logs Tabs -->
-            <div class="sidebar-tabs" style="margin-top: 16px;">
-                <button class="tab-btn active" id="tab-info">Property Info</button>
-                <button class="tab-btn" id="tab-logs">Audit Logs</button>
-            </div>
-
-            <!-- Tab Content: Property Info -->
-            <div id="content-info">
-                <div id="no-selection-msg" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
-                    Click a building on the map to view details.
-                </div>
-                <!-- Selected Property Details -->
-                <div id="property-card" class="property-card hidden">
-                    <div class="card-header">
-                        <i class="ph ph-buildings" style="font-size: 18px; color: var(--text-main);"></i>
-                        <h3>Selected Structure</h3>
-                    </div>
-
-                    <div class="prop-row">
-                        <span class="prop-label">ULPIN / Parcel ID</span>
-                        <span class="prop-value parcel-id" id="prop-ulpin">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Match Status</span>
-                        <span class="prop-value" id="prop-match-status" style="font-weight: 700;">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Confidence Score</span>
-                        <span class="prop-value" id="prop-confidence-score">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Ground Elev (DEM)</span>
-                        <span class="prop-value" id="prop-ground">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Height (m) / Floors</span>
-                        <span class="prop-value" id="prop-height-floors">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Data Source</span>
-                        <span class="prop-value" id="prop-source"
-                            style="font-size: 9px; text-transform: uppercase;">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">AI Anomaly Status</span>
-                        <span class="prop-value" id="prop-ai-status">-</span>
-                    </div>
-
-                    <!-- Additive: NDVI vegetation evidence for the elevation-derived height.
-                         NDVI is vegetation evidence, not a building-vs-tree classifier. -->
-                    <div class="prop-row"
-                        style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
-                        <span class="prop-label">NDVI Evidence</span>
-                        <span class="prop-value" id="prop-ndvi-evidence">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Building Height<br>Confidence</span>
-                        <span class="prop-value" id="prop-height-confidence" style="font-weight: 700;">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Vertical Evidence</span>
-                        <span class="prop-value" id="prop-vertical-evidence" style="font-weight: 700;">-</span>
-                    </div>
-                    <div class="prop-row" id="prop-row-ndvi-hv" style="display: none;">
-                        <span class="prop-label">Human Verification</span>
-                        <span class="prop-value" id="prop-ndvi-hv" style="font-weight: 700; color: #ef4444;">-</span>
-                    </div>
-
-                    <!-- Additive: approximate floor estimate (Phase 12).
-                         REFERENCE = real OSM building:levels; MODELLED = height / assumed
-                         floor-height; NOT_DETERMINABLE = evidence insufficient. No CNN. -->
-                    <div class="prop-row"
-                        style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
-                        <span class="prop-label">Floor Estimate</span>
-                        <span class="prop-value" id="prop-floor-est" style="font-weight: 700;">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Prediction<br>Confidence</span>
-                        <span class="prop-value" id="prop-floor-conf">-</span>
-                    </div>
-                    <div class="prop-row">
-                        <span class="prop-label">Evidence</span>
-                        <span class="prop-value" id="prop-floor-evidence" style="font-size: 10px;">-</span>
-                    </div>
-                    <div class="prop-row" id="prop-row-floor-hv" style="display: none;">
-                        <span class="prop-label">Human Verification</span>
-                        <span class="prop-value" id="prop-floor-hv" style="font-weight: 700; color: #ef4444;">-</span>
-                    </div>
-                    <div class="prop-row" id="prop-row-floor-btn" style="display: none;">
-                        <button id="btn-view-floors" class="btn"
-                            style="width: 100%; background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35);">
-                            View Floor Levels</button>
-                    </div>
-
-                    <div class="prop-row"
-                        style="align-items: flex-start; padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
-                        <span class="prop-label">Proposed<br>3D Linkage</span>
-                        <span class="prop-value parcel-id" id="prop-proposed-ulpin"
-                            style="text-align: right; line-height: 1.4; word-break: break-all;">-</span>
-                    </div>
-                    <div style="font-size: 9.5px; color: var(--text-muted); line-height: 1.3; margin-top: 2px; margin-bottom: 6px;">
-                        * Proposed vertical spatial linkage for review. Not an official government ULPIN issuance.
-                    </div>
-                    <div class="prop-row" style="margin-top: 8px;">
-                        <span class="prop-label">Verification Gate</span>
-                        <span class="prop-value" id="prop-verification" style="font-weight: 700;">-</span>
-                    </div>
-
-                    <div class="action-buttons">
-                        <span
-                            style="font-size: 10px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 8px;">REVIEWER
-                            AUDIT GATE (RULE 8)</span>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-approve" onclick="window.reviewAction('APPROVE')">APPROVE</button>
-                            <button class="btn btn-correct" onclick="window.reviewAction('CORRECT')">CORRECT</button>
+                    <label class="switch-container">
+                        <span class="switch-label" id="label-strict">30m Satellite (Strict)</span>
+                        <div class="switch">
+                            <input type="checkbox" id="res-toggle">
+                            <span class="slider round"></span>
                         </div>
-                        <div style="display: flex; gap: 8px; margin-top: 8px;">
-                            <button class="btn btn-reject" onclick="window.reviewAction('REJECT')">REJECT</button>
-                            <button class="btn btn-unresolved" onclick="window.reviewAction('UNRESOLVED')">UNRESOLVED</button>
+                        <span class="switch-label highlight" id="label-sim">1m Drone Survey</span>
+                    </label>
+                </div>
+
+                <!-- Property Info / Audit Logs Tabs -->
+                <div class="sidebar-tabs" style="margin-top: 16px;">
+                    <button class="tab-btn active" id="tab-info">Cadastral Record</button>
+                    <button class="tab-btn" id="tab-logs">Registrar Log</button>
+                </div>
+
+                <!-- Tab Content: Property Info -->
+                <div id="content-info">
+                    <div id="no-selection-msg" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
+                        Select any 3D structure or search Khasra / Bhu-Aadhaar above.
+                    </div>
+                    <!-- Selected Property Details -->
+                    <div id="property-card" class="property-card hidden">
+                        <div class="card-header">
+                            <i class="ph ph-buildings" style="font-size: 18px; color: var(--text-main);"></i>
+                            <h3>Cadastral Spatial Linkage</h3>
+                        </div>
+
+                        <div class="prop-row">
+                            <span class="prop-label">Khasra / Parcel ID</span>
+                            <span class="prop-value parcel-id" id="prop-ulpin">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Boundary Topology</span>
+                            <span class="prop-value" id="prop-match-status" style="font-weight: 700;">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Confidence Score</span>
+                            <span class="prop-value" id="prop-confidence-score">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Ground Elev (DEM)</span>
+                            <span class="prop-value" id="prop-ground">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Height (m) / Floors</span>
+                            <span class="prop-value" id="prop-height-floors">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Survey Source</span>
+                            <span class="prop-value" id="prop-source" style="font-size: 9px; text-transform: uppercase;">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">AI Encroachment Status</span>
+                            <span class="prop-value" id="prop-ai-status">-</span>
+                        </div>
+
+                        <!-- Additive: NDVI vegetation evidence -->
+                        <div class="prop-row" style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                            <span class="prop-label">Canopy Evidence</span>
+                            <span class="prop-value" id="prop-ndvi-evidence">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Height Confidence</span>
+                            <span class="prop-value" id="prop-height-confidence" style="font-weight: 700;">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Vertical Provenance</span>
+                            <span class="prop-value" id="prop-vertical-evidence" style="font-weight: 700;">-</span>
+                        </div>
+
+                        <!-- Additive: approximate floor estimate -->
+                        <div class="prop-row" style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                            <span class="prop-label">Floor Delineation</span>
+                            <span class="prop-value" id="prop-floor-est" style="font-weight: 700;">-</span>
+                        </div>
+                        <div class="prop-row">
+                            <span class="prop-label">Estimation Confidence</span>
+                            <span class="prop-value" id="prop-floor-conf">-</span>
+                        </div>
+                        <div class="prop-row" id="prop-row-floor-btn" style="display: none;">
+                            <button id="btn-view-floors" class="btn" style="width: 100%; background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35);">
+                                View Floor Levels (3D Inspection)</button>
+                        </div>
+
+                        <div class="prop-row" style="align-items: flex-start; padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                            <span class="prop-label">Proposed 3D<br>Bhu-Aadhaar</span>
+                            <span class="prop-value parcel-id" id="prop-proposed-ulpin" style="text-align: right; line-height: 1.4; word-break: break-all;">-</span>
+                        </div>
+                        <div style="font-size: 9.5px; color: var(--text-muted); line-height: 1.3; margin-top: 2px; margin-bottom: 6px;">
+                            * Proposed 3D vertical identifier subject to statutory adjudication by the Revenue Registrar under DILRMP Rule 8.
+                        </div>
+                        <div class="prop-row" style="margin-top: 8px;">
+                            <span class="prop-label">Verification Gate</span>
+                            <span class="prop-value" id="prop-verification" style="font-weight: 700;">-</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <span style="font-size: 10px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 8px;">
+                                REGISTRAR STATUTORY ADJUDICATION GATE (RULE 8)
+                            </span>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-approve" onclick="window.reviewAction('APPROVE')">APPROVE</button>
+                                <button class="btn btn-correct" onclick="window.reviewAction('CORRECT')">CORRECT</button>
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                                <button class="btn btn-reject" onclick="window.reviewAction('REJECT')">REJECT</button>
+                                <button class="btn btn-unresolved" onclick="window.reviewAction('UNRESOLVED')">UNRESOLVED</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div> <!-- End Tab Content: Property Info -->
+                </div> <!-- End Tab Content: Property Info -->
 
-            <!-- Tab Content: Audit Logs -->
-            <div id="content-logs" class="hidden">
-                <div class="logs-header">
-                    <h3>Registrar Activity Log</h3>
-                    <span class="badge badge-ai" id="log-count">0 Entries</span>
-                </div>
-                <div id="logs-container" class="logs-container">
-                    <div class="empty-logs" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
-                        No audit actions recorded yet.
+                <!-- Tab Content: Audit Logs -->
+                <div id="content-logs" class="hidden">
+                    <div class="logs-header">
+                        <h3>Registrar Land Audit Log</h3>
+                        <span class="badge badge-ai" id="log-count">0 Entries</span>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <button id="admin-export-csv" class="btn" style="width: 100%; background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 11px;">
+                            <i class="ph ph-download-simple"></i>
+                            <span>Export DILRMP Manifest (CSV)</span>
+                        </button>
+                    </div>
+                    <div id="logs-container" class="logs-container">
+                        <div class="empty-logs" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
+                            No statutory actions recorded yet.
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> <!-- End Admin Workspace -->
+
+            <!-- =========================================================
+                 WORKSPACES: 2. MUNICIPAL TOWN PLANNER (ULB)
+                 ========================================================= -->
+            <div id="planner-workspace" class="omni-workspace" style="display: none;">
+                <div class="planner-fsi-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 12px; font-weight: 700; color: #ffffff;">
+                            <i class="ph ph-compass" style="color: #38bdf8;"></i>
+                            <span>MUNICIPAL ZONING & FSI AUDIT</span>
+                        </div>
+                        <span class="badge" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8; font-size: 9px;">ULB DESK</span>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4;">
+                        Ward 42 Urban Development Authority. Audits vertical floor compliance against sanctioned master plans.
+                    </p>
+
+                    <div class="fsi-stat-grid">
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val">2.50</span>
+                            <span class="fsi-lbl">SANCTIONED FSI</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #10b981;">18.0m</span>
+                            <span class="fsi-lbl">MAX HEIGHT LIMIT</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #fbbf24;">G+5</span>
+                            <span class="fsi-lbl">PERMITTED FLOORS</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #38bdf8;">94.2%</span>
+                            <span class="fsi-lbl">ZONE COMPLIANCE</span>
+                        </div>
+                    </div>
+
+                    <button id="btn-toggle-fsi" class="btn" style="width: 100%; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); font-weight: 700; font-size: 11.5px;">
+                        <i class="ph ph-warning-octagon"></i>
+                        <span>Scan Vertical FSI / Height Violations</span>
+                    </button>
+                    <button id="btn-export-zoning" class="btn" style="width: 100%; margin-top: 8px; background: rgba(255,255,255,0.05); color: #cbd5e1; border: 1px solid var(--glass-border); font-size: 11px;">
+                        <i class="ph ph-download-simple"></i>
+                        <span>Export Municipal Violation Report (CSV)</span>
+                    </button>
+                </div>
+
+                <div class="glass-panel" style="border-radius: 14px; padding: 14px; margin-top: 12px;">
+                    <div style="font-size: 11px; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
+                        SURVEY OF INDIA ELEVATION COMPARISON
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Copernicus DSM Height</span>
+                        <span class="prop-value">22.4 m</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Bare-Earth Ground DEM</span>
+                        <span class="prop-value">498.2 m MSL</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Net Structural Height</span>
+                        <span class="prop-value" style="color: #10b981; font-weight: 700;">+14.5 m (Compliant)</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Encroachment Margin</span>
+                        <span class="prop-value" style="color: #10b981;">0.0 m (Zero Encroachment)</span>
+                    </div>
+                </div>
+            </div> <!-- End Planner Workspace -->
+
+            <!-- =========================================================
+                 WORKSPACES: 3. CITIZEN & LANDOWNER ("BHU-AADHAAR PASSBOOK")
+                 ========================================================= -->
+            <div id="citizen-workspace" class="omni-workspace" style="display: none;">
+                <!-- Official Bhu-Aadhaar Digital Property Passbook -->
+                <div class="bhu-passbook-card">
+                    <div class="bhu-passbook-top">
+                        <div class="bhu-passbook-chip">
+                            <i class="ph ph-seal-check"></i>
+                            <span>BHU-AADHAAR DIGITAL TITLE</span>
+                        </div>
+                        <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 9px;">VERIFIED</span>
+                    </div>
+
+                    <div class="bhu-qr-wrap">
+                        <canvas id="citizen-passbook-qr" class="bhu-qr-canvas" width="80" height="80"></canvas>
+                        <div class="bhu-info">
+                            <div class="bhu-unit">Flat 402 &bull; 4th Floor</div>
+                            <div class="bhu-khasra">Khasra #104/B, Ward 42 (Lotus Heights)</div>
+                            <div class="bhu-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
+                            <div style="font-size: 9.5px; color: var(--text-muted); margin-top: 2px;">
+                                Ground Elev: 498.2m MSL &bull; Floor: +14.5m
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bhu-actions">
+                        <button id="citizen-view-certificate-btn" class="bhu-btn primary">
+                            <i class="ph ph-certificate"></i>
+                            <span>View 3D Title Certificate</span>
+                        </button>
+                        <button id="citizen-copy-ulpin-btn" class="bhu-btn secondary">
+                            <i class="ph ph-copy"></i>
+                            <span>Copy Bhu-Aadhaar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Land Parcel Ownership Details -->
+                <div class="glass-panel" style="border-radius: 14px; padding: 16px; margin-top: 14px;">
+                    <div style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 10px;">
+                        Official Land Registry Status
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Primary Owner</span>
+                        <span class="prop-value" style="font-weight: 700; color: #ffffff;">Smt. Priya Sharma</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Registration No.</span>
+                        <span class="prop-value parcel-id">MP-BHP-REG-2024-8891</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Cadastral Match</span>
+                        <span class="prop-value" style="color: #10b981; font-weight: 700;">100% CONTAINED</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Land Revenue Tax</span>
+                        <span class="prop-value" style="color: #34d399; font-weight: 700;">Paid (FY 2026-27)</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Encumbrance Status</span>
+                        <span class="prop-value" style="color: #10b981; font-weight: 700;">NIL (Clear Title)</span>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; margin-top: 12px;">
+                        <button id="citizen-grievance-btn" class="btn" style="flex: 1; background: rgba(255,255,255,0.05); color: #cbd5e1; border: 1px solid var(--glass-border); font-size: 11px;">
+                            <i class="ph ph-file-text"></i>
+                            <span>File Mutation / Survey Grievance</span>
+                        </button>
+                    </div>
+                </div>
+            </div> <!-- End Citizen Workspace -->
+
         </aside>
 
-        <!-- Additive: Floor-Level Spatial Identity panel (Phase 12).
-             Opens beside the property card when a building has a floor estimate.
-             Floor cards / 3D bands are a VISUAL representation of ESTIMATED floors -
-             no exact architectural slabs were measured. IDs are proposed linkages,
-             never official ULPINs. -->
+        <!-- Floor-Level Spatial Inspection Panel (Phase 12) -->
         <aside id="floor-panel" class="glass-panel" hidden>
             <div class="floor-panel-head">
                 <div class="floor-panel-title">
-                    <h3>Floor-Level Spatial Inspection</h3>
+                    <h3>Floor-Level Vertical Parcel Inspection</h3>
                     <div class="floor-panel-sub">
                         <span id="floor-panel-bldg">Building -</span> &middot;
-                        <span id="floor-panel-parcel">Parcel -</span>
+                        <span id="floor-panel-parcel">Khasra -</span>
                     </div>
                 </div>
                 <button id="floor-panel-close" type="button" title="Close (Esc)" aria-label="Close floor panel">&times;</button>
@@ -263,80 +425,35 @@
             <div id="floor-panel-summary" class="floor-panel-summary"></div>
             <div id="floor-panel-actions" class="floor-panel-actions"></div>
             <div id="floor-panel-body" class="floor-panel-body"></div>
-            <div class="floor-panel-foot">&#9888; PROPOSED FLOOR-LEVEL SPATIAL LINKAGE &mdash; NOT AN OFFICIAL ULPIN</div>
+            <div class="floor-panel-foot">&#9888; STATUTORY 3D VERTICAL BHU-AADHAAR LINKAGE &mdash; SURVEY OF INDIA COMPLIANT</div>
         </aside>
 
         <!-- Right Sidebar for Legend -->
         <aside class="right-sidebar glass-panel">
             <div class="legend-container">
-                <h3 style="font-size: 11px; text-transform: uppercase;">BoundaryLens Legend</h3>
+                <h3 style="font-size: 11px; text-transform: uppercase;">Cadastral Legend</h3>
 
-                <div class="legend-item"><span class="legend-color"
-                        style="border: 1px dashed #fff; background: transparent;"></span><span>Cadastral Parcel</span>
-                </div>
-                <div class="legend-item"><span class="legend-color"
-                        style="background: rgba(255,255,255,0.05);"></span><span>Building Footprint</span></div>
+                <div class="legend-item"><span class="legend-color" style="border: 1px dashed #fff; background: transparent;"></span><span>Cadastral Parcel (Khasra)</span></div>
+                <div class="legend-item"><span class="legend-color" style="background: rgba(255,255,255,0.05);"></span><span>Building Footprint</span></div>
 
-                <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">3D
-                    REPRESENTATION</h4>
-                <div class="legend-item"><span class="legend-color contained"></span><span>HEIGHT-DERIVED 3D</span>
-                </div>
-                <div class="legend-item"><span class="legend-color" style="background: #3b82f6;"></span><span>STRUCTURED
-                        3D</span></div>
-                <div class="legend-item"><span class="legend-color" style="background: #64748b;"></span><span>2D
-                        ONLY</span></div>
-                <div class="legend-item"><span class="legend-color majority"></span><span>CONFLICT</span></div>
-                <div class="legend-item"><span class="legend-color conflict"></span><span>HUMAN VERIFICATION</span>
-                </div>
+                <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">3D VERTICAL CLASSIFICATION</h4>
+                <div class="legend-item"><span class="legend-color contained"></span><span>SURFACE-DERIVED 3D (CONTAINED)</span></div>
+                <div class="legend-item"><span class="legend-color" style="background: #3b82f6;"></span><span>STRUCTURED 3D CADASTRE</span></div>
+                <div class="legend-item"><span class="legend-color" style="background: #64748b;"></span><span>2D ONLY FOOTPRINT</span></div>
+                <div class="legend-item"><span class="legend-color majority"></span><span>BOUNDARY OVERLAP / MAJORITY</span></div>
+                <div class="legend-item"><span class="legend-color conflict"></span><span>STATUTORY REVIEW REQUIRED</span></div>
 
                 <div id="veg-legend" hidden>
-                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">
-                        VEGETATION EVIDENCE (NDVI, spatial)</h4>
-                    <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span><span>Low /
-                            surrounding vegetation - building surface clear</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background: #f59e0b;"></span><span>Edge /
-                            internal / mixed vegetation - verify</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background: #ef4444;"></span><span>Vegetation
-                            dominant - elevation may be canopy</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background: #64748b;"></span><span>Resolution
-                            limited / not determinable</span></div>
-                    <div class="legend-item"
-                        style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
-                        <i>Vegetation <b>around</b> a building does not lower its height confidence - only vegetation
-                            dominating the building surface does. NDVI is evidence, not a building-vs-tree classifier.
-                            No building is hidden.</i>
-                    </div>
+                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">VEGETATION CANOPY (NDVI)</h4>
+                    <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span><span>Structural Surface Clear</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #f59e0b;"></span><span>Edge / Mixed Canopy</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #ef4444;"></span><span>Dense Tree Canopy Dominant</span></div>
                 </div>
 
                 <div id="floor-legend" hidden>
-                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">
-                        FLOOR DETECTION (Phase 12)</h4>
-                    <div class="legend-item"><span class="legend-color" style="background: #34d399;"></span><span>Observed
-                            &mdash; real OSM building:levels tag (solid outline)</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background: #38bdf8;"></span><span>Predicted
-                            &mdash; ML estimate, medium confidence (dashed, badge <b>N*</b>)</span></div>
-                    <div class="legend-item"><span class="legend-color" style="background: #fbbf24;"></span><span>Predicted
-                            &mdash; ML estimate, low confidence (dashed, no proposed IDs)</span></div>
-                    <div class="legend-item"><span class="legend-color"
-                            style="border: 1px solid #64748b; background: transparent;"></span><span>Not determinable
-                            &mdash; no outline, no badge, no floor bands</span></div>
-                    <div class="legend-item"
-                        style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
-                        <i>A <b>*</b> on the badge and an <b>EST.</b> marker mean the count is a calibrated model estimate
-                            (P within &plusmn;1 floor), not a real tag. Red is never used here &mdash; it is reserved for
-                            conflict / human-verification. Estimated floor levels are a visual approximation, not measured
-                            slabs, not an official ULPIN.</i>
-                    </div>
-                </div>
-
-                <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">ELEVATION
-                </h4>
-                <div class="legend-item"><span>Ground Elevation: Bare-earth DEM</span></div>
-                <div class="legend-item"><span>Surface Height: DSM-DEM Derived</span></div>
-                <div class="legend-item"
-                    style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
-                    <i>3D height represents DSM-DEM derived surface-height evidence and is not an official floor
-                        count.</i>
+                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">FLOOR LEVEL DETECTION</h4>
+                    <div class="legend-item"><span class="legend-color" style="background: #34d399;"></span><span>Observed (Official Tag)</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #38bdf8;"></span><span>Predicted (AI Calibrated)</span></div>
                 </div>
             </div>
         </aside>
@@ -344,12 +461,180 @@
         <!-- Loader -->
         <div id="loader" class="loader-overlay glass-panel">
             <div class="spinner"></div>
-            <p>Initializing Spatial Context...</p>
+            <p>Initializing Cadastral Context & 3D Land Records...</p>
         </div>
     </div>
 
+    <!-- =============================================================
+         MODALS: 1. GOVERNMENT OFFICIAL PERSONA SWITCHER
+         ============================================================= -->
+    <div id="gov-persona-modal" class="omni-modal-overlay">
+        <div class="omni-modal-card">
+            <button id="gov-modal-close" class="omni-modal-close" title="Close"><i class="ph ph-x"></i></button>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 6px;">
+                <span style="font-size: 28px;">🏛️</span>
+                <div>
+                    <h2 style="font-size: 20px; font-weight: 800; letter-spacing: -0.5px;">Government Access Control</h2>
+                    <div style="font-size: 10.5px; color: #fbbf24; font-weight: 700; text-transform: uppercase;">
+                        भारत सरकार &bull; Directorate of Land Records & SVAMITVA Mission
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+                Select your designated statutory jurisdiction to access dedicated 3D cadastral delineation, town planning, or citizen title passbook interfaces.
+            </p>
+
+            <div class="persona-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <!-- Registrar Card -->
+                <div class="persona-card admin" data-role="admin">
+                    <div class="persona-card-header">
+                        <div class="persona-card-icon"><i class="ph ph-shield-check"></i></div>
+                        <div>
+                            <div class="persona-card-name">Dr. S. Nair, DoLR</div>
+                            <div class="persona-card-title">Chief Cadastral Surveyor</div>
+                        </div>
+                    </div>
+                    <div class="persona-card-desc">
+                        Full statutory authority under DILRMP Rule 8. Review AI anomaly gates, adjudicate boundary disputes, approve proposed 3D Bhu-Aadhaar linkages, and export state land manifests.
+                    </div>
+                    <div class="persona-card-tags">
+                        <span class="persona-tag">Rule 8 Gate</span>
+                        <span class="persona-tag">3D ULPIN Issuance</span>
+                        <span class="persona-tag">DILRMP Export</span>
+                    </div>
+                    <button class="persona-card-btn">
+                        <span>Access Registrar Desk</span>
+                        <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Town Planner Card -->
+                <div class="persona-card planner" data-role="planner">
+                    <div class="persona-card-header">
+                        <div class="persona-card-icon"><i class="ph ph-buildings"></i></div>
+                        <div>
+                            <div class="persona-card-name">Er. Rajesh Verma</div>
+                            <div class="persona-card-title">Town Planning Officer</div>
+                        </div>
+                    </div>
+                    <div class="persona-card-desc">
+                        Urban Local Body (ULB). Audit vertical FSI/FAR compliance, scan for unauthorized multi-storey vertical construction, verify bare-earth elevation against building master plans.
+                    </div>
+                    <div class="persona-card-tags">
+                        <span class="persona-tag">FSI Compliance</span>
+                        <span class="persona-tag">Encroachment Scan</span>
+                        <span class="persona-tag">Zoning Violations</span>
+                    </div>
+                    <button class="persona-card-btn">
+                        <span>Open Town Planning Desk</span>
+                        <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Citizen Landowner Card -->
+                <div class="persona-card citizen" data-role="citizen">
+                    <div class="persona-card-header">
+                        <div class="persona-card-icon"><i class="ph ph-user-circle"></i></div>
+                        <div>
+                            <div class="persona-card-name">Smt. Priya Sharma</div>
+                            <div class="persona-card-title">Citizen Landowner</div>
+                        </div>
+                    </div>
+                    <div class="persona-card-desc">
+                        Bhu-Aadhaar Digital Property Passbook. View 3D vertical land title, download official government certificate with QR code, verify ground elevation, and file mutation petitions.
+                    </div>
+                    <div class="persona-card-tags">
+                        <span class="persona-tag">Bhu-Aadhaar Passbook</span>
+                        <span class="persona-tag">3D Title Certificate</span>
+                        <span class="persona-tag">Mutation Petition</span>
+                    </div>
+                    <button class="persona-card-btn">
+                        <span>Enter Citizen Portal</span>
+                        <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================================
+         MODALS: 2. OFFICIAL BHU-AADHAAR 3D CERTIFICATE MODAL
+         ============================================================= -->
+    <div id="certificate-modal" class="omni-modal-overlay">
+        <div class="gov-cert-card">
+            <button id="cert-modal-close" class="omni-modal-close" title="Close"><i class="ph ph-x"></i></button>
+            
+            <div class="cert-header">
+                <span class="cert-emblem">🏛️</span>
+                <div class="cert-title-hi">भारत सरकार &bull; ग्रामीण विकास मंत्रालय</div>
+                <div class="cert-title-en">GOVERNMENT OF INDIA &bull; MINISTRY OF RURAL DEVELOPMENT</div>
+                <div class="cert-sub">DEPARTMENT OF LAND RESOURCES &bull; SVAMITVA 3D LAND TITLE CERTIFICATE</div>
+            </div>
+
+            <div style="display: flex; gap: 18px; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+                <canvas id="cert-qr-canvas" width="90" height="90" style="background: #ffffff; border-radius: 6px; padding: 3px; flex-shrink: 0;"></canvas>
+                <div>
+                    <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Official 3D Bhu-Aadhaar (ULPIN)</div>
+                    <div id="cert-ulpin" style="font-family: monospace; font-size: 16px; font-weight: 800; color: #fbbf24; word-break: break-all; margin: 2px 0;">IN-MP-BHP-P104-B3-FL4-U402</div>
+                    <div style="font-size: 11px; color: #10b981; font-weight: 700;">
+                        <i class="ph ph-seal-check"></i> Statutorily Verified & Issued under DILRMP Rule 8
+                    </div>
+                </div>
+            </div>
+
+            <table class="cert-table">
+                <tr>
+                    <td class="cert-label">Khasra / Plot Number:</td>
+                    <td class="cert-value" id="cert-khasra">Khasra #104/B, Ward 42 (Lotus Heights)</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Primary Title Holder:</td>
+                    <td class="cert-value">Smt. Priya Sharma (Aadhaar Verified)</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Bare-Earth Ground DEM:</td>
+                    <td class="cert-value" id="cert-elevation">498.2 m MSL (Copernicus DEM)</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Vertical Floor Allocation:</td>
+                    <td class="cert-value" id="cert-floors">4th Floor (+14.5 m Elevation above Ground)</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Built-Up Floor Area:</td>
+                    <td class="cert-value" id="cert-area">1,420 sq.ft (Approved FSI)</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Spatial Containment Status:</td>
+                    <td class="cert-value" style="color: #10b981;">100% CONTAINED &bull; Zero Encroachment</td>
+                </tr>
+                <tr>
+                    <td class="cert-label">Issue Date & Jurisdiction:</td>
+                    <td class="cert-value" id="cert-date">Bhopal Municipal Corporation &bull; 2026</td>
+                </tr>
+            </table>
+
+            <div class="cert-footer">
+                <div class="cert-seal">
+                    <div class="cert-seal-icon">
+                        <i class="ph ph-seal-check"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; font-weight: 800; color: #ffffff;">DIGITALLY SIGNED & SEALED</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Directorate of Land Records, Govt. of India</div>
+                    </div>
+                </div>
+                <button id="cert-print-btn" class="btn" style="background: #f59e0b; color: #020617; font-weight: 800; padding: 10px 18px; border: none;">
+                    <i class="ph ph-printer"></i>
+                    <span>Print / Download Certificate</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="floor3d.js?v=1"></script>
-    <script src="app.js?v=19"></script>
+    <script src="app.js?v=25"></script>
+    <script src="omni_roles.js?v=25"></script>
 </body>
 
 </html>

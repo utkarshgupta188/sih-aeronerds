@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     os.path.join("frontend", "app.js"),
     os.path.join("frontend", "styles.css"),
     os.path.join("frontend", "floor3d.js"),
+    os.path.join("frontend", "omni_roles.js"),
     os.path.join("frontend", "data", "buildings_3d.geojson"),
     os.path.join("frontend", "data", "cadastral_parcels_valid.geojson"),
 ]

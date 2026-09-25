@@ -182,11 +182,10 @@
         var bevel = Math.min(0.05, floorH * 0.18, footW * 0.06);
         var gap = Math.min(floorH * 0.06, 0.02);
 
-        // ---- per-floor slabs -------------------------------------------
+        // ---- per-floor slabs (100% Solid Architectural Mesh) ------------
         var cAccent = new THREE.Color(accent);
-        var cDark = new THREE.Color(0x0b1220);
-        var baseA = cAccent.clone().lerp(cDark, 0.74);
-        var baseB = cAccent.clone().lerp(cDark, 0.66);
+        var baseA = new THREE.Color(0x1e293b); // Solid slate steel
+        var baseB = new THREE.Color(0x0f172a); // Deep solid slate
         var slabs = [];
         var exploded = false;
 
@@ -205,8 +204,8 @@
 
             var mat = new THREE.MeshStandardMaterial({
                 color: (i % 2 ? baseB : baseA).clone(),
-                roughness: 0.5, metalness: 0.1,
-                transparent: true, opacity: 0.94
+                roughness: 0.35, metalness: 0.15,
+                transparent: false, opacity: 1.0
             });
             var mesh = new THREE.Mesh(gBevel, mat);
             mesh.castShadow = true;
@@ -285,16 +284,26 @@
         function applyStyles() {
             for (var j = 0; j < slabs.length; j++) {
                 var s = slabs[j], isSel = j === selected, isHov = j === hovered;
-                s.mat.color.copy(s.base);
-                s.mat.emissive.set(isSel ? accent : (isHov ? accent : 0x000000));
-                s.mat.emissiveIntensity = isSel ? 0.55 : (isHov ? 0.22 : 0);
-                s.mat.opacity = isSel ? 1 : (selected == null ? 0.94 : 0.5);
-                s.edges.material.opacity = isSel ? 0.95 : (isHov ? 0.6 : 0.32);
-                s.edges.material.color.set(isSel ? "#7dd3fc" : accent);
+                if (isSel) {
+                    s.mat.color.set(0xf59e0b); // Vibrant amber gold
+                    s.mat.emissive.set(0xd97706);
+                    s.mat.emissiveIntensity = 0.65;
+                } else if (isHov) {
+                    s.mat.color.set(0x38bdf8); // Sky blue
+                    s.mat.emissive.set(0x0284c7);
+                    s.mat.emissiveIntensity = 0.35;
+                } else {
+                    s.mat.color.copy(s.base);
+                    s.mat.emissive.set(0x000000);
+                    s.mat.emissiveIntensity = 0;
+                }
+                s.mat.opacity = 1.0;
+                s.edges.material.opacity = isSel ? 1.0 : (isHov ? 0.8 : 0.4);
+                s.edges.material.color.set(isSel ? "#ffffff" : (isHov ? "#38bdf8" : accent));
                 var show = slabs.length <= 6 || isSel || isHov || j === 0 || j === slabs.length - 1;
                 s.label.visible = show;
-                s.label.material.color.set(isSel ? "#e6fbff" : "#9fb4cc");
-                s.label.material.opacity = isSel ? 1 : (show ? 0.72 : 0);
+                s.label.material.color.set(isSel ? "#ffffff" : "#cbd5e1");
+                s.label.material.opacity = isSel ? 1.0 : (show ? 0.85 : 0);
             }
         }
 
@@ -317,7 +326,7 @@
             for (var j = 0; j < slabs.length; j++) slabs[j].mesh.position.y = slabY(j);
         }
 
-        // ---- picking -----------------------------------------------
+        // ---- picking (solid slab selection with recursive child traversal) -
         var ray = new THREE.Raycaster();
         var ndc = new THREE.Vector2();
         var meshes = slabs.map(function (s) { return s.mesh; });
@@ -328,8 +337,18 @@
             ndc.x = ((ev.clientX - r.left) / r.width) * 2 - 1;
             ndc.y = -((ev.clientY - r.top) / r.height) * 2 + 1;
             ray.setFromCamera(ndc, camera);
-            var hit = ray.intersectObjects(meshes, false);
-            return hit.length ? hit[0].object.userData.floor : null;
+            var hit = ray.intersectObjects(meshes, true);
+            if (!hit || !hit.length) return null;
+            for (var k = 0; k < hit.length; k++) {
+                var obj = hit[k].object;
+                while (obj && obj.userData.floor == null && obj.parent && obj.parent !== root && obj.parent !== scene) {
+                    obj = obj.parent;
+                }
+                if (obj && obj.userData.floor != null) {
+                    return obj.userData.floor;
+                }
+            }
+            return null;
         }
 
         var downPt = null;

@@ -107,6 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
         antialias: true
     });
 
+    window.boundaryMap = map;
+    window.activeRegion = activeRegion;
+
     // Add navigation controls
     map.addControl(new maplibregl.NavigationControl(), "bottom-right");
 
@@ -126,6 +129,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             parcelsData = await parcelsRes.json();
             bldgsData = await bldgsRes.json();
+
+            window.parcelsData = parcelsData;
+            window.bldgsData = bldgsData;
+            window.getParcelsData = function() { return parcelsData; };
+            window.getBldgsData = function() { return bldgsData; };
+            window.dispatchEvent(new CustomEvent("boundaryDataLoaded", { detail: { parcels: parcelsData, bldgs: bldgsData } }));
 
             totalParcels = parcelsData.features.length;
             totalBuildings = bldgsData.features.length;
@@ -231,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 10
                             ],
                             "fill-extrusion-base": 0,
-                            "fill-extrusion-opacity": 0.85
+                            "fill-extrusion-opacity": 1.0
                         }
                     });
                 }
@@ -246,26 +255,26 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // Interactivity: Click on Building
-            map.on("click", "buildings-3d-layer", function (e) {
-                if (!e.features.length) return;
-                const feature = e.features[0];
+            function selectBuilding(feature, lngLat) {
+                if (!feature) return;
                 const props = feature.properties;
 
+                // Cleanly remove any ground marker so it doesn't obscure the 3D floor
                 if (selectedMarker) {
-                    selectedMarker.setLngLat(e.lngLat);
-                } else {
-                    selectedMarker = new maplibregl.Marker({ color: "#ef4444" })
-                        .setLngLat(e.lngLat)
-                        .addTo(map);
+                    selectedMarker.remove();
+                    selectedMarker = null;
                 }
 
                 currentFeatureId = props.id;
-                document.getElementById("no-selection-msg").style.display = "none";
+                const noSelMsg = document.getElementById("no-selection-msg");
+                if (noSelMsg) noSelMsg.style.display = "none";
 
                 const card = document.getElementById("property-card");
-                card.style.display = "block";
-                void card.offsetWidth;
-                card.classList.remove("hidden");
+                if (card) {
+                    card.style.display = "block";
+                    void card.offsetWidth;
+                    card.classList.remove("hidden");
+                }
 
                 const isSimulated = document.getElementById("res-toggle").checked;
                 const hField = isSimulated ? "building_height_m_simulated" : "building_height_m";
@@ -436,8 +445,39 @@ document.addEventListener("DOMContentLoaded", function () {
                 renderFloorSection(props);
                 if (!document.getElementById("floor-panel").hidden) {
                     renderFloorPanel(props, feature.geometry);   // refresh if already open
+                } else if (floorDetected(props)) {
+                    renderFloorPanel(props, feature.geometry);   // auto-open solid 3D floor slabs!
                 }
+
+                window.dispatchEvent(new CustomEvent("buildingSelected", { detail: { feature: feature, props: props, lngLat: lngLat } }));
+            }
+
+            map.on("click", "buildings-3d-layer", function (e) {
+                if (!e.features.length) return;
+                selectBuilding(e.features[0], e.lngLat);
             });
+
+            window.handleSelectBuilding = selectBuilding;
+            window.selectBuildingById = function(buildingId) {
+                if (!bldgsData || !bldgsData.features) return null;
+                const feat = bldgsData.features.find(f => String(f.properties && f.properties.id) === String(buildingId));
+                if (!feat) return null;
+                let center = null;
+                if (feat.geometry && feat.geometry.coordinates) {
+                    let pts = [];
+                    if (feat.geometry.type === "Polygon") pts = feat.geometry.coordinates[0];
+                    else if (feat.geometry.type === "MultiPolygon") pts = feat.geometry.coordinates[0][0];
+                    if (pts && pts.length) {
+                        let sumX = 0, sumY = 0;
+                        pts.forEach(p => { sumX += p[0]; sumY += p[1]; });
+                        center = [sumX / pts.length, sumY / pts.length];
+                    }
+                }
+                if (!center) center = map.getCenter();
+                map.flyTo({ center: center, zoom: 17.5, pitch: 60, bearing: -20, duration: 1200 });
+                selectBuilding(feat, center);
+                return feat;
+            };
 
             // ============ Floor Detection & 3D Inspection (Phase 12 v3) ============
             var FLOOR_SRC = "floor-bands-src";
@@ -761,12 +801,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.__floorSel.floor = n;
                 reflectFloorSelection();
                 var sb = window.__selectedBuilding;
-                if (sb) drawFloorBands(sb.props, sb.geometry, n);
+                if (sb) {
+                    drawFloorBands(sb.props, sb.geometry, n);
+                    
+                    // Update Property Card with selected vertical level and elevation
+                    var hfEl = document.getElementById("prop-height-floors");
+                    if (hfEl && sb.props) {
+                        var totalH = sb.props.building_height_m ? sb.props.building_height_m + "m" : "";
+                        var totalF = sb.props.floor_count_estimated ? sb.props.floor_count_estimated + " Floors" : "";
+                        if (n) {
+                            var fH = (sb.props.building_height_m / sb.props.floor_count_estimated).toFixed(1);
+                            var elev = ((n - 1) * fH).toFixed(1);
+                            var fName = n === 1 ? "Ground Floor" : ("Floor " + (n - 1));
+                            hfEl.innerHTML = totalH + " / " + totalF + ' <span style="display:inline-block;margin-left:6px;padding:2px 8px;border-radius:4px;background:#f59e0b;color:#0f172a;font-weight:700;font-size:10px;box-shadow:0 0 8px rgba(245,158,11,0.5);">' + fName.toUpperCase() + ' · LVL ' + n + ' (+' + elev + 'm)</span>';
+                        } else {
+                            hfEl.innerText = totalH + (totalF ? " / " + totalF : "");
+                        }
+                    }
+                }
+                if (n && window.showGovToast) {
+                    var fTitle = n === 1 ? "Ground Floor" : ("Floor Level " + (n - 1));
+                    window.showGovToast("3D Floor Selected", fTitle + " (Vertical Slab " + n + ") highlighted in Cadastre", "ph-stack");
+                }
+                window.dispatchEvent(new CustomEvent("floorSelected", { detail: { floor: n, building: sb } }));
             }
             function reflectFloorSelection() {
                 var n = window.__floorSel.floor;
                 document.querySelectorAll("#floor-panel-body .floor-row").forEach(function (r) {
-                    r.classList.toggle("selected", parseInt(r.getAttribute("data-floor"), 10) === n);
+                    var isSelected = parseInt(r.getAttribute("data-floor"), 10) === n;
+                    r.classList.toggle("selected", isSelected);
+                    if (isSelected) {
+                        try { r.scrollIntoView({ block: "nearest", behavior: "smooth" }); } catch (e) { /* ignore */ }
+                    }
                 });
                 document.querySelectorAll("#floor-panel-diagram .fpd-band").forEach(function (bd) {
                     bd.classList.toggle("selected", parseInt(bd.getAttribute("data-floor"), 10) === n);
@@ -775,56 +841,92 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (box && box.__floor3d) box.__floor3d.select(n ? n - 1 : null);
             }
 
-            // dim every other building so the selected one reads as an isolated 3D model
+            // Keep surrounding buildings solid and opaque while selected building is sliced into floor bands
             function focusBuilding(props, geometry) {
                 floorFocusId = props.id;
                 if (map.getLayer("buildings-3d-layer")) {
                     map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity",
-                        ["case", ["==", ["get", "id"], props.id], 0.95, 0.1]);
+                        ["case", ["==", ["get", "id"], props.id], 0.0, 0.85]); // Hide whole mass so ONLY solid floor slabs show, keep other buildings solid!
                 }
                 floorFlyTo(geometry);
             }
             function unfocusBuilding() {
                 floorFocusId = null;
                 if (map.getLayer("buildings-3d-layer")) {
-                    map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity", 0.85);
+                    map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity", 1.0);
                 }
             }
 
-            // stacked floor bands over the real footprint (one geojson, one layer)
+            // stacked solid floor bands over the real footprint (100% Solid Continuous Architectural Extrusion)
             function drawFloorBands(props, geometry, selected) {
                 var n = props.floor_count_estimated;
                 var h = floorNum(props.building_height_m);
                 if (!geometry || !n || !h || h <= 0) return;
                 var fh = h / n;
-                var gap = floorExploded ? Math.max(fh * 0.5, 2.0) : 0;
-                var sep = Math.min(fh * 0.12, 0.6);
+                var gap = floorExploded ? Math.max(fh * 0.45, 1.8) : 0;
                 var feats = [];
                 for (var i = 1; i <= n; i++) {
                     var base = (i - 1) * (fh + gap);
-                    feats.push({ type: "Feature", geometry: geometry,
-                        properties: { floor: i, base: base, top: base + fh - sep } });
+                    var top = base + fh;
+                    feats.push({
+                        type: "Feature",
+                        geometry: geometry,
+                        properties: {
+                            floor: i,
+                            base: base,
+                            top: top
+                        }
+                    });
                 }
                 var fc = { type: "FeatureCollection", features: feats };
                 if (map.getSource(FLOOR_SRC)) map.getSource(FLOOR_SRC).setData(fc);
                 else map.addSource(FLOOR_SRC, { type: "geojson", data: fc });
+
+                // Ensure base building is replaced by solid floor slabs, while others stay solid
+                if (map.getLayer("buildings-3d-layer")) {
+                    map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity",
+                        ["case", ["==", ["get", "id"], props.id], 0.0, 0.85]);
+                }
+
                 if (!map.getLayer(FLOOR_BANDS_LAYER)) {
                     map.addLayer({
-                        id: FLOOR_BANDS_LAYER, type: "fill-extrusion", source: FLOOR_SRC,
+                        id: FLOOR_BANDS_LAYER,
+                        type: "fill-extrusion",
+                        source: FLOOR_SRC,
                         paint: {
                             "fill-extrusion-base": ["get", "base"],
                             "fill-extrusion-height": ["get", "top"],
-                            "fill-extrusion-color": ["case", ["==", ["get", "floor"], selected || -1], "#38bdf8",
-                                ["==", ["%", ["get", "floor"], 2], 0], "#7dd3fc", "#a5b4fc"],
-                            "fill-extrusion-opacity": ["case", ["==", ["get", "floor"], selected || -1], 0.95, 0.55]
+                            "fill-extrusion-color": [
+                                "case",
+                                ["==", ["get", "floor"], selected || -1], "#f59e0b", // Glowing Solid Amber Gold for Selected Floor!
+                                ["==", ["%", ["get", "floor"], 2], 0], "#1e293b", // Solid Deep Slate
+                                "#334155" // Solid Slate Steel
+                            ],
+                            "fill-extrusion-opacity": 1.0 // 100% SOLID OPAQUE MESH
                         }
                     });
+
+                    // Direct Map Floor Clicking: Clicking a 3D floor directly on the building selects that floor!
+                    map.on("click", FLOOR_BANDS_LAYER, function (e) {
+                        e._floorHandled = true;
+                        window.__justClickedFloor = true;
+                        setTimeout(function () { window.__justClickedFloor = false; }, 350);
+                        if (!e.features || !e.features.length) return;
+                        var fNum = e.features[0].properties.floor;
+                        if (fNum) {
+                            selectFloor(fNum);
+                        }
+                    });
+                    map.on("mouseenter", FLOOR_BANDS_LAYER, function () { map.getCanvas().style.cursor = "pointer"; });
+                    map.on("mouseleave", FLOOR_BANDS_LAYER, function () { map.getCanvas().style.cursor = ""; });
                 } else {
-                    map.setPaintProperty(FLOOR_BANDS_LAYER, "fill-extrusion-color",
-                        ["case", ["==", ["get", "floor"], selected || -1], "#38bdf8",
-                            ["==", ["%", ["get", "floor"], 2], 0], "#7dd3fc", "#a5b4fc"]);
-                    map.setPaintProperty(FLOOR_BANDS_LAYER, "fill-extrusion-opacity",
-                        ["case", ["==", ["get", "floor"], selected || -1], 0.95, 0.55]);
+                    map.setPaintProperty(FLOOR_BANDS_LAYER, "fill-extrusion-color", [
+                        "case",
+                        ["==", ["get", "floor"], selected || -1], "#f59e0b",
+                        ["==", ["%", ["get", "floor"], 2], 0], "#1e293b",
+                        "#334155"
+                    ]);
+                    map.setPaintProperty(FLOOR_BANDS_LAYER, "fill-extrusion-opacity", 1.0);
                 }
             }
             function showWholeBuilding() {
@@ -845,6 +947,9 @@ document.addEventListener("DOMContentLoaded", function () {
             function clearFloorBands() {
                 if (map.getLayer(FLOOR_BANDS_LAYER)) map.removeLayer(FLOOR_BANDS_LAYER);
                 if (map.getSource(FLOOR_SRC)) map.removeSource(FLOOR_SRC);
+                if (map.getLayer("buildings-3d-layer")) {
+                    map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity", 1.0);
+                }
             }
             function closeFloorPanel() {
                 document.getElementById("floor-panel").hidden = true;
@@ -939,9 +1044,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 if ((e.key === "Escape" || e.key === "Esc") && !document.getElementById("floor-panel").hidden) closeFloorPanel();
             });
             map.on("click", function (e) {
+                if (e._floorHandled || window.__justClickedFloor) return;
                 if (document.getElementById("floor-panel").hidden) return;
-                var hits = map.queryRenderedFeatures(e.point, { layers: ["buildings-3d-layer"] });
-                if (!hits.length) closeFloorPanel();
+                
+                var checkLayers = ["buildings-3d-layer"];
+                if (map.getLayer(FLOOR_BANDS_LAYER)) checkLayers.push(FLOOR_BANDS_LAYER);
+                var hits = map.queryRenderedFeatures(e.point, { layers: checkLayers });
+                
+                if (hits && hits.length) {
+                    var floorHit = hits.find(function (h) { return h.layer && h.layer.id === FLOOR_BANDS_LAYER; });
+                    if (floorHit && floorHit.properties && floorHit.properties.floor) {
+                        selectFloor(floorHit.properties.floor);
+                        return;
+                    }
+                    var bldgHit = hits.find(function (h) { return h.layer && h.layer.id === "buildings-3d-layer"; });
+                    if (bldgHit) {
+                        selectBuilding(bldgHit, e.lngLat);
+                        return;
+                    }
+                }
+                closeFloorPanel();
             });
             var _bvf = document.getElementById("btn-view-floors");
             if (_bvf) _bvf.addEventListener("click", function () {

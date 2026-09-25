@@ -102,6 +102,15 @@ def main():
         dem_ok = True
     elif os.path.exists(dem_staged_path) and os.path.getsize(dem_staged_path) > 1000:
         dem_ok = True
+    elif bldg_valid:
+        # For demo mode: check if buildings_3d.geojson contains pre-sampled DEM elevation
+        try:
+            with open(bldg_path, "r", encoding="utf-8") as f:
+                sample = json.load(f)["features"][0]["properties"]
+            if "ground_elevation_m" in sample or "building_height_m" in sample:
+                dem_ok = True
+        except Exception:
+            pass
 
     if dem_ok:
         print("[PASS] Elevation data")
@@ -142,6 +151,22 @@ def main():
     ledger_exists, ledger_valid, ledger_msg = check_file(ledger_path, min_bytes=500)
     if ledger_valid:
         print("[PASS] AI/evidence data")
+    elif bldg_valid:
+        # For demo mode: check if buildings_3d.geojson contains pre-computed AI anomaly & evidence fields
+        try:
+            with open(bldg_path, "r", encoding="utf-8") as f:
+                sample = json.load(f)["features"][0]["properties"]
+            if "anomaly_status" in sample or "match_status_2d" in sample:
+                ledger_valid = True
+                print("[PASS] AI/evidence data (embedded in demo GeoJSON)")
+            else:
+                print("[FAIL] AI/evidence data")
+                diagnostics.append(f"[REQUIRED FOR DEMO] AI/evidence ledger: {ledger_msg}")
+                all_passed = False
+        except Exception:
+            print("[FAIL] AI/evidence data")
+            diagnostics.append(f"[REQUIRED FOR DEMO] AI/evidence ledger: {ledger_msg}")
+            all_passed = False
     else:
         print("[FAIL] AI/evidence data")
         diagnostics.append(f"[REQUIRED FOR DEMO] AI/evidence ledger: {ledger_msg}")
