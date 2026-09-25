@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoundaryLens | SIH26011</title>
+
+    <!-- MapLibre GL JS -->
+    <script src="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons for premium SVG icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Three.js (r128) - interactive 3D building model in the floor panel -->
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <link rel="stylesheet" href="styles.css?v=14">
+</head>
+
+<body>
+    <div id="app-container">
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- Top Controls -->
+        <div class="top-controls glass-panel">
+            <div class="region-selector-container" style="display: inline-flex; align-items: center; margin-right: 6px;">
+                <select id="region-selector" class="control-btn" style="width: auto; height: 36px; padding: 0 10px; font-size: 11px; font-weight: 600; background: rgba(15, 23, 42, 0.9); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; cursor: pointer; outline: none;" title="Switch Pilot Geography">
+                    <option value="bhopal" selected>📍 Bhopal (OpenCity KML)</option>
+                    <option value="bengaluru">📍 Bengaluru Urban</option>
+                </select>
+            </div>
+            <button id="toggle-cadastral-basemap" class="control-btn" title="Toggle Cadastral Base Map Projection View">
+                <i class="ph ph-map-trifold"></i>
+            </button>
+            <button id="toggle-map-style" class="control-btn" title="Toggle Satellite Map">
+                <i class="ph ph-globe"></i>
+            </button>
+            <button id="toggle-veg" class="control-btn" title="Highlight likely vegetation (NDVI evidence)">
+                <i class="ph ph-tree"></i>
+            </button>
+            <button id="toggle-floors" class="control-btn" title="Show buildings with an estimated floor count">
+                <i class="ph ph-stack"></i>
+            </button>
+            <button id="toggle-theme" class="control-btn" title="Toggle Light/Dark Mode">
+                <i class="ph ph-sun"></i>
+            </button>
+            <button id="toggle-left-sidebar" class="control-btn" title="Toggle Sidebar">
+                <i class="ph ph-sidebar-simple"></i>
+            </button>
+            <button id="toggle-right-sidebar" class="control-btn" title="Toggle Legend">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar UI -->
+        <aside class="sidebar glass-panel">
+            <header class="sidebar-header">
+                <div class="logo">
+                    <i class="ph-fill ph-polygon"></i>
+                    <h1>BoundaryLens</h1>
+                </div>
+                <p class="subtitle">SIH26011 Vertical Delineation Prototype &bull; Team areonerds</p>
+                <div class="badges">
+                    <span class="badge badge-ai">3D Spatial Linkage</span>
+                    <span class="badge" id="city-badge" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">Bhopal Pilot</span>
+                    <span class="badge badge-gis">EPSG:4326</span>
+                    <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.4);">Team areonerds</span>
+                </div>
+            </header>
+
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span class="stat-value" id="stat-buildings">-</span>
+                    <span class="stat-label">LINKED BUILDINGS</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="stat-parcels">-</span>
+                    <span class="stat-label">CADASTRAL PARCELS</span>
+                </div>
+            </div>
+
+            <!-- Additive: floor-detection coverage (real numbers from the dataset) -->
+            <div id="floor-coverage" class="floor-coverage glass-panel"></div>
+
+            <!-- Resolution Toggle -->
+            <div class="resolution-toggle glass-panel" style="margin-top: 12px; padding: 16px; border-radius: 12px;">
+                <div
+                    style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; font-weight: 700; letter-spacing: 0.5px;">
+                    Simulate High-Res Input</div>
+                <label class="switch-container">
+                    <span class="switch-label" id="label-strict">30m Satellite (Strict)</span>
+                    <div class="switch">
+                        <input type="checkbox" id="res-toggle">
+                        <span class="slider round"></span>
+                    </div>
+                    <span class="switch-label highlight" id="label-sim">1m Drone (Simulated)</span>
+                </label>
+            </div>
+            <!-- Property Info / Audit Logs Tabs -->
+            <div class="sidebar-tabs" style="margin-top: 16px;">
+                <button class="tab-btn active" id="tab-info">Property Info</button>
+                <button class="tab-btn" id="tab-logs">Audit Logs</button>
+            </div>
+
+            <!-- Tab Content: Property Info -->
+            <div id="content-info">
+                <div id="no-selection-msg" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
+                    Click a building on the map to view details.
+                </div>
+                <!-- Selected Property Details -->
+                <div id="property-card" class="property-card hidden">
+                    <div class="card-header">
+                        <i class="ph ph-buildings" style="font-size: 18px; color: var(--text-main);"></i>
+                        <h3>Selected Structure</h3>
+                    </div>
+
+                    <div class="prop-row">
+                        <span class="prop-label">ULPIN / Parcel ID</span>
+                        <span class="prop-value parcel-id" id="prop-ulpin">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Match Status</span>
+                        <span class="prop-value" id="prop-match-status" style="font-weight: 700;">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Confidence Score</span>
+                        <span class="prop-value" id="prop-confidence-score">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Ground Elev (DEM)</span>
+                        <span class="prop-value" id="prop-ground">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Height (m) / Floors</span>
+                        <span class="prop-value" id="prop-height-floors">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Data Source</span>
+                        <span class="prop-value" id="prop-source"
+                            style="font-size: 9px; text-transform: uppercase;">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">AI Anomaly Status</span>
+                        <span class="prop-value" id="prop-ai-status">-</span>
+                    </div>
+
+                    <!-- Additive: NDVI vegetation evidence for the elevation-derived height.
+                         NDVI is vegetation evidence, not a building-vs-tree classifier. -->
+                    <div class="prop-row"
+                        style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                        <span class="prop-label">NDVI Evidence</span>
+                        <span class="prop-value" id="prop-ndvi-evidence">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Building Height<br>Confidence</span>
+                        <span class="prop-value" id="prop-height-confidence" style="font-weight: 700;">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Vertical Evidence</span>
+                        <span class="prop-value" id="prop-vertical-evidence" style="font-weight: 700;">-</span>
+                    </div>
+                    <div class="prop-row" id="prop-row-ndvi-hv" style="display: none;">
+                        <span class="prop-label">Human Verification</span>
+                        <span class="prop-value" id="prop-ndvi-hv" style="font-weight: 700; color: #ef4444;">-</span>
+                    </div>
+
+                    <!-- Additive: approximate floor estimate (Phase 12).
+                         REFERENCE = real OSM building:levels; MODELLED = height / assumed
+                         floor-height; NOT_DETERMINABLE = evidence insufficient. No CNN. -->
+                    <div class="prop-row"
+                        style="padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                        <span class="prop-label">Floor Estimate</span>
+                        <span class="prop-value" id="prop-floor-est" style="font-weight: 700;">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Prediction<br>Confidence</span>
+                        <span class="prop-value" id="prop-floor-conf">-</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Evidence</span>
+                        <span class="prop-value" id="prop-floor-evidence" style="font-size: 10px;">-</span>
+                    </div>
+                    <div class="prop-row" id="prop-row-floor-hv" style="display: none;">
+                        <span class="prop-label">Human Verification</span>
+                        <span class="prop-value" id="prop-floor-hv" style="font-weight: 700; color: #ef4444;">-</span>
+                    </div>
+                    <div class="prop-row" id="prop-row-floor-btn" style="display: none;">
+                        <button id="btn-view-floors" class="btn"
+                            style="width: 100%; background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35);">
+                            View Floor Levels</button>
+                    </div>
+
+                    <div class="prop-row"
+                        style="align-items: flex-start; padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
+                        <span class="prop-label">Proposed<br>3D Linkage</span>
+                        <span class="prop-value parcel-id" id="prop-proposed-ulpin"
+                            style="text-align: right; line-height: 1.4; word-break: break-all;">-</span>
+                    </div>
+                    <div style="font-size: 9.5px; color: var(--text-muted); line-height: 1.3; margin-top: 2px; margin-bottom: 6px;">
+                        * Proposed vertical spatial linkage for review. Not an official government ULPIN issuance.
+                    </div>
+                    <div class="prop-row" style="margin-top: 8px;">
+                        <span class="prop-label">Verification Gate</span>
+                        <span class="prop-value" id="prop-verification" style="font-weight: 700;">-</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <span
+                            style="font-size: 10px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 8px;">REVIEWER
+                            AUDIT GATE (RULE 8)</span>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-approve" onclick="window.reviewAction('APPROVE')">APPROVE</button>
+                            <button class="btn btn-correct" onclick="window.reviewAction('CORRECT')">CORRECT</button>
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <button class="btn btn-reject" onclick="window.reviewAction('REJECT')">REJECT</button>
+                            <button class="btn btn-unresolved" onclick="window.reviewAction('UNRESOLVED')">UNRESOLVED</button>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Tab Content: Property Info -->
+
+            <!-- Tab Content: Audit Logs -->
+            <div id="content-logs" class="hidden">
+                <div class="logs-header">
+                    <h3>Registrar Activity Log</h3>
+                    <span class="badge badge-ai" id="log-count">0 Entries</span>
+                </div>
+                <div id="logs-container" class="logs-container">
+                    <div class="empty-logs" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
+                        No audit actions recorded yet.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Additive: Floor-Level Spatial Identity panel (Phase 12).
+             Opens beside the property card when a building has a floor estimate.
+             Floor cards / 3D bands are a VISUAL representation of ESTIMATED floors -
+             no exact architectural slabs were measured. IDs are proposed linkages,
+             never official ULPINs. -->
+        <aside id="floor-panel" class="glass-panel" hidden>
+            <div class="floor-panel-head">
+                <div class="floor-panel-title">
+                    <h3>Floor-Level Spatial Inspection</h3>
+                    <div class="floor-panel-sub">
+                        <span id="floor-panel-bldg">Building -</span> &middot;
+                        <span id="floor-panel-parcel">Parcel -</span>
+                    </div>
+                </div>
+                <button id="floor-panel-close" type="button" title="Close (Esc)" aria-label="Close floor panel">&times;</button>
+            </div>
+            <div id="floor-panel-diagram" class="floor-panel-diagram"></div>
+            <div id="floor-panel-summary" class="floor-panel-summary"></div>
+            <div id="floor-panel-actions" class="floor-panel-actions"></div>
+            <div id="floor-panel-body" class="floor-panel-body"></div>
+            <div class="floor-panel-foot">&#9888; PROPOSED FLOOR-LEVEL SPATIAL LINKAGE &mdash; NOT AN OFFICIAL ULPIN</div>
+        </aside>
+
+        <!-- Right Sidebar for Legend -->
+        <aside class="right-sidebar glass-panel">
+            <div class="legend-container">
+                <h3 style="font-size: 11px; text-transform: uppercase;">BoundaryLens Legend</h3>
+
+                <div class="legend-item"><span class="legend-color"
+                        style="border: 1px dashed #fff; background: transparent;"></span><span>Cadastral Parcel</span>
+                </div>
+                <div class="legend-item"><span class="legend-color"
+                        style="background: rgba(255,255,255,0.05);"></span><span>Building Footprint</span></div>
+
+                <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">3D
+                    REPRESENTATION</h4>
+                <div class="legend-item"><span class="legend-color contained"></span><span>HEIGHT-DERIVED 3D</span>
+                </div>
+                <div class="legend-item"><span class="legend-color" style="background: #3b82f6;"></span><span>STRUCTURED
+                        3D</span></div>
+                <div class="legend-item"><span class="legend-color" style="background: #64748b;"></span><span>2D
+                        ONLY</span></div>
+                <div class="legend-item"><span class="legend-color majority"></span><span>CONFLICT</span></div>
+                <div class="legend-item"><span class="legend-color conflict"></span><span>HUMAN VERIFICATION</span>
+                </div>
+
+                <div id="veg-legend" hidden>
+                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">
+                        VEGETATION EVIDENCE (NDVI, spatial)</h4>
+                    <div class="legend-item"><span class="legend-color" style="background: #10b981;"></span><span>Low /
+                            surrounding vegetation - building surface clear</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #f59e0b;"></span><span>Edge /
+                            internal / mixed vegetation - verify</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #ef4444;"></span><span>Vegetation
+                            dominant - elevation may be canopy</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #64748b;"></span><span>Resolution
+                            limited / not determinable</span></div>
+                    <div class="legend-item"
+                        style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
+                        <i>Vegetation <b>around</b> a building does not lower its height confidence - only vegetation
+                            dominating the building surface does. NDVI is evidence, not a building-vs-tree classifier.
+                            No building is hidden.</i>
+                    </div>
+                </div>
+
+                <div id="floor-legend" hidden>
+                    <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">
+                        FLOOR DETECTION (Phase 12)</h4>
+                    <div class="legend-item"><span class="legend-color" style="background: #34d399;"></span><span>Observed
+                            &mdash; real OSM building:levels tag (solid outline)</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #38bdf8;"></span><span>Predicted
+                            &mdash; ML estimate, medium confidence (dashed, badge <b>N*</b>)</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: #fbbf24;"></span><span>Predicted
+                            &mdash; ML estimate, low confidence (dashed, no proposed IDs)</span></div>
+                    <div class="legend-item"><span class="legend-color"
+                            style="border: 1px solid #64748b; background: transparent;"></span><span>Not determinable
+                            &mdash; no outline, no badge, no floor bands</span></div>
+                    <div class="legend-item"
+                        style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
+                        <i>A <b>*</b> on the badge and an <b>EST.</b> marker mean the count is a calibrated model estimate
+                            (P within &plusmn;1 floor), not a real tag. Red is never used here &mdash; it is reserved for
+                            conflict / human-verification. Estimated floor levels are a visual approximation, not measured
+                            slabs, not an official ULPIN.</i>
+                    </div>
+                </div>
+
+                <h4 style="font-size: 10px; margin-top: 16px; margin-bottom: 8px; color: var(--text-muted);">ELEVATION
+                </h4>
+                <div class="legend-item"><span>Ground Elevation: Bare-earth DEM</span></div>
+                <div class="legend-item"><span>Surface Height: DSM-DEM Derived</span></div>
+                <div class="legend-item"
+                    style="margin-top: 8px; color: var(--text-muted); font-size: 10px; line-height: 1.4;">
+                    <i>3D height represents DSM-DEM derived surface-height evidence and is not an official floor
+                        count.</i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Loader -->
+        <div id="loader" class="loader-overlay glass-panel">
+            <div class="spinner"></div>
+            <p>Initializing Spatial Context...</p>
+        </div>
+    </div>
+
+    <script src="floor3d.js?v=1"></script>
+    <script src="app.js?v=19"></script>
+</body>
+
+</html>

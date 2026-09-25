@@ -1,0 +1,8 @@
+dataset_id,name,source,url,format,crs,licence,acquisition_date,spatial_extent,hash,local_path
+cadastral_bengaluru,Bengaluru Cadastral Maps,OpenCity,https://data.opencity.in/dataset/bengaluru-cadastral-maps,kmz,EPSG:4326,Public Domain,,Bengaluru Urban,,
+dem_copernicus_glo30,Copernicus DEM GLO-30,AWS Open Data Registry,https://registry.opendata.aws/copernicus-dem/,geotiff,EPSG:4326,Open,,Bengaluru Urban,,data/raw/copernicus_dem_glo30.tif
+dsm_google_25d,Google Open Buildings 2.5D Height,Google Earth Engine,https://sites.research.google/open-buildings/,raster,EPSG:4326,CC BY-4.0,,Bengaluru Urban 2sqkm,,data/raw/google_open_buildings_25d_height.tif
+footprints_ms,Microsoft Global ML Building Footprints,Microsoft GitHub/Planetary Computer,https://github.com/microsoft/GlobalMLBuildingFootprints,geoparquet,EPSG:4326,CDLA Permissive 2.0,,Bengaluru Urban,,
+osm_bengaluru,OSM Bengaluru Buildings & Levels,OpenStreetMap / Overpass API,https://overpass-api.de/api/interpreter,geojson,EPSG:4326,ODbL,,Bengaluru Urban,,
+ndvi_bengaluru_s2l2a,Bengaluru Sentinel-2 L2A NDVI (AOI clip),Copernicus Sentinel-2 L2A via Element84 earth-search STAC / AWS Open Data,https://earth-search.aws.element84.com/v1,geotiff,EPSG:32643,Free/Open - Contains modified Copernicus Sentinel data,scene-dependent (see data/manifests/ndvi_bengaluru_manifest.json),Bengaluru Urban AOI,,data/raw/ndvi_s2_aoi.tif
+bhopal_wards_opencity,Bhopal Municipal Corporation 85 Wards,OpenCity / BMC,https://data.opencity.in/,kml,EPSG:4326,Public Domain,2026-09-19,Bhopal Urban,,f0ee298b-cf85-43f0-87d5-34e836761d76.kml

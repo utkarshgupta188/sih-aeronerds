@@ -1,0 +1,38 @@
+{
+    "region_name": "Bengaluru Urban",
+    "state": "Karnataka",
+    "district": "Bengaluru",
+    "bbox": [77.61365, 12.92365, 77.62635, 12.93635],
+    "crs_source": "EPSG:4326",
+    "crs_processing": "EPSG:32643",
+    "datasets": {
+        "cadastral": {
+            "source_name": "OpenCity",
+            "type": "vector",
+            "url": "https://data.opencity.in/dataset/b5d91825-a104-41c8-bf93-3aedcfd58124/resource/3975e8d0-9a23-4b4b-a3c9-9453979406e4/download/038b4a89-98c8-49f7-aa1a-b3d073745d0b.kmz",
+            "description": "Bengaluru OpenCity Cadastral kmz dataset"
+        },
+        "buildings": {
+            "source_name": "OSM",
+            "type": "vector",
+            "url": "overpass",
+            "description": "OpenStreetMap footprints"
+        },
+        "elevation": {
+            "source_name": "CartoDEM",
+            "type": "raster",
+            "filename": "cartodem_bengaluru.tif",
+            "url": "local",
+            "description": "ISRO CartoDEM for Bengaluru"
+        },
+        "ndvi": {
+            "source_name": "Sentinel-2 L2A (Copernicus)",
+            "type": "raster",
+            "stac_endpoint": "https://earth-search.aws.element84.com/v1",
+            "stac_collection": "sentinel-2-l2a",
+            "datetime": "2023-11-01T00:00:00Z/2024-04-30T23:59:59Z",
+            "max_cloud_cover": 15,
+            "description": "Additive vegetation-evidence layer (NDVI = (B08-B04)/(B08+B04)). Consumed by scripts/11_ndvi_vegetation_evidence.py; does not affect existing phases."
+        }
+    }
+}

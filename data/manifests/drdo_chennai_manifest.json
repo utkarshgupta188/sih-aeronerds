@@ -1,0 +1,12 @@
+{
+    "dataset_id": "drdo_chennai_test1",
+    "source": "UNVERIFIED_INTERNAL",
+    "URL": "UNKNOWN",
+    "licence": "UNVERIFIED_PROPRIETARY",
+    "acquisition_date": "UNKNOWN",
+    "spatial_extent": "Chennai, Tamil Nadu",
+    "CRS": "EPSG:32644", 
+    "schema": ["AGLheight", "MSLheight"],
+    "known_limitations": "Unverified dataset. Lacks proper open source attribution. Authorized via AGENTS.md override.",
+    "processing_version": "v1.0"
+}

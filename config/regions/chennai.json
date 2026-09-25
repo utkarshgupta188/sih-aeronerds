@@ -1,0 +1,28 @@
+{
+    "region_name": "Chennai",
+    "state": "Tamil Nadu",
+    "district": "Chennai",
+    "bbox": [80.1, 12.9, 80.4, 13.3],
+    "crs_source": "EPSG:4326",
+    "crs_processing": "EPSG:32644",
+    "datasets": {
+        "cadastral": {
+            "source_name": "TIER_C_SYNTHETIC",
+            "type": "vector",
+            "url": "",
+            "description": "Synthetic 2m buffer around DRDO buildings"
+        },
+        "buildings": {
+            "source_name": "DRDO",
+            "type": "vector",
+            "url": "local",
+            "description": "DRDO LiDAR Footprints"
+        },
+        "elevation": {
+            "source_name": "CartoDEM",
+            "type": "raster",
+            "url": "local",
+            "description": "ISRO CartoDEM"
+        }
+    }
+}

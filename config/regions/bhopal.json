@@ -1,0 +1,32 @@
+{
+    "region_name": "Bhopal",
+    "state": "Madhya Pradesh",
+    "district": "Bhopal",
+    "bbox": [77.4100, 23.2420, 77.4280, 23.2580],
+    "crs_source": "EPSG:4326",
+    "crs_processing": "EPSG:32643",
+    "datasets": {
+        "cadastral": {
+            "source_name": "OpenCity",
+            "type": "vector",
+            "filename": "f0ee298b-cf85-43f0-87d5-34e836761d76.kml",
+            "description": "Bhopal Municipal Corporation 85 Wards OpenCity KML dataset"
+        },
+        "buildings": {
+            "source_name": "OSM",
+            "type": "vector",
+            "url": "overpass",
+            "description": "OpenStreetMap footprints for Bhopal AOI"
+        },
+        "elevation": {
+            "source_name": "Copernicus GLO-30 / SRTM",
+            "type": "raster",
+            "description": "Elevation models for Bhopal plateau (~500m AMSL)"
+        },
+        "ndvi": {
+            "source_name": "Sentinel-2 L2A (Copernicus)",
+            "type": "raster",
+            "description": "Multispectral vegetation evidence layer for Bhopal"
+        }
+    }
+}

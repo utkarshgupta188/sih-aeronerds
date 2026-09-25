@@ -1,0 +1,37 @@
+{
+  "dataset_id": "copernicus_glo30_dsm_bengaluru",
+  "source": "Copernicus DEM GLO-30 (ESA / (c) Copernicus) via AWS Open Data",
+  "url": "https://copernicus-dem-30m.s3.amazonaws.com",
+  "licence": "Free and open - (c) Copernicus / ESA; https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+  "type": "Digital Surface Model, ~30 m, EPSG:4326",
+  "use": "derive a coarse above-ground building height feature (footprint max minus local-ring 10th percentile); feature only",
+  "cover_bbox_wsen": [
+    77.45,
+    12.8,
+    77.82,
+    13.12
+  ],
+  "demo_aoi_bbox_epsg4326": [
+    77.61365,
+    12.92365,
+    77.62635,
+    12.93635
+  ],
+  "retrieved_utc": "2026-09-18T18:45:28.989899+00:00",
+  "local_path": "data\\raw\\glo30_dsm.tif",
+  "known_limitations": [
+    "30 m pixels: individual small buildings are under-resolved",
+    "~4 m vertical LE90: separates low/mid/high-rise, not 2 vs 3 floors",
+    "DSM includes vegetation - use with NDVI vegetation flags"
+  ],
+  "available": true,
+  "size": [
+    1332,
+    1152
+  ],
+  "elev_range": [
+    713.9069213867188,
+    993.812255859375
+  ],
+  "crs": "EPSG:4326"
+}

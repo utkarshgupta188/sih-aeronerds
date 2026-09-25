@@ -1,0 +1,12 @@
+{
+    "dataset_id": "chennai_synthetic_parcels",
+    "source": "TIER_C_SYNTHETIC_TEST_DATA",
+    "URL": "NONE",
+    "licence": "SYNTHETIC",
+    "acquisition_date": "2026",
+    "spatial_extent": "Chennai, Tamil Nadu",
+    "CRS": "EPSG:4326", 
+    "schema": ["id", "source"],
+    "known_limitations": "THIS IS FAKE SYNTHETIC DATA. Generated solely for demonstrating the pipeline engine per AGENTS.md Rule 10.",
+    "processing_version": "v1.0"
+}

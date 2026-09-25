@@ -1,0 +1,25 @@
+{
+  "dataset_id": "bhopal_wards_kml_opencity",
+  "source": "OpenCity / Bhopal Municipal Corporation (BMC)",
+  "file_name": "f0ee298b-cf85-43f0-87d5-34e836761d76.kml",
+  "licence": "Open Data / Public Domain",
+  "acquisition_date": "2026-09-19",
+  "spatial_extent": {
+    "min_lon": 77.26046,
+    "min_lat": 23.10887,
+    "max_lon": 77.53548,
+    "max_lat": 23.33937
+  },
+  "crs": "EPSG:4326",
+  "feature_count": 85,
+  "schema": {
+    "townname": "Bhopal",
+    "state": "Madhya Pradesh",
+    "ward_lgd_name": "Name of Municipal Ward",
+    "sourcewardcode": "Municipal Ward Code",
+    "ward_lgd_code": "Local Government Directory Ward Code"
+  },
+  "known_limitations": "Wards represent municipal administrative boundaries functioning as parent cadastral containers for urban property aggregation.",
+  "processing_version": "1.0.0",
+  "verification_status": "VERIFIED_OPEN_DATA"
+}
