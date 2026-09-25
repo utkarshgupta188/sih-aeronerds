@@ -338,6 +338,323 @@
     }
 
     // =========================================================================
+    // 5B. OFFICIAL 3D BHU-AADHAAR PVC CARD MODAL (UIDAI PHYSICAL REPLICA)
+    // =========================================================================
+    function openBhuCardModal(ulpin, khasra, floor, elev, area, owner) {
+        const modal = document.getElementById("bhu-card-modal");
+        if (!modal) return;
+
+        AudioFX.play("seal");
+        const u = ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
+        const k = khasra || "खसरा नं. 104/B, वार्ड 42 (Lotus Heights)";
+        const fl = floor || "चतुर्थ तल / 4th Floor (+14.5 m Elevation)";
+        const el = elev || "498.2 m MSL (Copernicus DEM)";
+        const ar = area || "1,420 वर्ग फुट (sq.ft) • FAR 2.50 Sanctioned";
+        const ow = owner || "श्रीमती प्रिया शर्मा / Priya Sharma";
+
+        const elUlpin = document.getElementById("pvc-ulpin");
+        const elKhasra = document.getElementById("pvc-khasra");
+        const elFloor = document.getElementById("pvc-floor");
+        const elElev = document.getElementById("pvc-elev");
+        const elArea = document.getElementById("pvc-area");
+        const elOwner = document.getElementById("pvc-owner-name");
+
+        if (elUlpin) elUlpin.innerText = u;
+        if (elKhasra) elKhasra.innerText = k;
+        if (elFloor) elFloor.innerText = fl;
+        if (elElev) elElev.innerText = el;
+        if (elArea) elArea.innerText = ar;
+        if (elOwner) elOwner.innerText = ow;
+
+        const qrCanvas = document.getElementById("pvc-qr-canvas");
+        if (qrCanvas) {
+            drawBhuAadhaarQR(qrCanvas, u);
+        }
+
+        modal.style.display = "flex";
+        showGovToast("3D भू-आधार कार्ड", "आधिकारिक 3D भू-आधार पीवीसी कार्ड प्रस्तुत किया गया", "ph-identification-card");
+    }
+
+    function closeBhuCardModal() {
+        const modal = document.getElementById("bhu-card-modal");
+        if (modal) {
+            modal.style.display = "none";
+            AudioFX.play("click");
+        }
+    }
+    window.openBhuCardModal = openBhuCardModal;
+    window.closeBhuCardModal = closeBhuCardModal;
+
+    // =========================================================================
+    // 5C. BILINGUAL TRANSLATION ENGINE (HINDI DEFAULT / ENGLISH TOGGLE)
+    // =========================================================================
+    let currentLang = localStorage.getItem("aeronerds_lang") || "hi";
+
+    const I18N = {
+        hi: {
+            gov_name: "भारत सरकार",
+            dept_name: "ग्रामीण विकास मंत्रालय | भूमि संसाधन विभाग (DoLR)",
+            brand_title: "भू-आधार 3D",
+            brand_sub: "भूमि संसाधन विभाग • ग्रामीण विकास मंत्रालय, भारत सरकार",
+            skip_link: "मुख्य सामग्री पर जाएं",
+            screen_reader: "स्क्रीन रीडर",
+            nav_home: "मुख्य पृष्ठ",
+            nav_my_bhu: "मेरा भू-आधार कार्ड",
+            nav_3d_map: "3D भू-नक्शा",
+            nav_floors: "मंजिल विभाजन",
+            nav_fsi: "नगर नियोजन FSI",
+            nav_rule8: "नियम 8 समीक्षा",
+            nav_title: "भू-अधिकार प्रमाण-पत्र",
+            nav_grievance: "शिकायत निवारण",
+            ticker_label: "नवीनतम सूचना",
+            ticker_msg: "डिजिटल भारत भूमि रिकॉर्ड आधुनिकीकरण कार्यक्रम (DILRMP) के अंतर्गत 3D बहुमंजिला भवनों के लिए भू-आधार (ULPIN) जारी किए जा रहे हैं।",
+            search_ph: "खसरा नं., 14-अंकीय भू-आधार (ULPIN), वार्ड संख्या खोजें...",
+            tqa_soi: "SoI 1मी ड्रोन DEM",
+            tqa_dilrmp: "DILRMP निर्यात",
+            tqa_pvc: "मेरा भू-आधार कार्ड",
+            role_admin_sub: "वैधानिक 3D भू-सीमांकन व भू-आधार अधिनिर्णय पटल",
+            role_planner_sub: "ऊर्ध्वाधर FSI / ऊंचाई अनुपालन एवं अतिक्रमण ऑडिट",
+            role_citizen_sub: "3D भू-आधार पासबुक एवं डिजिटल स्व-सत्यापन",
+            stat_bldgs: "3D संरचनाएं",
+            stat_parcels: "खसरा भूखंड",
+            elev_title: "भू-स्थानिक ऊंचाई मॉडल",
+            elev_strict: "30मी उपग्रह (सख्त)",
+            elev_sim: "1मी ड्रोन सर्वेक्षण",
+            tab_info: "भू-अभिलेख",
+            tab_logs: "पंजीयक लॉग",
+            no_sel: "ऊपर किसी भी 3D संरचना का चयन करें या खसरा / भू-आधार खोजें।",
+            prop_spatial_link: "भूकर स्थानिक लिंकेज",
+            prop_khasra: "खसरा / भूखंड आईडी",
+            prop_topology: "सीमा टोपोलॉजी",
+            prop_conf: "विश्वसनीयता स्कोर",
+            prop_ground: "भू-तल ऊंचाई (DEM)",
+            prop_height: "ऊंचाई (मी) / मंजिलें",
+            prop_source: "सर्वेक्षण स्रोत",
+            prop_ai: "एआई अतिक्रमण स्थिति",
+            prop_canopy: "वृक्ष आवरण (NDVI)",
+            prop_height_conf: "ऊंचाई विश्वसनीयता",
+            prop_vert_prov: "ऊर्ध्वाधर साक्ष्य",
+            prop_floor_est: "मंजिल सीमांकन",
+            prop_est_conf: "अनुमान विश्वसनीयता",
+            prop_view_floors: "मंजिल स्तर देखें (3D निरीक्षण)",
+            prop_prop_ulpin: "प्रस्तावित 3D भू-आधार",
+            prop_verif: "सत्यापन द्वार",
+            prop_gate_title: "पंजीयक वैधानिक अधिनिर्णय द्वार (नियम 8)",
+            btn_approve: "स्वीकृत (APPROVE)",
+            btn_correct: "संशोधित (CORRECT)",
+            btn_reject: "अस्वीकृत (REJECT)",
+            btn_unresolved: "अनिर्णीत (UNRESOLVED)",
+            planner_title: "नगर निगम जोनिंग एवं FSI ऑडिट",
+            planner_desc: "वार्ड 42 नगर विकास प्राधिकरण। स्वीकृत मास्टर प्लान के विरुद्ध बहुमंजिला भवनों का सत्यापन।",
+            fsi_sanc: "स्वीकृत FSI",
+            fsi_max_h: "अधिकतम ऊंचाई सीमा",
+            fsi_perm_fl: "अनुमति प्राप्त मंजिलें",
+            fsi_compliance: "जोन अनुपालन",
+            btn_scan_fsi: "ऊर्ध्वाधर FSI / ऊंचाई उल्लंघन जांचें",
+            btn_export_zoning: "नगर निगम उल्लंघन रिपोर्ट (CSV)",
+            citizen_card_title: "भू-आधार डिजिटल संपत्ति अधिकार",
+            citizen_verified: "सत्यापित",
+            citizen_view_cert: "3D अधिकार प्रमाण-पत्र देखें",
+            citizen_copy_ulpin: "भू-आधार कॉपी करें",
+            citizen_registry_status: "आधिकारिक भूमि रजिस्ट्री स्थिति",
+            citizen_owner: "मुख्य स्वामी",
+            citizen_reg_no: "पंजीकरण संख्या",
+            citizen_tax: "भू-राजस्व कर",
+            citizen_encumb: "भारमुक्ति स्थिति",
+            citizen_grievance: "नामांतरण / सर्वेक्षण शिकायत दर्ज करें",
+            legend_title: "भूकर संकेत (Legend)",
+            legend_parcel: "खसरा भूखंड (कडैस्ट्रल)",
+            legend_footprint: "भवन पदचिह्न",
+            legend_vert_class: "3D ऊर्ध्वाधर वर्गीकरण",
+            legend_contained: "धरातल-व्युत्पन्न 3D (सटीक)",
+            legend_structured: "संरचित 3D भूकर",
+            legend_2d_only: "केवल 2D पदचिह्न",
+            legend_overlap: "सीमा अतिच्छादन",
+            legend_conflict: "वैधानिक समीक्षा आवश्यक"
+        },
+        en: {
+            gov_name: "GOVERNMENT OF INDIA",
+            dept_name: "Ministry of Rural Development | Department of Land Resources (DoLR)",
+            brand_title: "Bhu-Aadhaar 3D",
+            brand_sub: "Department of Land Resources • Ministry of Rural Development, Govt. of India",
+            skip_link: "Skip to Main Content",
+            screen_reader: "Screen Reader",
+            nav_home: "Home",
+            nav_my_bhu: "My Bhu-Aadhaar Card",
+            nav_3d_map: "3D Cadastral Map",
+            nav_floors: "Floor Slabs",
+            nav_fsi: "Town Planning FSI",
+            nav_rule8: "Rule 8 Review",
+            nav_title: "3D Title Deed",
+            nav_grievance: "Grievance",
+            ticker_label: "LATEST NOTICE",
+            ticker_msg: "3D ULPIN (Bhu-Aadhaar) roll-out active for multi-storey high-rise parcels under Digital India Land Records Modernization Programme (DILRMP).",
+            search_ph: "Search Khasra No., 14-digit Bhu-Aadhaar (ULPIN), Ward No...",
+            tqa_soi: "SoI 1m Drone DEM",
+            tqa_dilrmp: "DILRMP Export",
+            tqa_pvc: "My Bhu-Aadhaar Card",
+            role_admin_sub: "Statutory 3D Cadastral Delineation & ULPIN Adjudication Desk",
+            role_planner_sub: "Vertical FSI / Height Compliance & Encroachment Auditing",
+            role_citizen_sub: "3D Bhu-Aadhaar Passbook & Title Self-Verification",
+            stat_bldgs: "3D STRUCTURES",
+            stat_parcels: "KHASRA PARCELS",
+            elev_title: "Cartographic Elevation Model",
+            elev_strict: "30m Satellite (Strict)",
+            elev_sim: "1m Drone Survey",
+            tab_info: "Cadastral Record",
+            tab_logs: "Registrar Log",
+            no_sel: "Select any 3D structure or search Khasra / Bhu-Aadhaar above.",
+            prop_spatial_link: "Cadastral Spatial Linkage",
+            prop_khasra: "Khasra / Parcel ID",
+            prop_topology: "Boundary Topology",
+            prop_conf: "Confidence Score",
+            prop_ground: "Ground Elev (DEM)",
+            prop_height: "Height (m) / Floors",
+            prop_source: "Survey Source",
+            prop_ai: "AI Encroachment Status",
+            prop_canopy: "Canopy Evidence",
+            prop_height_conf: "Height Confidence",
+            prop_vert_prov: "Vertical Provenance",
+            prop_floor_est: "Floor Delineation",
+            prop_est_conf: "Estimation Confidence",
+            prop_view_floors: "View Floor Levels (3D Inspection)",
+            prop_prop_ulpin: "Proposed 3D Bhu-Aadhaar",
+            prop_verif: "Verification Gate",
+            prop_gate_title: "REGISTRAR STATUTORY ADJUDICATION GATE (RULE 8)",
+            btn_approve: "APPROVE",
+            btn_correct: "CORRECT",
+            btn_reject: "REJECT",
+            btn_unresolved: "UNRESOLVED",
+            planner_title: "MUNICIPAL ZONING & FSI AUDIT",
+            planner_desc: "Ward 42 Urban Development Authority. Audits vertical floor compliance against sanctioned master plans.",
+            fsi_sanc: "SANCTIONED FSI",
+            fsi_max_h: "MAX HEIGHT LIMIT",
+            fsi_perm_fl: "PERMITTED FLOORS",
+            fsi_compliance: "ZONE COMPLIANCE",
+            btn_scan_fsi: "Scan Vertical FSI / Height Violations",
+            btn_export_zoning: "Export Municipal Violation Report (CSV)",
+            citizen_card_title: "BHU-AADHAAR DIGITAL TITLE",
+            citizen_verified: "VERIFIED",
+            citizen_view_cert: "View 3D Title Certificate",
+            citizen_copy_ulpin: "Copy Bhu-Aadhaar",
+            citizen_registry_status: "Official Land Registry Status",
+            citizen_owner: "Primary Owner",
+            citizen_reg_no: "Registration No.",
+            citizen_tax: "Land Revenue Tax",
+            citizen_encumb: "Encumbrance Status",
+            citizen_grievance: "File Mutation / Survey Grievance",
+            legend_title: "Cadastral Legend",
+            legend_parcel: "Cadastral Parcel (Khasra)",
+            legend_footprint: "Building Footprint",
+            legend_vert_class: "3D VERTICAL CLASSIFICATION",
+            legend_contained: "SURFACE-DERIVED 3D (CONTAINED)",
+            legend_structured: "STRUCTURED 3D CADASTRE",
+            legend_2d_only: "2D ONLY FOOTPRINT",
+            legend_overlap: "BOUNDARY OVERLAP / MAJORITY",
+            legend_conflict: "STATUTORY REVIEW REQUIRED"
+        }
+    };
+
+    function setLanguage(lang) {
+        if (!I18N[lang]) lang = "hi";
+        currentLang = lang;
+        localStorage.setItem("aeronerds_lang", lang);
+        const t = I18N[lang];
+
+        // Language Buttons Active state
+        const btnHi = document.getElementById("btn-lang-hi");
+        const btnEn = document.getElementById("btn-lang-en");
+        if (btnHi) btnHi.classList.toggle("active", lang === "hi");
+        if (btnEn) btnEn.classList.toggle("active", lang === "en");
+
+        // Top strip
+        const brandText = document.querySelector(".uidai-hindi-brand");
+        if (brandText) brandText.innerText = t.brand_title;
+
+        const subDept = document.querySelector(".uidai-sub-dept");
+        if (subDept) subDept.innerHTML = t.brand_sub;
+
+        // Nav Links
+        const mapNav = {
+            "nav-home": t.nav_home,
+            "nav-my-bhu": t.nav_my_bhu,
+            "nav-3d-map": t.nav_3d_map,
+            "nav-floors": t.nav_floors,
+            "nav-fsi": t.nav_fsi,
+            "nav-rule8": t.nav_rule8,
+            "nav-title": t.nav_title,
+            "nav-grievance": t.nav_grievance
+        };
+        for (const [id, label] of Object.entries(mapNav)) {
+            const el = document.getElementById(id);
+            if (el) {
+                const icon = el.querySelector("i");
+                const iconHtml = icon ? icon.outerHTML : "";
+                el.innerHTML = `${iconHtml}<span>${label}</span>`;
+            }
+        }
+
+        // Ticker
+        const tickerBadge = document.querySelector(".ticker-badge");
+        if (tickerBadge) tickerBadge.innerHTML = `<i class="ph ph-bell-ringing"></i> ${t.ticker_label}`;
+
+        const tickerMarquee = document.querySelector(".ticker-marquee");
+        if (tickerMarquee) tickerMarquee.innerText = t.ticker_msg;
+
+        // Quick Actions
+        const tqaSoi = document.getElementById("tqa-soi-elev");
+        if (tqaSoi) tqaSoi.innerHTML = `<i class="ph ph-mountains"></i> ${tqa_soi ? t.tqa_soi : ""}`;
+
+        const tqaDilrmp = document.getElementById("tqa-dilrmp");
+        if (tqaDilrmp) tqaDilrmp.innerHTML = `<i class="ph ph-file-arrow-down"></i> ${t.tqa_dilrmp}`;
+
+        const tqaPvc = document.getElementById("tqa-pvc-card");
+        if (tqaPvc) tqaPvc.innerHTML = `<i class="ph ph-identification-card"></i> ${t.tqa_pvc}`;
+
+        // Search Input
+        const searchInput = document.getElementById("omni-search-input");
+        if (searchInput) searchInput.setAttribute("placeholder", t.search_ph);
+
+        // Sidebar tabs & stats
+        const tabInfo = document.getElementById("tab-info");
+        if (tabInfo) tabInfo.innerText = t.tab_info;
+
+        const tabLogs = document.getElementById("tab-logs");
+        if (tabLogs) tabLogs.innerText = t.tab_logs;
+
+        const noSelMsg = document.getElementById("no-selection-msg");
+        if (noSelMsg) noSelMsg.innerText = t.no_sel;
+
+        const statBldgsLbl = document.querySelector("#stat-buildings + .stat-label");
+        if (statBldgsLbl) statBldgsLbl.innerText = t.stat_bldgs;
+
+        const statParcelsLbl = document.querySelector("#stat-parcels + .stat-label");
+        if (statParcelsLbl) statParcelsLbl.innerText = t.stat_parcels;
+
+        // Subtitle according to active role
+        const sub = document.getElementById("sidebar-role-subtitle");
+        if (sub) {
+            if (activeGovRole === "admin") sub.innerText = t.role_admin_sub;
+            else if (activeGovRole === "planner") sub.innerText = t.role_planner_sub;
+            else sub.innerText = t.role_citizen_sub;
+        }
+
+        AudioFX.play("click");
+        showGovToast(lang === "hi" ? "भाषा बदली गई" : "Language Changed", lang === "hi" ? "हिन्दी भाषा सक्रिय की गई है।" : "English language activated.", "ph-translate");
+    }
+    window.setLanguage = setLanguage;
+
+    // =========================================================================
+    // 5D. ACCESSIBILITY FONT RESIZER ENGINE
+    // =========================================================================
+    let currentFontScale = 100;
+    function setFontScale(scale) {
+        currentFontScale = Math.max(85, Math.min(125, scale));
+        document.documentElement.style.fontSize = `${(currentFontScale / 100) * 14}px`;
+        AudioFX.play("click");
+    }
+
+    // =========================================================================
     // 6. TOWN PLANNING / FSI COMPLIANCE ENGINE
     // =========================================================================
     let fsiViolationFilterOn = false;
@@ -513,6 +830,169 @@
         const certClose = document.getElementById("cert-modal-close");
         if (certClose) certClose.addEventListener("click", closeCertificateModal);
 
+        // PVC Card modal listeners
+        const pvcCloseBtn = document.getElementById("pvc-close-btn");
+        if (pvcCloseBtn) pvcCloseBtn.addEventListener("click", closeBhuCardModal);
+
+        const bhuModalBackdrop = document.getElementById("bhu-card-modal");
+        if (bhuModalBackdrop) {
+            bhuModalBackdrop.addEventListener("click", (e) => {
+                if (e.target === bhuModalBackdrop) closeBhuCardModal();
+            });
+        }
+
+        const pvcCopyBtn = document.getElementById("pvc-copy-btn");
+        if (pvcCopyBtn) {
+            pvcCopyBtn.addEventListener("click", () => {
+                const code = document.getElementById("pvc-ulpin")?.innerText || "IN-MP-BHP-P104-B3-FL4-U402";
+                navigator.clipboard.writeText(code);
+                AudioFX.play("click");
+                showGovToast("3D भू-आधार संख्या कॉपी हुई", `${code} क्लिपबोर्ड पर कॉपी किया गया`, "ph-copy");
+            });
+        }
+
+        const pvcPrintBtn = document.getElementById("pvc-print-btn");
+        if (pvcPrintBtn) {
+            pvcPrintBtn.addEventListener("click", () => {
+                AudioFX.play("click");
+                window.print();
+            });
+        }
+
+        // Language buttons
+        const btnLangHi = document.getElementById("btn-lang-hi");
+        if (btnLangHi) btnLangHi.addEventListener("click", () => setLanguage("hi"));
+
+        const btnLangEn = document.getElementById("btn-lang-en");
+        if (btnLangEn) btnLangEn.addEventListener("click", () => setLanguage("en"));
+
+        // Font resizer
+        const btnFontDec = document.getElementById("btn-font-dec");
+        if (btnFontDec) btnFontDec.addEventListener("click", () => setFontScale(currentFontScale - 5));
+
+        const btnFontReset = document.getElementById("btn-font-reset");
+        if (btnFontReset) btnFontReset.addEventListener("click", () => setFontScale(100));
+
+        const btnFontInc = document.getElementById("btn-font-inc");
+        if (btnFontInc) btnFontInc.addEventListener("click", () => setFontScale(currentFontScale + 5));
+
+        // UIDAI Main Navigation Bar Handlers
+        const navHome = document.getElementById("nav-home");
+        if (navHome) {
+            navHome.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navHome.classList.add("active");
+                const map = window.boundaryMap;
+                if (map) {
+                    map.flyTo({ center: [77.4126, 23.2599], zoom: 16.5, pitch: 45, bearing: -15, duration: 1500 });
+                }
+                showGovToast("मुख्य पृष्ठ / Home", "कडैस्ट्रल दृश्य रीसेट किया गया", "ph-house");
+            });
+        }
+
+        const navMyBhu = document.getElementById("nav-my-bhu");
+        if (navMyBhu) {
+            navMyBhu.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navMyBhu.classList.add("active");
+                openBhuCardModal();
+            });
+        }
+
+        const nav3dMap = document.getElementById("nav-3d-map");
+        if (nav3dMap) {
+            nav3dMap.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                nav3dMap.classList.add("active");
+                const btn3d = document.getElementById("btn-3d");
+                if (btn3d) btn3d.click();
+            });
+        }
+
+        const navFloors = document.getElementById("nav-floors");
+        if (navFloors) {
+            navFloors.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navFloors.classList.add("active");
+                const toggleFloors = document.getElementById("toggle-floors");
+                if (toggleFloors) toggleFloors.click();
+            });
+        }
+
+        const navFsi = document.getElementById("nav-fsi");
+        if (navFsi) {
+            navFsi.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navFsi.classList.add("active");
+                setGovRole("planner");
+                toggleFsiViolationFilter();
+            });
+        }
+
+        const navRule8 = document.getElementById("nav-rule8");
+        if (navRule8) {
+            navRule8.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navRule8.classList.add("active");
+                setGovRole("admin");
+            });
+        }
+
+        const navTitle = document.getElementById("nav-title");
+        if (navTitle) {
+            navTitle.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navTitle.classList.add("active");
+                openCertificateModal("IN-MP-BHP-P104-B3-FL4-U402", "Khasra #104/B (Lotus Heights)", 498.2, 4, 1420);
+            });
+        }
+
+        const navGrievance = document.getElementById("nav-grievance");
+        if (navGrievance) {
+            navGrievance.addEventListener("click", (e) => {
+                e.preventDefault();
+                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                navGrievance.classList.add("active");
+                setGovRole("citizen");
+                const btnGrievance = document.getElementById("citizen-grievance-btn");
+                if (btnGrievance) btnGrievance.click();
+            });
+        }
+
+        // Ticker Quick Action triggers
+        const tqaSoi = document.getElementById("tqa-soi-elev");
+        if (tqaSoi) {
+            tqaSoi.addEventListener("click", () => {
+                const resToggle = document.getElementById("res-toggle");
+                if (resToggle) {
+                    resToggle.checked = !resToggle.checked;
+                    resToggle.dispatchEvent(new Event("change"));
+                }
+            });
+        }
+
+        const tqaDilrmp = document.getElementById("tqa-dilrmp");
+        if (tqaDilrmp) {
+            tqaDilrmp.addEventListener("click", () => {
+                const btnExportCsv = document.getElementById("admin-export-csv");
+                if (btnExportCsv) btnExportCsv.click();
+            });
+        }
+
+        const tqaPvc = document.getElementById("tqa-pvc-card");
+        if (tqaPvc) {
+            tqaPvc.addEventListener("click", () => {
+                openBhuCardModal();
+            });
+        }
+
         // Citizen actions
         const btnViewCert = document.getElementById("citizen-view-certificate-btn");
         if (btnViewCert) {
@@ -588,6 +1068,9 @@
 
         // Init search
         initGovSearchEngine();
+
+        // Set initial language (Hindi default)
+        setLanguage(currentLang);
 
         // Sync with boundaryDataLoaded
         window.addEventListener("boundaryDataLoaded", function () {

@@ -30,62 +30,126 @@
         <!-- Map Container -->
         <div id="map"></div>
 
-        <!-- Top Controls & Official Government Command Bar -->
-        <div class="top-controls glass-panel">
-            <!-- Region Selector -->
-            <div class="region-selector-container" style="display: inline-flex; align-items: center; margin-right: 4px;">
-                <select id="region-selector" class="control-btn" style="width: auto; height: 36px; padding: 0 10px; font-size: 11px; font-weight: 600; background: rgba(15, 23, 42, 0.9); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; cursor: pointer; outline: none;" title="Switch Pilot Geography">
-                    <option value="bhopal" selected>📍 Bhopal (MP Bhulekh)</option>
-                    <option value="bengaluru">📍 Bengaluru (Karnataka Bhoomi)</option>
-                </select>
-            </div>
-
-            <!-- Active Government Persona Pill -->
-            <button id="persona-pill-btn" class="persona-pill-btn" title="Switch Official Government Role / Access Level">
-                <div class="persona-pill-avatar"><i id="persona-pill-icon" class="ph ph-shield-check"></i></div>
-                <div class="persona-pill-text">
-                    <span id="persona-pill-name">Dr. S. Nair, DoLR</span>
-                    <span id="persona-pill-role">Chief Cadastral Surveyor</span>
+        <!-- =========================================================================
+             UIDAI GOVERNMENT OF INDIA (GOI) PORTAL TOP WRAPPER
+             ========================================================================= -->
+        <header class="uidai-top-wrapper">
+            <!-- 1. Tricolor Top Ribbon & Accessibility Controls -->
+            <div class="gov-top-strip">
+                <div class="gov-top-left">
+                    <span class="gov-flag-icon">🇮🇳</span>
+                    <span id="lbl-goi">भारत सरकार | GOVERNMENT OF INDIA</span>
+                    <span class="gov-top-sep">|</span>
+                    <span id="lbl-dept">ग्रामीण विकास मंत्रालय / भू-संसाधन विभाग (DoLR)</span>
                 </div>
-                <span id="persona-pill-badge" class="persona-badge badge-admin">REGISTRAR</span>
-                <i class="ph ph-caret-down" style="font-size: 11px; margin-left: 2px;"></i>
-            </button>
-
-            <!-- Universal Land Records Search Bar -->
-            <div class="omni-search-container">
-                <i class="ph ph-magnifying-glass omni-search-icon"></i>
-                <input type="text" id="omni-search-input" class="omni-search-input" placeholder="Search Khasra No., Bhu-Aadhaar, Ward..." autocomplete="off">
-                <div id="omni-search-results" class="omni-search-results"></div>
+                <div class="gov-top-right">
+                    <a href="#content-info" class="gov-access-link" id="lbl-skip">मुख्य सामग्री पर जाएँ</a>
+                    <div class="font-resizer" title="फ़ॉन्ट आकार बदलें / Adjust Text Size">
+                        <button class="font-btn" id="btn-font-dec">A-</button>
+                        <button class="font-btn" id="btn-font-reset">A</button>
+                        <button class="font-btn" id="btn-font-inc">A+</button>
+                    </div>
+                    <!-- Tactile Audio Feedback Toggle -->
+                    <button id="toggle-sound" class="control-btn" style="width: 24px; height: 24px; padding: 0; font-size: 13px;" title="ध्वनि प्रभाव / Toggle Sound FX">
+                        <i class="ph ph-speaker-high"></i>
+                    </button>
+                    <!-- Language Switcher: Hindi / English -->
+                    <div class="lang-switcher">
+                        <button id="btn-lang-hi" class="lang-btn active" title="हिंदी में देखें">हिंदी</button>
+                        <button id="btn-lang-en" class="lang-btn" title="View in English">English</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Tactile Audio Feedback Toggle -->
-            <button id="toggle-sound" class="control-btn" title="Toggle Interface Audio Feedback">
-                <i class="ph ph-speaker-high"></i>
-            </button>
+            <!-- 2. Main UIDAI Brand Header -->
+            <div class="uidai-portal-header">
+                <div class="uidai-branding">
+                    <div class="ashoka-emblem-box" title="भारत का राष्ट्रीय प्रतीक / State Emblem of India">
+                        <svg class="ashoka-svg" viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 8 C42 8 36 14 36 22 C36 29 41 34 46 36 C44 42 41 52 41 62 L59 62 C59 52 56 42 54 36 C59 34 64 29 64 22 C64 14 58 8 50 8 Z" fill="#f59e0b"/>
+                            <path d="M30 24 C24 24 19 28 19 35 C19 41 23 45 28 47 C29 53 31 60 34 65 L44 65 C41 58 39 49 37 43 C39 42 41 39 41 35 C41 28 36 24 30 24 Z" fill="#d97706"/>
+                            <path d="M70 24 C64 24 59 28 59 35 C59 39 61 42 63 43 C61 49 59 58 56 65 L66 65 C69 60 71 53 72 47 C77 45 81 41 81 35 C81 28 76 24 70 24 Z" fill="#d97706"/>
+                            <rect x="25" y="66" width="50" height="9" rx="2" fill="#b45309"/>
+                            <circle cx="50" cy="70.5" r="3.5" fill="#f8fafc"/>
+                            <circle cx="50" cy="70.5" r="1.5" fill="#002855"/>
+                            <path d="M28 77 L72 77 L68 84 L32 84 Z" fill="#f59e0b"/>
+                            <text x="50" y="93" font-size="8.5" font-family="'Inter', sans-serif" font-weight="900" fill="#fbbf24" text-anchor="middle" letter-spacing="1.2">सत्यमेव जयते</text>
+                        </svg>
+                    </div>
+                    <div class="uidai-title-group">
+                        <div class="uidai-logo-text">
+                            <span class="uidai-sunburst-crest" title="भू-आधार 3D संप्रभुता प्रतीक">
+                                <i class="ph ph-sun" style="font-size: 16px; color: #ffffff;"></i>
+                            </span>
+                            <span class="uidai-hindi-brand" id="brand-hi">भू-आधार</span>
+                            <span style="font-size: 13px; color: #94a3b8; font-weight: 400;">|</span>
+                            <span id="brand-en" style="font-size: 13px; color: #e2e8f0; font-weight: 700;">भारतीय विशिष्ट 3D भू-संपत्ति प्राधिकरण</span>
+                        </div>
+                        <div class="uidai-sub-dept" id="sub-dept">
+                            Unique Land Parcel & 3D Property Identification Authority of India (DoLR & SVAMITVA, GoI)
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Map Layer Toggles -->
-            <button id="toggle-cadastral-basemap" class="control-btn" title="Toggle Cadastral Base Map Projection View">
-                <i class="ph ph-map-trifold"></i>
-            </button>
-            <button id="toggle-map-style" class="control-btn" title="Toggle Satellite Imagery">
-                <i class="ph ph-globe"></i>
-            </button>
-            <button id="toggle-veg" class="control-btn" title="Highlight Vegetation Interference (Copernicus NDVI)">
-                <i class="ph ph-tree"></i>
-            </button>
-            <button id="toggle-floors" class="control-btn" title="Show Buildings with Floor Delineation">
-                <i class="ph ph-stack"></i>
-            </button>
-            <button id="toggle-theme" class="control-btn" title="Toggle Light/Dark Theme">
-                <i class="ph ph-sun"></i>
-            </button>
-            <button id="toggle-left-sidebar" class="control-btn" title="Toggle Left Control Sidebar">
-                <i class="ph ph-sidebar-simple"></i>
-            </button>
-            <button id="toggle-right-sidebar" class="control-btn" title="Toggle Cadastral Legend">
-                <i class="ph ph-list"></i>
-            </button>
-        </div>
+                <!-- Universal Search & Header Controls -->
+                <div class="uidai-header-controls">
+                    <!-- Universal Land Records Search Bar -->
+                    <div class="omni-search-container" style="width: 280px;">
+                        <i class="ph ph-magnifying-glass omni-search-icon"></i>
+                        <input type="text" id="omni-search-input" class="omni-search-input" placeholder="खसरा, भू-आधार, वार्ड या सर्वे खोजें..." autocomplete="off">
+                        <div id="omni-search-results" class="omni-search-results"></div>
+                    </div>
+
+                    <!-- Region Selector -->
+                    <div class="region-selector-container">
+                        <select id="region-selector" class="control-btn" style="width: auto; height: 34px; padding: 0 10px; font-size: 11px; font-weight: 700; background: rgba(15, 23, 42, 0.95); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 8px; cursor: pointer; outline: none;" title="पायलट भू-भाग चुनें / Switch Pilot Region">
+                            <option value="bhopal" selected>📍 भोपाल (MP Bhulekh)</option>
+                            <option value="bengaluru">📍 बेंगलुरु (Karnataka Bhoomi)</option>
+                        </select>
+                    </div>
+
+                    <!-- Active Government Persona Pill -->
+                    <button id="persona-pill-btn" class="persona-pill-btn" title="अधिकारी भूमिका बदलें / Switch Role Access">
+                        <div class="persona-pill-avatar"><i id="persona-pill-icon" class="ph ph-shield-check"></i></div>
+                        <div class="persona-pill-text">
+                            <span id="persona-pill-name">डॉ. एस. नायर (DoLR)</span>
+                            <span id="persona-pill-role">मुख्य भू-राजस्व पंजीयक</span>
+                        </div>
+                        <span id="persona-pill-badge" class="persona-badge badge-admin">REGISTRAR</span>
+                        <i class="ph ph-caret-down" style="font-size: 10px; margin-left: 2px;"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. UIDAI Navigation Bar -->
+            <nav class="uidai-main-nav">
+                <a class="uidai-nav-link active" id="nav-home"><i class="ph ph-house"></i> <span id="nav-lbl-home">मुख्य पृष्ठ (Home)</span></a>
+                <a class="uidai-nav-link" id="nav-my-bhu"><i class="ph ph-identification-card"></i> <span id="nav-lbl-bhu">मेरा 3D भू-आधार कार्ड (My Bhu-Aadhaar)</span></a>
+                <a class="uidai-nav-link" id="nav-3d-map"><i class="ph ph-map-trifold"></i> <span id="nav-lbl-map">3D भू-मानचित्र (3D Map)</span></a>
+                <a class="uidai-nav-link" id="nav-floors"><i class="ph ph-stack"></i> <span id="nav-lbl-floors">तल-वार 3D विभाजन (Floor Slabs)</span></a>
+                <a class="uidai-nav-link" id="nav-fsi"><i class="ph ph-ruler"></i> <span id="nav-lbl-fsi">नगर नियोजन एवं FSI (Town Planning)</span></a>
+                <a class="uidai-nav-link" id="nav-review"><i class="ph ph-scales"></i> <span id="nav-lbl-review">विधिक समीक्षा (Rule 8 Review)</span></a>
+                <a class="uidai-nav-link" id="nav-services"><i class="ph ph-certificate"></i> <span id="nav-lbl-cert">भू-अधिकार विलेख (Title Deed)</span></a>
+                <a class="uidai-nav-link" id="nav-grievance"><i class="ph ph-chat-circle-dots"></i> <span id="nav-lbl-grievance">शिकायत / SDM (Grievance)</span></a>
+            </nav>
+
+            <!-- 4. UIDAI News Ticker & Quick Controls Bar -->
+            <div class="uidai-ticker-bar">
+                <div class="ticker-left">
+                    <span class="ticker-badge"><i class="ph ph-megaphone-simple"></i> <span id="ticker-lbl-tag">सूचना / NOTICE</span></span>
+                    <marquee class="ticker-marquee" id="ticker-text" scrollamount="4">SVAMITVA एवं DILRMP के अंतर्गत बहुमंजिला इमारतों के लिए 3D ऊर्ध्वाधर भू-आधार (ULPIN) आवंटन एवं नियम 8 विधिक सत्यापन प्रणाली सक्रिय है।</marquee>
+                </div>
+                <div class="ticker-quick-actions">
+                    <button id="toggle-cadastral-basemap" class="tqa-btn" title="खसरा आधार नक्शा / Cadastral Basemap"><i class="ph ph-map-trifold"></i> <span id="tqa-lbl-cad">खसरा नक्शा</span></button>
+                    <button id="toggle-map-style" class="tqa-btn" title="उपग्रह चित्र / Satellite View"><i class="ph ph-globe"></i> <span id="tqa-lbl-sat">उपग्रह दृश्य</span></button>
+                    <button id="toggle-veg" class="tqa-btn" title="NDVI वनस्पति जांच / Vegetation Canopy"><i class="ph ph-tree"></i> <span id="tqa-lbl-veg">वनस्पति (NDVI)</span></button>
+                    <button id="toggle-floors" class="tqa-btn" title="तल संकेतक / 3D Floor Extrusion"><i class="ph ph-stack"></i> <span id="tqa-lbl-fl">3D तल</span></button>
+                    <button id="toggle-theme" class="tqa-btn" title="थीम बदलें / Toggle Theme"><i class="ph ph-sun"></i> <span id="tqa-lbl-th">थीम</span></button>
+                    <button id="toggle-left-sidebar" class="tqa-btn" title="नियंत्रण पैनल / Toggle Left Sidebar"><i class="ph ph-sidebar-simple"></i> <span id="tqa-lbl-sb">पैनल</span></button>
+                    <button id="toggle-right-sidebar" class="tqa-btn" title="लेजेंड / Legend"><i class="ph ph-list"></i> <span id="tqa-lbl-lg">संकेतक</span></button>
+                </div>
+            </div>
+        </header>
 
         <!-- Sidebar UI (Adapts to Active Government Role) -->
         <aside class="sidebar glass-panel">
@@ -626,6 +690,114 @@
                 <button id="cert-print-btn" class="btn" style="background: #f59e0b; color: #020617; font-weight: 800; padding: 10px 18px; border: none;">
                     <i class="ph ph-printer"></i>
                     <span>Print / Download Certificate</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================================
+         MODALS: 3. OFFICIAL 3D BHU-AADHAAR PVC CARD MODAL (UIDAI STYLE)
+         ============================================================= -->
+    <div id="bhu-card-modal" class="bhu-card-modal-backdrop" style="display: none;">
+        <div class="bhu-pvc-card">
+            <!-- Tricolor Accent Top -->
+            <div class="pvc-header">
+                <div class="pvc-tricolor-strip"></div>
+                <div class="pvc-gov-left">
+                    <!-- Ashoka Emblem -->
+                    <svg class="pvc-ashoka" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8 2 6 5 6 7C6 9 8 11 12 11C16 11 18 9 18 7C18 5 16 2 12 2Z" fill="#b45309" />
+                        <path d="M5 12H19V14H5V12Z" fill="#b45309" />
+                        <circle cx="12" cy="18" r="4" stroke="#b45309" stroke-width="1.5" />
+                        <rect x="4" y="24" width="16" height="3" rx="1" fill="#b45309" />
+                    </svg>
+                    <div class="pvc-gov-text">
+                        <div class="pvc-gt-hi">भारत सरकार</div>
+                        <div class="pvc-gt-en">GOVERNMENT OF INDIA</div>
+                    </div>
+                </div>
+                <div class="pvc-logo-right">
+                    <div class="pvc-bhu-logo-text">
+                        <div class="pvc-bl-hi">भू-आधार</div>
+                        <div class="pvc-bl-en">Bhu-Aadhaar 3D</div>
+                    </div>
+                    <div class="pvc-sunburst">
+                        <span style="font-size: 16px;">☀️</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Body with Hologram, 3D Preview, Metadata, and QR -->
+            <div class="pvc-body">
+                <div class="pvc-watermark">
+                    <svg viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="15" r="10" stroke="#000" stroke-width="1" />
+                    </svg>
+                </div>
+
+                <div class="pvc-left-col">
+                    <div class="pvc-3d-box">
+                        <div class="pvc-hologram" title="Government High-Security Hologram"></div>
+                        <div style="font-size: 32px; margin-bottom: 4px;">🏢</div>
+                        <div style="font-size: 9px; color: #38bdf8; font-weight: 700; text-align: center; text-transform: uppercase;">
+                            3D CADASTRAL<br>DELINEATION
+                        </div>
+                    </div>
+                    <div style="font-size: 9px; color: #64748b; text-align: center; font-weight: 600;">
+                        DILRMP SECURE ID
+                    </div>
+                </div>
+
+                <div class="pvc-right-col">
+                    <div class="pvc-field">
+                        <div class="pvc-field-lbl">नाम / Name</div>
+                        <div class="pvc-field-val" id="pvc-owner-name">श्रीमती प्रिया शर्मा / Priya Sharma</div>
+                    </div>
+                    <div class="pvc-field">
+                        <div class="pvc-field-lbl">खसरा व भूखंड / Khasra & Parcel</div>
+                        <div class="pvc-field-val" id="pvc-khasra">खसरा नं. 104/B, वार्ड 42 (Lotus Heights)</div>
+                    </div>
+                    <div class="pvc-field">
+                        <div class="pvc-field-lbl">ऊर्ध्वाधर मंजिल / Vertical Floor Level</div>
+                        <div class="pvc-field-val highlight" id="pvc-floor">चतुर्थ तल / 4th Floor (+14.5 m Elevation)</div>
+                    </div>
+                    <div class="pvc-field">
+                        <div class="pvc-field-lbl">क्षेत्रफल / Floor Built-Up Area</div>
+                        <div class="pvc-field-val" id="pvc-area">1,420 वर्ग फुट (sq.ft) &bull; FAR 2.50 Sanctioned</div>
+                    </div>
+                    <div class="pvc-field">
+                        <div class="pvc-field-lbl">भू-तल ऊंचाई / Bare-Earth Datum</div>
+                        <div class="pvc-field-val" id="pvc-elev">498.2 m MSL (Copernicus DEM)</div>
+                    </div>
+                </div>
+
+                <canvas id="pvc-qr-canvas" class="pvc-qr-box" width="90" height="90"></canvas>
+            </div>
+
+            <!-- ULPIN 14-Digit Identity Strip -->
+            <div class="pvc-ulpin-banner">
+                <div class="pvc-ulpin-lbl">विशिष्ट 3D भू-आधार संख्या / 14-DIGIT 3D ULPIN</div>
+                <div class="pvc-ulpin-code" id="pvc-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="pvc-footer">
+                <div class="pvc-tagline">भू-आधार - संपत्ति का डिजिटल 3D अधिकार</div>
+                <div>भूमि संसाधन विभाग, ग्रामीण विकास मंत्रालय</div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="pvc-actions-bar">
+                <button id="pvc-copy-btn" class="btn" style="background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid var(--glass-border); font-size: 11.5px;">
+                    <i class="ph ph-copy"></i>
+                    <span>Copy 3D ULPIN</span>
+                </button>
+                <button id="pvc-print-btn" class="btn" style="background: #f59e0b; color: #020617; font-weight: 800; border: none; font-size: 11.5px;">
+                    <i class="ph ph-download-simple"></i>
+                    <span>Download Official PVC Card</span>
+                </button>
+                <button id="pvc-close-btn" class="btn" style="background: #334155; color: #ffffff; border: none; font-size: 11.5px;">
+                    <span>बंद करें / Close</span>
                 </button>
             </div>
         </div>

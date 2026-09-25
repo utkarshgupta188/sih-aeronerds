@@ -35,7 +35,7 @@ body, html {
 
 #map {
     position: absolute;
-    top: 0;
+    top: 154px;
     bottom: 0;
     width: 100%;
     z-index: 1;
@@ -53,10 +53,10 @@ body, html {
 /* Sidebar */
 .sidebar {
     position: absolute;
-    top: 20px;
+    top: 168px;
     left: 20px;
     width: 360px;
-    max-height: calc(100vh - 40px);
+    max-height: calc(100vh - 188px);
     z-index: 10;
     border-radius: 16px;
     padding: 24px;
@@ -76,10 +76,10 @@ body, html {
 /* Right Sidebar */
 .right-sidebar {
     position: absolute;
-    top: 20px;
+    top: 168px;
     right: 20px;
     width: 320px;
-    max-height: calc(100vh - 40px);
+    max-height: calc(100vh - 188px);
     z-index: 10;
     border-radius: 16px;
     padding: 24px;
@@ -618,10 +618,10 @@ body.light-mode .log-ulpin { color: #0f172a; }
 /* ===== Additive: Floor-Level Spatial Inspection panel (Phase 12) ===== */
 #floor-panel {
     position: absolute;
-    top: 92px;
+    top: 168px;
     left: 396px;
-    width: 340px;
-    max-height: calc(100vh - 112px);
+    width: 350px;
+    max-height: calc(100vh - 188px);
     z-index: 12;
     border-radius: 16px;
     padding: 16px;
@@ -1320,4 +1320,547 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #0b1220; 
     margin-top: 2px;
     line-height: 1.35;
 }
+
+/* =========================================================================
+ * UIDAI GOVERNMENT OF INDIA (GOI) PORTAL STYLES & HINDI LOCALIZATION
+ * ========================================================================= */
+
+.uidai-top-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+    background: #081325;
+}
+
+/* 1. Tricolor Top Strip */
+.gov-top-strip {
+    position: relative;
+    background: #050c18;
+    color: #cbd5e1;
+    font-size: 11px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-top: 3px solid;
+    border-image: linear-gradient(to right, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%) 3;
+    font-weight: 500;
+}
+.gov-top-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.gov-flag-icon {
+    font-size: 14px;
+}
+.gov-top-sep {
+    color: #475569;
+}
+.gov-top-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.gov-access-link {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 10.5px;
+    transition: color 0.15s;
+}
+.gov-access-link:hover {
+    color: #ffffff;
+}
+.font-resizer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+.font-btn {
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0 3px;
+}
+.font-btn:hover {
+    color: #38bdf8;
+}
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 14px;
+    padding: 1px;
+}
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.lang-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(2, 132, 199, 0.5);
+}
+
+/* 2. Main UIDAI Brand Header */
+.uidai-portal-header {
+    background: linear-gradient(90deg, #091a30 0%, #0d2342 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 58px;
+}
+.uidai-branding {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.ashoka-emblem-box {
+    width: 36px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.ashoka-svg {
+    height: 100%;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+.uidai-title-group {
+    display: flex;
+    flex-direction: column;
+}
+.uidai-logo-text {
+    font-size: 17px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.uidai-hindi-brand {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    color: #fbbf24;
+    font-size: 18px;
+    font-weight: 800;
+}
+.uidai-sunburst-crest {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f59e0b 20%, #b45309 80%);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+}
+.uidai-sub-dept {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 1px;
+    font-weight: 500;
+}
+.uidai-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 3. UIDAI Main Navigation Bar */
+.uidai-main-nav {
+    background: #002855;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid #f59e0b;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+.uidai-main-nav::-webkit-scrollbar {
+    display: none;
+}
+.uidai-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    color: #e2e8f0;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+}
+.uidai-nav-link i {
+    font-size: 15px;
+    color: #7dd3fc;
+}
+.uidai-nav-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-bottom-color: #38bdf8;
+}
+.uidai-nav-link.active {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-bottom-color: #f59e0b;
+}
+
+/* 4. UIDAI News Ticker & Quick Controls Bar */
+.uidai-ticker-bar {
+    background: #071529;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 32px;
+    font-size: 11px;
+}
+.ticker-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    overflow: hidden;
+}
+.ticker-badge {
+    background: #dc2626;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 9.5px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+.ticker-marquee {
+    color: #cbd5e1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.ticker-quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+.tqa-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s;
+}
+.tqa-btn:hover {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
+    color: #ffffff;
+}
+.tqa-btn.active {
+    background: rgba(245, 158, 11, 0.22);
+    border-color: #f59e0b;
+    color: #fbbf24;
+}
+
+/* =========================================================================
+ * 5. ICONIC PHYSICAL 3D BHU-AADHAAR PVC CARD MODAL
+ * ========================================================================= */
+.bhu-card-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: rgba(2, 6, 23, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.bhu-pvc-card {
+    width: 580px;
+    max-width: 95vw;
+    background: #ffffff;
+    color: #1e293b;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.3);
+    position: relative;
+    border: 2px solid #e2e8f0;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+.pvc-header {
+    padding: 10px 18px 8px 18px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #f59e0b;
+    position: relative;
+}
+.pvc-tricolor-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%);
+}
+.pvc-gov-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pvc-ashoka {
+    height: 38px;
+    width: auto;
+}
+.pvc-gov-text {
+    line-height: 1.15;
+}
+.pvc-gt-hi {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0f172a;
+}
+.pvc-gt-en {
+    font-size: 10px;
+    font-weight: 700;
+    color: #475569;
+    letter-spacing: 0.5px;
+}
+.pvc-logo-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pvc-bhu-logo-text {
+    text-align: right;
+    line-height: 1.1;
+}
+.pvc-bl-hi {
+    font-size: 15px;
+    font-weight: 900;
+    color: #b45309;
+}
+.pvc-bl-en {
+    font-size: 8.5px;
+    color: #64748b;
+    font-weight: 700;
+}
+.pvc-sunburst {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f59e0b 20%, #b45309 85%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+.pvc-body {
+    padding: 18px 20px;
+    display: flex;
+    gap: 18px;
+    background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f8fafc 100%);
+    position: relative;
+}
+.pvc-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.05;
+    pointer-events: none;
+    width: 240px;
+    height: auto;
+}
+.pvc-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 130px;
+    flex-shrink: 0;
+}
+.pvc-3d-box {
+    width: 125px;
+    height: 135px;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.pvc-hologram {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a7f3d0, #67e8f9, #fbcfe8, #fde047);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(103, 232, 249, 0.8);
+    opacity: 0.9;
+}
+.pvc-right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.pvc-field {
+    line-height: 1.25;
+}
+.pvc-field-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.pvc-field-val {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #0f172a;
+}
+.pvc-field-val.highlight {
+    color: #b45309;
+    font-size: 13px;
+}
+.pvc-qr-box {
+    position: absolute;
+    bottom: 18px;
+    right: 20px;
+    width: 90px;
+    height: 90px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 4px;
+}
+.pvc-ulpin-banner {
+    background: #f1f5f9;
+    border-top: 1px dashed #cbd5e1;
+    border-bottom: 1px dashed #cbd5e1;
+    padding: 10px 18px;
+    text-align: center;
+}
+.pvc-ulpin-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.8px;
+}
+.pvc-ulpin-code {
+    font-size: 20px;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: 3px;
+    font-family: ui-monospace, 'Courier New', monospace;
+    margin-top: 2px;
+}
+.pvc-footer {
+    padding: 8px 18px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #64748b;
+    border-bottom: 4px solid #138808;
+}
+.pvc-tagline {
+    font-weight: 800;
+    color: #b45309;
+    letter-spacing: 0.3px;
+}
+.pvc-actions-bar {
+    padding: 14px 20px;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Light Mode Overrides for UIDAI */
+body.light-mode .uidai-top-wrapper {
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+body.light-mode .gov-top-strip {
+    background: #f8fafc;
+    color: #334155;
+}
+body.light-mode .uidai-portal-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+body.light-mode .uidai-logo-text {
+    color: #0f172a;
+}
+body.light-mode .uidai-sub-dept {
+    color: #475569;
+}
+body.light-mode .uidai-main-nav {
+    background: #003366;
+}
+body.light-mode .uidai-ticker-bar {
+    background: #f1f5f9;
+    border-bottom: 1px solid #cbd5e1;
+}
+body.light-mode .ticker-marquee {
+    color: #334155;
+}
+
 
