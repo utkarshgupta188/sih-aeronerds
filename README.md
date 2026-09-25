@@ -1,12 +1,12 @@
 # AeroNerds: 3D Cadastral & Bhu-Aadhaar Portal (SIH26011)
 ### Official Prototype for the Government of India | Developed by Team AeroNerds
 
-![AeroNerds Government Portal](frontend/public/Screenshot_31-8-2026_21530_localhost.jpeg)
+![AeroNerds Bhu-Aadhaar 3D Portal - UIDAI Government Design](docs/images/uidai_bhu_aadhaar_portal.png)
 
 **AeroNerds** is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered specifically by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
 > *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure"*.
 
-The platform strictly aligns with the guidelines of the **Ministry of Rural Development (DoLR)**, **SVAMITVA Scheme**, and the **Digital India Land Records Modernization Programme (DILRMP)**. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **Proposed 3D Vertical Bhu-Aadhaar (ULPIN) IDs** for individual floor slabs without fabricating land title records.
+Designed adhering strictly to the official **UIDAI Government Portal (`https://uidai.gov.in/hi`)** design standards and the statutory guidelines of the **Ministry of Rural Development (DoLR)**, **SVAMITVA Scheme**, and the **Digital India Land Records Modernization Programme (DILRMP)**. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **Proposed 3D Vertical Bhu-Aadhaar (ULPIN) IDs** for individual floor slabs without fabricating land title records.
 
 ---
 
