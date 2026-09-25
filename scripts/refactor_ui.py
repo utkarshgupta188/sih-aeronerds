@@ -1,6 +1,6 @@
 import re
 
-for filepath, height_field in [('g:/Projects/BoundaryLens/frontend/app.js', 'building_height_m'), ('g:/Projects/BoundaryLens/frontend_chennai/app.js', 'height_m')]:
+for filepath, height_field in [('g:/Projects/AeroNerds/frontend/app.js', 'building_height_m'), ('g:/Projects/AeroNerds/frontend_chennai/app.js', 'height_m')]:
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
 

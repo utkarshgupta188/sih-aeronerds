@@ -2,7 +2,7 @@
 
 Read `AGENTS.md` completely before acting.
 
-You are the primary implementation agent for BoundaryLens / SIH26011.
+You are the primary implementation agent for AeroNerds / SIH26011.
 
 Work one phase at a time. Determine the current phase from `docs/PHASES.md` and repository state.
 

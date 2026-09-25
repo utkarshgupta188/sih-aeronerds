@@ -1,5 +1,5 @@
 """
-BoundaryLens - NDVI Vegetation Evidence & Building-Height Confidence core.
+AeroNerds - NDVI Vegetation Evidence & Building-Height Confidence core.
 
 ADDITIVE evidence layer. Pure-Python (numpy only): no rasterio / network imports
 here, so every scoring decision is deterministic and unit-testable.
@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import numpy as np
 
-METHOD_VERSION = "boundarylens-ndvi-evidence/v1"
+METHOD_VERSION = "aeronerds-ndvi-evidence/v1"
 
 # --------------------------------------------------------------------------- #
 # Heuristic NDVI thresholds (tunable; NOT validated against ground truth).    #

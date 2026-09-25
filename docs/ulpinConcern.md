@@ -16,7 +16,7 @@ Earlier in the project, there was a script (`14_generate_vertical_ulpins.py`) th
 As per the strict rules of your prototype (Rule #2), this system must *never* claim to create a legally recognized ULPIN or fabricate government records. 
 
 ### 3. What the System Actually Does
-Instead of creating a fake ULPIN, BoundaryLens creates a **Proposed Vertical Linkage**. 
+Instead of creating a fake ULPIN, AeroNerds creates a **Proposed Vertical Linkage**. 
 It calculates the spatial overlap between the government's 2D parcel boundary and the 3D building mass we extracted from the satellite data. 
 
 If they match, the system outputs:
@@ -28,7 +28,7 @@ That is a fantastic question and you are completely correct to point out the SIH
 
 Your claim for the project **does not go invalid**, but we need to understand the difference between *building a technical framework* versus *fabricating fake government records*.
 
-Here is how BoundaryLens fulfills the SIH mandate **without** violating the rules of a defensible prototype:
+Here is how AeroNerds fulfills the SIH mandate **without** violating the rules of a defensible prototype:
 
 ### 1. The SIH Mandate: "Develop a System Capable of Generating..."
 The SIH problem statement asks you to build the **computational framework** that a government *could* use to generate 3D ULPINs. 

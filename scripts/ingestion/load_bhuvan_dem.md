@@ -15,4 +15,4 @@ Due to authentication and captcha requirements on the Bhuvan NRSC portal, automa
 4. Use the "Bounding Box" selection tool on the map or input the coordinates above.
 5. Search and download the intersecting GeoTIFF tiles.
 6. Extract the `.zip` file if necessary.
-7. Place the resulting `*_dem.tif` file into `g:\Projects\BoundaryLens\data\raw\` and rename it to `bhuvan_cartodem.tif`.
+7. Place the resulting `*_dem.tif` file into `g:\Projects\AeroNerds\data\raw\` and rename it to `bhuvan_cartodem.tif`.

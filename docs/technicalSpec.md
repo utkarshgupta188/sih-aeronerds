@@ -1,12 +1,12 @@
-# BoundaryLens Technical Specification
+# AeroNerds Technical Specification
 
-This document provides a comprehensive breakdown of the BoundaryLens backend data pipeline, explaining every script, how the code works, what we built, and the design rationale behind every decision.
+This document provides a comprehensive breakdown of the AeroNerds backend data pipeline, explaining every script, how the code works, what we built, and the design rationale behind every decision.
 
 ---
 
 ## 1. Architectural Philosophy: What We Did & Why We Did It
 
-BoundaryLens was built to solve SIH26011: *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure."*
+AeroNerds was built to solve SIH26011: *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure."*
 
 **The Challenge**: Generating real 3D property boundaries is legally sensitive. If a hackathon prototype blindly hallucinates property boundaries or overwrites official deed data using AI, it violates core GIS principles and risks disqualification.
 **Our Solution (The "Why")**: We built a **deterministic, evidence-based fusion engine**. 

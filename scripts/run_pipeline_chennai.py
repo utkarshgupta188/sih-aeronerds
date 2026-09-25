@@ -14,11 +14,11 @@ def run_script(script_path):
 
 def main():
     print("==================================================")
-    print(" BoundaryLens SIH26011 - DRDO Chennai Route       ")
+    print(" AeroNerds SIH26011 - DRDO Chennai Route       ")
     print(" ** WARNING: UNVERIFIED MANIFEST OVERRIDE **      ")
     print("==================================================\n")
 
-    os.environ["BOUNDARYLENS_REGION"] = "chennai.json"
+    os.environ["AERONERDS_REGION"] = "chennai.json"
 
     scripts = [
         "scripts/ingestion/load_drdo_chennai.py",

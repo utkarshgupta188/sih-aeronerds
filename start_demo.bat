@@ -1,9 +1,9 @@
 @echo off
 setlocal
-title BoundaryLens SIH26011 Demo — Team areonerds
+title AeroNerds SIH26011 Demo — Team areonerds
 
 echo ==================================================
-echo   BoundaryLens SIH26011 — Live Demonstration
+echo   AeroNerds SIH26011 — Live Demonstration
 echo   Team areonerds
 echo ==================================================
 echo.

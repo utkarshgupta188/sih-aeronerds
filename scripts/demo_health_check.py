@@ -1,5 +1,5 @@
 """
-BoundaryLens SIH26011 — Demo Readiness Health Check
+AeroNerds SIH26011 — Demo Readiness Health Check
 Team areonerds
 
 Verifies the integrity of all frontend, spatial data, and evidence assets
@@ -47,7 +47,7 @@ def check_json_file(rel_path, min_features=1):
 
 def main():
     print("==========================================")
-    print(" BoundaryLens SIH26011 Demo Health Check  ")
+    print(" AeroNerds SIH26011 Demo Health Check  ")
     print("==========================================")
 
     all_passed = True

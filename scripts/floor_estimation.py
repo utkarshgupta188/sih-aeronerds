@@ -1,5 +1,5 @@
 """
-BoundaryLens - Floor Detection (ADDITIVE layer, v3 = real ML model).
+AeroNerds - Floor Detection (ADDITIVE layer, v3 = real ML model).
 
 Three sources, per building:
 
@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import math
 
-FLOOR_MODEL_VERSION = "boundarylens-floor/v3-ml"
+FLOOR_MODEL_VERSION = "aeronerds-floor/v3-ml"
 FLOOR_HEIGHT_TYP_M = 3.2          # sanity cross-check only, never a predictor
 OOD_FLOOR_COUNT = 40             # OSM labels exist up to ~59; treat very tall as OOD-ish
 

@@ -1,6 +1,6 @@
 # Antigravity master prompt
 
-Operate BoundaryLens as a gated autonomous engineering workflow.
+Operate AeroNerds as a gated autonomous engineering workflow.
 
 Read AGENTS.md first.
 

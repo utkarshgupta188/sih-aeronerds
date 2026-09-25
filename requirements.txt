@@ -1,4 +1,4 @@
-# BoundaryLens SIH26011 — Full Pipeline Requirements
+# AeroNerds SIH26011 — Full Pipeline Requirements
 # Used for complete end-to-end data ingestion, GIS processing, and ML training (run_pipeline.py).
 geopandas>=0.14.0
 shapely>=2.0.0

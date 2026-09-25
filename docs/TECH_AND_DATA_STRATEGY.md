@@ -1,4 +1,4 @@
-# BoundaryLens technical and data strategy
+# AeroNerds technical and data strategy
 
 ## Prototype geography
 Use **Baramati ULB, Pune district, Maharashtra** as the default pilot AOI, not an entire city/district. The reason is practical: it appears in published NAKSHA pilot material, while Pune district has government-reported cadastral-map digitisation progress.

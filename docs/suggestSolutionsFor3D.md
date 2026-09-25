@@ -1,12 +1,12 @@
 # Upgrading to Complete 3D Structures (LOD2 / LOD3)
 
-This document outlines why the current BoundaryLens prototype generates flat-topped "massing blocks" and provides a roadmap for sourcing and implementing fully detailed 3D architectural models.
+This document outlines why the current AeroNerds prototype generates flat-topped "massing blocks" and provides a roadmap for sourcing and implementing fully detailed 3D architectural models.
 
 ---
 
 ## 1. Why is the Current 3D "Flat"?
 
-The current BoundaryLens prototype implements **LOD1 (Level of Detail 1)** 3D massing. 
+The current AeroNerds prototype implements **LOD1 (Level of Detail 1)** 3D massing. 
 
 **The Limitation:**
 1. **Data:** We only have a 2D building footprint (from OpenStreetMap) and a single scalar height value (extracted via our DSM - DEM pipeline). We do not have geometric data for roofs, walls, or architectural features.

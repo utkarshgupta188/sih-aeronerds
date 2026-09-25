@@ -100,7 +100,7 @@ def main():
     # Generate Report
     report = f"""# Phase 10: Evidence Fusion & Conflict Engine Report
 
-This report documents the deterministic evidence fusion engine execution for the BoundaryLens SIH26011 prototype.
+This report documents the deterministic evidence fusion engine execution for the AeroNerds SIH26011 prototype.
 In strict compliance with **Project Rule 3** (Evidence Hierarchy) and **Project Rule 8** (Human Verification Gates), all conflicting data sources are explicitly surfaced to the audit log.
 
 ## 1. Final Verification Gate Summary

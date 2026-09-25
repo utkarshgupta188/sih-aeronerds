@@ -13,7 +13,7 @@ def run_script(script_path):
 
 def main():
     print("==================================================")
-    print(" BoundaryLens SIH26011 - Full Pipeline Execution  ")
+    print(" AeroNerds SIH26011 - Full Pipeline Execution  ")
     print("==================================================\n")
 
     scripts = [

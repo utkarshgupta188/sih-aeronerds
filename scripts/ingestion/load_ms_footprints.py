@@ -18,7 +18,7 @@ def load_ms_footprints():
     ]
     
     headers = {
-        "User-Agent": "BoundaryLens/1.0",
+        "User-Agent": "AeroNerds/1.0",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
     

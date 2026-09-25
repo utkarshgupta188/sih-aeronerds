@@ -1,7 +1,7 @@
-# AGENTS.md — BoundaryLens / SIH26011 Master Agent Constitution
+# AGENTS.md — AeroNerds / SIH26011 Master Agent Constitution
 
 ## 1. Project
-BoundaryLens is an SIH26011 prototype for 3D ULPIN-linked vertical property mapping.
+AeroNerds is an SIH26011 prototype for 3D ULPIN-linked vertical property mapping.
 
 The SIH statement asks for 3D identities for surface parcels, multi-storey properties and underground infrastructure, using GIS parcel layers, imagery/point clouds, floor plans, GNSS/CORS and DEM/DSM, with AI/ML for building extraction, floor segmentation, vertical parcel delineation and topology validation.
 

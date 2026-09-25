@@ -1,5 +1,5 @@
 /**
- * BoundaryLens — Government of India 3D Vertical Cadastral & Bhu-Aadhaar Portal
+ * AeroNerds — Government of India 3D Vertical Cadastral & Bhu-Aadhaar Portal
  * Developed for Ministry of Rural Development (DoLR), MoHUA & Smart India Hackathon (SIH26011)
  * 
  * Features:
@@ -176,7 +176,7 @@
         }
     };
 
-    let activeGovRole = localStorage.getItem("boundarylens_gov_role") || "admin";
+    let activeGovRole = localStorage.getItem("aeronerds_gov_role") || "admin";
     if (!GOV_ROLES[activeGovRole]) activeGovRole = "admin";
 
     // =========================================================================
@@ -248,7 +248,7 @@
     function setGovRole(roleKey) {
         if (!GOV_ROLES[roleKey]) roleKey = "admin";
         activeGovRole = roleKey;
-        localStorage.setItem("boundarylens_gov_role", roleKey);
+        localStorage.setItem("aeronerds_gov_role", roleKey);
 
         const r = GOV_ROLES[roleKey];
         AudioFX.play("switch");

@@ -110,7 +110,7 @@ def merge_evidence_into_properties(props, evidence, scene_meta):
     for key, value in additive.items():
         if key not in _ADDITIVE_KEYS:
             # Never touch a key this phase does not own (protects every existing
-            # BoundaryLens field: id, match_status_2d, ground_elevation_m, ...).
+            # AeroNerds field: id, match_status_2d, ground_elevation_m, ...).
             continue
         # Every _ADDITIVE_KEYS entry is NDVI-owned, so refreshing it on a re-run
         # is correct (and required so the spatial results replace older values).

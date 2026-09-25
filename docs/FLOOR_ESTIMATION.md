@@ -2,7 +2,7 @@
 
 ## WHY
 
-BoundaryLens links `Parcel → Building → Height`. To support a **proposed
+AeroNerds links `Parcel → Building → Height`. To support a **proposed
 floor-level spatial linkage** it needs a floor count per building — from a real
 observed tag *or* a real, trained, spatially-validated model — clearly marked as
 one or the other, never presented as an authoritative plan.
@@ -140,7 +140,7 @@ floor_height_consistency      (CONSISTENT | DIVERGENT | UNKNOWN)
 floor_vertical_context        (OK | VEGETATION_CONTAMINATED_HEIGHT)
 floor_ood_flag                (bool)
 requires_human_verification   (bool; always true for PREDICTED)
-floor_model_version           ("boundarylens-floor/v3-ml")
+floor_model_version           ("aeronerds-floor/v3-ml")
 floor_label_source / floor_label_type / floor_label_provenance
 floor_level_ids               (proposed floor-level IDs; [] unless OBSERVED/PREDICTED-HIGH/MEDIUM + parcel)
 # compatibility aliases kept for older readers: floor_evidence_status,

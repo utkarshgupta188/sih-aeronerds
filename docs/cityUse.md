@@ -1,10 +1,10 @@
-# BOUNDARYLENS — SIH26011 MASTER AGENT START PROMPT
+# AERONERDS — SIH26011 MASTER AGENT START PROMPT
 
 You are starting the autonomous engineering loop for our SIH26011 project.
 
 ## PROJECT
 
-Project name: BoundaryLens
+Project name: AeroNerds
 
 Problem: 3D ULPIN and vertical property mapping.
 

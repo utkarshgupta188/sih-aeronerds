@@ -1,7 +1,7 @@
 # DRDO Chennai Dataset — Integration Plan
 
 **Status:** Draft plan, not yet executed. No code has been changed to produce this document — see [Ground rules](#ground-rules).
-**Scope:** How to fold `data/drdo/raw/chennai_test1.shp` into BoundaryLens without breaking `AGENTS.md`.
+**Scope:** How to fold `data/drdo/raw/chennai_test1.shp` into AeroNerds without breaking `AGENTS.md`.
 **Companion docs:** Read alongside `docs/AGENTS.md`, `docs/PHASES.md`, `docs/PHASE_EXECUTION_TEMPLATE.md`, `docs/TECH_AND_DATA_STRATEGY.md`.
 
 ---
@@ -405,7 +405,7 @@ the parcel segment of the generated ID instead of a fabricated or
 omitted value. Where P7 found a real parcel match, use the normal
 scheme. Verify no generated ID could be mistaken for an official
 government ULPIN — the wording/format should make clear this is a
-BoundaryLens-internal proposed ID.
+AeroNerds-internal proposed ID.
 ```
 
 ---

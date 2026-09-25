@@ -1,6 +1,6 @@
-# BoundaryLens Data Policy & Usage Matrix
+# AeroNerds Data Policy & Usage Matrix
 
-In strict compliance with **Project Rule 10 (Data Policy)**, this document explicitly outlines the provenance of all data used in the BoundaryLens prototype. It clearly delineates which datasets are actual real-world records and which elements were synthetically modelled or procedurally generated to fulfill the SIH26011 problem statement.
+In strict compliance with **Project Rule 10 (Data Policy)**, this document explicitly outlines the provenance of all data used in the AeroNerds prototype. It clearly delineates which datasets are actual real-world records and which elements were synthetically modelled or procedurally generated to fulfill the SIH26011 problem statement.
 
 ---
 

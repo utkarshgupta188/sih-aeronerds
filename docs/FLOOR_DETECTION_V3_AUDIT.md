@@ -1,7 +1,7 @@
 # Floor Detection v3 — Coverage Expansion Audit
 
 _Response to the "INCREASE FLOOR DETECTION COVERAGE" change request._
-_Pipeline: BoundaryLens SIH26011 · AOI: Bengaluru 2734 buildings · 2026-09._
+_Pipeline: AeroNerds SIH26011 · AOI: Bengaluru 2734 buildings · 2026-09._
 
 The brief: floor information existed for only ~17 buildings; expand coverage, but
 **only** through real labels + real features + real ML + calibration + validated

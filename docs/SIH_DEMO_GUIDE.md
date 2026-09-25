@@ -1,7 +1,7 @@
-# BoundaryLens SIH26011 — Live Demonstration Guide
+# AeroNerds SIH26011 — Live Demonstration Guide
 ### Team areonerds • Smart India Hackathon 2026
 
-This guide provides the exact 3–5 minute demonstration protocol for presenting the BoundaryLens prototype to the SIH evaluating panel.
+This guide provides the exact 3–5 minute demonstration protocol for presenting the AeroNerds prototype to the SIH evaluating panel.
 
 ---
 
@@ -11,7 +11,7 @@ Ensure the repository and Python environment are prepared on your presentation m
 
 ```powershell
 # Windows (PowerShell)
-cd D:\BoundaryLens
+cd D:\AeroNerds
 .\venv\Scripts\Activate.ps1
 ```
 
@@ -30,7 +30,7 @@ python scripts/demo_health_check.py
 **Expected output:**
 ```text
 ==========================================
- BoundaryLens SIH26011 Demo Health Check  
+ AeroNerds SIH26011 Demo Health Check  
 ==========================================
 [PASS] Frontend
 [PASS] Building data
@@ -79,7 +79,7 @@ Open Google Chrome or Microsoft Edge and navigate to:
 
 | Step | Time | Action | What to Say to the Judges |
 | :--- | :--- | :--- | :--- |
-| **1. The Problem & Context** | 0:00 – 0:45 | Show the 3D skyline of South Bengaluru | *"Respected judges, current cadastral systems in India are strictly 2D flat parcels. In urban centers, vertical property ownership and multi-storey structures have no unified 3D spatial linkage. BoundaryLens creates a deterministic vertical hierarchy linking surface parcels to individual building volumes and floor entities without fabricating government records."* |
+| **1. The Problem & Context** | 0:00 – 0:45 | Show the 3D skyline of South Bengaluru | *"Respected judges, current cadastral systems in India are strictly 2D flat parcels. In urban centers, vertical property ownership and multi-storey structures have no unified 3D spatial linkage. AeroNerds creates a deterministic vertical hierarchy linking surface parcels to individual building volumes and floor entities without fabricating government records."* |
 | **2. Parcel-Building 2D Linkage** | 0:45 – 1:30 | Click a **Green building** (cleanly contained) | *"Notice the 2D cadastral parcel boundary beneath this building. Our geometric matching engine tests for topological containment. This structure has a `CONTAINED` status with 100% boundary overlap ratio, deterministically linked to Cadastral Parcel 22068."* |
 | **3. Ground Elevation & Height** | 1:30 – 2:15 | Point to **Ground Elev** and **Height** in sidebar | *"Under Rule 4 of our AGENTS constitution, we never guess heights. Ground elevation is sampled directly from bare-earth DEM terrain. For above-ground height, when an official OSM level tag exists, it is marked `OSM_VERIFIED`. When unobserved, height follows an empirical urban distribution profile marked `ESTIMATED / PROVISIONAL`."* |
 | **4. Floor Evidence & ML Calibration** | 2:15 – 3:00 | Click **View Floor Levels** | *"We trained a spatial-split Random Forest on 12,700+ verified Bangalore floor labels. Rather than dividing height blindly by 3.5m, our model predicts calibrated floor counts. Here, the floor levels are visually delineated and given discrete proposed identifiers."* |
@@ -123,7 +123,7 @@ Open Google Chrome or Microsoft Edge and navigate to:
 
 ## H. What Happens When Evidence Conflicts?
 
-BoundaryLens adheres to strict deterministic conflict resolution:
+AeroNerds adheres to strict deterministic conflict resolution:
 - When cadastral parcel and building footprints overlap multiple parcels, the system does **not** silently assign ownership. It tags the feature as `CONFLICT / MAJORITY` and prompts human verification.
 - When elevation data suggests height but Sentinel-2 NDVI detects dense canopy (`VEGETATION_DOMINANT`), the building is flagged with `VEGETATION POSSIBLE` and height confidence is downgraded to `LOW`.
 - When floor count cannot be determined with statistical confidence, the model returns `NOT_DETERMINABLE` rather than hallucinating an arbitrary floor count.

@@ -16,7 +16,7 @@ _spec = importlib.util.spec_from_file_location("load_bare_earth_dem", _PATH)
 lbe = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(lbe)
 
-# Existing BoundaryLens pilot AOI (W, S, E, N) - must not change.
+# Existing AeroNerds pilot AOI (W, S, E, N) - must not change.
 AOI = (77.61365, 12.92365, 77.62635, 12.93635)
 
 

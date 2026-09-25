@@ -1,6 +1,6 @@
 # Claude Code master prompt
 
-Act as the senior engineer and reviewer for BoundaryLens.
+Act as the senior engineer and reviewer for AeroNerds.
 
 Before modifying code:
 - read AGENTS.md

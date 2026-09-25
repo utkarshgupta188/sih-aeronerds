@@ -1,12 +1,12 @@
-# BoundaryLens Prototype Explanation
+# AeroNerds Prototype Explanation
 
-This document explains the interactive **BoundaryLens Web UI (Frontend)**, detailing how it works, what each component does, and how to effectively demo it to judges or stakeholders. Reading this document is sufficient to completely understand the user-facing application.
+This document explains the interactive **AeroNerds Web UI (Frontend)**, detailing how it works, what each component does, and how to effectively demo it to judges or stakeholders. Reading this document is sufficient to completely understand the user-facing application.
 
 ---
 
 ## 1. Overview & Tech Stack
 
-The frontend is a lightweight, hardware-accelerated 3D mapping application designed to visualize the outputs of the BoundaryLens data pipeline.
+The frontend is a lightweight, hardware-accelerated 3D mapping application designed to visualize the outputs of the AeroNerds data pipeline.
 
 **Tech Stack**:
 - **Vanilla HTML / CSS / JS**: We deliberately avoided complex frameworks (like React/Next.js) to ensure the prototype is incredibly fast, easy to deploy locally, and has zero build-step dependencies.
@@ -63,7 +63,7 @@ When you click on any building, the Property Card in the sidebar updates. This i
 
 ### The Reviewer Audit Gate (Project Rule 8)
 At the bottom of the card are four buttons: `[APPROVE]`, `[CORRECT]`, `[REJECT]`, `[MARK UNRESOLVED]`.
-- **How it works**: BoundaryLens is designed such that **AI assists, but does not adjudicate legal rights**. 
+- **How it works**: AeroNerds is designed such that **AI assists, but does not adjudicate legal rights**. 
 - If our Fusion Engine flagged a building as `HUMAN_VERIFICATION_REQUIRED` (e.g., because it was colored Red, or the AI flagged an anomaly), a human reviewer must make the final call.
 - Clicking one of these buttons instantly changes the Verification Gate status on the UI and logs an Audit Action.
 

@@ -1,5 +1,5 @@
 """
-BoundaryLens SIH26011 — Lightweight Demo Launcher
+AeroNerds SIH26011 — Lightweight Demo Launcher
 Team areonerds
 
 Starts the MapLibre 3D Web UI on port 8000 using pre-computed, verified datasets.
@@ -66,7 +66,7 @@ class DemoHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 def main():
     print("==================================================")
-    print(" BoundaryLens SIH26011 Demo — Team areonerds      ")
+    print(" AeroNerds SIH26011 Demo — Team areonerds      ")
     print("==================================================\n")
 
     verify_demo_data()
@@ -87,7 +87,7 @@ def main():
     except OSError as e:
         if "address already in use" in str(e).lower() or getattr(e, "winerror", None) == 10048:
             print(f"\n[WARNING] Port {PORT} is already in use by another process.")
-            print(f"Check if BoundaryLens is already open at http://localhost:{PORT}/")
+            print(f"Check if AeroNerds is already open at http://localhost:{PORT}/")
         else:
             print(f"\n[ERROR] Could not start server: {e}")
         sys.exit(1)

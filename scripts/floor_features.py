@@ -164,7 +164,7 @@ def geom_features(lonlat_ring, *, building_type=None, has_name=False,
 
 
 def features_from_geojson_polygon(geometry, props, dsm_src=None):
-    """Feature dict for a BoundaryLens building feature (EPSG:4326 Polygon).
+    """Feature dict for a AeroNerds building feature (EPSG:4326 Polygon).
 
     If ``dsm_src`` (an open rasterio GLO-30 dataset) is given, a coarse
     above-ground DSM height feature is added.

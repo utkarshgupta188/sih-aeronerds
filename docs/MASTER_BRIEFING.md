@@ -1,4 +1,4 @@
-# BoundaryLens — The One Document You Need
+# AeroNerds — The One Document You Need
 
 ### SIH26011 · 3D ULPIN Generation and Vertical Property Mapping System
 ### Ministry of Rural Development · Department of Land Resources (DoLR) · Theme: Smart Automation
@@ -11,9 +11,9 @@ This is the single reference for the whole project — the problem, what we actu
 
 India's land records are 2D. A "parcel" on paper is a flat shape on the ground. But real cities are vertical — a single flat parcel might now hold a 12-storey apartment block, an underground parking level, a metro tunnel running beneath it, and overhead power lines crossing above it. The current ULPIN (Unique Land Parcel Identification Number) system has no way to say "this specific 3rd-floor flat" or "this specific basement parking slot" — everything collapses into one flat ID. That causes ownership disputes, blocks infrastructure planning, and makes it impossible to properly govern modern vertical properties. SIH26011 asks for a system that can generate 3D identities — for surface land, for individual floors in a building, and eventually for underground infrastructure — by fusing drone/satellite imagery, LiDAR, GIS parcel data, floor plans, GNSS/CORS coordinates and elevation models, with AI/ML doing the automated building extraction, floor segmentation and topology checking.
 
-## 2. What BoundaryLens actually is
+## 2. What AeroNerds actually is
 
-BoundaryLens is a **working, end-to-end prototype pipeline plus an interactive 3D web app** that takes real open government/satellite data for a real Bengaluru neighbourhood, and:
+AeroNerds is a **working, end-to-end prototype pipeline plus an interactive 3D web app** that takes real open government/satellite data for a real Bengaluru neighbourhood, and:
 
 1. Matches every building footprint to the legal cadastral parcel it sits on (2D).
 2. Adds a height/floor dimension to each building (the vertical part).
@@ -159,8 +159,8 @@ Framing tip: every limitation above has a one-line "and here's why that was the 
 ## 12. How to run it (for the team, or if a judge asks to see it live from scratch)
 
 ```bash
-git clone https://github.com/sujayghosh13/boundarylens-sih26011.git
-cd boundarylens-sih26011
+git clone https://github.com/sujayghosh13/aeronerds-sih26011.git
+cd aeronerds-sih26011
 python -m venv venv
 # Windows: .\venv\Scripts\activate   |   Mac/Linux: source venv/bin/activate
 pip install -r requirements.txt
@@ -210,7 +210,7 @@ Every value in the system carries mandatory provenance (source, date, licence, p
 3. Train and evaluate a real building-segmentation model (U-Net/Mask R-CNN) against held-out labelled imagery, replacing the pre-extracted footprint approach.
 4. Extend the volume model downward for underground utilities/parking once a legitimate elevation-below-ground data source is identified.
 5. Scale the pilot from one 2 sq km AOI to full-ward, then full-city coverage, moving storage/processing to PostgreSQL + PostGIS in the cloud.
-6. Formal integration path with a state Bhu-Naksha system, positioning BoundaryLens as the evidence-generation layer feeding an official 3D-ULPIN issuance workflow owned by DoLR.
+6. Formal integration path with a state Bhu-Naksha system, positioning AeroNerds as the evidence-generation layer feeding an official 3D-ULPIN issuance workflow owned by DoLR.
 
 ## 16. Glossary (so nobody gets caught out on jargon)
 
@@ -226,4 +226,4 @@ Every value in the system carries mandatory provenance (source, date, licence, p
 
 ---
 
-*This document is the master reference for BoundaryLens (SIH26011). Source docs consolidated: README, SIH26011_COMPLETE_DEEP_DIVE, technicalSpec, explainPrototype, PHASES, AOI_SELECTION, DATASET_AUDIT, DATA_SOURCES, TECH_AND_DATA_STRATEGY, normalisation_report, DATA_QUALITY_REPORT, MATCHING_REPORT_2D, ELEVATION_REPORT, FLOOR_EVIDENCE_REPORT, AI_ANOMALY_REPORT, EVIDENCE_FUSION_REPORT, SIH_AUDIT_VERIFICATION, ulpinConcern, dataUse, cityUse, suggestSolutionsFor3D, resolutionData, and AGENTS.md (project constitution).*
+*This document is the master reference for AeroNerds (SIH26011). Source docs consolidated: README, SIH26011_COMPLETE_DEEP_DIVE, technicalSpec, explainPrototype, PHASES, AOI_SELECTION, DATASET_AUDIT, DATA_SOURCES, TECH_AND_DATA_STRATEGY, normalisation_report, DATA_QUALITY_REPORT, MATCHING_REPORT_2D, ELEVATION_REPORT, FLOOR_EVIDENCE_REPORT, AI_ANOMALY_REPORT, EVIDENCE_FUSION_REPORT, SIH_AUDIT_VERIFICATION, ulpinConcern, dataUse, cityUse, suggestSolutionsFor3D, resolutionData, and AGENTS.md (project constitution).*

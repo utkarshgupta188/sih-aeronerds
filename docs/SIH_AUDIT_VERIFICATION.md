@@ -1,12 +1,12 @@
 # SIH26011 Master Audit Verification Matrix
 
-This matrix provides an exhaustive compliance audit of the **BoundaryLens** prototype against all requirements in Problem Statement SIH26011 and the project constitution (`AGENTS.md`).
+This matrix provides an exhaustive compliance audit of the **AeroNerds** prototype against all requirements in Problem Statement SIH26011 and the project constitution (`AGENTS.md`).
 
 ---
 
 ## 1. Problem Statement Requirements Audit
 
-| SIH26011 Requirement | BoundaryLens Implementation Module | Verification Artefact / Output | Status |
+| SIH26011 Requirement | AeroNerds Implementation Module | Verification Artefact / Output | Status |
 | :--- | :--- | :--- | :--- |
 | **3D Identities for Surface Parcels** | OpenCity Cadastral Parcel Normalisation (`scripts/03_normalise_layers.py`) | `data/processed/cadastral_parcels_valid.geojson` | 🟢 PASS |
 | **Multi-Storey Vertical Delineation** | Satellite Height & Floor Entity Extractor (`scripts/08_extract_floor_entities.py`) | `data/processed/floor_entities.json` (8,891 discrete floor entities) | 🟢 PASS |

@@ -18,7 +18,7 @@ https://bhunaksha.nic.in/bhunaksha/implementationstatus.jsp
 
 ## Local bare-earth DEM (reproducible / hackathon execution)
 
-For reproducible local execution, BoundaryLens supports a **local bare-earth DEM
+For reproducible local execution, AeroNerds supports a **local bare-earth DEM
 GeoTIFF** at:
 
 ```text

@@ -38,7 +38,7 @@ OVERPASS_ENDPOINTS = [
     "https://overpass.kumi.systems/api/interpreter",
     "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ]
-UA = {"User-Agent": "BoundaryLens-SIH/1.0 (floor-label research)"}
+UA = {"User-Agent": "AeroNerds-SIH/1.0 (floor-label research)"}
 
 # Greater Bengaluru training box (S,W,N,E). ~30 x 30 km around the AOI.
 TRAIN_BBOX = (12.82, 77.48, 13.10, 77.78)

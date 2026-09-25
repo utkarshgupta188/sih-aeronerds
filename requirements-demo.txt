@@ -1,4 +1,4 @@
-# BoundaryLens SIH26011 — Demo Launcher Requirements
+# AeroNerds SIH26011 — Demo Launcher Requirements
 # The demo launcher (run_demo.py) uses Python standard libraries (http.server).
 # The optional health check and quick data validation use the packages below:
 requests>=2.31.0

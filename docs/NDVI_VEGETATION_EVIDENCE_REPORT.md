@@ -17,7 +17,7 @@ Copernicus GLO-30 reports **surface** elevation. An elevated surface inside a bu
 - **provenance**: Sentinel-2 L2A surface reflectance (Copernicus). NDVI=(B08-B04)/(B08+B04) from scene S2B_43PGQ_20240313_0_L2A acquired 2024-03-13T05:25:16.952000Z. Cloud/shadow/snow pixels masked via SCL. Native 10 m, CRS EPSG:32643, no resampling of the NDVI grid. Contains modified Copernicus Sentinel data.
 
 ## Method (spatially-resolved)
-- version: `boundarylens-ndvi-evidence/v1+spatial`
+- version: `aeronerds-ndvi-evidence/v1+spatial`
   - **core** zone: footprint eroded by ~1 pixel (10 m) - the building surface / roof
   - **interior** zone: the full building footprint
   - **edge** zone: ~1-pixel band straddling the footprint boundary

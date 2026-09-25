@@ -243,7 +243,7 @@ def main():
     iso_thr = float(np.quantile(iso.score_samples(xtr), 0.02))
 
     bundle = {
-        "model_version": "boundarylens-floor/v3-ml",
+        "model_version": "aeronerds-floor/v3-ml",
         "training_mode_floor": int(np.bincount(ytr.astype(int)).argmax()),
         "chosen_model_name": chosen_name,
         "model": chosen,

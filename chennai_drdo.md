@@ -1,6 +1,6 @@
 # Chennai DRDO Pipeline Reconstruction: A Walkthrough
 
-This document outlines the complete technical journey, challenges, and architectural pivots we executed to make the BoundaryLens SIH prototype work with the provided DRDO dataset for Chennai.
+This document outlines the complete technical journey, challenges, and architectural pivots we executed to make the AeroNerds SIH prototype work with the provided DRDO dataset for Chennai.
 
 ## 1. Initial Data Assessment
 We started with a raw DRDO shapefile (`data/drdo/raw/chennai_test1.shp`). Upon analysis via GeoPandas and checking the `chennai_test1.shp.xml` metadata, we discovered:
@@ -26,7 +26,7 @@ To quickly visualize the data, we:
 *Initial Result:* The map showed flat, grey polygons because the frontend expected `building_height_m` but the data provided `Z_Max`, and it lacked the `match_status_2d` required for the green/yellow/red color logic.
 
 ## 3. The Cadastral Data Blockade
-To run the full BoundaryLens engine (which generates 3D ULPINs by detecting conflicts between legal parcels and physical buildings), we needed Chennai's cadastral maps.
+To run the full AeroNerds engine (which generates 3D ULPINs by detecting conflicts between legal parcels and physical buildings), we needed Chennai's cadastral maps.
 We initiated a **Data Discovery Sweep**:
 - We searched OpenCity.in and the TN e-Services portals (`eservices.tn.gov.in`).
 - We concluded that bulk cadastral shapefiles are **strictly restricted** by the TN Government. Only individual FMB/TSLR sketches can be viewed manually.

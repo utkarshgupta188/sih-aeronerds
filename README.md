@@ -1,9 +1,9 @@
-# BoundaryLens: 3D Cadastral & Bhu-Aadhaar Portal (SIH26011)
+# AeroNerds: 3D Cadastral & Bhu-Aadhaar Portal (SIH26011)
 ### Official Prototype for the Government of India | Developed by Team AeroNerds
 
-![BoundaryLens Government Portal](frontend/public/Screenshot_31-8-2026_21530_localhost.jpeg)
+![AeroNerds Government Portal](frontend/public/Screenshot_31-8-2026_21530_localhost.jpeg)
 
-**BoundaryLens** is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered specifically by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
+**AeroNerds** is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered specifically by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
 > *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure"*.
 
 The platform strictly aligns with the guidelines of the **Ministry of Rural Development (DoLR)**, **SVAMITVA Scheme**, and the **Digital India Land Records Modernization Programme (DILRMP)**. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **Proposed 3D Vertical Bhu-Aadhaar (ULPIN) IDs** for individual floor slabs without fabricating land title records.
@@ -41,7 +41,7 @@ The platform provides tailored workspaces for three core statutory stakeholders:
 
 ## 🗺️ Multi-Region Pilots
 
-BoundaryLens features pre-processed real-world pilot datasets across two major Indian urban environments:
+AeroNerds features pre-processed real-world pilot datasets across two major Indian urban environments:
 
 - **Bhopal Pilot (Madhya Pradesh)**:
   - 85 Urban Wards with OpenCity KML Cadastral Parcels and OSM 3D footprints.
