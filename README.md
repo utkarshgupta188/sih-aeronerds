@@ -1,4 +1,4 @@
-# BoundaryLens: SIH26011 Vertical Delineation Prototype
+# BoundaryLens:Vertical Delineation Prototype
 ### Developed by Team areonerds | Smart India Hackathon 2026 (SIH26011)
 
 ![BoundaryLens Prototype Interface](frontend/public/Screenshot_31-8-2026_21530_localhost.jpeg)
