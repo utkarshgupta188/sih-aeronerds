@@ -1248,6 +1248,19 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     border: 1px solid #cbd5e1;
     padding: 2px;
     flex-shrink: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bhu-qr-canvas svg,
+.pvc-qr-box svg,
+.cert-qr-box svg,
+#prop-qr-box svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    shape-rendering: crispEdges;
 }
 .bhu-info { min-width: 0; }
 .bhu-unit { font-size: 14px; font-weight: 800; color: var(--uidai-navy); }

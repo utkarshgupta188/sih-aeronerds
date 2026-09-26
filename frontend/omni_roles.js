@@ -180,67 +180,85 @@
     if (!GOV_ROLES[activeGovRole]) activeGovRole = "admin";
 
     // =========================================================================
-    // 3. CANVAS QR CODE GENERATOR (Bhu-Aadhaar Digital Seal)
+    // 3. PURE SVG QR CODE ALLOTTER (Using datalog/qrcode-svg)
     // =========================================================================
-    function drawBhuAadhaarQR(canvas, ulpinCode) {
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        const size = canvas.width;
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, size, size);
-
-        let hash = 0;
-        for (let i = 0; i < ulpinCode.length; i++) {
-            hash = ((hash << 5) - hash + ulpinCode.charCodeAt(i)) | 0;
+    function renderUlpinQRCode(target, ulpinCode, options) {
+        if (!target) return null;
+        if (typeof target === "string") {
+            target = document.getElementById(target);
         }
+        if (!target) return null;
 
-        const grid = 23;
-        const cellSize = (size - 16) / grid;
-        const offset = 8;
+        const u = String(ulpinCode || "IN-MP-BHP-P104-B3-FL4-U402").trim();
+        const opts = options || {};
+        const size = opts.size || (target.clientWidth && target.clientWidth > 0 ? target.clientWidth : (target.width || 90));
 
-        const drawCorner = (rx, ry) => {
-            ctx.fillStyle = "#0f172a";
-            ctx.fillRect(offset + rx * cellSize, offset + ry * cellSize, 7 * cellSize, 7 * cellSize);
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(offset + (rx + 1) * cellSize, offset + (ry + 1) * cellSize, 5 * cellSize, 5 * cellSize);
-            ctx.fillStyle = "#1e3a8a"; // Ashoka Navy
-            ctx.fillRect(offset + (rx + 2) * cellSize, offset + (ry + 2) * cellSize, 3 * cellSize, 3 * cellSize);
-        };
+        // Formulate official statutory DoLR / SVAMITVA Bhu-Aadhaar verification URL
+        const verifyUrl = opts.rawUrl || `https://bhumiadhaar.dolr.gov.in/verify?ulpin=${encodeURIComponent(u)}&auth=svamitva&v=1`;
 
-        drawCorner(0, 0);
-        drawCorner(grid - 7, 0);
-        drawCorner(0, grid - 7);
+        let svgElement = null;
 
-        let seed = Math.abs(hash) || 539281;
-        for (let y = 0; y < grid; y++) {
-            for (let x = 0; x < grid; x++) {
-                if ((x < 8 && y < 8) || (x >= grid - 8 && y < 8) || (x < 8 && y >= grid - 8)) continue;
-                seed = (seed * 1664525 + 1013904223) | 0;
-                if ((seed >>> 16) % 3 !== 0) {
-                    ctx.fillStyle = "#0f172a";
-                    ctx.fillRect(offset + x * cellSize, offset + y * cellSize, cellSize - 0.5, cellSize - 0.5);
-                }
+        if (typeof window.QRCode === "function") {
+            try {
+                // Call cloned datalog/qrcode-svg engine
+                svgElement = window.QRCode({
+                    msg: verifyUrl,
+                    dim: size,
+                    pad: opts.pad !== undefined ? opts.pad : 2,
+                    mtx: -1,
+                    ecl: opts.ecl || "M",
+                    ecb: 1,
+                    pal: opts.pal || ["#0a192f", "#ffffff"],
+                    vrb: 0
+                });
+            } catch (err) {
+                console.warn("[qrcode-svg] Engine error:", err);
             }
         }
 
-        // Center Ashoka Emblem Dot
-        const center = size / 2;
-        ctx.beginPath();
-        ctx.arc(center, center, 11, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill();
+        // If target is a CANVAS element, render SVG into canvas image context
+        if (target.tagName === "CANVAS") {
+            if (svgElement) {
+                const svgXml = new XMLSerializer().serializeToString(svgElement);
+                const blob = new Blob([svgXml], { type: "image/svg+xml;charset=utf-8" });
+                const blobUrl = URL.createObjectURL(blob);
+                const img = new Image();
+                img.onload = function () {
+                    const ctx = target.getContext("2d");
+                    if (ctx) {
+                        ctx.clearRect(0, 0, target.width, target.height);
+                        ctx.drawImage(img, 0, 0, target.width, target.height);
+                    }
+                    URL.revokeObjectURL(blobUrl);
+                };
+                img.src = blobUrl;
+                return svgElement;
+            }
+        }
 
-        ctx.beginPath();
-        ctx.arc(center, center, 9, 0, Math.PI * 2);
-        ctx.fillStyle = "#000080";
-        ctx.fill();
+        // Target is a DIV or container element: inject crisp pure SVG DOM node
+        if (svgElement) {
+            svgElement.setAttribute("title", `Official 3D Bhu-Aadhaar: ${u}`);
+            svgElement.setAttribute("role", "img");
+            svgElement.setAttribute("aria-label", `QR Code for Bhu-Aadhaar ${u}`);
+            svgElement.style.width = "100%";
+            svgElement.style.height = "100%";
+            svgElement.style.display = "block";
+            svgElement.style.borderRadius = "4px";
 
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 8px Inter, sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("GOI", center, center);
+            target.innerHTML = "";
+            target.appendChild(svgElement);
+            return svgElement;
+        }
+
+        // Fallback placeholder
+        target.innerHTML = `<div style="font-size:9px;color:#64748b;text-align:center;padding:10px;font-family:monospace;">${u}</div>`;
+        return null;
     }
+
+    const drawBhuAadhaarQR = renderUlpinQRCode;
+    window.renderUlpinQRCode = renderUlpinQRCode;
+    window.drawBhuAadhaarQR = renderUlpinQRCode;
 
     // =========================================================================
     // 4. PERSONA SWITCHER ENGINE
@@ -312,18 +330,25 @@
         if (!modal) return;
 
         AudioFX.play("seal");
-        document.getElementById("cert-ulpin").innerText = ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
-        document.getElementById("cert-khasra").innerText = khasra || "Khasra #104/B, Ward 42";
-        document.getElementById("cert-elevation").innerText = elevation ? `${elevation} m MSL` : "498.2 m MSL (Bare-Earth DEM)";
-        document.getElementById("cert-floors").innerText = floors ? `${floors} Floors` : "4th Floor (G+5 Structure)";
-        document.getElementById("cert-area").innerText = area ? `${area} sq.ft` : "1,420 sq.ft (Built-Up)";
+        const active = window.__activeSelectedProperty || {};
+        const u = ulpin || active.ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
+        const k = khasra || active.khasra || "Khasra #104/B, Ward 42";
+        const el = elevation || active.elevNum || "498.2";
+        const fl = floors || active.floorsNum || 4;
+        const ar = area || active.areaNum || "1,420";
+
+        document.getElementById("cert-ulpin").innerText = u;
+        document.getElementById("cert-khasra").innerText = k;
+        document.getElementById("cert-elevation").innerText = `${el} m MSL (Bare-Earth DEM)`;
+        document.getElementById("cert-floors").innerText = `${fl} Floors (Vertical Cadastre)`;
+        document.getElementById("cert-area").innerText = `${ar} sq.ft (Built-Up)`;
         document.getElementById("cert-date").innerText = new Date().toLocaleDateString("en-IN", {
             day: "2-digit", month: "long", year: "numeric"
         });
 
-        const certCanvas = document.getElementById("cert-qr-canvas");
-        if (certCanvas) {
-            drawBhuAadhaarQR(certCanvas, ulpin || "IN-MP-BHP-P104-B3-FL4-U402");
+        const certTarget = document.getElementById("cert-qr-wrap") || document.getElementById("cert-qr-canvas");
+        if (certTarget) {
+            renderUlpinQRCode(certTarget, u, { size: 90, pad: 2 });
         }
 
         modal.style.display = "flex";
@@ -336,6 +361,8 @@
             AudioFX.play("click");
         }
     }
+    window.openCertificateModal = openCertificateModal;
+    window.closeCertificateModal = closeCertificateModal;
 
     // =========================================================================
     // 5B. OFFICIAL 3D BHU-AADHAAR PVC CARD MODAL (UIDAI PHYSICAL REPLICA)
@@ -345,12 +372,13 @@
         if (!modal) return;
 
         AudioFX.play("seal");
-        const u = ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
-        const k = khasra || "खसरा नं. 104/B, वार्ड 42 (Lotus Heights)";
-        const fl = floor || "चतुर्थ तल / 4th Floor (+14.5 m Elevation)";
-        const el = elev || "498.2 m MSL (Copernicus DEM)";
-        const ar = area || "1,420 वर्ग फुट (sq.ft) • FAR 2.50 Sanctioned";
-        const ow = owner || "श्रीमती प्रिया शर्मा / Priya Sharma";
+        const active = window.__activeSelectedProperty || {};
+        const u = ulpin || active.ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
+        const k = khasra || active.khasra || "खसरा नं. 104/B, वार्ड 42 (Lotus Heights)";
+        const fl = floor || active.floor || "चतुर्थ तल / 4th Floor (+14.5 m Elevation)";
+        const el = elev || active.elev || "498.2 m MSL (Copernicus DEM)";
+        const ar = area || active.area || "1,420 वर्ग फुट (sq.ft) • FAR 2.50 Sanctioned";
+        const ow = owner || active.owner || "श्रीमती प्रिया शर्मा / Priya Sharma";
 
         const elUlpin = document.getElementById("pvc-ulpin");
         const elKhasra = document.getElementById("pvc-khasra");
@@ -366,13 +394,13 @@
         if (elArea) elArea.innerText = ar;
         if (elOwner) elOwner.innerText = ow;
 
-        const qrCanvas = document.getElementById("pvc-qr-canvas");
-        if (qrCanvas) {
-            drawBhuAadhaarQR(qrCanvas, u);
+        const pvcTarget = document.getElementById("pvc-qr-wrap") || document.getElementById("pvc-qr-canvas");
+        if (pvcTarget) {
+            renderUlpinQRCode(pvcTarget, u, { size: 90, pad: 2 });
         }
 
         modal.style.display = "flex";
-        showGovToast("3D भू-आधार कार्ड", "आधिकारिक 3D भू-आधार पीवीसी कार्ड प्रस्तुत किया गया", "ph-identification-card");
+        showGovToast("3D भू-आधार कार्ड", `विशिष्ट भू-आधार QR आवंटित: ${u}`, "ph-qr-code");
     }
 
     function closeBhuCardModal() {
@@ -1279,16 +1307,19 @@
         const btnViewCert = document.getElementById("citizen-view-certificate-btn");
         if (btnViewCert) {
             btnViewCert.addEventListener("click", () => {
-                openCertificateModal("IN-MP-BHP-P104-B3-FL4-U402", "Khasra #104/B (Ward 42)", 498.2, 4, 1420);
+                const active = window.__activeSelectedProperty || {};
+                openCertificateModal(active.ulpin, active.khasra, active.elevNum, active.floorsNum, active.areaNum);
             });
         }
 
         const btnCopyUlpin = document.getElementById("citizen-copy-ulpin-btn");
         if (btnCopyUlpin) {
             btnCopyUlpin.addEventListener("click", () => {
-                navigator.clipboard.writeText("IN-MP-BHP-P104-B3-FL4-U402");
+                const active = window.__activeSelectedProperty || {};
+                const u = active.ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
+                navigator.clipboard.writeText(u);
                 AudioFX.play("click");
-                showGovToast("Bhu-Aadhaar Copied", "IN-MP-BHP-P104-B3-FL4-U402 copied to clipboard", "ph-copy");
+                showGovToast("Bhu-Aadhaar Copied", `${u} copied to clipboard`, "ph-copy");
             });
         }
 
@@ -1342,11 +1373,74 @@
             });
         }
 
-        // Draw Citizen Passbook QR
-        const citizenPassbookQr = document.getElementById("citizen-passbook-qr");
-        if (citizenPassbookQr) {
-            drawBhuAadhaarQR(citizenPassbookQr, "IN-MP-BHP-P104-B3-FL4-U402");
+        // Draw Citizen Passbook & Property Inspector QR codes using datalog/qrcode-svg
+        const initialDefaultUlpin = "IN-MP-BHP-P104-B3-FL4-U402";
+        renderUlpinQRCode("citizen-passbook-qr", initialDefaultUlpin, { size: 80, pad: 2 });
+        renderUlpinQRCode("prop-qr-box", initialDefaultUlpin, { size: 52, pad: 1 });
+
+        // Wire Property Inspector QR badge action buttons
+        const btnPropPvc = document.getElementById("btn-prop-open-pvc");
+        if (btnPropPvc) {
+            btnPropPvc.addEventListener("click", (e) => {
+                e.stopPropagation();
+                openBhuCardModal();
+            });
         }
+        const btnPropCert = document.getElementById("btn-prop-open-cert");
+        if (btnPropCert) {
+            btnPropCert.addEventListener("click", (e) => {
+                e.stopPropagation();
+                openCertificateModal();
+            });
+        }
+
+        // Listen for building / parcel / underground selection to allot specific QR code
+        window.addEventListener("buildingSelected", function (e) {
+            const detail = (e && e.detail) || {};
+            const props = detail.props || {};
+
+            const region = window.activeRegion || {};
+            const statePrefix = region.stateCode || "IN-MP-BHP";
+            const bIdNum = String(props.id || "0").replace(/\D/g, "") || "01";
+            const pIdNum = String(props.linked_parcel_id || props.parent_parcel_id || "0000").replace(/\D/g, "") || "01";
+
+            const specificUlpin = props.proposed_subsurface_ulpin ||
+                                  props.ulpin ||
+                                  (props.linked_parcel_id ? `${statePrefix}-P${pIdNum}-B${bIdNum}` : `${statePrefix}-B${bIdNum}`);
+
+            const khasra = props.khasra_no || (props.linked_parcel_id ? `Khasra #${props.linked_parcel_id}` : (props.name || "Survey Parcel"));
+            const elev = props.ground_elevation_m ? String(props.ground_elevation_m) : "498.2";
+            const floors = props.derived_floors || props.floor_count_estimated || 4;
+            const area = props.building_area_sqm ? Math.round(props.building_area_sqm * 10.7639) : 1420;
+            const owner = props.owner_name || "श्रीमती प्रिया शर्मा / Priya Sharma";
+
+            window.__activeSelectedProperty = {
+                ulpin: specificUlpin,
+                khasra: khasra,
+                floor: `${floors}th Floor / Level ${floors} (+${Math.round(floors * 3.2)}m Elevation)`,
+                elev: `${elev} m MSL (Copernicus DEM)`,
+                elevNum: elev,
+                floorsNum: floors,
+                area: `${area.toLocaleString()} sq.ft • Built-Up Space`,
+                areaNum: area,
+                owner: owner
+            };
+
+            // Allot specific QR code into Property Card using datalog/qrcode-svg
+            renderUlpinQRCode("prop-qr-box", specificUlpin, { size: 52, pad: 1 });
+
+            // Allot specific QR code into Citizen Passbook
+            renderUlpinQRCode("citizen-passbook-qr", specificUlpin, { size: 80, pad: 2 });
+
+            const citizenUlpin = document.getElementById("citizen-prop-ulpin");
+            if (citizenUlpin) citizenUlpin.innerText = specificUlpin;
+            const citizenKhasra = document.getElementById("citizen-prop-khasra");
+            if (citizenKhasra) citizenKhasra.innerText = khasra;
+            const citizenUnit = document.getElementById("citizen-prop-unit");
+            if (citizenUnit) citizenUnit.innerText = `Level ${floors} • 3D Parcel`;
+            const citizenElev = document.getElementById("citizen-prop-elev");
+            if (citizenElev) citizenElev.innerText = `Ground Elev: ${elev}m MSL • Height: +${Math.round(floors * 3.2)}m`;
+        });
 
         // Init search
         initGovSearchEngine();

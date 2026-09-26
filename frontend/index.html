@@ -299,6 +299,24 @@
                             <span class="prop-value" id="prop-verification" style="font-weight: 700;">-</span>
                         </div>
 
+                        <!-- 3D ULPIN SVG QR Digital Seal (datalog/qrcode-svg) -->
+                        <div id="prop-qr-badge-wrap" style="margin-top: 10px; padding: 8px 10px; background: rgba(0,40,85,0.05); border: 1px solid rgba(0,40,85,0.14); border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                            <div id="prop-qr-box" style="width: 52px; height: 52px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);"></div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-size: 10.5px; font-weight: 800; color: #002855; display: flex; align-items: center; gap: 5px;">
+                                    <i class="ph ph-qr-code" style="color: #1e3a8a; font-size: 13px;"></i>
+                                    <span>3D ULPIN QR SEAL</span>
+                                </div>
+                                <div style="font-size: 9px; color: var(--text-muted); margin-top: 1px;">
+                                    qrcode-svg Official Verification Token
+                                </div>
+                                <div style="display: flex; gap: 6px; margin-top: 5px;">
+                                    <button id="btn-prop-open-pvc" class="btn" style="padding: 2px 8px; font-size: 9.5px; background: #002855; color: #ffffff; border-radius: 4px; border: none; font-weight: 700; cursor: pointer;">PVC Card</button>
+                                    <button id="btn-prop-open-cert" class="btn" style="padding: 2px 8px; font-size: 9.5px; background: rgba(0,40,85,0.08); color: #002855; border-radius: 4px; border: 1px solid rgba(0,40,85,0.22); font-weight: 700; cursor: pointer;">Certificate</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- 4-Tier Data Provenance System -->
                         <div class="provenance-section" style="margin-top: 14px; padding: 12px; background: rgba(0, 40, 85, 0.05); border: 1px solid rgba(0, 40, 85, 0.15); border-radius: 10px;">
                             <div style="font-size: 10px; font-weight: 800; color: #002855; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
@@ -456,12 +474,12 @@
                     </div>
 
                     <div class="bhu-qr-wrap">
-                        <canvas id="citizen-passbook-qr" class="bhu-qr-canvas" width="80" height="80"></canvas>
+                        <div id="citizen-passbook-qr" class="bhu-qr-canvas" style="display: flex; align-items: center; justify-content: center;"></div>
                         <div class="bhu-info">
-                            <div class="bhu-unit">Flat 402 &bull; 4th Floor</div>
-                            <div class="bhu-khasra">Khasra #104/B, Ward 42 (Lotus Heights)</div>
-                            <div class="bhu-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
-                            <div style="font-size: 9.5px; color: #64748b; margin-top: 2px;">
+                            <div class="bhu-unit" id="citizen-prop-unit">Flat 402 &bull; 4th Floor</div>
+                            <div class="bhu-khasra" id="citizen-prop-khasra">Khasra #104/B, Ward 42 (Lotus Heights)</div>
+                            <div class="bhu-ulpin" id="citizen-prop-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
+                            <div id="citizen-prop-elev" style="font-size: 9.5px; color: #64748b; margin-top: 2px;">
                                 Ground Elev: 498.2m MSL &bull; Floor: +14.5m
                             </div>
                         </div>
@@ -687,7 +705,7 @@
             </div>
 
             <div style="display: flex; gap: 18px; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-                <canvas id="cert-qr-canvas" width="90" height="90" style="background: #ffffff; border-radius: 6px; padding: 3px; flex-shrink: 0;"></canvas>
+                <div id="cert-qr-wrap" class="cert-qr-box" style="width: 90px; height: 90px; background: #ffffff; border-radius: 6px; padding: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;"></div>
                 <div>
                     <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Official 3D Bhu-Aadhaar (ULPIN)</div>
                     <div id="cert-ulpin" style="font-family: monospace; font-size: 16px; font-weight: 800; color: #fbbf24; word-break: break-all; margin: 2px 0;">IN-MP-BHP-P104-B3-FL4-U402</div>
@@ -822,7 +840,7 @@
                     </div>
                 </div>
 
-                <canvas id="pvc-qr-canvas" class="pvc-qr-box" width="90" height="90"></canvas>
+                <div id="pvc-qr-wrap" class="pvc-qr-box" style="width: 90px; height: 90px; background: #ffffff; border-radius: 6px; padding: 4px; display: flex; align-items: center; justify-content: center;"></div>
             </div>
 
             <!-- ULPIN 14-Digit Identity Strip -->
@@ -855,6 +873,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="qrcode.min.js"></script>
     <script src="floor3d.js?v=3"></script>
     <script src="app.js?v=32"></script>
     <script src="omni_roles.js?v=32"></script>
