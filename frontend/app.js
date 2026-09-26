@@ -16,17 +16,28 @@ document.addEventListener("DOMContentLoaded", function () {
         ["==", ["feature-state", "reviewer_status"], "CORRECT"], "#3b82f6",
         ["==", ["feature-state", "reviewer_status"], "REJECT"], "#ef4444",
         ["==", ["feature-state", "reviewer_status"], "UNRESOLVED"], "#f59e0b",
+        ["==", ["get", "anomaly_status"], "ANOMALY_HIGH_OVERLAP"], "#ef4444",
         [
-            "match", ["get", "3d_representation_status"],
-            "EXACT STRUCTURED 3D", "#3b82f6",
-            "HEIGHT-DERIVED MASS", "#10b981",
-            "2D FOOTPRINT ONLY", "#f59e0b",
+            "match",
+            ["coalesce", ["get", "derived_floors"], 1],
+            1, "#06b6d4",
+            2, "#10b981",
+            3, "#f59e0b",
+            4, "#3b82f6",
+            5, "#f97316",
+            6, "#ec4899",
+            7, "#ef4444",
+            8, "#8b5cf6",
             [
-                "match", ["get", "match_status_2d"],
-                "CONTAINED", "#10b981",
-                "MAJORITY", "#f59e0b",
-                "BOUNDARY_OVERLAP", "#ef4444",
-                "#64748b"
+                "match",
+                ["%", ["coalesce", ["to-number", ["slice", ["to-string", ["coalesce", ["get", "id"], "1"]], -1]], 1], 6],
+                0, "#06b6d4",
+                1, "#3b82f6",
+                2, "#10b981",
+                3, "#f59e0b",
+                4, "#f97316",
+                5, "#ec4899",
+                "#06b6d4"
             ]
         ]
     ];
@@ -205,6 +216,67 @@ document.addEventListener("DOMContentLoaded", function () {
             updateStats();
             renderFloorCoverage();
 
+            // 3D Geographic Base Map Styling (Dark Blue Base, Luminous Deep Water, Warm Yellow/Orange Glowing Roads, Faceted 3D Light)
+            const apply3DCityMapStyle = function () {
+                if (!map) return;
+                try {
+                    map.setLight({
+                        anchor: "viewport",
+                        color: "#ffffff",
+                        intensity: 0.75,
+                        position: [1.25, 210, 32]
+                    });
+                } catch (e) {}
+
+                const layers = map.getStyle() ? map.getStyle().layers : [];
+                if (!layers) return;
+
+                layers.forEach(function (l) {
+                    const id = l.id;
+                    if (l.type === "background") {
+                        map.setPaintProperty(id, "background-color", "#070d19");
+                    }
+                    if (id === "water" || id.includes("water")) {
+                        if (l.type === "fill") {
+                            map.setPaintProperty(id, "fill-color", "#0b274a");
+                            map.setPaintProperty(id, "fill-opacity", 0.95);
+                        } else if (l.type === "line") {
+                            map.setPaintProperty(id, "line-color", "#0d3b70");
+                        }
+                    }
+                    if (id.includes("road") || id.includes("highway") || id.includes("transportation") || id.includes("street") || id.includes("tunnel") || id.includes("bridge")) {
+                        if (l.type === "line") {
+                            if (id.includes("pri") || id.includes("trunk") || id.includes("mot") || id.includes("major")) {
+                                map.setPaintProperty(id, "line-color", "#ff9e00");
+                                map.setPaintProperty(id, "line-opacity", 0.95);
+                                map.setPaintProperty(id, "line-width", 3.5);
+                            } else if (id.includes("sec") || id.includes("tertiary")) {
+                                map.setPaintProperty(id, "line-color", "#f59e0b");
+                                map.setPaintProperty(id, "line-opacity", 0.85);
+                                map.setPaintProperty(id, "line-width", 2.2);
+                            } else {
+                                map.setPaintProperty(id, "line-color", "#eab308");
+                                map.setPaintProperty(id, "line-opacity", 0.65);
+                                map.setPaintProperty(id, "line-width", 1.4);
+                            }
+                        }
+                    }
+                    if (id.includes("landcover") || id.includes("landuse") || id.includes("park")) {
+                        if (l.type === "fill") {
+                            map.setPaintProperty(id, "fill-color", "#0c172d");
+                            map.setPaintProperty(id, "fill-opacity", 0.7);
+                        }
+                    }
+                    if (id === "building" || id === "building-top") {
+                        if (l.type === "fill" || l.type === "fill-extrusion") {
+                            map.setPaintProperty(id, "fill-opacity", 0.0);
+                        }
+                    }
+                });
+            };
+
+            apply3DCityMapStyle();
+
             const addCustomLayers = function () {
                 if (!parcelsData || !bldgsData) return;
 
@@ -234,9 +306,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         "type": "fill",
                         "source": "parcels",
                         "paint": {
-                            "fill-color": isSatellite ? "#fbbf24" : (isLightMode ? "#000000" : "#ffffff"),
-                            "fill-opacity": isSatellite ? 0.15 : 0.05,
-                            "fill-outline-color": isSatellite ? "#fbbf24" : (isLightMode ? "#000000" : "#ffffff")
+                            "fill-color": isSatellite ? "#fbbf24" : "#0284c7",
+                            "fill-opacity": isSatellite ? 0.15 : 0.06,
+                            "fill-outline-color": isSatellite ? "#fbbf24" : "#38bdf8"
                         }
                     });
                 }
@@ -246,10 +318,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         "type": "line",
                         "source": "parcels",
                         "paint": {
-                            "line-color": isSatellite ? "#fbbf24" : (isLightMode ? "#000000" : "#ffffff"),
-                            "line-opacity": isSatellite ? 0.8 : 0.3,
-                            "line-width": isSatellite ? 2 : 1,
-                            "line-dasharray": [2, 2]
+                            "line-color": isSatellite ? "#fbbf24" : "#38bdf8",
+                            "line-opacity": isSatellite ? 0.8 : 0.6,
+                            "line-width": isSatellite ? 2 : 1.5,
+                            "line-dasharray": [3, 2]
                         }
                     });
                 }
@@ -267,34 +339,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         "type": "fill-extrusion",
                         "source": "buildings",
                         "paint": {
-                            "fill-extrusion-color": [
-                                "case",
-                                ["==", ["feature-state", "reviewer_status"], "APPROVE"], "#10b981",
-                                ["==", ["feature-state", "reviewer_status"], "CORRECT"], "#3b82f6",
-                                ["==", ["feature-state", "reviewer_status"], "REJECT"], "#ef4444",
-                                ["==", ["feature-state", "reviewer_status"], "UNRESOLVED"], "#f59e0b",
-                                [
-                                    "match",
-                                    ["get", "3d_representation_status"],
-                                    "EXACT STRUCTURED 3D", "#3b82f6",
-                                    "HEIGHT-DERIVED MASS", "#10b981",
-                                    "2D FOOTPRINT ONLY", "#f59e0b",
-                                    [
-                                        "match",
-                                        ["get", "match_status_2d"],
-                                        "CONTAINED", "#10b981",
-                                        "MAJORITY", "#f59e0b",
-                                        "BOUNDARY_OVERLAP", "#ef4444",
-                                        "#64748b"
-                                    ]
-                                ]
-                            ],
+                            "fill-extrusion-color": BASE_COLOR_EXPR,
                             "fill-extrusion-height": [
                                 "coalesce",
                                 ["get", hField],
                                 ["get", "building_height_m_simulated"],
                                 ["get", "building_height_m"],
-                                10
+                                12
                             ],
                             "fill-extrusion-base": 0,
                             "fill-extrusion-opacity": 1.0
