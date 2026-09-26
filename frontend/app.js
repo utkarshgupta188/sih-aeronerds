@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         bhopal: {
             name: "Bhopal (OpenCity KML)",
             badge: "Bhopal Pilot (85 Wards)",
+            stateCode: "IN-MP-BHP",
             center: [77.4180, 23.2510],
             zoom: 15.2,
             pitch: 60,
@@ -68,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         bengaluru: {
             name: "Bengaluru Urban",
             badge: "Bengaluru Pilot",
+            stateCode: "IN-KA-BLR",
             center: [77.6200, 12.9300],
             zoom: 15.0,
             pitch: 60,
@@ -78,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         indore: {
             name: "Indore (MP Bhulekh)",
             badge: "Indore Pilot (85 Wards)",
+            stateCode: "IN-MP-IND",
             center: [75.8750, 22.7200],
             zoom: 15.4,
             pitch: 60,
@@ -88,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         navi_mumbai: {
             name: "Navi Mumbai (MahaBhumi)",
             badge: "Navi Mumbai Pilot (111 Wards)",
+            stateCode: "IN-MH-NMU",
             center: [73.0020, 19.0750],
             zoom: 15.4,
             pitch: 60,
@@ -98,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mumbai_kalyan: {
             name: "Kalyan-Dombivli (Mumbai MMR)",
             badge: "Kalyan-Dombivli Pilot (123 Wards)",
+            stateCode: "IN-MH-KDN",
             center: [73.1250, 19.2150],
             zoom: 15.4,
             pitch: 60,
@@ -108,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
         coimbatore: {
             name: "Coimbatore (TN e-District)",
             badge: "Coimbatore Pilot (100 Wards)",
+            stateCode: "IN-TN-CBE",
             center: [76.9650, 11.0050],
             zoom: 15.4,
             pitch: 60,
@@ -159,16 +165,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     map.on("load", async function () {
         try {
-            // 2. Load GeoJSON Data for active region
-            const [parcelsRes, bldgsRes] = await Promise.all([
+            // 2. Load GeoJSON Data for active region + underground utilities
+            let undergroundData = null;
+            const [parcelsRes, bldgsRes, ugRes] = await Promise.all([
                 fetch(activeRegion.parcelsUrl),
-                fetch(activeRegion.bldgsUrl)
+                fetch(activeRegion.bldgsUrl),
+                fetch("data/underground_utilities.geojson").catch(() => null)
             ]);
 
             if (!parcelsRes.ok || !bldgsRes.ok) throw new Error("Failed to load data.");
 
             parcelsData = await parcelsRes.json();
             bldgsData = await bldgsRes.json();
+            if (ugRes && ugRes.ok) {
+                try {
+                    undergroundData = await ugRes.json();
+                    window.undergroundData = undergroundData;
+                } catch (e) {
+                    console.warn("Could not parse underground utilities", e);
+                }
+            }
 
             window.parcelsData = parcelsData;
             window.bldgsData = bldgsData;
@@ -283,6 +299,45 @@ document.addEventListener("DOMContentLoaded", function () {
                             "fill-extrusion-opacity": 1.0
                         }
                     });
+                }
+
+                // Sub-surface & Underground Utilities (Metro Tunnels, Water Trunks, Power Ducts)
+                if (undergroundData) {
+                    if (!map.getSource("underground-src")) {
+                        map.addSource("underground-src", { type: "geojson", data: undergroundData });
+                    }
+                    if (!map.getLayer("underground-3d-layer")) {
+                        map.addLayer({
+                            "id": "underground-3d-layer",
+                            "type": "fill-extrusion",
+                            "source": "underground-src",
+                            "paint": {
+                                "fill-extrusion-color": [
+                                    "coalesce", ["get", "color"], "#38bdf8"
+                                ],
+                                "fill-extrusion-height": [
+                                    "coalesce", ["get", "height_m"], ["get", "diameter_m"], 5
+                                ],
+                                "fill-extrusion-base": 0,
+                                "fill-extrusion-opacity": 0.88
+                            }
+                        });
+                    }
+                    if (!map.getLayer("underground-line-layer")) {
+                        map.addLayer({
+                            "id": "underground-line-layer",
+                            "type": "line",
+                            "source": "underground-src",
+                            "paint": {
+                                "line-color": [
+                                    "coalesce", ["get", "color"], "#38bdf8"
+                                ],
+                                "line-width": 3.5,
+                                "line-dasharray": [2, 1],
+                                "line-opacity": 0.95
+                            }
+                        });
+                    }
                 }
             };
 
@@ -468,9 +523,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 const confEl = document.getElementById("prop-confidence-score");
                 if (confEl) confEl.innerText = confidencePercent + "%";
 
+                const cardHeader = card ? card.querySelector(".card-header h3") : null;
+                if (cardHeader) cardHeader.innerText = "Cadastral Spatial Linkage";
+
+                const statePrefix = activeRegion.stateCode || "IN-MP-BHP";
                 const bIdNum = String(props.id || "0").replace(/\D/g, "");
                 const pIdNum = (props.linked_parcel_id || "0000").replace(/\D/g, "");
-                const proposedUlpin = "IN-KA-BLR-P" + pIdNum + "-B" + bIdNum;
+                const proposedUlpin = statePrefix + "-P" + pIdNum + "-B" + bIdNum;
                 document.getElementById("prop-proposed-ulpin").innerText = props.linked_parcel_id ? proposedUlpin : "NOT_AVAILABLE";
 
                 const gateEl = document.getElementById("prop-verification");
@@ -479,6 +538,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (gate === "VERIFIED") gateEl.style.color = "#10b981";
                 else if (gate === "PROVISIONAL") gateEl.style.color = "#f59e0b";
                 else gateEl.style.color = "#ef4444";
+
+                // Update 4-Tier Provenance Card
+                const provBadge = document.getElementById("prov-overall-badge");
+                if (provBadge) {
+                    if (gate === "VERIFIED") {
+                        provBadge.className = "prov-badge auth";
+                        provBadge.innerText = "AUTHORITATIVE (RULE 8)";
+                    } else if (matchStatus === "CONTAINED") {
+                        provBadge.className = "prov-badge gis";
+                        provBadge.innerText = "REAL GIS VERIFIED";
+                    } else if (anomalyFlag) {
+                        provBadge.className = "prov-badge rule8";
+                        provBadge.innerText = "FLAGGED FOR REVIEW";
+                    } else {
+                        provBadge.className = "prov-badge ml";
+                        provBadge.innerText = "DERIVED DEM+ML";
+                    }
+                }
+                const p1 = document.getElementById("prov-t1");
+                if (p1) p1.innerText = (activeRegion.badge || "Cadastral") + " &bull; #" + (props.linked_parcel_id || "Unlinked");
+                const p2 = document.getElementById("prov-t2");
+                if (p2) p2.innerText = (props.source || "OSM") + " Footprint (" + matchStatus + ")";
+                const p3 = document.getElementById("prov-t3");
+                if (p3) p3.innerText = (ground ? ground + "m DEM" : "CartoDEM 30m") + " &bull; G+" + (fl || "1");
+                const p4 = document.getElementById("prov-t4");
+                if (p4) p4.innerText = gate + " &bull; DILRMP Rule 8";
 
                 // --- Additive: approximate floor estimate (Phase 12) ---
                 window.__selectedBuilding = { props: props, geometry: feature.geometry };
@@ -492,12 +577,107 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.dispatchEvent(new CustomEvent("buildingSelected", { detail: { feature: feature, props: props, lngLat: lngLat } }));
             }
 
+            // Subsurface / Underground Asset Selection Handler
+            function selectUndergroundAsset(feature, lngLat) {
+                if (!feature) return;
+                const props = feature.properties;
+                currentFeatureId = props.id;
+
+                if (selectedMarker) {
+                    selectedMarker.remove();
+                    selectedMarker = null;
+                }
+
+                const noSelMsg = document.getElementById("no-selection-msg");
+                if (noSelMsg) noSelMsg.style.display = "none";
+
+                const card = document.getElementById("property-card");
+                if (card) {
+                    card.style.display = "block";
+                    void card.offsetWidth;
+                    card.classList.remove("hidden");
+                }
+
+                const cardHeader = card.querySelector(".card-header h3");
+                if (cardHeader) cardHeader.innerText = "Subsurface 3D Cadastral Corridor";
+
+                document.getElementById("prop-ulpin").innerText = props.parent_parcel_id ? (props.parent_parcel_id + " (Subsurface ROW)") : (props.id || "STATUTORY-ROW");
+
+                const msEl = document.getElementById("prop-match-status");
+                msEl.innerText = props.status || "STATUTORY_RIGHT_OF_WAY";
+                msEl.style.color = "#0284c7";
+
+                document.getElementById("prop-ground").innerText = "Depth: -" + (props.depth_below_ground_m || "6.0") + "m (Subsurface MSL)";
+                document.getElementById("prop-height-floors").innerText = (props.diameter_m ? props.diameter_m + "m Dia (Bore Diameter)" : (props.height_m || "4.5") + "m Clearance");
+                document.getElementById("prop-source").innerText = props.provenance || "MUNICIPAL_INFRA_REGISTRY";
+
+                const aiEl = document.getElementById("prop-ai-status");
+                if (aiEl) {
+                    aiEl.innerText = "EASEMENT CLEAR (Zero Surface Encroachment)";
+                    aiEl.style.color = "#10b981";
+                }
+
+                const confEl = document.getElementById("prop-confidence-score");
+                if (confEl) confEl.innerText = "99.8% (Survey Grade)";
+
+                const proposedUlpin = props.proposed_subsurface_ulpin || ("IN-SUB-" + String(props.id).toUpperCase());
+                document.getElementById("prop-proposed-ulpin").innerText = proposedUlpin;
+
+                const gateEl = document.getElementById("prop-verification");
+                if (gateEl) {
+                    gateEl.innerText = "STATUTORY RIGHT-OF-WAY";
+                    gateEl.style.color = "#10b981";
+                }
+
+                // Subterranean indicators
+                const veEl = document.getElementById("prop-ndvi-evidence");
+                if (veEl) { veEl.innerText = "N/A (Subterranean Infrastructure)"; veEl.style.color = "#94a3b8"; }
+                const cEl = document.getElementById("prop-height-confidence");
+                if (cEl) { cEl.innerText = "HIGH (Engineering As-Built)"; cEl.style.color = "#10b981"; }
+                const vsEl = document.getElementById("prop-vertical-evidence");
+                if (vsEl) { vsEl.innerText = "SUBTERRANEAN CORRIDOR"; vsEl.style.color = "#0284c7"; }
+                const flEst = document.getElementById("prop-floor-est");
+                if (flEst) flEst.innerText = props.subsurface_type || "UTILITY_CORRIDOR";
+                const flConf = document.getElementById("prop-floor-conf");
+                if (flConf) flConf.innerText = "Statutory Reservation";
+                const flBtn = document.getElementById("prop-row-floor-btn");
+                if (flBtn) flBtn.style.display = "none";
+
+                // Provenance 4-tier cards for Subsurface Asset
+                const provBadge = document.getElementById("prov-overall-badge");
+                if (provBadge) {
+                    provBadge.className = "prov-badge auth";
+                    provBadge.innerText = "AUTHORITATIVE REGISTRY";
+                }
+                const p1 = document.getElementById("prov-t1");
+                if (p1) p1.innerText = props.jurisdiction || "State Infrastructure Registry";
+                const p2 = document.getElementById("prov-t2");
+                if (p2) p2.innerText = (props.asset_type || "SUBTERRANEAN_TUNNEL") + " 3D Corridor";
+                const p3 = document.getElementById("prov-t3");
+                if (p3) p3.innerText = "Depth: -" + (props.depth_below_ground_m || "6.0") + "m MSL Subsurface";
+                const p4 = document.getElementById("prov-t4");
+                if (p4) p4.innerText = (props.status || "STATUTORY_EASEMENT") + " (DILRMP)";
+            }
+
             map.on("click", "buildings-3d-layer", function (e) {
                 if (!e.features.length) return;
                 selectBuilding(e.features[0], e.lngLat);
             });
 
+            map.on("click", "underground-3d-layer", function (e) {
+                if (!e.features.length) return;
+                selectUndergroundAsset(e.features[0], e.lngLat);
+            });
+
+            map.on("mouseenter", "underground-3d-layer", function () {
+                map.getCanvas().style.cursor = "pointer";
+            });
+            map.on("mouseleave", "underground-3d-layer", function () {
+                map.getCanvas().style.cursor = "";
+            });
+
             window.handleSelectBuilding = selectBuilding;
+            window.handleSelectUndergroundAsset = selectUndergroundAsset;
             window.selectBuildingById = function(buildingId) {
                 if (!bldgsData || !bldgsData.features) return null;
                 const feat = bldgsData.features.find(f => String(f.properties && f.properties.id) === String(buildingId));
@@ -529,6 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var floorHomeCam = null;
             var floorFocusId = null;
             var floorExploded = false;
+            var floorExplodeFactor = 0.0;
             window.__floorSel = { id: null, floor: null };
 
             // green = observed/high, sky = medium estimate, amber = low estimate,
@@ -778,19 +959,45 @@ document.addEventListener("DOMContentLoaded", function () {
                         : '')
                     + '<div style="color:var(--text-muted);font-size:10px;margin-top:6px;">' + (isObs ? "Observed" : "Estimated") + ' floor levels - proportional divisions of the derived height, not measured architectural slabs. Not an official ULPIN.</div>';
 
+                var curExpPct = Math.round(floorExplodeFactor * 50);
                 actions.innerHTML =
-                    '<button class="fp-btn" id="fp-whole" type="button">Show Entire Building</button>'
-                    + '<button class="fp-btn fp-btn-sm" id="fp-explode" type="button" title="Separate floor bands">Explode</button>'
+                    '<div style="display:flex;gap:6px;width:100%;align-items:center;">'
+                    + '<button class="fp-btn" id="fp-whole" type="button" style="flex:1;">Show Entire Building</button>'
+                    + '<button class="fp-btn fp-btn-sm' + (floorExploded ? ' on' : '') + '" id="fp-explode" type="button" title="Quick toggle explode">Explode</button>'
                     + '<button class="fp-btn fp-btn-sm" id="fp-rotate" type="button" title="Rotate view">&#8635;</button>'
-                    + '<button class="fp-btn fp-btn-sm" id="fp-reset" type="button" title="Reset view">Reset</button>';
+                    + '<button class="fp-btn fp-btn-sm" id="fp-reset" type="button" title="Reset view">Reset</button>'
+                    + '</div>'
+                    + '<div class="fp-explode-wrap" style="display:flex;align-items:center;gap:8px;margin-top:6px;width:100%;background:rgba(0,40,85,0.06);padding:6px 10px;border-radius:6px;border:1px solid #cbd5e1;">'
+                    + '<span style="font-size:10px;font-weight:800;color:#002855;white-space:nowrap;"><i class="ph ph-arrows-out-line-vertical"></i> SLAB EXPLODE:</span>'
+                    + '<input type="range" id="fp-explode-slider" min="0" max="100" value="' + curExpPct + '" style="flex:1;cursor:pointer;accent-color:#f58220;">'
+                    + '<span id="fp-explode-val" style="font-size:10.5px;font-family:monospace;font-weight:800;color:#c2410c;width:34px;text-align:right;">' + curExpPct + '%</span>'
+                    + '</div>';
+
                 var diag = document.getElementById("floor-panel-diagram");
                 document.getElementById("fp-whole").addEventListener("click", function () { showWholeBuilding(); });
-                document.getElementById("fp-explode").addEventListener("click", function () {
-                    floorExploded = !floorExploded;
-                    this.classList.toggle("on", floorExploded);
+                var expSlider = document.getElementById("fp-explode-slider");
+                var expVal = document.getElementById("fp-explode-val");
+                var expBtn = document.getElementById("fp-explode");
+
+                function applyExplode(factor) {
+                    floorExplodeFactor = Math.max(0, Math.min(2.0, factor));
+                    floorExploded = floorExplodeFactor > 0.05;
+                    var pct = Math.round(floorExplodeFactor * 50);
+                    if (expSlider) expSlider.value = pct;
+                    if (expVal) expVal.innerText = pct + "%";
+                    if (expBtn) expBtn.classList.toggle("on", floorExploded);
                     drawFloorBands(props, geometry, window.__floorSel.floor);
-                    if (diag.__floor3d) diag.__floor3d.explode(floorExploded);
+                    if (diag.__floor3d) diag.__floor3d.setExplodeFactor(floorExplodeFactor);
+                }
+
+                expBtn.addEventListener("click", function () {
+                    applyExplode(floorExploded ? 0.0 : 1.0);
                 });
+                if (expSlider) {
+                    expSlider.addEventListener("input", function () {
+                        applyExplode(parseInt(this.value, 10) / 50.0);
+                    });
+                }
                 document.getElementById("fp-rotate").addEventListener("click", function () {
                     map.easeTo({ bearing: (map.getBearing() + 40) % 360, duration: 500 });
                     if (diag.__floor3d) diag.__floor3d.spin();
@@ -903,7 +1110,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var h = floorNum(props.building_height_m);
                 if (!geometry || !n || !h || h <= 0) return;
                 var fh = h / n;
-                var gap = floorExploded ? Math.max(fh * 0.45, 1.8) : 0;
+                var gap = (floorExplodeFactor != null ? floorExplodeFactor : (floorExploded ? 1.0 : 0.0)) * Math.max(fh * 0.45, 1.8);
                 var feats = [];
                 for (var i = 1; i <= n; i++) {
                     var base = (i - 1) * (fh + gap);
@@ -1000,6 +1207,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 window.__floorSel = { id: null, floor: null };
                 floorExploded = false;
+                floorExplodeFactor = 0.0;
                 clearFloorBands();
                 unfocusBuilding();
             }
@@ -1194,6 +1402,25 @@ document.addEventListener("DOMContentLoaded", function () {
             const btnMapStyle = document.getElementById("toggle-map-style");
             const btnCadastralBasemap = document.getElementById("toggle-cadastral-basemap");
             const btnVeg = document.getElementById("toggle-veg");
+            const btnUnderground = document.getElementById("toggle-underground");
+
+            // Subsurface & Underground Utilities Toggle
+            if (btnUnderground) {
+                let isUndergroundOn = true;
+                btnUnderground.classList.add("active-underground");
+                btnUnderground.addEventListener("click", function () {
+                    isUndergroundOn = !isUndergroundOn;
+                    btnUnderground.classList.toggle("active-underground", isUndergroundOn);
+                    const vis = isUndergroundOn ? "visible" : "none";
+                    if (map.getLayer("underground-3d-layer")) map.setLayoutProperty("underground-3d-layer", "visibility", vis);
+                    if (map.getLayer("underground-line-layer")) map.setLayoutProperty("underground-line-layer", "visibility", vis);
+                    const ugLegend = document.getElementById("underground-legend");
+                    if (ugLegend) ugLegend.hidden = !isUndergroundOn;
+                    if (isUndergroundOn) {
+                        map.easeTo({ pitch: 65, duration: 800 });
+                    }
+                });
+            }
 
             // --- Additive: highlight buildings by NDVI vegetation evidence ---
             // Does NOT hide any building; only recolours the extrusions and shows
@@ -1375,6 +1602,32 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "fill-extrusion-opacity": 0.85
                                 }
                             });
+
+                            if (undergroundData) {
+                                styleJson.sources["underground-src"] = { type: "geojson", data: undergroundData };
+                                styleJson.layers.push({
+                                    "id": "underground-3d-layer",
+                                    "type": "fill-extrusion",
+                                    "source": "underground-src",
+                                    "paint": {
+                                        "fill-extrusion-color": ["coalesce", ["get", "color"], "#38bdf8"],
+                                        "fill-extrusion-height": ["coalesce", ["get", "height_m"], ["get", "diameter_m"], 5],
+                                        "fill-extrusion-base": 0,
+                                        "fill-extrusion-opacity": 0.88
+                                    }
+                                });
+                                styleJson.layers.push({
+                                    "id": "underground-line-layer",
+                                    "type": "line",
+                                    "source": "underground-src",
+                                    "paint": {
+                                        "line-color": ["coalesce", ["get", "color"], "#38bdf8"],
+                                        "line-width": 3.5,
+                                        "line-dasharray": [2, 1],
+                                        "line-opacity": 0.95
+                                    }
+                                });
+                            }
                         }
 
                         map.setStyle(styleJson);

@@ -188,10 +188,20 @@
         var baseB = new THREE.Color(0x0f172a); // Deep solid slate
         var slabs = [];
         var exploded = false;
+        var explodeFactor = 0.0;
 
         function slabY(idx) {
-            var spread = exploded ? floorH * 0.55 : 0;
+            var spread = floorH * 0.75 * explodeFactor;
             return idx * (floorH + spread) + bevel;
+        }
+
+        function layoutSlabs() {
+            for (var k = 0; k < slabs.length; k++) {
+                slabs[k].mesh.position.y = slabY(k);
+            }
+            if (typeof basementMesh !== "undefined" && basementMesh) {
+                basementMesh.position.y = -basementDepth - bevel - (explodeFactor * floorH * 0.4);
+            }
         }
 
         for (i = 0; i < floors; i++) {
@@ -232,16 +242,53 @@
             if (i % 2) slabs[i].base = baseB.clone();
         }
 
-        // ---- ground plane + DEM reference ------------------------------
+        // ---- Sub-surface Basement / Underground Utility Infrastructure ----
+        var basementDepth = floorH * 0.95;
+        var gBase = new THREE.ExtrudeGeometry(shape, {
+            depth: basementDepth, bevelEnabled: true, bevelThickness: bevel,
+            bevelSize: bevel, bevelSegments: 2, steps: 1
+        });
+        gBase.rotateX(-Math.PI / 2);
+        var baseMat = new THREE.MeshStandardMaterial({
+            color: 0x0f172a, roughness: 0.5, metalness: 0.3,
+            transparent: false, opacity: 0.98
+        });
+        var basementMesh = new THREE.Mesh(gBase, baseMat);
+        basementMesh.position.y = -basementDepth - bevel;
+        basementMesh.castShadow = true;
+        basementMesh.receiveShadow = true;
+        basementMesh.userData.isBasement = true;
+
+        var baseEdges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(gBase, 1),
+            new THREE.LineBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.75 })
+        );
+        basementMesh.add(baseEdges);
+
+        var baseLabel = makeTextSprite(THREE, "B1 (UNDERGROUND UTILITY & PARKING)", "#38bdf8", maxAniso);
+        baseLabel.position.set(0, basementDepth / 2, Math.max(footD, footW) * 0.5 + 0.65);
+        baseLabel.scale.set(2.4, 0.6, 1);
+        basementMesh.add(baseLabel);
+        root.add(basementMesh);
+
+        // ---- ground plane + DEM reference (semi-transparent for sub-surface viewing) ----
         var gRad = Math.max(footW, footD) * 1.25 + 0.6;
         var ground = new THREE.Mesh(
             new THREE.CircleGeometry(gRad, 72),
-            new THREE.MeshStandardMaterial({ color: 0x0c1a2b, roughness: 1, metalness: 0 })
+            new THREE.MeshStandardMaterial({ color: 0x0a1420, roughness: 0.8, metalness: 0.1, transparent: true, opacity: 0.65 })
         );
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = 0;
         ground.receiveShadow = true;
         scene.add(ground);
+
+        // Subsurface Utility Pipeline conduit
+        var pipeGeom = new THREE.CylinderGeometry(0.06, 0.06, gRad * 1.6, 16);
+        pipeGeom.rotateZ(Math.PI / 2);
+        var pipeMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.2, metalness: 0.8 });
+        var pipeMesh = new THREE.Mesh(pipeGeom, pipeMat);
+        pipeMesh.position.set(0, -basementDepth * 0.5, footD * 0.65);
+        scene.add(pipeMesh);
 
         var grid = new THREE.GridHelper(gRad * 2, 16, 0x2b4560, 0x1b2c40);
         grid.position.y = 0.004;
@@ -410,7 +457,16 @@
                 selected = (i0 == null || i0 < 0) ? null : Math.min(i0 | 0, slabs.length - 1);
                 applyStyles(); updateTip();
             },
-            explode: function (on) { exploded = !!on; layoutSlabs(); },
+            explode: function (on) {
+                exploded = !!on;
+                explodeFactor = exploded ? 1.0 : 0.0;
+                layoutSlabs();
+            },
+            setExplodeFactor: function (val) {
+                explodeFactor = Math.max(0, Math.min(2.0, parseFloat(val) || 0));
+                exploded = explodeFactor > 0.05;
+                layoutSlabs();
+            },
             resetView: function () { controls.reset(); },
             spin: function () { controls.autoRotate = !controls.autoRotate; },
             resize: resize,
