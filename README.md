@@ -1,9 +1,9 @@
-# AeroNerds: 3D Cadastral & Bhu-Aadhaar Portal (SIH26011)
+# Bhumi Adhaar: 3D Cadastral & Vertical Property Portal (SIH26011)
 ### Official Prototype for the Government of India | Developed by Team AeroNerds
 
-![AeroNerds Bhu-Aadhaar 3D Portal - UIDAI Government Design](docs/images/uidai_bhu_aadhaar_portal.png)
+![Bhumi Adhaar 3D Portal - UIDAI Government Design](docs/images/uidai_bhu_aadhaar_portal.png)
 
-**AeroNerds** is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered specifically by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
+**Bhumi Adhaar** (भू-आधार 3D) is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
 > *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure"*.
 
 Designed adhering strictly to the official **UIDAI Government Portal (`https://uidai.gov.in/hi`)** design standards and the statutory guidelines of the **Ministry of Rural Development (DoLR)**, **SVAMITVA Scheme**, and the **Digital India Land Records Modernization Programme (DILRMP)**. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **Proposed 3D Vertical Bhu-Aadhaar (ULPIN) IDs** for individual floor slabs without fabricating land title records.
@@ -41,16 +41,28 @@ The platform provides tailored workspaces for three core statutory stakeholders:
 
 ## 🗺️ Multi-Region Pilots
 
-AeroNerds features pre-processed real-world pilot datasets across two major Indian urban environments:
+**Bhumi Adhaar** features pre-processed real-world pilot datasets across 6 diverse Indian urban environments:
 
-- **Bhopal Pilot (Madhya Pradesh)**:
+- **Bhopal Pilot (Madhya Pradesh - MP Bhulekh)**:
   - 85 Urban Wards with OpenCity KML Cadastral Parcels and OSM 3D footprints.
   - MP Bhulekh integration schema with bare-earth DEM elevation profiles.
 - **Bengaluru Urban Pilot (Karnataka Bhoomi)**:
   - Validated cadastral parcels with 12,700+ evaluated building footprints.
   - Multi-storey floor delineation calibrated with Sentinel-2 NDVI canopy filters.
+- **Indore Pilot (Madhya Pradesh - MP Bhulekh)**:
+  - 85 Urban Municipal Wards with LGD boundary topology.
+  - Integrated 3D building masses with discrete floor estimations.
+- **Navi Mumbai Pilot (Maharashtra - MahaBhumi / NMMC)**:
+  - 111 Urban Municipal Wards covering planned nodes.
+  - Full coastal terrain elevation and vertical cadastral linkages.
+- **Kalyan-Dombivli / Mumbai MMR (Maharashtra - MahaBhumi / KDMC)**:
+  - 123 Urban Municipal Wards with high-density vertical parcel structures.
+  - Automated FSI/FAR compliance and spatial identification.
+- **Coimbatore Pilot (Tamil Nadu - TN e-District / CCMC)**:
+  - 100 Urban Municipal Wards across East, West, North, and South zones.
+  - Bare-earth DEM ground elevation and multi-storey spatial passbooks.
 
-Switch seamlessly between regions via the top navigation selector or query parameter (`?region=bhopal` or `?region=bengaluru`).
+Switch seamlessly between regions via the top navigation dropdown or URL query parameter (`?region=bhopal`, `?region=bengaluru`, `?region=indore`, `?region=navi_mumbai`, `?region=mumbai_kalyan`, or `?region=coimbatore`).
 
 ---
 

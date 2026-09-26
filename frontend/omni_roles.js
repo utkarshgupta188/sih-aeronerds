@@ -395,6 +395,7 @@
             gov_name: "भारत सरकार",
             dept_name: "ग्रामीण विकास मंत्रालय | भूमि संसाधन विभाग (DoLR)",
             brand_title: "भू-आधार 3D",
+            sidebar_title: "भू-आधार 3D",
             brand_sub: "भूमि संसाधन विभाग • ग्रामीण विकास मंत्रालय, भारत सरकार",
             skip_link: "मुख्य सामग्री पर जाएं",
             screen_reader: "स्क्रीन रीडर",
@@ -475,7 +476,8 @@
         en: {
             gov_name: "GOVERNMENT OF INDIA",
             dept_name: "Ministry of Rural Development | Department of Land Resources (DoLR)",
-            brand_title: "Bhu-Aadhaar 3D",
+            brand_title: "Bhumi Adhaar 3D",
+            sidebar_title: "Bhumi Adhaar",
             brand_sub: "Department of Land Resources • Ministry of Rural Development, Govt. of India",
             skip_link: "Skip to Main Content",
             screen_reader: "Screen Reader",
@@ -573,6 +575,10 @@
 
         const subDept = document.querySelector(".uidai-sub-dept");
         if (subDept) subDept.innerHTML = t.brand_sub;
+
+        // Sidebar Product Title
+        const sidebarTitle = document.getElementById("sidebar-app-title") || document.querySelector(".sidebar-header .logo h1");
+        if (sidebarTitle) sidebarTitle.innerText = t.sidebar_title || "Bhumi Adhaar";
 
         // Nav Links
         const mapNav = {

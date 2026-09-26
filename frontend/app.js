@@ -74,6 +74,46 @@ document.addEventListener("DOMContentLoaded", function () {
             bearing: -20,
             parcelsUrl: "data/cadastral_parcels_valid.geojson",
             bldgsUrl: "data/buildings_3d.geojson"
+        },
+        indore: {
+            name: "Indore (MP Bhulekh)",
+            badge: "Indore Pilot (85 Wards)",
+            center: [75.8779, 22.7234],
+            zoom: 15.0,
+            pitch: 60,
+            bearing: -15,
+            parcelsUrl: "data/indore_cadastral_parcels.geojson",
+            bldgsUrl: "data/indore_buildings_3d.geojson"
+        },
+        navi_mumbai: {
+            name: "Navi Mumbai (MahaBhumi)",
+            badge: "Navi Mumbai Pilot (111 Wards)",
+            center: [73.0095, 19.0904],
+            zoom: 14.8,
+            pitch: 60,
+            bearing: -15,
+            parcelsUrl: "data/navi_mumbai_cadastral_parcels.geojson",
+            bldgsUrl: "data/navi_mumbai_buildings_3d.geojson"
+        },
+        mumbai_kalyan: {
+            name: "Kalyan-Dombivli (Mumbai MMR)",
+            badge: "Kalyan-Dombivli Pilot (123 Wards)",
+            center: [73.1488, 19.2269],
+            zoom: 14.8,
+            pitch: 60,
+            bearing: -15,
+            parcelsUrl: "data/mumbai_kalyan_cadastral_parcels.geojson",
+            bldgsUrl: "data/mumbai_kalyan_buildings_3d.geojson"
+        },
+        coimbatore: {
+            name: "Coimbatore (TN e-District)",
+            badge: "Coimbatore Pilot (100 Wards)",
+            center: [76.9603, 11.0099],
+            zoom: 14.8,
+            pitch: 60,
+            bearing: -15,
+            parcelsUrl: "data/coimbatore_cadastral_parcels.geojson",
+            bldgsUrl: "data/coimbatore_buildings_3d.geojson"
         }
     };
 
