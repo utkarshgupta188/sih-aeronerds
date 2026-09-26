@@ -126,6 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const activeRegionKey = urlParams.get("region") || "bhopal";
     const activeRegion = REGION_CONFIGS[activeRegionKey] || REGION_CONFIGS.bhopal;
+    window.activeRegionKey = activeRegionKey;
 
     // Synchronize Region Selector UI
     const regionSelectElem = document.getElementById("region-selector");
@@ -347,6 +348,39 @@ document.addEventListener("DOMContentLoaded", function () {
             if (loaderEl) {
                 loaderEl.classList.add("hidden");
                 loaderEl.style.display = "none";
+            }
+
+            // Universal Deep Link Resolver (from Pan-India Search or Direct URL)
+            const highlightParam = urlParams.get("highlight");
+            const ulpinParam = urlParams.get("ulpin");
+            if (highlightParam || ulpinParam) {
+                setTimeout(() => {
+                    let feat = null;
+                    if (highlightParam) {
+                        feat = window.selectBuildingById(highlightParam);
+                        if (!feat && window.selectUndergroundById) {
+                            feat = window.selectUndergroundById(highlightParam);
+                        }
+                    }
+                    if (!feat && ulpinParam && bldgsData && bldgsData.features) {
+                        const targetUlpin = ulpinParam.trim().toUpperCase();
+                        feat = bldgsData.features.find(f => {
+                            const p = f.properties || {};
+                            const bIdNum = String(p.id || "0").replace(/\D/g, "");
+                            const pIdNum = (p.linked_parcel_id || "0000").replace(/\D/g, "");
+                            const u = (activeRegion.stateCode || "IN-MP-BHP") + "-P" + pIdNum + "-B" + bIdNum;
+                            return u.toUpperCase().includes(targetUlpin) ||
+                                   targetUlpin.includes(u.toUpperCase()) ||
+                                   String(p.id).toUpperCase() === targetUlpin;
+                        });
+                        if (feat && feat.properties) {
+                            window.selectBuildingById(feat.properties.id);
+                        }
+                    }
+                    if (window.showGovToast && (highlightParam || ulpinParam)) {
+                        window.showGovToast("3D Cadastre Located", `ULPIN: ${ulpinParam || highlightParam} &bull; ${activeRegion.badge || activeRegion.name}`, "ph-seal-check");
+                    }
+                }, 800);
             }
 
             // Interactivity: Click on Building
@@ -696,6 +730,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!center) center = map.getCenter();
                 map.flyTo({ center: center, zoom: 17.5, pitch: 60, bearing: -20, duration: 1200 });
                 selectBuilding(feat, center);
+                return feat;
+            };
+
+            window.selectUndergroundById = function(assetId) {
+                const uData = window.undergroundData || undergroundData;
+                if (!uData || !uData.features) return null;
+                const target = String(assetId).toLowerCase();
+                const feat = uData.features.find(f => {
+                    const p = f.properties || {};
+                    return String(p.id).toLowerCase() === target ||
+                           String(p.proposed_subsurface_ulpin).toLowerCase() === target;
+                });
+                if (!feat) return null;
+                let center = null;
+                if (feat.geometry && feat.geometry.coordinates) {
+                    let pts = [];
+                    if (feat.geometry.type === "Polygon") pts = feat.geometry.coordinates[0];
+                    else if (feat.geometry.type === "MultiPolygon") pts = feat.geometry.coordinates[0][0];
+                    if (pts && pts.length) {
+                        let sumX = 0, sumY = 0;
+                        pts.forEach(p => { sumX += p[0]; sumY += p[1]; });
+                        center = [sumX / pts.length, sumY / pts.length];
+                    }
+                }
+                if (!center) center = map.getCenter();
+                map.flyTo({ center: center, zoom: 17.5, pitch: 65, bearing: -20, duration: 1200 });
+                selectUndergroundAsset(feat, center);
                 return feat;
             };
 

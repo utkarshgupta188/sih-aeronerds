@@ -1,0 +1,3330 @@
+{
+  "metadata": {
+    "total_items": 162,
+    "pilot_cities": [
+      "bhopal",
+      "bengaluru",
+      "indore",
+      "navi_mumbai",
+      "mumbai_kalyan",
+      "coimbatore"
+    ],
+    "pan_india_states_count": 36
+  },
+  "pilot_records": [
+    {
+      "ulpin": "IN-MP-BHP-P104-B3-FL4",
+      "full_ulpin": "IN-MP-BHP-P104-B3-FL4-U402",
+      "numeric_ulpin": "23012004001043",
+      "title": "Khasra #104/B (Lotus Heights 3D)",
+      "sub": "Flat 402, 4th Floor &bull; Ward 42, Bhopal &bull; Owner: Smt. Priya Sharma",
+      "city_key": "bhopal",
+      "city_name": "Bhopal (MP)",
+      "building_id": "osm_way_375220424",
+      "parcel_id": "bhopal_ward_42",
+      "type": "ulpin",
+      "coordinates": [
+        77.4185,
+        23.2515
+      ],
+      "floors": "G+5 (RCC)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22068-B101",
+      "full_ulpin": "IN-KA-BLR-P22068-B101-FL3",
+      "numeric_ulpin": "29012004022068",
+      "title": "Survey Plot #22068 (Bengaluru Tech Corridor)",
+      "sub": "3rd Floor &bull; Ward 150, Koramangala &bull; Bhoomi Linked &bull; 100% Contained",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru (KA)",
+      "building_id": "osm_way_93697573",
+      "parcel_id": "cadastral_parcel_22068",
+      "type": "ulpin",
+      "coordinates": [
+        77.62,
+        12.93
+      ],
+      "floors": "G+4 (Commercial)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-MP-IND-P61-B2001",
+      "full_ulpin": "IN-MP-IND-P61-B2001-FL2",
+      "numeric_ulpin": "23012004000611",
+      "title": "Khasra #61/A (Indore Business Square)",
+      "sub": "2nd Floor &bull; Ward 61, Indore &bull; MP Bhulekh Verified &bull; Zero Encroachment",
+      "city_key": "indore",
+      "city_name": "Indore (MP)",
+      "building_id": "bldg_indore_2001",
+      "parcel_id": "indore_ward_61",
+      "type": "ulpin",
+      "coordinates": [
+        75.875,
+        22.72
+      ],
+      "floors": "G+3 (Mixed Use)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2001",
+      "full_ulpin": "IN-MH-NMU-P65-B2001-FL6",
+      "numeric_ulpin": "27012004000651",
+      "title": "Plot #65 (Navi Mumbai Seawoods Grand Central)",
+      "sub": "6th Floor &bull; Ward 65, Nerul &bull; MahaBhumi / CIDCO Approved FSI 2.50",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai (MH)",
+      "building_id": "bldg_navi_mumbai_2001",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "ulpin",
+      "coordinates": [
+        73.002,
+        19.075
+      ],
+      "floors": "G+7 (Corporate)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P110-B2001",
+      "full_ulpin": "IN-MH-KDN-P110-B2001-FL4",
+      "numeric_ulpin": "27012004001101",
+      "title": "CTS Plot #110 (Kalyan Regency Heights)",
+      "sub": "4th Floor &bull; Ward 110, Dombivli East &bull; MahaBhumi CTS Cadastre Verified",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai (MH)",
+      "building_id": "bldg_mumbai_kalyan_2001",
+      "parcel_id": "mumbai_kalyan_ward_110",
+      "type": "ulpin",
+      "coordinates": [
+        73.125,
+        19.215
+      ],
+      "floors": "G+5 (Residential)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P80-B2001",
+      "full_ulpin": "IN-TN-CBE-P80-B2001-FL3",
+      "numeric_ulpin": "33012004000801",
+      "title": "Town Survey #80/2 (Coimbatore Textile Plaza)",
+      "sub": "3rd Floor &bull; Ward 80, Gandhipuram &bull; TN e-District Delineated",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore (TN)",
+      "building_id": "bldg_coimbatore_2001",
+      "parcel_id": "coimbatore_ward_80",
+      "type": "ulpin",
+      "coordinates": [
+        76.965,
+        11.005
+      ],
+      "floors": "G+4 (Commercial)",
+      "category": "3D_CADASTRAL_TITLE"
+    },
+    {
+      "ulpin": "IN-MP-BPL-SUB-METRO-T01",
+      "full_ulpin": "IN-MP-BPL-SUB-METRO-T01",
+      "numeric_ulpin": "IN-SUB-UTIL_BHOPAL_METRO_BLUE",
+      "title": "Subsurface Corridor: Bhopal Metro Orange Line (Sub-surface Section)",
+      "sub": "RAPID_TRANSIT_TUNNEL &bull; Depth: -14.5m MSL &bull; Madhya Pradesh Metro Rail Corporation (MPMRCL)",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "util_bhopal_metro_blue",
+      "parcel_id": "bhopal_ward_43",
+      "type": "subsurface",
+      "coordinates": [
+        77.4176,
+        23.25048
+      ],
+      "floors": "Subsurface Depth: -14.5m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-MP-BPL-SUB-WATER-TRUNK-04",
+      "full_ulpin": "IN-MP-BPL-SUB-WATER-TRUNK-04",
+      "numeric_ulpin": "IN-SUB-UTIL_BHOPAL_WATER_MAIN",
+      "title": "Subsurface Corridor: Kolar Water Pipeline Transmission Trunk Line",
+      "sub": "WATER_SUPPLY_CONDUIT &bull; Depth: -4.8m MSL &bull; Bhopal Municipal Corporation Water Works",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "util_bhopal_water_main",
+      "parcel_id": "bhopal_ward_44",
+      "type": "subsurface",
+      "coordinates": [
+        77.4179,
+        23.2464
+      ],
+      "floors": "Subsurface Depth: -4.8m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-MP-BPL-SUB-ELEC-HV33K-12",
+      "full_ulpin": "IN-MP-BPL-SUB-ELEC-HV33K-12",
+      "numeric_ulpin": "IN-SUB-UTIL_BHOPAL_POWER_DUCT",
+      "title": "Subsurface Corridor: MPPKVVCL 33kV Sub-surface Electrical Conduit Duct",
+      "sub": "POWER_GRID_CONDUIT &bull; Depth: -3.2m MSL &bull; MP Poorv Kshetra Vidyut Vitaran Co.",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "util_bhopal_power_duct",
+      "parcel_id": "bhopal_ward_45",
+      "type": "subsurface",
+      "coordinates": [
+        77.4174,
+        23.2494
+      ],
+      "floors": "Subsurface Depth: -3.2m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-KA-BLR-SUB-METRO-T02",
+      "full_ulpin": "IN-KA-BLR-SUB-METRO-T02",
+      "numeric_ulpin": "IN-SUB-UTIL_BENGALURU_METRO_TUNNEL",
+      "title": "Subsurface Corridor: Namma Metro Underground Transit Corridor (Pink Line)",
+      "sub": "RAPID_TRANSIT_TUNNEL &bull; Depth: -18.0m MSL &bull; Bangalore Metro Rail Corporation Limited",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "util_bengaluru_metro_tunnel",
+      "parcel_id": "blr_ward_174",
+      "type": "subsurface",
+      "coordinates": [
+        77.6184,
+        12.92992
+      ],
+      "floors": "Subsurface Depth: -18.0m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-MP-IND-SUB-METRO-Y01",
+      "full_ulpin": "IN-MP-IND-SUB-METRO-Y01",
+      "numeric_ulpin": "IN-SUB-UTIL_INDORE_METRO_UNDERGROUND",
+      "title": "Subsurface Corridor: Indore Metro Yellow Line Subsurface Alignment",
+      "sub": "RAPID_TRANSIT_TUNNEL &bull; Depth: -12.0m MSL &bull; Madhya Pradesh Metro Rail Corporation",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "util_indore_metro_underground",
+      "parcel_id": "indore_ward_76",
+      "type": "subsurface",
+      "coordinates": [
+        75.8742,
+        22.71952
+      ],
+      "floors": "Subsurface Depth: -12.0m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-MH-NMB-SUB-MIDC-GW02",
+      "full_ulpin": "IN-MH-NMB-SUB-MIDC-GW02",
+      "numeric_ulpin": "IN-SUB-UTIL_NAVI_MUMBAI_PIPELINE",
+      "title": "Subsurface Corridor: MIDC Subsurface Industrial Gas & Water Conduit",
+      "sub": "UTILITY_PIPELINE &bull; Depth: -6.5m MSL &bull; Maharashtra Industrial Development Corporation",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "util_navi_mumbai_pipeline",
+      "parcel_id": "navi_mumbai_ward_24",
+      "type": "subsurface",
+      "coordinates": [
+        73.0008,
+        19.07388
+      ],
+      "floors": "Subsurface Depth: -6.5m",
+      "category": "UNDERGROUND_INFRASTRUCTURE"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P43-B375220424",
+      "full_ulpin": "IN-MP-BHP-P43-B375220424-FL4",
+      "numeric_ulpin": "INMPBHP0043375220424",
+      "title": "Bhopal Building 1 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_43 &bull; Floors: G+4 (13.3m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_375220424",
+      "parcel_id": "bhopal_ward_43",
+      "type": "geojson",
+      "coordinates": [
+        77.42518,
+        23.25019
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P41-B414084035",
+      "full_ulpin": "IN-MP-BHP-P41-B414084035-FL1",
+      "numeric_ulpin": "INMPBHP0041414084035",
+      "title": "Bhopal Building 138 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_41 &bull; Floors: G+1 (3.5m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414084035",
+      "parcel_id": "bhopal_ward_41",
+      "type": "geojson",
+      "coordinates": [
+        77.42468,
+        23.25467
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B414105933",
+      "full_ulpin": "IN-MP-BHP-P34-B414105933-FL3",
+      "numeric_ulpin": "INMPBHP0034414105933",
+      "title": "Bhopal Building 275 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+3 (12.1m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414105933",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41577,
+        23.24645
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P41-B414106275",
+      "full_ulpin": "IN-MP-BHP-P41-B414106275-FL3",
+      "numeric_ulpin": "INMPBHP0041414106275",
+      "title": "Bhopal Building 412 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_41 &bull; Floors: G+3 (11.5m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414106275",
+      "parcel_id": "bhopal_ward_41",
+      "type": "geojson",
+      "coordinates": [
+        77.42212,
+        23.25404
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B414122505",
+      "full_ulpin": "IN-MP-BHP-P34-B414122505-FL2",
+      "numeric_ulpin": "INMPBHP0034414122505",
+      "title": "Bhopal Building 549 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+2 (7.1m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414122505",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41449,
+        23.24862
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B414122642",
+      "full_ulpin": "IN-MP-BHP-P34-B414122642-FL3",
+      "numeric_ulpin": "INMPBHP0034414122642",
+      "title": "Bhopal Building 686 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+3 (10.4m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414122642",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41472,
+        23.25016
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414141554",
+      "full_ulpin": "IN-MP-BHP-P35-B414141554-FL3",
+      "numeric_ulpin": "INMPBHP0035414141554",
+      "title": "Bhopal Building 823 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+3 (9.9m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414141554",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.41579,
+        23.25457
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414141692",
+      "full_ulpin": "IN-MP-BHP-P35-B414141692-FL3",
+      "numeric_ulpin": "INMPBHP0035414141692",
+      "title": "Bhopal Building 960 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+3 (10.4m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414141692",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.41807,
+        23.25327
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414141831",
+      "full_ulpin": "IN-MP-BHP-P35-B414141831-FL3",
+      "numeric_ulpin": "INMPBHP0035414141831",
+      "title": "Bhopal Building 1097 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+3 (10.0m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414141831",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.41604,
+        23.2547
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P43-B414142300",
+      "full_ulpin": "IN-MP-BHP-P43-B414142300-FL2",
+      "numeric_ulpin": "INMPBHP0043414142300",
+      "title": "Bhopal Building 1234 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_43 &bull; Floors: G+2 (5.9m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414142300",
+      "parcel_id": "bhopal_ward_43",
+      "type": "geojson",
+      "coordinates": [
+        77.42374,
+        23.24936
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B414158701",
+      "full_ulpin": "IN-MP-BHP-P42-B414158701-FL3",
+      "numeric_ulpin": "INMPBHP0042414158701",
+      "title": "Bhopal Building 1371 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+3 (10.7m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414158701",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.42278,
+        23.25144
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414159285",
+      "full_ulpin": "IN-MP-BHP-P35-B414159285-FL1",
+      "numeric_ulpin": "INMPBHP0035414159285",
+      "title": "Bhopal Building 1508 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+1 (3.8m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414159285",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.4178,
+        23.25397
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B414159529",
+      "full_ulpin": "IN-MP-BHP-P42-B414159529-FL1",
+      "numeric_ulpin": "INMPBHP0042414159529",
+      "title": "Bhopal Building 1645 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+1 (4.0m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414159529",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.42136,
+        23.2526
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B414175580",
+      "full_ulpin": "IN-MP-BHP-P34-B414175580-FL3",
+      "numeric_ulpin": "INMPBHP0034414175580",
+      "title": "Bhopal Building 1782 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+3 (10.6m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414175580",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41819,
+        23.24696
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P41-B414183373",
+      "full_ulpin": "IN-MP-BHP-P41-B414183373-FL2",
+      "numeric_ulpin": "INMPBHP0041414183373",
+      "title": "Bhopal Building 1919 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_41 &bull; Floors: G+2 (5.9m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414183373",
+      "parcel_id": "bhopal_ward_41",
+      "type": "geojson",
+      "coordinates": [
+        77.42362,
+        23.25271
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414376383",
+      "full_ulpin": "IN-MP-BHP-P35-B414376383-FL2",
+      "numeric_ulpin": "INMPBHP0035414376383",
+      "title": "Bhopal Building 2056 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+2 (5.7m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414376383",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.41222,
+        23.25527
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P35-B414388684",
+      "full_ulpin": "IN-MP-BHP-P35-B414388684-FL2",
+      "numeric_ulpin": "INMPBHP0035414388684",
+      "title": "Bhopal Building 2193 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_35 &bull; Floors: G+2 (5.9m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_414388684",
+      "parcel_id": "bhopal_ward_35",
+      "type": "geojson",
+      "coordinates": [
+        77.41612,
+        23.2557
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B415188822",
+      "full_ulpin": "IN-MP-BHP-P34-B415188822-FL3",
+      "numeric_ulpin": "INMPBHP0034415188822",
+      "title": "Bhopal Building 2330 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+3 (9.7m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415188822",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41904,
+        23.24654
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B415196195",
+      "full_ulpin": "IN-MP-BHP-P34-B415196195-FL1",
+      "numeric_ulpin": "INMPBHP0034415196195",
+      "title": "Bhopal Building 2467 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+1 (4.9m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415196195",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41673,
+        23.248
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P34-B415196361",
+      "full_ulpin": "IN-MP-BHP-P34-B415196361-FL3",
+      "numeric_ulpin": "INMPBHP0034415196361",
+      "title": "Bhopal Building 2604 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_34 &bull; Floors: G+3 (9.3m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415196361",
+      "parcel_id": "bhopal_ward_34",
+      "type": "geojson",
+      "coordinates": [
+        77.41634,
+        23.24735
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B415209796",
+      "full_ulpin": "IN-MP-BHP-P42-B415209796-FL1",
+      "numeric_ulpin": "INMPBHP0042415209796",
+      "title": "Bhopal Building 2741 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+1 (4.5m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415209796",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.42022,
+        23.24991
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B415227248",
+      "full_ulpin": "IN-MP-BHP-P42-B415227248-FL2",
+      "numeric_ulpin": "INMPBHP0042415227248",
+      "title": "Bhopal Building 2878 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+2 (5.6m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415227248",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.41563,
+        23.24925
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B415227444",
+      "full_ulpin": "IN-MP-BHP-P42-B415227444-FL1",
+      "numeric_ulpin": "INMPBHP0042415227444",
+      "title": "Bhopal Building 3015 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+1 (4.4m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415227444",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.41886,
+        23.25038
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P40-B415227647",
+      "full_ulpin": "IN-MP-BHP-P40-B415227647-FL1",
+      "numeric_ulpin": "INMPBHP0040415227647",
+      "title": "Bhopal Building 3152 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_40 &bull; Floors: G+1 (4.6m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415227647",
+      "parcel_id": "bhopal_ward_40",
+      "type": "geojson",
+      "coordinates": [
+        77.42179,
+        23.25466
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-BHP-P42-B415227799",
+      "full_ulpin": "IN-MP-BHP-P42-B415227799-FL1",
+      "numeric_ulpin": "INMPBHP0042415227799",
+      "title": "Bhopal Building 3289 (Bhopal)",
+      "sub": "Khasra/Parcel: bhopal_ward_42 &bull; Floors: G+1 (4.3m) &bull; MP Bhulekh ",
+      "city_key": "bhopal",
+      "city_name": "Bhopal, Madhya Pradesh",
+      "building_id": "osm_way_415227799",
+      "parcel_id": "bhopal_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        77.41949,
+        23.2505
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22068-B93697573",
+      "full_ulpin": "IN-KA-BLR-P22068-B93697573-FL2",
+      "numeric_ulpin": "INKABLR2206893697573",
+      "title": "Salarpuria Ascent (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22068 &bull; Floors: G+2 (7.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_93697573",
+      "parcel_id": "cadastral_parcel_22068",
+      "type": "geojson",
+      "coordinates": [
+        77.61467,
+        12.93281
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22433-B345862923",
+      "full_ulpin": "IN-KA-BLR-P22433-B345862923-FL4",
+      "numeric_ulpin": "INKABLR22433345862923",
+      "title": "Cadastral Structure #osm_way_345862923 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22433 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_345862923",
+      "parcel_id": "cadastral_parcel_22433",
+      "type": "geojson",
+      "coordinates": [
+        77.62307,
+        12.93547
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22068-B347187594",
+      "full_ulpin": "IN-KA-BLR-P22068-B347187594-FL2",
+      "numeric_ulpin": "INKABLR22068347187594",
+      "title": "Cadastral Structure #osm_way_347187594 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22068 &bull; Floors: G+2 (7.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347187594",
+      "parcel_id": "cadastral_parcel_22068",
+      "type": "geojson",
+      "coordinates": [
+        77.61504,
+        12.9327
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22276-B347188039",
+      "full_ulpin": "IN-KA-BLR-P22276-B347188039-FL4",
+      "numeric_ulpin": "INKABLR22276347188039",
+      "title": "Cadastral Structure #osm_way_347188039 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22276 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347188039",
+      "parcel_id": "cadastral_parcel_22276",
+      "type": "geojson",
+      "coordinates": [
+        77.61723,
+        12.93535
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22056-B347188480",
+      "full_ulpin": "IN-KA-BLR-P22056-B347188480-FL4",
+      "numeric_ulpin": "INKABLR22056347188480",
+      "title": "Cadastral Structure #osm_way_347188480 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22056 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347188480",
+      "parcel_id": "cadastral_parcel_22056",
+      "type": "geojson",
+      "coordinates": [
+        77.6184,
+        12.93406
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22480-B347237355",
+      "full_ulpin": "IN-KA-BLR-P22480-B347237355-FL3",
+      "numeric_ulpin": "INKABLR22480347237355",
+      "title": "Cadastral Structure #osm_way_347237355 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22480 &bull; Floors: G+3 (10.5m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347237355",
+      "parcel_id": "cadastral_parcel_22480",
+      "type": "geojson",
+      "coordinates": [
+        77.62558,
+        12.93472
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22466-B347415963",
+      "full_ulpin": "IN-KA-BLR-P22466-B347415963-FL4",
+      "numeric_ulpin": "INKABLR22466347415963",
+      "title": "Cadastral Structure #osm_way_347415963 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22466 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347415963",
+      "parcel_id": "cadastral_parcel_22466",
+      "type": "geojson",
+      "coordinates": [
+        77.62609,
+        12.92786
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22459-B347416303",
+      "full_ulpin": "IN-KA-BLR-P22459-B347416303-FL4",
+      "numeric_ulpin": "INKABLR22459347416303",
+      "title": "Cadastral Structure #osm_way_347416303 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22459 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347416303",
+      "parcel_id": "cadastral_parcel_22459",
+      "type": "geojson",
+      "coordinates": [
+        77.62389,
+        12.92987
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22459-B347416703",
+      "full_ulpin": "IN-KA-BLR-P22459-B347416703-FL3",
+      "numeric_ulpin": "INKABLR22459347416703",
+      "title": "Cadastral Structure #osm_way_347416703 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22459 &bull; Floors: G+3 (10.5m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347416703",
+      "parcel_id": "cadastral_parcel_22459",
+      "type": "geojson",
+      "coordinates": [
+        77.62447,
+        12.93056
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22460-B347417185",
+      "full_ulpin": "IN-KA-BLR-P22460-B347417185-FL4",
+      "numeric_ulpin": "INKABLR22460347417185",
+      "title": "Cadastral Structure #osm_way_347417185 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22460 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347417185",
+      "parcel_id": "cadastral_parcel_22460",
+      "type": "geojson",
+      "coordinates": [
+        77.62376,
+        12.93145
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22459-B347417581",
+      "full_ulpin": "IN-KA-BLR-P22459-B347417581-FL4",
+      "numeric_ulpin": "INKABLR22459347417581",
+      "title": "Cadastral Structure #osm_way_347417581 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22459 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347417581",
+      "parcel_id": "cadastral_parcel_22459",
+      "type": "geojson",
+      "coordinates": [
+        77.62432,
+        12.93048
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22460-B347418133",
+      "full_ulpin": "IN-KA-BLR-P22460-B347418133-FL2",
+      "numeric_ulpin": "INKABLR22460347418133",
+      "title": "Cadastral Structure #osm_way_347418133 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22460 &bull; Floors: G+2 (7.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347418133",
+      "parcel_id": "cadastral_parcel_22460",
+      "type": "geojson",
+      "coordinates": [
+        77.62324,
+        12.93146
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22456-B347446726",
+      "full_ulpin": "IN-KA-BLR-P22456-B347446726-FL4",
+      "numeric_ulpin": "INKABLR22456347446726",
+      "title": "Cadastral Structure #osm_way_347446726 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22456 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347446726",
+      "parcel_id": "cadastral_parcel_22456",
+      "type": "geojson",
+      "coordinates": [
+        77.62329,
+        12.93408
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22454-B347447128",
+      "full_ulpin": "IN-KA-BLR-P22454-B347447128-FL4",
+      "numeric_ulpin": "INKABLR22454347447128",
+      "title": "Cadastral Structure #osm_way_347447128 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22454 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347447128",
+      "parcel_id": "cadastral_parcel_22454",
+      "type": "geojson",
+      "coordinates": [
+        77.62059,
+        12.93625
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22047-B347447535",
+      "full_ulpin": "IN-KA-BLR-P22047-B347447535-FL4",
+      "numeric_ulpin": "INKABLR22047347447535",
+      "title": "Cadastral Structure #osm_way_347447535 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22047 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347447535",
+      "parcel_id": "cadastral_parcel_22047",
+      "type": "geojson",
+      "coordinates": [
+        77.62029,
+        12.92443
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22456-B347447761",
+      "full_ulpin": "IN-KA-BLR-P22456-B347447761-FL4",
+      "numeric_ulpin": "INKABLR22456347447761",
+      "title": "Cadastral Structure #osm_way_347447761 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22456 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347447761",
+      "parcel_id": "cadastral_parcel_22456",
+      "type": "geojson",
+      "coordinates": [
+        77.62037,
+        12.93298
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22459-B347447904",
+      "full_ulpin": "IN-KA-BLR-P22459-B347447904-FL4",
+      "numeric_ulpin": "INKABLR22459347447904",
+      "title": "Cadastral Structure #osm_way_347447904 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22459 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347447904",
+      "parcel_id": "cadastral_parcel_22459",
+      "type": "geojson",
+      "coordinates": [
+        77.62017,
+        12.92959
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22092-B347465614",
+      "full_ulpin": "IN-KA-BLR-P22092-B347465614-FL4",
+      "numeric_ulpin": "INKABLR22092347465614",
+      "title": "Cadastral Structure #osm_way_347465614 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22092 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347465614",
+      "parcel_id": "cadastral_parcel_22092",
+      "type": "geojson",
+      "coordinates": [
+        77.61458,
+        12.92512
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22048-B347483740",
+      "full_ulpin": "IN-KA-BLR-P22048-B347483740-FL4",
+      "numeric_ulpin": "INKABLR22048347483740",
+      "title": "Cadastral Structure #osm_way_347483740 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22048 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_347483740",
+      "parcel_id": "cadastral_parcel_22048",
+      "type": "geojson",
+      "coordinates": [
+        77.61672,
+        12.92496
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22457-B348590746",
+      "full_ulpin": "IN-KA-BLR-P22457-B348590746-FL3",
+      "numeric_ulpin": "INKABLR22457348590746",
+      "title": "Cadastral Structure #osm_way_348590746 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22457 &bull; Floors: G+3 (10.5m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_348590746",
+      "parcel_id": "cadastral_parcel_22457",
+      "type": "geojson",
+      "coordinates": [
+        77.62424,
+        12.93586
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22048-B1238638875",
+      "full_ulpin": "IN-KA-BLR-P22048-B1238638875-FL3",
+      "numeric_ulpin": "INKABLR220481238638875",
+      "title": "Cadastral Structure #osm_way_1238638875 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22048 &bull; Floors: G+3 (10.5m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_1238638875",
+      "parcel_id": "cadastral_parcel_22048",
+      "type": "geojson",
+      "coordinates": [
+        77.61741,
+        12.92532
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22092-B1442173527",
+      "full_ulpin": "IN-KA-BLR-P22092-B1442173527-FL2",
+      "numeric_ulpin": "INKABLR220921442173527",
+      "title": "Cadastral Structure #osm_way_1442173527 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22092 &bull; Floors: G+2 (7.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_1442173527",
+      "parcel_id": "cadastral_parcel_22092",
+      "type": "geojson",
+      "coordinates": [
+        77.61549,
+        12.92715
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22092-B1442261900",
+      "full_ulpin": "IN-KA-BLR-P22092-B1442261900-FL4",
+      "numeric_ulpin": "INKABLR220921442261900",
+      "title": "Cadastral Structure #osm_way_1442261900 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22092 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_1442261900",
+      "parcel_id": "cadastral_parcel_22092",
+      "type": "geojson",
+      "coordinates": [
+        77.61371,
+        12.92603
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22049-B1442293520",
+      "full_ulpin": "IN-KA-BLR-P22049-B1442293520-FL2",
+      "numeric_ulpin": "INKABLR220491442293520",
+      "title": "Cadastral Structure #osm_way_1442293520 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22049 &bull; Floors: G+2 (7.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_1442293520",
+      "parcel_id": "cadastral_parcel_22049",
+      "type": "geojson",
+      "coordinates": [
+        77.61624,
+        12.92657
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-KA-BLR-P22096-B1442293672",
+      "full_ulpin": "IN-KA-BLR-P22096-B1442293672-FL4",
+      "numeric_ulpin": "INKABLR220961442293672",
+      "title": "Cadastral Structure #osm_way_1442293672 (Bengaluru Urban)",
+      "sub": "Khasra/Parcel: cadastral_parcel_22096 &bull; Floors: G+4 (14.0m) &bull; Karnataka Bhoomi ",
+      "city_key": "bengaluru",
+      "city_name": "Bengaluru Urban, Karnataka",
+      "building_id": "osm_way_1442293672",
+      "parcel_id": "cadastral_parcel_22096",
+      "type": "geojson",
+      "coordinates": [
+        77.61409,
+        12.9249
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P61-B2001",
+      "full_ulpin": "IN-MP-IND-P61-B2001-FL10",
+      "numeric_ulpin": "INMPIND00612001",
+      "title": "Indore Structure 1 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_61 &bull; Floors: G+10 (32.1m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2001",
+      "parcel_id": "indore_ward_61",
+      "type": "geojson",
+      "coordinates": [
+        75.8608,
+        22.70574
+      ],
+      "floors": "G+10 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P57-B2068",
+      "full_ulpin": "IN-MP-IND-P57-B2068-FL3",
+      "numeric_ulpin": "INMPIND00572068",
+      "title": "Indore Structure 68 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_57 &bull; Floors: G+3 (9.9m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2068",
+      "parcel_id": "indore_ward_57",
+      "type": "geojson",
+      "coordinates": [
+        75.86142,
+        22.72459
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P60-B2135",
+      "full_ulpin": "IN-MP-IND-P60-B2135-FL4",
+      "numeric_ulpin": "INMPIND00602135",
+      "title": "Indore Structure 135 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_60 &bull; Floors: G+4 (12.7m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2135",
+      "parcel_id": "indore_ward_60",
+      "type": "geojson",
+      "coordinates": [
+        75.86253,
+        22.71364
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P56-B2202",
+      "full_ulpin": "IN-MP-IND-P56-B2202-FL4",
+      "numeric_ulpin": "INMPIND00562202",
+      "title": "Indore Structure 202 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_56 &bull; Floors: G+4 (13.0m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2202",
+      "parcel_id": "indore_ward_56",
+      "type": "geojson",
+      "coordinates": [
+        75.86344,
+        22.7321
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P57-B2269",
+      "full_ulpin": "IN-MP-IND-P57-B2269-FL4",
+      "numeric_ulpin": "INMPIND00572269",
+      "title": "Indore Structure 269 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_57 &bull; Floors: G+4 (13.0m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2269",
+      "parcel_id": "indore_ward_57",
+      "type": "geojson",
+      "coordinates": [
+        75.86492,
+        22.72137
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P62-B2336",
+      "full_ulpin": "IN-MP-IND-P62-B2336-FL4",
+      "numeric_ulpin": "INMPIND00622336",
+      "title": "Indore Structure 336 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_62 &bull; Floors: G+4 (12.8m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2336",
+      "parcel_id": "indore_ward_62",
+      "type": "geojson",
+      "coordinates": [
+        75.86649,
+        22.7105
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P56-B2403",
+      "full_ulpin": "IN-MP-IND-P56-B2403-FL3",
+      "numeric_ulpin": "INMPIND00562403",
+      "title": "Indore Structure 403 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_56 &bull; Floors: G+3 (9.4m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2403",
+      "parcel_id": "indore_ward_56",
+      "type": "geojson",
+      "coordinates": [
+        75.86703,
+        22.72944
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B2470",
+      "full_ulpin": "IN-MP-IND-P55-B2470-FL8",
+      "numeric_ulpin": "INMPIND00552470",
+      "title": "Indore Structure 470 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+8 (25.8m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2470",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.86888,
+        22.71866
+      ],
+      "floors": "G+8 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P62-B2537",
+      "full_ulpin": "IN-MP-IND-P62-B2537-FL3",
+      "numeric_ulpin": "INMPIND00622537",
+      "title": "Indore Structure 537 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_62 &bull; Floors: G+3 (9.5m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2537",
+      "parcel_id": "indore_ward_62",
+      "type": "geojson",
+      "coordinates": [
+        75.87005,
+        22.70774
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P47-B2604",
+      "full_ulpin": "IN-MP-IND-P47-B2604-FL10",
+      "numeric_ulpin": "INMPIND00472604",
+      "title": "Indore Structure 604 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_47 &bull; Floors: G+10 (32.1m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2604",
+      "parcel_id": "indore_ward_47",
+      "type": "geojson",
+      "coordinates": [
+        75.87036,
+        22.72615
+      ],
+      "floors": "G+10 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B2671",
+      "full_ulpin": "IN-MP-IND-P55-B2671-FL3",
+      "numeric_ulpin": "INMPIND00552671",
+      "title": "Indore Structure 671 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+3 (9.6m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2671",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.87236,
+        22.71566
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P56-B2738",
+      "full_ulpin": "IN-MP-IND-P56-B2738-FL3",
+      "numeric_ulpin": "INMPIND00562738",
+      "title": "Indore Structure 738 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_56 &bull; Floors: G+3 (9.8m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2738",
+      "parcel_id": "indore_ward_56",
+      "type": "geojson",
+      "coordinates": [
+        75.87285,
+        22.73469
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P47-B2805",
+      "full_ulpin": "IN-MP-IND-P47-B2805-FL1",
+      "numeric_ulpin": "INMPIND00472805",
+      "title": "Indore Structure 805 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_47 &bull; Floors: G+1 (3.4m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2805",
+      "parcel_id": "indore_ward_47",
+      "type": "geojson",
+      "coordinates": [
+        75.87391,
+        22.72395
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B2872",
+      "full_ulpin": "IN-MP-IND-P55-B2872-FL4",
+      "numeric_ulpin": "INMPIND00552872",
+      "title": "Indore Structure 872 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+4 (12.5m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2872",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.87607,
+        22.71287
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P47-B2939",
+      "full_ulpin": "IN-MP-IND-P47-B2939-FL3",
+      "numeric_ulpin": "INMPIND00472939",
+      "title": "Indore Structure 939 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_47 &bull; Floors: G+3 (9.6m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_2939",
+      "parcel_id": "indore_ward_47",
+      "type": "geojson",
+      "coordinates": [
+        75.87648,
+        22.73184
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B3006",
+      "full_ulpin": "IN-MP-IND-P55-B3006-FL4",
+      "numeric_ulpin": "INMPIND00553006",
+      "title": "Indore Structure 1006 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+4 (12.5m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3006",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.87766,
+        22.72103
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B3073",
+      "full_ulpin": "IN-MP-IND-P55-B3073-FL4",
+      "numeric_ulpin": "INMPIND00553073",
+      "title": "Indore Structure 1073 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+4 (12.6m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3073",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.87931,
+        22.71017
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P46-B3140",
+      "full_ulpin": "IN-MP-IND-P46-B3140-FL5",
+      "numeric_ulpin": "INMPIND00463140",
+      "title": "Indore Structure 1140 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_46 &bull; Floors: G+5 (15.9m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3140",
+      "parcel_id": "indore_ward_46",
+      "type": "geojson",
+      "coordinates": [
+        75.88021,
+        22.72859
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B3207",
+      "full_ulpin": "IN-MP-IND-P55-B3207-FL5",
+      "numeric_ulpin": "INMPIND00553207",
+      "title": "Indore Structure 1207 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+5 (16.1m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3207",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.88144,
+        22.71796
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P54-B3274",
+      "full_ulpin": "IN-MP-IND-P54-B3274-FL4",
+      "numeric_ulpin": "INMPIND00543274",
+      "title": "Indore Structure 1274 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_54 &bull; Floors: G+4 (12.7m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3274",
+      "parcel_id": "indore_ward_54",
+      "type": "geojson",
+      "coordinates": [
+        75.88296,
+        22.70709
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P47-B3341",
+      "full_ulpin": "IN-MP-IND-P47-B3341-FL6",
+      "numeric_ulpin": "INMPIND00473341",
+      "title": "Indore Structure 1341 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_47 &bull; Floors: G+6 (19.3m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3341",
+      "parcel_id": "indore_ward_47",
+      "type": "geojson",
+      "coordinates": [
+        75.8836,
+        22.72559
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P48-B3408",
+      "full_ulpin": "IN-MP-IND-P48-B3408-FL5",
+      "numeric_ulpin": "INMPIND00483408",
+      "title": "Indore Structure 1408 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_48 &bull; Floors: G+5 (16.0m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3408",
+      "parcel_id": "indore_ward_48",
+      "type": "geojson",
+      "coordinates": [
+        75.88466,
+        22.7149
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P45-B3475",
+      "full_ulpin": "IN-MP-IND-P45-B3475-FL7",
+      "numeric_ulpin": "INMPIND00453475",
+      "title": "Indore Structure 1475 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_45 &bull; Floors: G+7 (22.4m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3475",
+      "parcel_id": "indore_ward_45",
+      "type": "geojson",
+      "coordinates": [
+        75.88587,
+        22.73327
+      ],
+      "floors": "G+7 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P48-B3542",
+      "full_ulpin": "IN-MP-IND-P48-B3542-FL2",
+      "numeric_ulpin": "INMPIND00483542",
+      "title": "Indore Structure 1542 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_48 &bull; Floors: G+2 (6.7m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3542",
+      "parcel_id": "indore_ward_48",
+      "type": "geojson",
+      "coordinates": [
+        75.88726,
+        22.72286
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MP-IND-P55-B3609",
+      "full_ulpin": "IN-MP-IND-P55-B3609-FL4",
+      "numeric_ulpin": "INMPIND00553609",
+      "title": "Indore Structure 1609 (Indore)",
+      "sub": "Khasra/Parcel: indore_ward_55 &bull; Floors: G+4 (13.0m) &bull; MP Bhulekh ",
+      "city_key": "indore",
+      "city_name": "Indore, Madhya Pradesh",
+      "building_id": "bldg_indore_3609",
+      "parcel_id": "indore_ward_55",
+      "type": "geojson",
+      "coordinates": [
+        75.88833,
+        22.71196
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2001",
+      "full_ulpin": "IN-MH-NMU-P65-B2001-FL2",
+      "numeric_ulpin": "INMHNMU00652001",
+      "title": "Navi Mumbai Structure 1 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_65 &bull; Floors: G+2 (6.7m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2001",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "geojson",
+      "coordinates": [
+        72.98808,
+        19.06083
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P60-B2068",
+      "full_ulpin": "IN-MH-NMU-P60-B2068-FL3",
+      "numeric_ulpin": "INMHNMU00602068",
+      "title": "Navi Mumbai Structure 68 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_60 &bull; Floors: G+3 (9.7m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2068",
+      "parcel_id": "navi_mumbai_ward_60",
+      "type": "geojson",
+      "coordinates": [
+        72.98832,
+        19.07966
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2135",
+      "full_ulpin": "IN-MH-NMU-P65-B2135-FL2",
+      "numeric_ulpin": "INMHNMU00652135",
+      "title": "Navi Mumbai Structure 135 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_65 &bull; Floors: G+2 (6.4m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2135",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "geojson",
+      "coordinates": [
+        72.98977,
+        19.06888
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P52-B2202",
+      "full_ulpin": "IN-MH-NMU-P52-B2202-FL3",
+      "numeric_ulpin": "INMHNMU00522202",
+      "title": "Navi Mumbai Structure 202 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_52 &bull; Floors: G+3 (9.9m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2202",
+      "parcel_id": "navi_mumbai_ward_52",
+      "type": "geojson",
+      "coordinates": [
+        72.99007,
+        19.08723
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P60-B2269",
+      "full_ulpin": "IN-MH-NMU-P60-B2269-FL2",
+      "numeric_ulpin": "INMHNMU00602269",
+      "title": "Navi Mumbai Structure 269 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_60 &bull; Floors: G+2 (6.4m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2269",
+      "parcel_id": "navi_mumbai_ward_60",
+      "type": "geojson",
+      "coordinates": [
+        72.99209,
+        19.07643
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2336",
+      "full_ulpin": "IN-MH-NMU-P65-B2336-FL5",
+      "numeric_ulpin": "INMHNMU00652336",
+      "title": "Navi Mumbai Structure 336 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_65 &bull; Floors: G+5 (16.1m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2336",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "geojson",
+      "coordinates": [
+        72.99339,
+        19.06569
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P60-B2403",
+      "full_ulpin": "IN-MH-NMU-P60-B2403-FL12",
+      "numeric_ulpin": "INMHNMU00602403",
+      "title": "Navi Mumbai Structure 403 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_60 &bull; Floors: G+12 (38.4m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2403",
+      "parcel_id": "navi_mumbai_ward_60",
+      "type": "geojson",
+      "coordinates": [
+        72.99393,
+        19.08436
+      ],
+      "floors": "G+12 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P60-B2470",
+      "full_ulpin": "IN-MH-NMU-P60-B2470-FL2",
+      "numeric_ulpin": "INMHNMU00602470",
+      "title": "Navi Mumbai Structure 470 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_60 &bull; Floors: G+2 (6.6m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2470",
+      "parcel_id": "navi_mumbai_ward_60",
+      "type": "geojson",
+      "coordinates": [
+        72.99551,
+        19.07358
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2537",
+      "full_ulpin": "IN-MH-NMU-P65-B2537-FL10",
+      "numeric_ulpin": "INMHNMU00652537",
+      "title": "Navi Mumbai Structure 537 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_65 &bull; Floors: G+10 (32.1m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2537",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "geojson",
+      "coordinates": [
+        72.99687,
+        19.06283
+      ],
+      "floors": "G+10 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P61-B2604",
+      "full_ulpin": "IN-MH-NMU-P61-B2604-FL4",
+      "numeric_ulpin": "INMHNMU00612604",
+      "title": "Navi Mumbai Structure 604 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_61 &bull; Floors: G+4 (12.9m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2604",
+      "parcel_id": "navi_mumbai_ward_61",
+      "type": "geojson",
+      "coordinates": [
+        72.99732,
+        19.08133
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P63-B2671",
+      "full_ulpin": "IN-MH-NMU-P63-B2671-FL3",
+      "numeric_ulpin": "INMHNMU00632671",
+      "title": "Navi Mumbai Structure 671 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_63 &bull; Floors: G+3 (9.5m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2671",
+      "parcel_id": "navi_mumbai_ward_63",
+      "type": "geojson",
+      "coordinates": [
+        72.99939,
+        19.07036
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P53-B2738",
+      "full_ulpin": "IN-MH-NMU-P53-B2738-FL4",
+      "numeric_ulpin": "INMHNMU00532738",
+      "title": "Navi Mumbai Structure 738 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_53 &bull; Floors: G+4 (13.1m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2738",
+      "parcel_id": "navi_mumbai_ward_53",
+      "type": "geojson",
+      "coordinates": [
+        72.99982,
+        19.08978
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P62-B2805",
+      "full_ulpin": "IN-MH-NMU-P62-B2805-FL7",
+      "numeric_ulpin": "INMHNMU00622805",
+      "title": "Navi Mumbai Structure 805 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_62 &bull; Floors: G+7 (22.4m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2805",
+      "parcel_id": "navi_mumbai_ward_62",
+      "type": "geojson",
+      "coordinates": [
+        73.00114,
+        19.07898
+      ],
+      "floors": "G+7 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P65-B2872",
+      "full_ulpin": "IN-MH-NMU-P65-B2872-FL5",
+      "numeric_ulpin": "INMHNMU00652872",
+      "title": "Navi Mumbai Structure 872 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_65 &bull; Floors: G+5 (16.1m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2872",
+      "parcel_id": "navi_mumbai_ward_65",
+      "type": "geojson",
+      "coordinates": [
+        73.00313,
+        19.0679
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P54-B2939",
+      "full_ulpin": "IN-MH-NMU-P54-B2939-FL3",
+      "numeric_ulpin": "INMHNMU00542939",
+      "title": "Navi Mumbai Structure 939 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_54 &bull; Floors: G+3 (9.6m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_2939",
+      "parcel_id": "navi_mumbai_ward_54",
+      "type": "geojson",
+      "coordinates": [
+        73.00335,
+        19.0866
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P57-B3006",
+      "full_ulpin": "IN-MH-NMU-P57-B3006-FL4",
+      "numeric_ulpin": "INMHNMU00573006",
+      "title": "Navi Mumbai Structure 1006 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_57 &bull; Floors: G+4 (12.7m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3006",
+      "parcel_id": "navi_mumbai_ward_57",
+      "type": "geojson",
+      "coordinates": [
+        73.00454,
+        19.0759
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P76-B3073",
+      "full_ulpin": "IN-MH-NMU-P76-B3073-FL2",
+      "numeric_ulpin": "INMHNMU00763073",
+      "title": "Navi Mumbai Structure 1073 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_76 &bull; Floors: G+2 (6.6m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3073",
+      "parcel_id": "navi_mumbai_ward_76",
+      "type": "geojson",
+      "coordinates": [
+        73.00628,
+        19.06506
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P57-B3140",
+      "full_ulpin": "IN-MH-NMU-P57-B3140-FL2",
+      "numeric_ulpin": "INMHNMU00573140",
+      "title": "Navi Mumbai Structure 1140 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_57 &bull; Floors: G+2 (6.5m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3140",
+      "parcel_id": "navi_mumbai_ward_57",
+      "type": "geojson",
+      "coordinates": [
+        73.00727,
+        19.08366
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P57-B3207",
+      "full_ulpin": "IN-MH-NMU-P57-B3207-FL4",
+      "numeric_ulpin": "INMHNMU00573207",
+      "title": "Navi Mumbai Structure 1207 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_57 &bull; Floors: G+4 (13.1m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3207",
+      "parcel_id": "navi_mumbai_ward_57",
+      "type": "geojson",
+      "coordinates": [
+        73.00826,
+        19.0729
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P79-B3274",
+      "full_ulpin": "IN-MH-NMU-P79-B3274-FL2",
+      "numeric_ulpin": "INMHNMU00793274",
+      "title": "Navi Mumbai Structure 1274 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_79 &bull; Floors: G+2 (6.4m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3274",
+      "parcel_id": "navi_mumbai_ward_79",
+      "type": "geojson",
+      "coordinates": [
+        73.00987,
+        19.06188
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P67-B3341",
+      "full_ulpin": "IN-MH-NMU-P67-B3341-FL3",
+      "numeric_ulpin": "INMHNMU00673341",
+      "title": "Navi Mumbai Structure 1341 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_67 &bull; Floors: G+3 (9.5m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3341",
+      "parcel_id": "navi_mumbai_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        73.01083,
+        19.08065
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P66-B3408",
+      "full_ulpin": "IN-MH-NMU-P66-B3408-FL1",
+      "numeric_ulpin": "INMHNMU00663408",
+      "title": "Navi Mumbai Structure 1408 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_66 &bull; Floors: G+1 (3.2m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3408",
+      "parcel_id": "navi_mumbai_ward_66",
+      "type": "geojson",
+      "coordinates": [
+        73.01201,
+        19.06984
+      ],
+      "floors": "G+1 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P56-B3475",
+      "full_ulpin": "IN-MH-NMU-P56-B3475-FL5",
+      "numeric_ulpin": "INMHNMU00563475",
+      "title": "Navi Mumbai Structure 1475 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_56 &bull; Floors: G+5 (16.2m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3475",
+      "parcel_id": "navi_mumbai_ward_56",
+      "type": "geojson",
+      "coordinates": [
+        73.01322,
+        19.08839
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P67-B3542",
+      "full_ulpin": "IN-MH-NMU-P67-B3542-FL3",
+      "numeric_ulpin": "INMHNMU00673542",
+      "title": "Navi Mumbai Structure 1542 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_67 &bull; Floors: G+3 (9.5m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3542",
+      "parcel_id": "navi_mumbai_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        73.01415,
+        19.07757
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-NMU-P75-B3609",
+      "full_ulpin": "IN-MH-NMU-P75-B3609-FL4",
+      "numeric_ulpin": "INMHNMU00753609",
+      "title": "Navi Mumbai Structure 1609 (Navi Mumbai)",
+      "sub": "Khasra/Parcel: navi_mumbai_ward_75 &bull; Floors: G+4 (12.6m) &bull; MahaBhumi ",
+      "city_key": "navi_mumbai",
+      "city_name": "Navi Mumbai, Maharashtra",
+      "building_id": "bldg_navi_mumbai_3609",
+      "parcel_id": "navi_mumbai_ward_75",
+      "type": "geojson",
+      "coordinates": [
+        73.01537,
+        19.06707
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P110-B2001",
+      "full_ulpin": "IN-MH-KDN-P110-B2001-FL2",
+      "numeric_ulpin": "INMHKDN01102001",
+      "title": "Kalyan-Dombivli Structure 1 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_110 &bull; Floors: G+2 (6.3m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2001",
+      "parcel_id": "mumbai_kalyan_ward_110",
+      "type": "geojson",
+      "coordinates": [
+        73.11086,
+        19.20067
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P84-B2068",
+      "full_ulpin": "IN-MH-KDN-P84-B2068-FL6",
+      "numeric_ulpin": "INMHKDN00842068",
+      "title": "Kalyan-Dombivli Structure 68 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_84 &bull; Floors: G+6 (19.4m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2068",
+      "parcel_id": "mumbai_kalyan_ward_84",
+      "type": "geojson",
+      "coordinates": [
+        73.11163,
+        19.21955
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P109-B2135",
+      "full_ulpin": "IN-MH-KDN-P109-B2135-FL5",
+      "numeric_ulpin": "INMHKDN01092135",
+      "title": "Kalyan-Dombivli Structure 135 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_109 &bull; Floors: G+5 (16.1m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2135",
+      "parcel_id": "mumbai_kalyan_ward_109",
+      "type": "geojson",
+      "coordinates": [
+        73.11261,
+        19.20863
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P45-B2202",
+      "full_ulpin": "IN-MH-KDN-P45-B2202-FL4",
+      "numeric_ulpin": "INMHKDN00452202",
+      "title": "Kalyan-Dombivli Structure 202 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_45 &bull; Floors: G+4 (12.6m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2202",
+      "parcel_id": "mumbai_kalyan_ward_45",
+      "type": "geojson",
+      "coordinates": [
+        73.11341,
+        19.22724
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P85-B2269",
+      "full_ulpin": "IN-MH-KDN-P85-B2269-FL3",
+      "numeric_ulpin": "INMHKDN00852269",
+      "title": "Kalyan-Dombivli Structure 269 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_85 &bull; Floors: G+3 (9.5m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2269",
+      "parcel_id": "mumbai_kalyan_ward_85",
+      "type": "geojson",
+      "coordinates": [
+        73.1151,
+        19.21636
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P109-B2336",
+      "full_ulpin": "IN-MH-KDN-P109-B2336-FL2",
+      "numeric_ulpin": "INMHKDN01092336",
+      "title": "Kalyan-Dombivli Structure 336 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_109 &bull; Floors: G+2 (6.1m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2336",
+      "parcel_id": "mumbai_kalyan_ward_109",
+      "type": "geojson",
+      "coordinates": [
+        73.11613,
+        19.2055
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P45-B2403",
+      "full_ulpin": "IN-MH-KDN-P45-B2403-FL2",
+      "numeric_ulpin": "INMHKDN00452403",
+      "title": "Kalyan-Dombivli Structure 403 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_45 &bull; Floors: G+2 (6.2m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2403",
+      "parcel_id": "mumbai_kalyan_ward_45",
+      "type": "geojson",
+      "coordinates": [
+        73.1167,
+        19.22435
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P86-B2470",
+      "full_ulpin": "IN-MH-KDN-P86-B2470-FL22",
+      "numeric_ulpin": "INMHKDN00862470",
+      "title": "Kalyan-Dombivli Structure 470 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_86 &bull; Floors: G+22 (70.2m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2470",
+      "parcel_id": "mumbai_kalyan_ward_86",
+      "type": "geojson",
+      "coordinates": [
+        73.1188,
+        19.21358
+      ],
+      "floors": "G+22 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P117-B2537",
+      "full_ulpin": "IN-MH-KDN-P117-B2537-FL3",
+      "numeric_ulpin": "INMHKDN01172537",
+      "title": "Kalyan-Dombivli Structure 537 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_117 &bull; Floors: G+3 (9.8m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2537",
+      "parcel_id": "mumbai_kalyan_ward_117",
+      "type": "geojson",
+      "coordinates": [
+        73.12007,
+        19.20261
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P45-B2604",
+      "full_ulpin": "IN-MH-KDN-P45-B2604-FL6",
+      "numeric_ulpin": "INMHKDN00452604",
+      "title": "Kalyan-Dombivli Structure 604 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_45 &bull; Floors: G+6 (18.9m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2604",
+      "parcel_id": "mumbai_kalyan_ward_45",
+      "type": "geojson",
+      "coordinates": [
+        73.12052,
+        19.22117
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P108-B2671",
+      "full_ulpin": "IN-MH-KDN-P108-B2671-FL4",
+      "numeric_ulpin": "INMHKDN01082671",
+      "title": "Kalyan-Dombivli Structure 671 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_108 &bull; Floors: G+4 (12.7m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2671",
+      "parcel_id": "mumbai_kalyan_ward_108",
+      "type": "geojson",
+      "coordinates": [
+        73.12228,
+        19.21058
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P43-B2738",
+      "full_ulpin": "IN-MH-KDN-P43-B2738-FL6",
+      "numeric_ulpin": "INMHKDN00432738",
+      "title": "Kalyan-Dombivli Structure 738 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_43 &bull; Floors: G+6 (19.1m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2738",
+      "parcel_id": "mumbai_kalyan_ward_43",
+      "type": "geojson",
+      "coordinates": [
+        73.12287,
+        19.22985
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P86-B2805",
+      "full_ulpin": "IN-MH-KDN-P86-B2805-FL2",
+      "numeric_ulpin": "INMHKDN00862805",
+      "title": "Kalyan-Dombivli Structure 805 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_86 &bull; Floors: G+2 (6.6m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2805",
+      "parcel_id": "mumbai_kalyan_ward_86",
+      "type": "geojson",
+      "coordinates": [
+        73.12409,
+        19.21908
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P108-B2872",
+      "full_ulpin": "IN-MH-KDN-P108-B2872-FL2",
+      "numeric_ulpin": "INMHKDN01082872",
+      "title": "Kalyan-Dombivli Structure 872 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_108 &bull; Floors: G+2 (6.6m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2872",
+      "parcel_id": "mumbai_kalyan_ward_108",
+      "type": "geojson",
+      "coordinates": [
+        73.12591,
+        19.20809
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P42-B2939",
+      "full_ulpin": "IN-MH-KDN-P42-B2939-FL3",
+      "numeric_ulpin": "INMHKDN00422939",
+      "title": "Kalyan-Dombivli Structure 939 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_42 &bull; Floors: G+3 (9.7m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_2939",
+      "parcel_id": "mumbai_kalyan_ward_42",
+      "type": "geojson",
+      "coordinates": [
+        73.12641,
+        19.22686
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P107-B3006",
+      "full_ulpin": "IN-MH-KDN-P107-B3006-FL7",
+      "numeric_ulpin": "INMHKDN01073006",
+      "title": "Kalyan-Dombivli Structure 1006 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_107 &bull; Floors: G+7 (22.6m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3006",
+      "parcel_id": "mumbai_kalyan_ward_107",
+      "type": "geojson",
+      "coordinates": [
+        73.12759,
+        19.21581
+      ],
+      "floors": "G+7 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P108-B3073",
+      "full_ulpin": "IN-MH-KDN-P108-B3073-FL4",
+      "numeric_ulpin": "INMHKDN01083073",
+      "title": "Kalyan-Dombivli Structure 1073 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_108 &bull; Floors: G+4 (12.8m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3073",
+      "parcel_id": "mumbai_kalyan_ward_108",
+      "type": "geojson",
+      "coordinates": [
+        73.1296,
+        19.20501
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P88-B3140",
+      "full_ulpin": "IN-MH-KDN-P88-B3140-FL3",
+      "numeric_ulpin": "INMHKDN00883140",
+      "title": "Kalyan-Dombivli Structure 1140 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_88 &bull; Floors: G+3 (9.4m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3140",
+      "parcel_id": "mumbai_kalyan_ward_88",
+      "type": "geojson",
+      "coordinates": [
+        73.13026,
+        19.2236
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P107-B3207",
+      "full_ulpin": "IN-MH-KDN-P107-B3207-FL4",
+      "numeric_ulpin": "INMHKDN01073207",
+      "title": "Kalyan-Dombivli Structure 1207 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_107 &bull; Floors: G+4 (13.0m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3207",
+      "parcel_id": "mumbai_kalyan_ward_107",
+      "type": "geojson",
+      "coordinates": [
+        73.13128,
+        19.21293
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P108-B3274",
+      "full_ulpin": "IN-MH-KDN-P108-B3274-FL6",
+      "numeric_ulpin": "INMHKDN01083274",
+      "title": "Kalyan-Dombivli Structure 1274 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_108 &bull; Floors: G+6 (19.4m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3274",
+      "parcel_id": "mumbai_kalyan_ward_108",
+      "type": "geojson",
+      "coordinates": [
+        73.13298,
+        19.20196
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P100-B3341",
+      "full_ulpin": "IN-MH-KDN-P100-B3341-FL4",
+      "numeric_ulpin": "INMHKDN01003341",
+      "title": "Kalyan-Dombivli Structure 1341 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_100 &bull; Floors: G+4 (12.7m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3341",
+      "parcel_id": "mumbai_kalyan_ward_100",
+      "type": "geojson",
+      "coordinates": [
+        73.13379,
+        19.22057
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P106-B3408",
+      "full_ulpin": "IN-MH-KDN-P106-B3408-FL3",
+      "numeric_ulpin": "INMHKDN01063408",
+      "title": "Kalyan-Dombivli Structure 1408 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_106 &bull; Floors: G+3 (9.8m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3408",
+      "parcel_id": "mumbai_kalyan_ward_106",
+      "type": "geojson",
+      "coordinates": [
+        73.13492,
+        19.20997
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P90-B3475",
+      "full_ulpin": "IN-MH-KDN-P90-B3475-FL2",
+      "numeric_ulpin": "INMHKDN00903475",
+      "title": "Kalyan-Dombivli Structure 1475 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_90 &bull; Floors: G+2 (6.5m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3475",
+      "parcel_id": "mumbai_kalyan_ward_90",
+      "type": "geojson",
+      "coordinates": [
+        73.13597,
+        19.2285
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P100-B3542",
+      "full_ulpin": "IN-MH-KDN-P100-B3542-FL4",
+      "numeric_ulpin": "INMHKDN01003542",
+      "title": "Kalyan-Dombivli Structure 1542 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_100 &bull; Floors: G+4 (12.6m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3542",
+      "parcel_id": "mumbai_kalyan_ward_100",
+      "type": "geojson",
+      "coordinates": [
+        73.13715,
+        19.21779
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-MH-KDN-P106-B3609",
+      "full_ulpin": "IN-MH-KDN-P106-B3609-FL2",
+      "numeric_ulpin": "INMHKDN01063609",
+      "title": "Kalyan-Dombivli Structure 1609 (Kalyan-Dombivli / Mumbai MMR)",
+      "sub": "Khasra/Parcel: mumbai_kalyan_ward_106 &bull; Floors: G+2 (6.3m) &bull; MahaBhumi ",
+      "city_key": "mumbai_kalyan",
+      "city_name": "Kalyan-Dombivli / Mumbai MMR, Maharashtra",
+      "building_id": "bldg_mumbai_kalyan_3609",
+      "parcel_id": "mumbai_kalyan_ward_106",
+      "type": "geojson",
+      "coordinates": [
+        73.13872,
+        19.20697
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P80-B2001",
+      "full_ulpin": "IN-TN-CBE-P80-B2001-FL12",
+      "numeric_ulpin": "INTNCBE00802001",
+      "title": "Coimbatore Structure 1 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_80 &bull; Floors: G+12 (38.2m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2001",
+      "parcel_id": "coimbatore_ward_80",
+      "type": "geojson",
+      "coordinates": [
+        76.95107,
+        10.99097
+      ],
+      "floors": "G+12 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P71-B2068",
+      "full_ulpin": "IN-TN-CBE-P71-B2068-FL6",
+      "numeric_ulpin": "INTNCBE00712068",
+      "title": "Coimbatore Structure 68 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_71 &bull; Floors: G+6 (19.4m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2068",
+      "parcel_id": "coimbatore_ward_71",
+      "type": "geojson",
+      "coordinates": [
+        76.95144,
+        11.00938
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P81-B2135",
+      "full_ulpin": "IN-TN-CBE-P81-B2135-FL2",
+      "numeric_ulpin": "INTNCBE00812135",
+      "title": "Coimbatore Structure 135 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_81 &bull; Floors: G+2 (6.6m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2135",
+      "parcel_id": "coimbatore_ward_81",
+      "type": "geojson",
+      "coordinates": [
+        76.95247,
+        10.99854
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P74-B2202",
+      "full_ulpin": "IN-TN-CBE-P74-B2202-FL10",
+      "numeric_ulpin": "INTNCBE00742202",
+      "title": "Coimbatore Structure 202 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_74 &bull; Floors: G+10 (31.7m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2202",
+      "parcel_id": "coimbatore_ward_74",
+      "type": "geojson",
+      "coordinates": [
+        76.95344,
+        11.01723
+      ],
+      "floors": "G+10 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P72-B2269",
+      "full_ulpin": "IN-TN-CBE-P72-B2269-FL2",
+      "numeric_ulpin": "INTNCBE00722269",
+      "title": "Coimbatore Structure 269 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_72 &bull; Floors: G+2 (6.5m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2269",
+      "parcel_id": "coimbatore_ward_72",
+      "type": "geojson",
+      "coordinates": [
+        76.95511,
+        11.00633
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P81-B2336",
+      "full_ulpin": "IN-TN-CBE-P81-B2336-FL2",
+      "numeric_ulpin": "INTNCBE00812336",
+      "title": "Coimbatore Structure 336 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_81 &bull; Floors: G+2 (6.1m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2336",
+      "parcel_id": "coimbatore_ward_81",
+      "type": "geojson",
+      "coordinates": [
+        76.95646,
+        10.99568
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P69-B2403",
+      "full_ulpin": "IN-TN-CBE-P69-B2403-FL2",
+      "numeric_ulpin": "INTNCBE00692403",
+      "title": "Coimbatore Structure 403 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_69 &bull; Floors: G+2 (6.4m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2403",
+      "parcel_id": "coimbatore_ward_69",
+      "type": "geojson",
+      "coordinates": [
+        76.95687,
+        11.01432
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P70-B2470",
+      "full_ulpin": "IN-TN-CBE-P70-B2470-FL3",
+      "numeric_ulpin": "INTNCBE00702470",
+      "title": "Coimbatore Structure 470 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_70 &bull; Floors: G+3 (9.6m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2470",
+      "parcel_id": "coimbatore_ward_70",
+      "type": "geojson",
+      "coordinates": [
+        76.95886,
+        11.00358
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P82-B2537",
+      "full_ulpin": "IN-TN-CBE-P82-B2537-FL5",
+      "numeric_ulpin": "INTNCBE00822537",
+      "title": "Coimbatore Structure 537 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_82 &bull; Floors: G+5 (16.0m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2537",
+      "parcel_id": "coimbatore_ward_82",
+      "type": "geojson",
+      "coordinates": [
+        76.96005,
+        10.99256
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B2604",
+      "full_ulpin": "IN-TN-CBE-P67-B2604-FL2",
+      "numeric_ulpin": "INTNCBE00672604",
+      "title": "Coimbatore Structure 604 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+2 (6.4m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2604",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.96061,
+        11.01138
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P82-B2671",
+      "full_ulpin": "IN-TN-CBE-P82-B2671-FL3",
+      "numeric_ulpin": "INTNCBE00822671",
+      "title": "Coimbatore Structure 671 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_82 &bull; Floors: G+3 (9.6m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2671",
+      "parcel_id": "coimbatore_ward_82",
+      "type": "geojson",
+      "coordinates": [
+        76.96225,
+        11.00045
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P68-B2738",
+      "full_ulpin": "IN-TN-CBE-P68-B2738-FL5",
+      "numeric_ulpin": "INTNCBE00682738",
+      "title": "Coimbatore Structure 738 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_68 &bull; Floors: G+5 (16.2m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2738",
+      "parcel_id": "coimbatore_ward_68",
+      "type": "geojson",
+      "coordinates": [
+        76.96275,
+        11.01985
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B2805",
+      "full_ulpin": "IN-TN-CBE-P67-B2805-FL2",
+      "numeric_ulpin": "INTNCBE00672805",
+      "title": "Coimbatore Structure 805 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+2 (6.1m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2805",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.96407,
+        11.00896
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P82-B2872",
+      "full_ulpin": "IN-TN-CBE-P82-B2872-FL3",
+      "numeric_ulpin": "INTNCBE00822872",
+      "title": "Coimbatore Structure 872 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_82 &bull; Floors: G+3 (9.5m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2872",
+      "parcel_id": "coimbatore_ward_82",
+      "type": "geojson",
+      "coordinates": [
+        76.96589,
+        10.99795
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B2939",
+      "full_ulpin": "IN-TN-CBE-P67-B2939-FL4",
+      "numeric_ulpin": "INTNCBE00672939",
+      "title": "Coimbatore Structure 939 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+4 (12.7m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_2939",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.96664,
+        11.01679
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P83-B3006",
+      "full_ulpin": "IN-TN-CBE-P83-B3006-FL10",
+      "numeric_ulpin": "INTNCBE00833006",
+      "title": "Coimbatore Structure 1006 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_83 &bull; Floors: G+10 (31.9m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3006",
+      "parcel_id": "coimbatore_ward_83",
+      "type": "geojson",
+      "coordinates": [
+        76.9675,
+        11.0057
+      ],
+      "floors": "G+10 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P83-B3073",
+      "full_ulpin": "IN-TN-CBE-P83-B3073-FL3",
+      "numeric_ulpin": "INTNCBE00833073",
+      "title": "Coimbatore Structure 1073 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_83 &bull; Floors: G+3 (9.7m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3073",
+      "parcel_id": "coimbatore_ward_83",
+      "type": "geojson",
+      "coordinates": [
+        76.96951,
+        10.99522
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B3140",
+      "full_ulpin": "IN-TN-CBE-P67-B3140-FL4",
+      "numeric_ulpin": "INTNCBE00673140",
+      "title": "Coimbatore Structure 1140 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+4 (13.0m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3140",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.97023,
+        11.01352
+      ],
+      "floors": "G+4 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P83-B3207",
+      "full_ulpin": "IN-TN-CBE-P83-B3207-FL6",
+      "numeric_ulpin": "INTNCBE00833207",
+      "title": "Coimbatore Structure 1207 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_83 &bull; Floors: G+6 (19.4m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3207",
+      "parcel_id": "coimbatore_ward_83",
+      "type": "geojson",
+      "coordinates": [
+        76.97112,
+        11.00289
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P83-B3274",
+      "full_ulpin": "IN-TN-CBE-P83-B3274-FL2",
+      "numeric_ulpin": "INTNCBE00833274",
+      "title": "Coimbatore Structure 1274 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_83 &bull; Floors: G+2 (6.6m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3274",
+      "parcel_id": "coimbatore_ward_83",
+      "type": "geojson",
+      "coordinates": [
+        76.97315,
+        10.99219
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B3341",
+      "full_ulpin": "IN-TN-CBE-P67-B3341-FL2",
+      "numeric_ulpin": "INTNCBE00673341",
+      "title": "Coimbatore Structure 1341 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+2 (6.3m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3341",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.97375,
+        11.0106
+      ],
+      "floors": "G+2 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P66-B3408",
+      "full_ulpin": "IN-TN-CBE-P66-B3408-FL5",
+      "numeric_ulpin": "INTNCBE00663408",
+      "title": "Coimbatore Structure 1408 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_66 &bull; Floors: G+5 (15.8m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3408",
+      "parcel_id": "coimbatore_ward_66",
+      "type": "geojson",
+      "coordinates": [
+        76.97479,
+        11.00003
+      ],
+      "floors": "G+5 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P67-B3475",
+      "full_ulpin": "IN-TN-CBE-P67-B3475-FL8",
+      "numeric_ulpin": "INTNCBE00673475",
+      "title": "Coimbatore Structure 1475 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_67 &bull; Floors: G+8 (25.7m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3475",
+      "parcel_id": "coimbatore_ward_67",
+      "type": "geojson",
+      "coordinates": [
+        76.97625,
+        11.01865
+      ],
+      "floors": "G+8 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P83-B3542",
+      "full_ulpin": "IN-TN-CBE-P83-B3542-FL3",
+      "numeric_ulpin": "INTNCBE00833542",
+      "title": "Coimbatore Structure 1542 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_83 &bull; Floors: G+3 (9.7m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3542",
+      "parcel_id": "coimbatore_ward_83",
+      "type": "geojson",
+      "coordinates": [
+        76.97733,
+        11.00783
+      ],
+      "floors": "G+3 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    },
+    {
+      "ulpin": "IN-TN-CBE-P66-B3609",
+      "full_ulpin": "IN-TN-CBE-P66-B3609-FL6",
+      "numeric_ulpin": "INTNCBE00663609",
+      "title": "Coimbatore Structure 1609 (Coimbatore)",
+      "sub": "Khasra/Parcel: coimbatore_ward_66 &bull; Floors: G+6 (19.1m) &bull; Tamil Nadu e-District ",
+      "city_key": "coimbatore",
+      "city_name": "Coimbatore, Tamil Nadu",
+      "building_id": "bldg_coimbatore_3609",
+      "parcel_id": "coimbatore_ward_66",
+      "type": "geojson",
+      "coordinates": [
+        76.97867,
+        10.99706
+      ],
+      "floors": "G+6 Floors",
+      "category": "3D_BUILDING_PARCEL"
+    }
+  ],
+  "pan_india_states": [
+    {
+      "code": "IN-AN",
+      "lgd": "35",
+      "name": "Andaman and Nicobar Islands",
+      "hi": "अंडमान और निकोबार",
+      "portal": "RevPortal A&N",
+      "center": [
+        92.735,
+        11.667
+      ]
+    },
+    {
+      "code": "IN-AP",
+      "lgd": "28",
+      "name": "Andhra Pradesh",
+      "hi": "आंध्र प्रदेश",
+      "portal": "Meebhoomi Andhra Pradesh",
+      "center": [
+        80.648,
+        16.5062
+      ]
+    },
+    {
+      "code": "IN-AR",
+      "lgd": "12",
+      "name": "Arunachal Pradesh",
+      "hi": "अरुणाचल प्रदेश",
+      "portal": "Arunachal Land Portal",
+      "center": [
+        93.6053,
+        27.0844
+      ]
+    },
+    {
+      "code": "IN-AS",
+      "lgd": "18",
+      "name": "Assam",
+      "hi": "असम",
+      "portal": "Dharitree Assam",
+      "center": [
+        91.7362,
+        26.1445
+      ]
+    },
+    {
+      "code": "IN-BR",
+      "lgd": "10",
+      "name": "Bihar",
+      "hi": "बिहार",
+      "portal": "Bihar Bhumi / Revenue Dept",
+      "center": [
+        85.1376,
+        25.5941
+      ]
+    },
+    {
+      "code": "IN-CH",
+      "lgd": "04",
+      "name": "Chandigarh",
+      "hi": "चंडीगढ़",
+      "portal": "Chandigarh Land Administration",
+      "center": [
+        76.7794,
+        30.7333
+      ]
+    },
+    {
+      "code": "IN-CT",
+      "lgd": "22",
+      "name": "Chhattisgarh",
+      "hi": "छत्तीसगढ़",
+      "portal": "Bhuiyan Chhattisgarh",
+      "center": [
+        81.6296,
+        21.2514
+      ]
+    },
+    {
+      "code": "IN-DN",
+      "lgd": "26",
+      "name": "Dadra and Nagar Haveli and Daman and Diu",
+      "hi": "दादरा और नगर हवेली",
+      "portal": "Daman Diu Land Records",
+      "center": [
+        72.8397,
+        20.4283
+      ]
+    },
+    {
+      "code": "IN-DL",
+      "lgd": "07",
+      "name": "Delhi (NCT)",
+      "hi": "दिल्ली",
+      "portal": "Delhi Bhulekh / Revenue GIS",
+      "center": [
+        77.209,
+        28.6139
+      ]
+    },
+    {
+      "code": "IN-GA",
+      "lgd": "30",
+      "name": "Goa",
+      "hi": "गोवा",
+      "portal": "Goa Land Records / Form I & XIV",
+      "center": [
+        73.818,
+        15.2993
+      ]
+    },
+    {
+      "code": "IN-GJ",
+      "lgd": "24",
+      "name": "Gujarat",
+      "hi": "गुजरात",
+      "portal": "AnyRoR Gujarat",
+      "center": [
+        72.5714,
+        23.0225
+      ]
+    },
+    {
+      "code": "IN-HR",
+      "lgd": "06",
+      "name": "Haryana",
+      "hi": "हरियाणा",
+      "portal": "Jamabandi Haryana",
+      "center": [
+        76.9635,
+        29.0588
+      ]
+    },
+    {
+      "code": "IN-HP",
+      "lgd": "02",
+      "name": "Himachal Pradesh",
+      "hi": "हिमाचल प्रदेश",
+      "portal": "Himbhoomi / LRC HP",
+      "center": [
+        77.1734,
+        31.1048
+      ]
+    },
+    {
+      "code": "IN-JK",
+      "lgd": "01",
+      "name": "Jammu and Kashmir",
+      "hi": "जम्मू और कश्मीर",
+      "portal": "J&K Land Records / Aapki Zameen",
+      "center": [
+        74.7973,
+        34.0837
+      ]
+    },
+    {
+      "code": "IN-JH",
+      "lgd": "20",
+      "name": "Jharkhand",
+      "hi": "झारखंड",
+      "portal": "Jharbhoomi Jharkhand",
+      "center": [
+        85.3096,
+        23.3441
+      ]
+    },
+    {
+      "code": "IN-KA",
+      "lgd": "29",
+      "name": "Karnataka",
+      "hi": "कर्नाटक",
+      "portal": "Bhoomi Karnataka",
+      "center": [
+        77.5946,
+        12.9716
+      ]
+    },
+    {
+      "code": "IN-KL",
+      "lgd": "32",
+      "name": "Kerala",
+      "hi": "केरल",
+      "portal": "e-Rekha Kerala",
+      "center": [
+        76.9366,
+        8.5241
+      ]
+    },
+    {
+      "code": "IN-LA",
+      "lgd": "37",
+      "name": "Ladakh",
+      "hi": "लद्दाख",
+      "portal": "Ladakh Revenue Desk",
+      "center": [
+        77.5771,
+        34.1526
+      ]
+    },
+    {
+      "code": "IN-LD",
+      "lgd": "31",
+      "name": "Lakshadweep",
+      "hi": "लक्षद्वीप",
+      "portal": "Lakshadweep Administration",
+      "center": [
+        72.6369,
+        10.5667
+      ]
+    },
+    {
+      "code": "IN-MP",
+      "lgd": "23",
+      "name": "Madhya Pradesh",
+      "hi": "मध्य प्रदेश",
+      "portal": "MP Bhulekh / Bhu-Abhilekh",
+      "center": [
+        77.4126,
+        23.2599
+      ]
+    },
+    {
+      "code": "IN-MH",
+      "lgd": "27",
+      "name": "Maharashtra",
+      "hi": "महाराष्ट्र",
+      "portal": "MahaBhumi / Mahabhulekh",
+      "center": [
+        72.8777,
+        19.076
+      ]
+    },
+    {
+      "code": "IN-MN",
+      "lgd": "14",
+      "name": "Manipur",
+      "hi": "मणिपुर",
+      "portal": "Loucha Pathap Manipur",
+      "center": [
+        93.9368,
+        24.817
+      ]
+    },
+    {
+      "code": "IN-ML",
+      "lgd": "17",
+      "name": "Meghalaya",
+      "hi": "मेघालय",
+      "portal": "Meghalaya Land Records",
+      "center": [
+        91.8933,
+        25.5788
+      ]
+    },
+    {
+      "code": "IN-MZ",
+      "lgd": "15",
+      "name": "Mizoram",
+      "hi": "मिजोरम",
+      "portal": "Mizoram Land Revenue",
+      "center": [
+        92.7176,
+        23.1645
+      ]
+    },
+    {
+      "code": "IN-NL",
+      "lgd": "13",
+      "name": "Nagaland",
+      "hi": "नागालैंड",
+      "portal": "Nagaland Land Revenue Portal",
+      "center": [
+        94.1166,
+        25.6751
+      ]
+    },
+    {
+      "code": "IN-OD",
+      "lgd": "21",
+      "name": "Odisha",
+      "hi": "ओडिशा",
+      "portal": "Bhulekh Odisha",
+      "center": [
+        85.8245,
+        20.2961
+      ]
+    },
+    {
+      "code": "IN-PY",
+      "lgd": "34",
+      "name": "Puducherry",
+      "hi": "पुदुचेरी",
+      "portal": "Nilamagal Puducherry",
+      "center": [
+        79.8083,
+        11.9416
+      ]
+    },
+    {
+      "code": "IN-PB",
+      "lgd": "03",
+      "name": "Punjab",
+      "hi": "पंजाब",
+      "portal": "PLRS Punjab Land Records Society",
+      "center": [
+        75.8573,
+        30.901
+      ]
+    },
+    {
+      "code": "IN-RJ",
+      "lgd": "08",
+      "name": "Rajasthan",
+      "hi": "राजस्थान",
+      "portal": "Apna Khata / E-Dharti Rajasthan",
+      "center": [
+        75.7873,
+        26.9124
+      ]
+    },
+    {
+      "code": "IN-SK",
+      "lgd": "11",
+      "name": "Sikkim",
+      "hi": "सिक्किम",
+      "portal": "Sikkim Land Revenue",
+      "center": [
+        88.6138,
+        27.3314
+      ]
+    },
+    {
+      "code": "IN-TN",
+      "lgd": "33",
+      "name": "Tamil Nadu",
+      "hi": "तमिलनाडु",
+      "portal": "e-Services TN / Patta Chitta",
+      "center": [
+        80.2707,
+        13.0827
+      ]
+    },
+    {
+      "code": "IN-TG",
+      "lgd": "36",
+      "name": "Telangana",
+      "hi": "तेलंगाना",
+      "portal": "Dharani Portal Telangana",
+      "center": [
+        78.4867,
+        17.385
+      ]
+    },
+    {
+      "code": "IN-TR",
+      "lgd": "16",
+      "name": "Tripura",
+      "hi": "त्रिपुरा",
+      "portal": "Jami Tripura",
+      "center": [
+        91.2868,
+        23.8315
+      ]
+    },
+    {
+      "code": "IN-UP",
+      "lgd": "09",
+      "name": "Uttar Pradesh",
+      "hi": "उत्तर प्रदेश",
+      "portal": "UP Bhulekh / Bor UP",
+      "center": [
+        80.9462,
+        26.8467
+      ]
+    },
+    {
+      "code": "IN-UK",
+      "lgd": "05",
+      "name": "Uttarakhand",
+      "hi": "उत्तराखंड",
+      "portal": "Devbhoomi Uttarakhand",
+      "center": [
+        78.0322,
+        30.3165
+      ]
+    },
+    {
+      "code": "IN-WB",
+      "lgd": "19",
+      "name": "West Bengal",
+      "hi": "पश्चिम बंगाल",
+      "portal": "BanglarBhumi West Bengal",
+      "center": [
+        88.3639,
+        22.5726
+      ]
+    }
+  ]
+}

@@ -968,21 +968,21 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     position: absolute;
     top: 44px;
     left: 0;
-    width: 340px;
-    max-height: 280px;
+    width: 420px;
+    max-height: 380px;
     overflow-y: auto;
     background: #ffffff;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
-    box-shadow: 0 12px 36px rgba(0, 40, 85, 0.18);
-    z-index: 100;
+    box-shadow: 0 16px 40px rgba(0, 40, 85, 0.22);
+    z-index: 1000;
     display: none;
 }
 .search-item {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
     cursor: pointer;
     border-bottom: 1px solid #f1f5f9;
     transition: background 0.15s;
@@ -998,24 +998,86 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     cursor: default;
 }
 .search-item-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     background: #eff6ff;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--uidai-navy);
-    font-size: 16px;
+    font-size: 17px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.search-item-icon.UNDERGROUND_METRO {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+.search-item-icon.ACTIVE_3D_PARCEL {
+    background: #dcfce7;
+    color: #15803d;
+}
+.search-item-icon.PILOT_3D_CITY {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+.search-item-icon.PAN_INDIA_GATEWAY {
+    background: #fef3c7;
+    color: #b45309;
+}
+.search-item-icon.RESOLVED_ULPIN {
+    background: #f3e8ff;
+    color: #7e22ce;
+}
+.search-item-info {
+    flex: 1;
+    min-width: 0;
+}
+.search-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
 }
 .search-item-title {
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 700;
     color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+.search-badge {
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.search-badge.ACTIVE_3D_PARCEL { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.search-badge.PILOT_3D_CITY { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.search-badge.UNDERGROUND_METRO { background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; }
+.search-badge.PAN_INDIA_GATEWAY { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.search-badge.RESOLVED_ULPIN { background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; }
+.search-badge.NATIONAL_REGISTRY { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
 .search-item-sub {
     font-size: 10px;
     color: #64748b;
+    margin-top: 2px;
+    line-height: 1.35;
+}
+.search-item-ulpin {
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 800;
+    color: #c2410c;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
 }
 
 /* Modals */
