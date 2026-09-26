@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
         indore: {
             name: "Indore (MP Bhulekh)",
             badge: "Indore Pilot (85 Wards)",
-            center: [75.8779, 22.7234],
-            zoom: 15.0,
+            center: [75.8750, 22.7200],
+            zoom: 15.4,
             pitch: 60,
             bearing: -15,
             parcelsUrl: "data/indore_cadastral_parcels.geojson",
@@ -88,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
         navi_mumbai: {
             name: "Navi Mumbai (MahaBhumi)",
             badge: "Navi Mumbai Pilot (111 Wards)",
-            center: [73.0095, 19.0904],
-            zoom: 14.8,
+            center: [73.0020, 19.0750],
+            zoom: 15.4,
             pitch: 60,
             bearing: -15,
             parcelsUrl: "data/navi_mumbai_cadastral_parcels.geojson",
@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
         mumbai_kalyan: {
             name: "Kalyan-Dombivli (Mumbai MMR)",
             badge: "Kalyan-Dombivli Pilot (123 Wards)",
-            center: [73.1488, 19.2269],
-            zoom: 14.8,
+            center: [73.1250, 19.2150],
+            zoom: 15.4,
             pitch: 60,
             bearing: -15,
             parcelsUrl: "data/mumbai_kalyan_cadastral_parcels.geojson",
@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
         coimbatore: {
             name: "Coimbatore (TN e-District)",
             badge: "Coimbatore Pilot (100 Wards)",
-            center: [76.9603, 11.0099],
-            zoom: 14.8,
+            center: [76.9650, 11.0050],
+            zoom: 15.4,
             pitch: 60,
             bearing: -15,
             parcelsUrl: "data/coimbatore_cadastral_parcels.geojson",
