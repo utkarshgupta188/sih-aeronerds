@@ -112,6 +112,12 @@
                         </select>
                     </div>
 
+                    <!-- Quick Auto-GPS Button for Citizens / Normal Users -->
+                    <button id="btn-header-gps" class="btn header-gps-btn" title="नागरिक जीपीएस ऑटो-लोकेशन / Auto-Locate Device GPS & 3D Floor">
+                        <i class="ph ph-crosshair" style="font-size: 14px;"></i>
+                        <span>📍 GPS My Floor</span>
+                    </button>
+
                     <!-- Active Government Persona Pill -->
                     <button id="persona-pill-btn" class="persona-pill-btn" title="अधिकारी भूमिका बदलें / Switch Role Access">
                         <div class="persona-pill-avatar"><i id="persona-pill-icon" class="ph ph-shield-check"></i></div>
@@ -463,6 +469,82 @@
                  WORKSPACES: 3. CITIZEN & LANDOWNER ("BHU-AADHAAR PASSBOOK")
                  ========================================================= -->
             <div id="citizen-workspace" class="omni-workspace" style="display: none;">
+                <!-- Auto-GPS 3D Floor & ULPIN Locator Widget -->
+                <div class="citizen-gps-box">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="gps-pulse-dot"></span>
+                            <span style="font-size: 11px; font-weight: 800; color: #002855; text-transform: uppercase; letter-spacing: 0.5px;">Auto-GPS 3D Floor Locator</span>
+                        </div>
+                        <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 8.5px; font-weight: 800;">GNSS + DEM DATUM</span>
+                    </div>
+                    <div style="font-size: 10.5px; color: #475569; line-height: 1.4; margin-bottom: 10px;">
+                        Detect your device's exact GPS location, calibrate relative elevation against the Copernicus Bare-Earth DEM, and instantly identify your <b>multi-storey building, floor level, and unique 3D ULPIN</b>.
+                    </div>
+                    <button id="btn-citizen-gps-locate" class="btn" style="width: 100%; background: #138808; color: #ffffff; font-weight: 800; font-size: 11.5px; padding: 9px 12px; border-radius: 8px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(19, 136, 8, 0.35);">
+                        <i class="ph ph-crosshair" style="font-size: 16px;"></i>
+                        <span>Locate My Device & 3D Floor (जीपीएस द्वारा ULPIN खोजें)</span>
+                    </button>
+
+                    <!-- Live GPS & Floor Resolution Results (Expands on click) -->
+                    <div id="citizen-gps-telemetry" style="display: none; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+                        <div style="font-size: 9.5px; font-weight: 800; color: #002855; text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span>📡 SENSOR TELEMETRY & FIX</span>
+                            <span id="gps-accuracy-tag" style="color: #15803d; font-weight: 700;">±2.4m Lock</span>
+                        </div>
+                        <div class="prop-row" style="font-size: 10px;">
+                            <span class="prop-label">Device Coordinates</span>
+                            <span class="prop-value" id="gps-tele-coords" style="font-family: monospace; font-weight: 700;">23.2599°N, 77.4126°E</span>
+                        </div>
+                        <div class="prop-row" style="font-size: 10px;">
+                            <span class="prop-label">Detected Elevation</span>
+                            <span class="prop-value" id="gps-tele-elev" style="font-weight: 700; color: #002855;">512.7 m MSL (+14.5m AGL)</span>
+                        </div>
+                        <div class="prop-row" style="font-size: 10px;">
+                            <span class="prop-label">Ground DEM Datum</span>
+                            <span class="prop-value" id="gps-tele-ground">498.2 m MSL (Copernicus DEM)</span>
+                        </div>
+                        <div class="prop-row" style="font-size: 10px;">
+                            <span class="prop-label">Identified Building</span>
+                            <span class="prop-value" id="gps-tele-bldg" style="color: #002855; font-weight: 800;">Lotus Heights (Tower B3)</span>
+                        </div>
+
+                        <!-- Floor Level Switcher / Calibration -->
+                        <div style="margin-top: 8px; padding: 8px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <div style="font-size: 9.5px; font-weight: 700; color: #334155; margin-bottom: 5px; display: flex; justify-content: space-between;">
+                                <span>Detected Vertical Level:</span>
+                                <span id="gps-detected-floor-badge" style="color: #138808; font-weight: 800;">4th Floor (Flat 402)</span>
+                            </div>
+                            <div class="gps-floor-pills" id="gps-floor-pills">
+                                <button type="button" class="gps-floor-btn" data-floor="1">GND</button>
+                                <button type="button" class="gps-floor-btn" data-floor="2">1st</button>
+                                <button type="button" class="gps-floor-btn" data-floor="3">2nd</button>
+                                <button type="button" class="gps-floor-btn" data-floor="4">3rd</button>
+                                <button type="button" class="gps-floor-btn active" data-floor="5">4th (Fix)</button>
+                                <button type="button" class="gps-floor-btn" data-floor="6">5th</button>
+                            </div>
+                        </div>
+
+                        <!-- Allocated 3D ULPIN Banner -->
+                        <div style="margin-top: 10px; background: #002855; color: #ffffff; border-radius: 8px; padding: 10px; text-align: center;">
+                            <div style="font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8;">Allocated 3D Bhu-Aadhaar (ULPIN)</div>
+                            <div id="gps-allocated-ulpin" style="font-family: monospace; font-size: 13.5px; font-weight: 800; color: #fbbf24; margin: 3px 0; word-break: break-all;">IN-MP-BHP-P104-B3-FL4-U402</div>
+                            <div style="font-size: 9px; color: #cbd5e1;">Rule 8 Statutory Vertical Cadastral Identity</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+                            <button id="btn-gps-fly-floor" class="btn" style="background: rgba(0,40,85,0.08); color: #002855; font-size: 10px; font-weight: 700; border: 1px solid rgba(0,40,85,0.2); padding: 6px;">
+                                <i class="ph ph-buildings"></i>
+                                <span>Highlight 3D Floor</span>
+                            </button>
+                            <button id="btn-gps-open-card" class="btn" style="background: #f59e0b; color: #020617; font-size: 10px; font-weight: 800; border: none; padding: 6px;">
+                                <i class="ph ph-identification-card"></i>
+                                <span>My 3D PVC Card</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Official Bhu-Aadhaar Digital Property Passbook -->
                 <div class="bhu-passbook-card">
                     <div class="bhu-passbook-top">
@@ -677,13 +759,17 @@
                         Bhu-Aadhaar Digital Property Passbook. View 3D vertical land title, download official government certificate with QR code, verify ground elevation, and file mutation petitions.
                     </div>
                     <div class="persona-card-tags">
-                        <span class="persona-tag">Bhu-Aadhaar Passbook</span>
-                        <span class="persona-tag">3D Title Certificate</span>
-                        <span class="persona-tag">Mutation Petition</span>
+                        <span class="persona-tag" style="background:#dcfce7; color:#15803d; font-weight:700;">📍 Auto-GPS 3D Floor Locator</span>
+                        <span class="persona-tag">3D Title Passbook</span>
+                        <span class="persona-tag">Digital Certificate</span>
                     </div>
                     <button class="persona-card-btn">
                         <span>Enter Citizen Portal</span>
                         <i class="ph ph-arrow-right"></i>
+                    </button>
+                    <button id="btn-modal-citizen-gps" class="persona-card-btn" style="background: #138808; margin-top: 8px;">
+                        <i class="ph ph-crosshair"></i>
+                        <span>Login & Auto-Locate via GPS</span>
                     </button>
                 </div>
             </div>
