@@ -527,19 +527,19 @@
         hi: {
             gov_name: "भारत सरकार",
             dept_name: "ग्रामीण विकास मंत्रालय | भूमि संसाधन विभाग (DoLR)",
-            brand_title: "एयरोनर्ड्स 3D",
-            sidebar_title: "एयरोनर्ड्स 3D",
+            brand_title: "Bhumi Adhaar",
+            sidebar_title: "Bhumi Adhaar",
             brand_sub: "भूमि संसाधन विभाग • ग्रामीण विकास मंत्रालय, भारत सरकार",
             skip_link: "मुख्य सामग्री पर जाएं",
             screen_reader: "स्क्रीन रीडर",
-            nav_home: "मुख्य पृष्ठ",
-            nav_my_bhu: "मेरा 3D ULPIN कार्ड",
-            nav_3d_map: "3D भू-नक्शा",
-            nav_floors: "मंजिल विभाजन",
-            nav_fsi: "नगर नियोजन FSI",
-            nav_rule8: "नियम 8 समीक्षा",
-            nav_title: "भू-अधिकार प्रमाण-पत्र",
-            nav_grievance: "शिकायत निवारण",
+            nav_home: "Home",
+            nav_my_bhu: "My 3D ULPIN Card",
+            nav_3d_map: "3D Cadastral Map",
+            nav_floors: "Floor Slabs",
+            nav_fsi: "Town Planning FSI",
+            nav_rule8: "विधिक समीक्षा (Rule 8 Review)",
+            nav_title: "भू-अधिकार विलेख (Title Deed)",
+            nav_grievance: "Grievance",
             ticker_label: "नवीनतम सूचना",
             ticker_msg: "डिजिटल भारत भूमि रिकॉर्ड आधुनिकीकरण कार्यक्रम (DILRMP) के अंतर्गत 3D बहप्रत्येक 3D ऊर्ध्वाधर लिंकेज सक्षम प्राधिकारी के मानव सत्यापन हेतु प्रस्ताव है।",
             search_ph: "खसरा नं., 14-अंकीय 3D ULPIN, वार्ड संख्या खोजें...",
@@ -609,8 +609,8 @@
         en: {
             gov_name: "GOVERNMENT OF INDIA",
             dept_name: "Ministry of Rural Development | Department of Land Resources (DoLR)",
-            brand_title: "AeroNerds 3D Cadastre",
-            sidebar_title: "AeroNerds",
+            brand_title: "Bhumi Adhaar",
+            sidebar_title: "Bhumi Adhaar",
             brand_sub: "Department of Land Resources • Ministry of Rural Development, Govt. of India",
             skip_link: "Skip to Main Content",
             screen_reader: "Screen Reader",
@@ -619,8 +619,8 @@
             nav_3d_map: "3D Cadastral Map",
             nav_floors: "Floor Slabs",
             nav_fsi: "Town Planning FSI",
-            nav_rule8: "Rule 8 Review",
-            nav_title: "3D Title Deed",
+            nav_rule8: "विधिक समीक्षा (Rule 8 Review)",
+            nav_title: "भू-अधिकार विलेख (Title Deed)",
             nav_grievance: "Grievance",
             ticker_label: "LATEST NOTICE",
             ticker_msg: "3D ULPIN (3D ULPIN) roll-out active for multi-storey high-rise parcels under national land-records modernisation programme.",
@@ -1305,18 +1305,23 @@
         const btnFontInc = document.getElementById("btn-font-inc");
         if (btnFontInc) btnFontInc.addEventListener("click", () => setFontScale(currentFontScale + 5));
 
-        // Main navigation bar handlers
+        // Main navigation bar handlers matching screenshot
         const navHome = document.getElementById("nav-home");
         if (navHome) {
             navHome.addEventListener("click", (e) => {
                 e.preventDefault();
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navHome.classList.add("active");
+                closeBhuCardModal();
+                closeCertificateModal();
+                closeGovModal();
+                const floorPanel = document.getElementById("floor-panel");
+                if (floorPanel) floorPanel.hidden = true;
                 const map = window.boundaryMap;
                 if (map) {
                     map.flyTo({ center: [77.4126, 23.2599], zoom: 16.5, pitch: 45, bearing: -15, duration: 1500 });
                 }
-                showGovToast("मुख्य पृष्ठ / Home", "कडैस्ट्रल दृश्य रीसेट किया गया", "ph-house");
+                showGovToast("Home", "डिजिटल ट्विन मुख्य पृष्ठ दृश्य रीसेट किया गया", "ph-house");
             });
         }
 
@@ -1336,8 +1341,18 @@
                 e.preventDefault();
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 nav3dMap.classList.add("active");
-                const btn3d = document.getElementById("btn-3d");
-                if (btn3d) btn3d.click();
+                const map = window.boundaryMap;
+                if (map) {
+                    map.flyTo({ pitch: 60, bearing: -20, zoom: Math.max(map.getZoom(), 16), duration: 1200 });
+                    if (map.getLayer("buildings-3d-layer")) {
+                        map.setLayoutProperty("buildings-3d-layer", "visibility", "visible");
+                        map.setPaintProperty("buildings-3d-layer", "fill-extrusion-opacity", 0.85);
+                    }
+                    if (map.getLayer("parcels-line-layer")) {
+                        map.setLayoutProperty("parcels-line-layer", "visibility", "visible");
+                    }
+                }
+                showGovToast("3D Cadastral Map", "3D ऊर्ध्वाधर भू-मानचित्र सक्रिय", "ph-map-trifold");
             });
         }
 
@@ -1348,7 +1363,17 @@
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navFloors.classList.add("active");
                 const toggleFloors = document.getElementById("toggle-floors");
-                if (toggleFloors) toggleFloors.click();
+                if (toggleFloors && !toggleFloors.classList.contains("active-floors")) {
+                    toggleFloors.click();
+                }
+                if (window.selectBuildingById) {
+                    window.selectBuildingById("104");
+                }
+                const map = window.boundaryMap;
+                if (map) {
+                    map.easeTo({ pitch: 65, duration: 800 });
+                }
+                showGovToast("Floor Slabs", "तल-वार 3D विभाजन दृश्य सक्रिय", "ph-stack");
             });
         }
 
@@ -1356,11 +1381,14 @@
         if (navFsi) {
             navFsi.addEventListener("click", (e) => {
                 e.preventDefault();
-                // Town Planning seat only (zoning:audit)
-                if (!requestWorkspace("planner", "zoning:audit")) return;
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navFsi.classList.add("active");
+                const Auth = window.AeroAuth;
+                if (Auth && Auth.isSignedIn() && Auth.can("zoning:audit")) {
+                    requestWorkspace("planner", "zoning:audit");
+                }
                 toggleFsiViolationFilter();
+                showGovToast("Town Planning FSI", "नगर नियोजन एवं FSI अनुपालन ऑडिट सक्रिय", "ph-ruler");
             });
         }
 
@@ -1368,10 +1396,17 @@
         if (navRule8) {
             navRule8.addEventListener("click", (e) => {
                 e.preventDefault();
-                // Registrar seat only (review:adjudicate)
-                if (!requestWorkspace("registrar", "review:adjudicate")) return;
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navRule8.classList.add("active");
+                const Auth = window.AeroAuth;
+                if (Auth && Auth.isSignedIn() && Auth.can("review:adjudicate")) {
+                    requestWorkspace("registrar", "review:adjudicate");
+                }
+                const gate = document.getElementById("gate-container") || document.getElementById("registrar-workspace");
+                if (gate) {
+                    gate.scrollIntoView({ behavior: "smooth" });
+                }
+                showGovToast("विधिक समीक्षा (Rule 8 Review)", "नियम 8 विधिक सत्यापन व अधिनिर्णय पटल", "ph-scales");
             });
         }
 
@@ -1381,18 +1416,8 @@
                 e.preventDefault();
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navTitle.classList.add("active");
-                // Certificates may only be issued by the Registrar seat; a
-                // citizen viewing their own title is handled by the passbook.
-                const Auth = window.AeroAuth;
-                if (Auth && Auth.can("certificate:view:own")) {
-                    if (!requestWorkspace("citizen", "certificate:view:own")) return;
-                    const btn = document.getElementById("citizen-view-certificate-btn");
-                    if (btn) btn.click();
-                } else if (!requestWorkspace("registrar", "certificate:issue")) {
-                    return;
-                } else {
-                    openCertificateModal(null, null, null, null, null);
-                }
+                openCertificateModal();
+                showGovToast("भू-अधिकार विलेख (Title Deed)", "डिजिटल 3D विलेख प्रमाण-पत्र", "ph-certificate");
             });
         }
 
@@ -1400,26 +1425,22 @@
         if (navGrievance) {
             navGrievance.addEventListener("click", (e) => {
                 e.preventDefault();
-                // Either the citizen who files, or the SDM who adjudicates.
-                const Auth = window.AeroAuth;
-                const canFile = Auth && Auth.can("grievance:file");
-                const canAdjudicate = Auth && Auth.can("grievance:adjudicate");
-                if (canAdjudicate) {
-                    if (!requestWorkspace("sdm", "grievance:adjudicate")) return;
-                } else if (canFile) {
-                    if (!requestWorkspace("citizen", "grievance:file")) return;
-                } else {
-                    if (Auth) {
-                        showGovToast("Not Permitted", Auth.denialReason("grievance:file"), "ph-lock-key");
-                    } else if (window.AeroAuthGate) {
-                        window.AeroAuthGate.open("Sign in to file or review a grievance.");
-                    }
-                    return;
-                }
                 document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navGrievance.classList.add("active");
-                const btnGrievance = document.getElementById("citizen-grievance-btn");
-                if (btnGrievance) btnGrievance.click();
+                const Auth = window.AeroAuth;
+                const canAdjudicate = Auth && Auth.can("grievance:adjudicate");
+                const canFile = Auth && Auth.can("grievance:file");
+                if (canAdjudicate) {
+                    requestWorkspace("sdm", "grievance:adjudicate");
+                } else if (canFile) {
+                    requestWorkspace("citizen", "grievance:file");
+                    const btn = document.getElementById("citizen-grievance-btn");
+                    if (btn) btn.click();
+                } else {
+                    const btn = document.getElementById("citizen-grievance-btn");
+                    if (btn) btn.click();
+                }
+                showGovToast("Grievance", "शिकायत निवारण पटल", "ph-chat-circle-dots");
             });
         }
 
