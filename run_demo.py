@@ -64,6 +64,32 @@ class DemoHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().log_message(format, *args)
 
 
+import socket
+
+
+def get_local_ip_addresses():
+    ips = []
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        primary = s.getsockname()[0]
+        s.close()
+        if primary and primary not in ips:
+            ips.append(primary)
+    except Exception:
+        pass
+
+    try:
+        hostname = socket.gethostname()
+        for info in socket.getaddrinfo(hostname, None):
+            ip = info[4][0]
+            if ":" not in ip and not ip.startswith("127.") and ip not in ips:
+                ips.append(ip)
+    except Exception:
+        pass
+    return ips
+
+
 def main():
     print("==================================================")
     print(" AeroNerds SIH26011 Demo — Team areonerds      ")
@@ -71,9 +97,17 @@ def main():
 
     verify_demo_data()
 
+    lan_ips = get_local_ip_addresses()
     print("[OK] Verified all required frontend and 3D datasets.")
-    print(f"\nStarting MapLibre 3D Demo UI on http://localhost:{PORT}")
-    print(f"Open in browser: http://localhost:{PORT}/\n")
+    print(f"\n==================================================")
+    print(f" Web UI Access URLs (Local Machine & Local Network):")
+    print(f"  > Localhost:      http://localhost:{PORT}/")
+    for ip in lan_ips:
+        print(f"  > Local Network:  http://{ip}:{PORT}/")
+    print(f"==================================================\n")
+    if lan_ips:
+        print(f"To open on a mobile phone / tablet on the same Wi-Fi / LAN:")
+        print(f"  ==>  http://{lan_ips[0]}:{PORT}/\n")
     print("Use this mode for reliable, offline, zero-latency evaluation.")
     print("Press Ctrl+C to stop the demo server.\n")
 
@@ -88,6 +122,8 @@ def main():
         if "address already in use" in str(e).lower() or getattr(e, "winerror", None) == 10048:
             print(f"\n[WARNING] Port {PORT} is already in use by another process.")
             print(f"Check if AeroNerds is already open at http://localhost:{PORT}/")
+            if lan_ips:
+                print(f"Or via local network: http://{lan_ips[0]}:{PORT}/")
         else:
             print(f"\n[ERROR] Could not start server: {e}")
         sys.exit(1)
