@@ -13,7 +13,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="images/bhumi_adhaar_logo.jpg">
 
     <!-- Phosphor Icons for premium SVG icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -64,17 +65,8 @@
             <!-- 2. Main brand header -->
             <div class="gov-portal-header">
                 <div class="gov-branding">
-                    <div class="ashoka-emblem-box" title="भारत का राष्ट्रीय प्रतीक / State Emblem of India">
-                        <svg class="ashoka-svg" viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M50 8 C42 8 36 14 36 22 C36 29 41 34 46 36 C44 42 41 52 41 62 L59 62 C59 52 56 42 54 36 C59 34 64 29 64 22 C64 14 58 8 50 8 Z" fill="#f59e0b"/>
-                            <path d="M30 24 C24 24 19 28 19 35 C19 41 23 45 28 47 C29 53 31 60 34 65 L44 65 C41 58 39 49 37 43 C39 42 41 39 41 35 C41 28 36 24 30 24 Z" fill="#d97706"/>
-                            <path d="M70 24 C64 24 59 28 59 35 C59 39 61 42 63 43 C61 49 59 58 56 65 L66 65 C69 60 71 53 72 47 C77 45 81 41 81 35 C81 28 76 24 70 24 Z" fill="#d97706"/>
-                            <rect x="25" y="66" width="50" height="9" rx="2" fill="#b45309"/>
-                            <circle cx="50" cy="70.5" r="3.5" fill="#f8fafc"/>
-                            <circle cx="50" cy="70.5" r="1.5" fill="#002855"/>
-                            <path d="M28 77 L72 77 L68 84 L32 84 Z" fill="#f59e0b"/>
-                            <text x="50" y="93" font-size="8.5" font-family="'Inter', sans-serif" font-weight="900" fill="#fbbf24" text-anchor="middle" letter-spacing="1.2">सत्यमेव जयते</text>
-                        </svg>
+                    <div class="ashoka-emblem-box" title="आधिकारिक 3D भू-पहचान प्रतीक">
+                        <img src="images/bhumi_adhaar_logo.jpg" alt="Logo" class="bhumi-header-logo" style="width: 44px; height: 44px; border-radius: 8px; object-fit: contain; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">
                     </div>
                     <div class="gov-title-group">
                         <div class="gov-logo-text">
@@ -173,9 +165,8 @@
         <aside class="sidebar glass-panel">
             <header class="sidebar-header">
                 <div class="logo">
-                    <!-- National Emblem / Ashoka Lion Motif -->
-                    <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #f58220, #c2410c); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 18px; font-weight: 900; box-shadow: 0 0 10px rgba(245, 130, 32, 0.4);">
-                        🏛️
+                    <div style="width: 32px; height: 32px; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(245, 130, 32, 0.4);">
+                        <img src="images/bhumi_adhaar_logo.jpg" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div>
                         <h1 id="sidebar-app-title" style="font-size: 19px; letter-spacing: -0.4px; color: #002855;">AeroNerds</h1>
@@ -1139,7 +1130,9 @@
             <div class="auth-tricolor"></div>
 
             <div class="auth-head">
-                <div class="auth-crest" aria-hidden="true">🏛️</div>
+                <div class="auth-crest" aria-hidden="true" style="overflow: hidden; padding: 2px;">
+                    <img src="images/bhumi_adhaar_logo.jpg" alt="Logo" style="width: 100%; height: 100%; border-radius: 8px; object-fit: contain;">
+                </div>
                 <div>
                     <div class="auth-gov-hi">भारत सरकार</div>
                     <div class="auth-gov-en">GOVERNMENT OF INDIA &bull; MINISTRY OF RURAL DEVELOPMENT</div>
@@ -1177,17 +1170,9 @@
                 <button id="auth-submit" type="submit" class="auth-submit">Sign in</button>
             </form>
 
-            <div class="auth-divider"><span>Statutory access control &mdash; four seats</span></div>
-            <div id="auth-role-grid" class="auth-role-grid"></div>
-
-            <div class="auth-divider"><span>Demo fixtures (local evaluation only)</span></div>
-            <div id="auth-demo-accounts" class="auth-demo-accounts"></div>
-            <p class="auth-footnote">
-                Accounts above are <strong>demo fixtures</strong>, not real government officers or ownership
-                records. Access is decided by the server on every request; a citizen can only ever read
-                cadastral records linked to their own account. Any 3D identifier shown is a
-                <em>proposed</em> linkage, not an official ULPIN issuance.
-            </p>
+            <!-- Statutory access control and demo fixtures removed from visual display per user request -->
+            <div id="auth-role-grid" class="auth-role-grid" style="display: none !important;"></div>
+            <div id="auth-demo-accounts" class="auth-demo-accounts" style="display: none !important;"></div>
         </div>
     </div>
 
