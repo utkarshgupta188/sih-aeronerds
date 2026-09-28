@@ -134,6 +134,30 @@ sudo certbot --nginx -d your-domain.example
 sudo certbot renew --dry-run     # verify auto-renewal
 ```
 
+#### No domain? The IP-only variant
+
+Let's Encrypt cannot issue a certificate for a bare IP address, so an instance
+reached only as `http://65.0.71.122` can never serve HTTPS. Use the
+`aeronerds-ip.conf` variant instead:
+
+```bash
+sudo cp /opt/aeronerds-src/deploy/nginx/aeronerds-ip.conf /etc/nginx/sites-available/aeronerds
+sudo ln -sf /etc/nginx/sites-available/aeronerds /etc/nginx/sites-enabled/aeronerds
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+It keeps the rate limits, the CSP, the security headers and the database block,
+sets `server_name _` so nginx answers requests whose `Host` is the IP, and
+deliberately omits HSTS, which browsers ignore over plain HTTP anyway.
+
+**What this costs, plainly:** sign-in posts the username and password
+base64-encoded over unencrypted HTTP, readable by anyone on the network path. The
+auth rate limit is the only brake on credential stuffing, so change the demo
+passwords before the instance is reachable, and do not submit real citizen
+grievance data over it. Workable for a judged demo on a public IP; get a free
+hostname (DuckDNS, sslip.io) and switch to the TLS config to remove the problem.
+
 ### 6. Day-to-day
 
 ```bash

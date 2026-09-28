@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 DOCKERFILE = ROOT / "Dockerfile"
 COMPOSE = ROOT / "docker-compose.yml"
 NGINX = ROOT / "deploy" / "nginx" / "aeronerds.conf"
+NGINX_IP = ROOT / "deploy" / "nginx" / "aeronerds-ip.conf"
 # Two deployment paths, both covered. Native (systemd) is the default; the
 # Docker path is retained because the setup guide documents both.
 SETUP = ROOT / "deploy" / "setup_aws_docker.sh"
@@ -47,6 +48,11 @@ def compose():
 @pytest.fixture(scope="module")
 def nginx():
     return NGINX.read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="module")
+def nginx_ip():
+    return NGINX_IP.read_text(encoding="utf-8")
 
 
 def env_vars_read_by_code():
@@ -268,6 +274,110 @@ def test_nginx_throttles_signin(nginx):
     assert "/api/auth/login" in nginx, "the sign-in endpoint needs its own rate limit"
     login_block = nginx[nginx.find("location /api/auth/login"):][:400]
     assert "limit_req" in login_block, "the sign-in limit must actually be applied there"
+
+
+# ---------------------------------------------------------------------------
+# the IP-only variant, for an instance with no domain and therefore no TLS
+# ---------------------------------------------------------------------------
+def test_ip_config_exists():
+    assert NGINX_IP.exists(), (
+        "an instance reached by bare IP has no way to get a certificate, so it "
+        "needs a config that serves over plain HTTP"
+    )
+
+
+def test_ip_config_serves_plain_http_only(nginx_ip):
+    """It must not pretend to have TLS. A stray ssl_certificate line here would
+    stop nginx from starting at all, since no certificate exists yet."""
+    assert "listen 80" in nginx_ip
+
+    # Compare directives only. A comment explaining why HSTS is absent must not
+    # count as sending it, or this test can never be satisfied and gets "fixed"
+    # by deleting the explanation.
+    directives = [
+        ln for ln in nginx_ip.splitlines() if not ln.strip().startswith("#")
+    ]
+    active = "\n".join(directives)
+
+    assert "ssl_certificate" not in active, (
+        "the IP-only config must not reference a certificate that does not exist"
+    )
+    assert "return 301 https://" not in active, (
+        "redirecting to HTTPS would loop forever with no certificate to serve it"
+    )
+    # HSTS over plain HTTP is ignored by browsers, so claiming it is misleading
+    assert "Strict-Transport-Security" not in active, (
+        "do not send HSTS when there is no HTTPS; it is silently ignored and "
+        "misrepresents the transport"
+    )
+
+
+def test_ip_config_catches_requests_by_ip(nginx_ip):
+    """With no domain there is no hostname to match, so server_name must be the
+    catch-all or nginx serves nothing for a request whose Host is the IP."""
+    assert re.search(r"server_name\s+_", nginx_ip), (
+        "the IP-only config needs 'server_name _' to match requests by IP"
+    )
+    assert "default_server" in nginx_ip, (
+        "so this site answers even if another default vhost exists"
+    )
+
+
+def test_ip_config_keeps_the_protections_that_still_work(nginx_ip):
+    """TLS is gone, so the rate limits and headers are the entire defence."""
+    assert "limit_req_zone" in nginx_ip
+    login_block = nginx_ip[nginx_ip.find("location /api/auth/login"):][:400]
+    assert "limit_req" in login_block, (
+        "without TLS the sign-in throttle is the only brake on credential "
+        "stuffing, so it must survive"
+    )
+    for header in ("X-Content-Type-Options", "X-Frame-Options", "Content-Security-Policy"):
+        assert header in nginx_ip, f"missing security header {header}"
+    assert "server_tokens off" in nginx_ip, (
+        "do not advertise the nginx version on an unauthenticated port"
+    )
+
+
+def test_ip_config_blocks_state_files(nginx_ip):
+    """No TLS does not mean no database. The auth store must stay unservable."""
+    assert re.search(r"location\s+~\*\s+[\^~]*\\\.\(db\|sqlite", nginx_ip), (
+        "the IP-only config must still refuse to serve the auth database"
+    )
+    assert "-journal" in nginx_ip
+
+
+def test_ip_config_proxies_to_loopback(nginx_ip):
+    assert "127.0.0.1:8000" in nginx_ip, (
+        "nginx must still proxy to the loopback-bound app"
+    )
+    assert "0.0.0.0:8000" not in nginx_ip
+
+
+def test_ip_config_documents_its_insecurity(nginx_ip):
+    """A future reader must not mistake this for a production config."""
+    head = nginx_ip[: nginx_ip.find("server {")]
+    assert "cleartext" in head.lower(), (
+        "the config must state that credentials cross the network in cleartext"
+    )
+    assert "no TLS" in head or "cannot issue a certificate" in head, (
+        "the config must explain why there is no HTTPS, so nobody 'fixes' it by "
+        "assuming a certificate is just missing"
+    )
+
+
+def test_ip_config_has_the_same_csp_hosts_as_the_tls_one(nginx_ip, nginx):
+    """Two copies of a CSP will drift. The portal loads the same basemap and 3D
+    libs either way, so a host allowed in one must be allowed in the other."""
+    def hosts(text):
+        csp = re.search(r'Content-Security-Policy "([^"]+)"', text)
+        return set(re.findall(r"https://[a-z0-9.*-]+", csp.group(1)))
+
+    only_tls = hosts(nginx) - hosts(nginx_ip)
+    assert not only_tls, (
+        f"CSP hosts present in the TLS config but missing from the IP config: "
+        f"{sorted(only_tls)}. The map breaks in the browser with no server-side "
+        f"error to explain why."
+    )
 
 
 # ---------------------------------------------------------------------------
