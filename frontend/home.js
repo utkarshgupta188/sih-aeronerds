@@ -1,12 +1,53 @@
-/* AeroNerds SIH26011 — landing page behaviour.
-   Deliberately tiny: mobile nav, seat deep-links, and a live count check that
-   compares the hardcoded stat band against the shipped GeoJSON so a data
-   change on disk is visible on the page instead of silently going stale. */
+/* AeroNerds SIH26011 — Official Government-Style Landing Page Behaviour.
+   Handles:
+   - Font resizing (A-, A, A+) and High Contrast mode toggle
+   - Mobile navigation toggle
+   - Seat deep-links for evaluator desks
+   - Hero banner carousel controls
+   - Quick search redirect to /index.html
+   - Live count check that compares hardcoded stat band against shipped GeoJSON layers
+*/
 
 (function () {
     "use strict";
 
-    // ---------- mobile navigation ----------
+    // ---------- 1. Accessibility Controls: Font Resizer & Contrast ----------
+    var btnDec = document.getElementById("btn-font-dec");
+    var btnNorm = document.getElementById("btn-font-normal");
+    var btnInc = document.getElementById("btn-font-inc");
+    var btnContrast = document.getElementById("btn-contrast-toggle");
+
+    if (btnDec && btnNorm && btnInc) {
+        btnDec.addEventListener("click", function () {
+            document.body.classList.remove("font-normal", "font-lg");
+            document.body.classList.add("font-sm");
+            btnDec.classList.add("active");
+            btnNorm.classList.remove("active");
+            btnInc.classList.remove("active");
+        });
+        btnNorm.addEventListener("click", function () {
+            document.body.classList.remove("font-sm", "font-lg");
+            document.body.classList.add("font-normal");
+            btnNorm.classList.add("active");
+            btnDec.classList.remove("active");
+            btnInc.classList.remove("active");
+        });
+        btnInc.addEventListener("click", function () {
+            document.body.classList.remove("font-sm", "font-normal");
+            document.body.classList.add("font-lg");
+            btnInc.classList.add("active");
+            btnNorm.classList.remove("active");
+            btnDec.classList.remove("active");
+        });
+    }
+
+    if (btnContrast) {
+        btnContrast.addEventListener("click", function () {
+            document.body.classList.toggle("theme-contrast");
+        });
+    }
+
+    // ---------- 2. Mobile Navigation ----------
     var toggle = document.getElementById("navToggle");
     var nav = document.getElementById("mainnav");
 
@@ -32,9 +73,31 @@
         });
     }
 
-    // ---------- deep-link a requested seat into the login screen ----------
-    // /index.html#seat=registrar pre-selects that demo account on the sign-in
-    // form, so an evaluator can jump straight to the desk being discussed.
+    // ---------- 3. Quick Search Bar ----------
+    var searchInput = document.getElementById("quickSearchInput");
+    var searchBtn = document.getElementById("btnQuickSearch");
+
+    function executeQuickSearch() {
+        if (!searchInput) return;
+        var query = searchInput.value.trim();
+        if (query) {
+            window.location.href = "/index.html?search=" + encodeURIComponent(query);
+        } else {
+            window.location.href = "/index.html";
+        }
+    }
+
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener("click", executeQuickSearch);
+        searchInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                executeQuickSearch();
+            }
+        });
+    }
+
+    // ---------- 4. Deep-link a requested seat into the login screen ----------
+    // /index.html#seat=registrar pre-selects that demo account on the sign-in form
     var params = new URLSearchParams(window.location.search);
     var hash = window.location.hash.replace(/^#/, "");
     var seat = params.get("seat") || (hash.startsWith("seat=") ? hash.slice(5) : null);
@@ -48,7 +111,7 @@
         });
     }
 
-    // ---------- close the ticker when the tab is hidden ----------
+    // ---------- 5. Ticker tab visibility pause ----------
     var track = document.querySelector(".ticker-track ul");
     if (track) {
         document.addEventListener("visibilitychange", function () {
@@ -56,13 +119,8 @@
         });
     }
 
-    // ---------- live count check against the shipped GeoJSON ----------
-    // The stat band is authored by hand so the page renders instantly with no
-    // network round-trip. This check re-reads the real layers and annotates any
-    // figure that no longer matches, rather than letting the page claim a
-    // number the data no longer supports.
-    // region -> [buildings layer, cadastral parcels layer], matching the real
-    // filenames on disk. Bengaluru is the unprefixed legacy pair.
+    // ---------- 6. Live count check against the shipped GeoJSON ----------
+    // Required by tests/test_homepage.py to prevent drift
     var REGIONS = [
         ["bhopal", "bhopal_buildings_3d.geojson", "bhopal_cadastral_parcels.geojson"],
         ["bengaluru", "buildings_3d.geojson", "cadastral_parcels_valid.geojson"],

@@ -1336,6 +1336,9 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     border-color: #138808;
     box-shadow: 0 2px 6px rgba(19, 136, 8, 0.35);
 }
+.lan-host-label {
+    font-weight: 700;
+}
 .gps-radar-beacon {
     position: relative;
     width: 44px;

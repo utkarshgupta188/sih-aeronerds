@@ -36,3 +36,4 @@ data/aeronerds_auth.db-wal
 data/aeronerds_auth.db-shm
 *.sqlite
 *.sqlite3
+*.mp4

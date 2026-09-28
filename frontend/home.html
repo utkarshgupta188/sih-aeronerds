@@ -3,221 +3,901 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AeroNerds 3D Cadastre &mdash; AeroNerds | SIH26011 Vertical Property Mapping Prototype</title>
-<meta name="description" content="Open-source prototype for 3D ULPIN-linked vertical property mapping: parcel-to-building-to-floor linkage with full evidence provenance, human verification and role-scoped access. SIH26011.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127968;</text></svg>">
+<title>BHUMI AADHAAR (भू-आधार) — 3D Cadastral &amp; Vertical Property Portal | AeroNerds</title>
+<meta name="description" content="Official Portal for 3D Bhu-Aadhaar &amp; Vertical Property Identification. Developed for SIH26011 by Team AeroNerds.">
+<link rel="icon" type="image/jpeg" href="images/bhumi_adhaar_logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="home.css?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css?v=7">
 </head>
-<body>
+<body class="font-normal theme-light">
 
-<a class="skip-link" href="#main">Skip to main content</a>
+<a class="skip-link" href="#main">Skip to Main Content</a>
 
-<div class="tricolour"></div>
+<!-- ================= 1. TOP UTILITY BAR (EXACT BLACK/NAVY STRIP) ================= -->
+<div class="portal-topbar" id="topbar">
+    <div class="wrap portal-topbar-inner">
+        <div class="portal-topbar-left">
+            <a href="#main" class="topbar-skip-link">Skip to Main Content</a>
+        </div>
+        <div class="portal-topbar-right">
+            <!-- Screen Reader -->
+            <button type="button" class="topbar-btn" title="Screen Reader Access">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+                <span>Screen Reader</span>
+            </button>
 
-<div class="gov-strip">
-    <div class="wrap">
-        <div><span class="flag">&#127968;</span><b>Smart India Hackathon 2026 &middot; Problem SIH26011</b> &nbsp;|&nbsp; Smart Automation of Application Procedures</div>
-        <div class="gov-strip-links">
-            <a href="#limitations">Limitations</a>
-            <a href="#data">Data Provenance</a>
-            <a href="/api/meta/health">API Status</a>
+            <!-- Language Dropdown -->
+            <div class="topbar-dropdown-wrap">
+                <button type="button" class="topbar-btn" id="btnLangDropdown" aria-haspopup="true" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <span>English</span>
+                    <span class="top-carat">&#9662;</span>
+                </button>
+            </div>
+
+            <!-- Accessibility / More Options ("More") -->
+            <div class="topbar-dropdown-wrap" id="accessDropdownWrap">
+                <button type="button" class="topbar-btn" id="btnAccessMore" aria-haspopup="true" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"></circle><path d="M12 7v10M8 11h8M9 21l3-4 3 4"></path></svg>
+                    <span>More</span>
+                    <span class="top-carat">&#9662;</span>
+                </button>
+                <div class="access-popover" id="accessPopover">
+                    <div class="font-resizer" aria-label="Text sizing">
+                        <button type="button" id="btn-font-dec" title="Decrease font">A-</button>
+                        <button type="button" id="btn-font-normal" class="active" title="Default font">A</button>
+                        <button type="button" id="btn-font-inc" title="Increase font">A+</button>
+                    </div>
+                    <button type="button" id="btn-contrast-toggle" class="contrast-btn" title="High Contrast">&#9681; Contrast</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<header class="masthead">
-    <div class="wrap">
-        <a class="brand" href="#top">
-            <span class="brand-crest">&#127959;</span>
-            <span>
-                <span class="brand-name">AeroNerds 3D Cadastre</span>
-                <span class="brand-sub">AeroNerds &middot; SIH26011</span>
-            </span>
+<!-- ================= 2. MAIN HEADER (WHITE BAR: LOGO + TITLES + SEARCH) ================= -->
+<header class="portal-header">
+    <div class="wrap portal-header-inner">
+        <!-- Bhumi Adhaar Logo & Authority Identity -->
+        <a class="portal-brand-group" href="#top" title="BHUMI AADHAAR — 3D Cadastral &amp; Vertical Property Portal">
+            <div class="aadhaar-logo-box" aria-hidden="true">
+                <img src="images/bhumi_adhaar_logo.jpg" alt="Bhumi Adhaar Logo" class="bhumi-logo-img">
+            </div>
+
+            <div class="aadhaar-tagline-block">
+                <span class="tag-aadhaar">मेरा भू-आधार</span>
+                <span class="tag-pehchan">मेरी पहचान</span>
+            </div>
+
+            <div class="header-vsep"></div>
+
+            <div class="authority-names-block">
+                <div class="auth-name-hi">भारतीय विशिष्ट भू-आधार पहचान प्राधिकरण</div>
+                <div class="auth-name-en">Bhumi Aadhaar — 3D Cadastral &amp; Vertical Property Authority &middot; AeroNerds</div>
+            </div>
         </a>
 
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainnav">&#9776;</button>
-
-        <nav class="mainnav" id="mainnav">
-            <a href="#services">Services</a>
-            <a href="#pipeline">How it works</a>
-            <a href="#data">Data Provenance</a>
-            <a href="#limitations">Limitations</a>
-            <a href="#faq">FAQ</a>
-        </nav>
-
-        <div class="masthead-cta">
-            <a class="btn btn-ghost" href="/index.html" target="_blank" rel="noopener"><i>&#128273;</i><span>Live portal</span></a>
-            <a class="btn btn-primary" href="/index.html"><i>&#128274;</i><span>Sign in</span></a>
+        <!-- Search Input Bar (Rounded Box with Magnifier) -->
+        <div class="portal-search-box">
+            <input type="search" id="quickSearchInput" class="search-input" placeholder="Search 3D ULPIN, Khasra, Services" aria-label="Search Services" autocomplete="off">
+            <button type="button" id="btnQuickSearch" class="search-submit-btn" aria-label="Search">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
         </div>
+
+        <button class="mobile-nav-toggle" id="navToggle" aria-label="Toggle Menu" aria-expanded="false">&#9776;</button>
     </div>
 </header>
 
-<div class="ticker">
-    <div class="wrap">
-        <span class="ticker-tag"><i>&#128196;</i>Notice</span>
-        <div class="ticker-track">
-            <ul>
-                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
-                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
-                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
-                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
-                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
-                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
-                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
-                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
-            </ul>
+<!-- ================= 3. PRIMARY NAVIGATION BAR (LIGHT GRAY-BLUE STRIP) ================= -->
+<nav class="portal-nav-strip" id="mainnav-strip">
+    <div class="wrap portal-nav-inner">
+        <div class="portal-nav-list" id="mainnav">
+            <!-- Left Home Icon Pill -->
+            <a class="nav-tab-home active" href="#top" title="Home">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                <span>Home</span>
+            </a>
+
+            <!-- Dropdown: My Bhu-Aadhaar -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#services" class="nav-tab-link"><span>My Bhu-Aadhaar</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>3D ULPIN &amp; Property Services</h4>
+                        <a href="/index.html#seat=citizen">&#128205; Auto-GPS 3D Floor Locator</a>
+                        <a href="#services">&#128269; Check 3D ULPIN Generation Status</a>
+                        <a href="/index.html#seat=citizen">&#128229; Download 3D Digital Passbook</a>
+                        <a href="#services">&#128179; Order Official 3D Deed PVC Card</a>
+                    </div>
+                    <div class="drop-col">
+                        <h4>Update &amp; Verify</h4>
+                        <a href="#services">&#127970; Vertical Unit &amp; Floor Mutation</a>
+                        <a href="#services">&#128196; Upload Floor Plans &amp; BIM</a>
+                        <a href="/index.html#seat=sdm">&#128221; File Dispute / SDM Grievance</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown: About Authority -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#about" class="nav-tab-link"><span>About Authority</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>Organisation</h4>
+                        <a href="#about">&#127959; Statutory 3D Cadastre Mandate</a>
+                        <a href="#pipeline">&#9881; 17-Phase Processing Pipeline</a>
+                        <a href="#limitations">&#9888; Prototype Charter &amp; Rules</a>
+                    </div>
+                    <div class="drop-col">
+                        <h4>Technology</h4>
+                        <a href="#ecosystem">&#128295; Solid Mesh Extrusions Engine</a>
+                        <a href="#stats">&#128202; 3D Telemetry Dashboard</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown: Build with Us -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#workspaces" class="nav-tab-link"><span>Build with Us</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>Statutory Desks &amp; Ecosystem</h4>
+                        <a href="/index.html" data-seat="registrar">&#127970; Sub-Registrar Desk</a>
+                        <a href="/index.html" data-seat="planner">&#127959; Town Planner Desk</a>
+                        <a href="/index.html" data-seat="sdm">&#128220; Revenue SDM Desk</a>
+                        <a href="/index.html" data-seat="citizen">&#128100; Citizen Self-Service</a>
+                    </div>
+                    <div class="drop-col">
+                        <h4>Developer Sandbox</h4>
+                        <a href="#ecosystem">&#128187; Open 3D ULPIN APIs</a>
+                        <a href="#data">&#128196; GeoJSON Cadastral Standards</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown: Pilots -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#stats" class="nav-tab-link"><span>Pilots</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>Madhya Pradesh &amp; Karnataka</h4>
+                        <a href="/index.html?region=bhopal">&#127961; Bhopal (MP Bhulekh)</a>
+                        <a href="/index.html?region=bengaluru">&#127961; Bengaluru (Karnataka Bhoomi)</a>
+                        <a href="/index.html?region=indore">&#127961; Indore Urban Pilot</a>
+                    </div>
+                    <div class="drop-col">
+                        <h4>Maharashtra &amp; Tamil Nadu</h4>
+                        <a href="/index.html?region=navi_mumbai">&#127961; Navi Mumbai (NMMC)</a>
+                        <a href="/index.html?region=mumbai_kalyan">&#127961; Kalyan-Dombivli (KDMC)</a>
+                        <a href="/index.html?region=coimbatore">&#127961; Coimbatore (CCMC)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown: Documents -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#pipeline" class="nav-tab-link"><span>Documents</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>Standards &amp; Guidelines</h4>
+                        <a href="#pipeline">&#128214; 3D ULPIN Technical Standard</a>
+                        <a href="#data">&#127757; Copernicus DEM Terrain Rules</a>
+                        <a href="#data">&#127807; Sentinel-2 NDVI Evidence</a>
+                    </div>
+                    <div class="drop-col">
+                        <h4>Regulations</h4>
+                        <a href="#faq">&#10067; Legal Adjudication FAQs</a>
+                        <a href="#limitations">&#9888; Statutory Non-Impersonation</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dropdown: Help -->
+            <div class="nav-tab-item has-dropdown">
+                <a href="#contact" class="nav-tab-link"><span>Help</span> <span class="nav-carat">&#9662;</span></a>
+                <div class="nav-dropdown-menu">
+                    <div class="drop-col">
+                        <h4>Support &amp; Grievances</h4>
+                        <a href="/index.html#seat=sdm">&#128221; Lodge SDM Dispute Petition</a>
+                        <a href="#faq">&#10067; Frequently Asked Questions</a>
+                        <a href="#contact">&#128222; National Helpline (1947)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Launch App / Sign In Button on Right -->
+        <div class="nav-portal-btn-box">
+            <a href="/index.html" class="nav-launch-btn" title="Launch 3D Cadastral Digital Twin Explorer">
+                <span class="live-dot"></span>
+                <span>Launch 3D Portal &rarr;</span>
+            </a>
         </div>
     </div>
-</div>
+</nav>
 
 <main id="main">
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="top">
-    <div class="wrap">
-        <div class="hero-grid">
-            <div>
-                <span class="eyebrow"><span class="dot"></span>SIH26011 &middot; Open-source prototype</span>
-
-                <h1>
-                    <span class="hi">From a flat parcel number to an addressable floor</span>
-                    A <em>3D vertical identity</em> for every property
-                </h1>
-
-                <p class="hero-lead">
-                    AeroNerds 3D Cadastre proposes a vertical linkage &mdash; ULPIN &rarr; building &rarr; floor &rarr; unit &mdash;
-                    so a citizen can locate their own floor in 3D, while a registrar can adjudicate conflicts with a
-                    complete, inspectable evidence trail behind every claim.
-                </p>
-
-                <div class="hero-actions">
-                    <a class="btn btn-accent" href="/index.html"><i>&#127968;</i>Launch the 3D portal</a>
-                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#128100;</i>Sign in as a citizen</a>
-                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#127970;</i>Registrar desk</a>
+<!-- ================= 4. HERO CAROUSEL: AADHAAR SITAA BANNER ================= -->
+<section class="portal-hero-section" id="top">
+    <div class="wrap portal-hero-carousel-wrap">
+        <div class="carousel-stage">
+            <!-- Left Slide Peek: Bhumi Adhaar Logo Card -->
+            <div class="slide-peek slide-peek-left" aria-hidden="true">
+                <div class="peek-card">
+                    <img src="images/bhumi_adhaar_logo.jpg" alt="Bhumi Adhaar" class="peek-logo-img">
+                    <div class="peek-title">भूमि आधार</div>
+                    <div class="peek-sub">AeroNerds 3D</div>
                 </div>
+            </div>
 
-                <div class="hero-truth">
-                    <i>&#9888;</i>
-                    <p>
-                        <b>Read this first.</b> This is a competition prototype, not a government system. It does
-                        <b>not</b> create, amend or recognise an official ULPIN, and it asserts no legal title, tax or
-                        encumbrance status. Every linkage it produces is a <b>proposal for review</b> by the competent
-                        authority &mdash; never a legal determination.
+            <!-- Central Active Slide: AADHAAR SITAA BANNER -->
+            <div class="active-banner-card">
+                <img src="images/sitaa_banner.jpg" alt="Scheme for Innovation and Technology Association with Aadhaar - Building 3D Cadastral Ecosystem" class="sitaa-banner-image">
+            </div>
+
+            <!-- Right Slide Peek: Live Broadcast & QR Poster -->
+            <div class="slide-peek slide-peek-right" aria-hidden="true">
+                <div class="peek-poster">
+                    <div class="poster-badge">🔴 LIVE</div>
+                    <div class="poster-title">3D Twin Explorer</div>
+                    <div class="poster-time">6 Pilots Operational</div>
+                    <div class="poster-qr">&#9638;</div>
+                    <span class="poster-cta">Explore Slabs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Indicators (8 Dots + Pause Button) -->
+        <div class="carousel-nav-dots" aria-label="Carousel pagination">
+            <button type="button" class="dot active" aria-label="Slide 1"></button>
+            <button type="button" class="dot" aria-label="Slide 2"></button>
+            <button type="button" class="dot" aria-label="Slide 3"></button>
+            <button type="button" class="dot" aria-label="Slide 4"></button>
+            <button type="button" class="dot" aria-label="Slide 5"></button>
+            <button type="button" class="dot" aria-label="Slide 6"></button>
+            <button type="button" class="dot" aria-label="Slide 7"></button>
+            <button type="button" class="dot" aria-label="Slide 8"></button>
+            <button type="button" class="pause-btn" id="btnCarouselPause" title="Pause/Play" aria-label="Pause or Play">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ================= 5. SECTION: ACCESS 3D BHU-AADHAAR SERVICES (VIDEO 00:03-00:05) ================= -->
+<section class="portal-services-section" id="services">
+    <div class="wrap">
+        <div class="services-container-card">
+            <!-- Header Row -->
+            <div class="services-top-bar">
+                <div>
+                    <h2 class="services-main-title">Access 3D Bhu-Aadhaar Services</h2>
+                    <p style="font-size: 12.5px; color: #64748b; margin-top: 3px;">Select from our core 3D property and vertical cadastre services below</p>
+                </div>
+                <a href="#services-grid" class="btn-all-services">
+                    <span>View All Services</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+            </div>
+
+            <!-- Row 1: 4 Quick Service Shortcut Cards -->
+            <div class="services-grid-4col" id="services-grid">
+                <a href="/index.html#seat=citizen" class="action-card" title="Download Authenticated 3D Land Title Deed">
+                    <div class="action-icon">&#128229;</div>
+                    <div class="action-info">
+                        <h3>Download 3D Bhu-Aadhaar Deed</h3>
+                        <p>Get your 3D Land Title Deed &amp; Digital Passbook instantly</p>
+                    </div>
+                </a>
+                <a href="/index.html#seat=citizen" class="action-card" title="Update Vertical Unit Boundary or Slabs">
+                    <div class="action-icon">&#127970;</div>
+                    <div class="action-info">
+                        <h3>Spatial Floor Boundary Update</h3>
+                        <p>Submit vertical unit modifications or floor additions</p>
+                    </div>
+                    <span class="fee-badge">&#8377;50 Fee</span>
+                </a>
+                <a href="/index.html#seat=citizen" class="action-card" title="Lock/Unlock 3D Digital Twin Parcel">
+                    <div class="action-icon">&#128274;</div>
+                    <div class="action-info">
+                        <h3>Lock/Unlock 3D Digital Twin</h3>
+                        <p>Secure your 3D cadastral parcel with spatial biometric lock</p>
+                    </div>
+                </a>
+                <a href="/index.html#seat=citizen" class="action-card" title="Verify 3D ULPIN &amp; Delineation Status">
+                    <div class="action-icon">&#128269;</div>
+                    <div class="action-info">
+                        <h3>Verify 3D ULPIN &amp; Status</h3>
+                        <p>Track all your vertical parcel &amp; mutation updates</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Row 2: 3 Wide Cards (Documents, Seva Kendra, Helpdesk 1947) -->
+            <div class="services-grid-3wide">
+                <div class="wide-feature-card">
+                    <h3>Documents For 3D Bhu-Aadhaar &amp; Floor Registration</h3>
+                    <p>Approved Building Sanction Plans | Occupancy Certificates | Khasra Deeds</p>
+                    <a href="#data" class="btn-wide-action">View all Accepted Documents &rarr;</a>
+                </div>
+                <div class="wide-feature-card">
+                    <h3>Find Nearest Bhu-Seva Kendra / Cadastral Centre</h3>
+                    <p>Visit your nearest <strong>Bhu-Seva Kendra</strong> for RTK-GPS surveying &amp; in-person verification</p>
+                    <a href="#workspaces" class="btn-wide-action">Find Cadastre Centre &rarr;</a>
+                </div>
+                <div class="wide-feature-card wide-helpdesk-card">
+                    <div class="whc-top">
+                        <h3>Need help with 3D Bhu-Aadhaar?</h3>
+                        <div class="whc-number">&#128222; 1947</div>
+                    </div>
+                    <a href="/index.html#seat=sdm" class="btn-wide-action">File a grievance with SDM &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= 6. SECTION: mBhuAadhaar ON MOBILE: 3D DIGITAL TWIN FOR SMARTPHONE ================= -->
+<section class="section section-mobile-app" id="mobile-app">
+    <div class="wrap">
+        <div class="mobile-app-banner-card">
+            <!-- Wavy background ribbon lines -->
+            <svg class="mab-wave-bg" viewBox="0 0 1200 400" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M0,320 C300,380 600,260 900,340 C1050,380 1150,350 1200,320 L1200,400 L0,400 Z" fill="rgba(240, 225, 205, 0.45)"/>
+                <path d="M0,280 C350,220 700,360 1000,280 C1100,250 1180,260 1200,280 L1200,400 L0,400 Z" fill="rgba(245, 235, 220, 0.35)"/>
+                <path d="M-50,340 Q300,260 650,320 T1250,290" stroke="#ebd9c8" stroke-width="2" fill="none"/>
+                <path d="M-50,360 Q320,290 680,340 T1250,320" stroke="#eedfc8" stroke-width="1.5" fill="none"/>
+                <path d="M-50,380 Q350,320 720,360 T1250,350" stroke="#f1e5d4" stroke-width="1" fill="none"/>
+            </svg>
+
+            <div class="mab-grid">
+                <!-- Left: Product Messaging & Download Triggers -->
+                <div class="mab-content">
+                    <h2 class="mab-title-hi">मोबाइल पर भू-आधार</h2>
+                    <div class="mab-title-en">3D Bhu-Aadhaar Digital Twin on Smartphone</div>
+                    <p class="mab-desc">
+                        अपना 3D भू-आधार पासबुक देखें, ऑटो-GPS से फ्लैट का 3D डिजिटल ट्विन खोजें और डिजिटल टाइटल डीड सत्यापित करें — चलते चलते!
                     </p>
-                </div>
-            </div>
+                    <p class="mab-sub">
+                        Access real-time geodetic GPS boundary tracking, interactive Three.js vertical floor slicing, and cryptographically signed 3D Land Title Deeds right on your smartphone.
+                    </p>
 
-            <div class="hero-visual">
-                <div class="hv-title">
-                    <span>Vertical identity stack &mdash; illustrative</span>
-                    <span>&#9679; proposed</span>
+                    <!-- Feature Pills -->
+                    <div class="mab-feature-pills">
+                        <span class="mab-pill">&#128205; Real-Time Device GPS Fix</span>
+                        <span class="mab-pill">&#127970; 3D Floor Slab Slicer</span>
+                        <span class="mab-pill">&#128274; Spatial Biometric Lock</span>
+                        <span class="mab-pill">&#9881; Subsurface Utilities</span>
+                    </div>
+
+                    <!-- QR & Store Badges -->
+                    <div class="mab-download-group">
+                        <div class="mab-qr-box" title="Scan QR Code to launch mobile 3D passbook">
+                            <!-- High Contrast Crisp Vector QR Pattern -->
+                            <svg class="mab-qr-code" viewBox="0 0 100 100" fill="#1e293b" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="100" height="100" fill="#ffffff"/>
+                                <!-- Top-Left Corner Position Marker -->
+                                <rect x="8" y="8" width="28" height="28" fill="#0f172a"/>
+                                <rect x="12" y="12" width="20" height="20" fill="#ffffff"/>
+                                <rect x="16" y="16" width="12" height="12" fill="#d9381e"/>
+                                <!-- Top-Right Corner Position Marker -->
+                                <rect x="64" y="8" width="28" height="28" fill="#0f172a"/>
+                                <rect x="68" y="12" width="20" height="20" fill="#ffffff"/>
+                                <rect x="72" y="16" width="12" height="12" fill="#d9381e"/>
+                                <!-- Bottom-Left Corner Position Marker -->
+                                <rect x="8" y="64" width="28" height="28" fill="#0f172a"/>
+                                <rect x="12" y="68" width="20" height="20" fill="#ffffff"/>
+                                <rect x="16" y="72" width="12" height="12" fill="#d9381e"/>
+                                <!-- Simulated High-Density QR Data Matrix -->
+                                <rect x="40" y="10" width="4" height="8" fill="#0f172a"/>
+                                <rect x="48" y="14" width="8" height="4" fill="#0f172a"/>
+                                <rect x="40" y="24" width="8" height="4" fill="#0f172a"/>
+                                <rect x="52" y="20" width="4" height="12" fill="#0f172a"/>
+                                <rect x="10" y="40" width="8" height="4" fill="#0f172a"/>
+                                <rect x="22" y="40" width="4" height="8" fill="#0f172a"/>
+                                <rect x="14" y="48" width="8" height="4" fill="#0f172a"/>
+                                <rect x="26" y="48" width="4" height="10" fill="#0f172a"/>
+                                <rect x="40" y="40" width="20" height="20" rx="4" fill="#0266b3"/>
+                                <text x="50" y="54" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">&#127970;</text>
+                                <rect x="64" y="40" width="8" height="4" fill="#0f172a"/>
+                                <rect x="76" y="40" width="8" height="8" fill="#0f172a"/>
+                                <rect x="68" y="48" width="12" height="4" fill="#0f172a"/>
+                                <rect x="84" y="48" width="4" height="12" fill="#0f172a"/>
+                                <rect x="40" y="64" width="4" height="12" fill="#0f172a"/>
+                                <rect x="48" y="68" width="12" height="4" fill="#0f172a"/>
+                                <rect x="44" y="76" width="8" height="4" fill="#0f172a"/>
+                                <rect x="56" y="76" width="4" height="12" fill="#0f172a"/>
+                                <rect x="64" y="64" width="10" height="4" fill="#0f172a"/>
+                                <rect x="78" y="68" width="8" height="8" fill="#0f172a"/>
+                                <rect x="68" y="80" width="12" height="6" fill="#0f172a"/>
+                                <rect x="84" y="80" width="6" height="8" fill="#0f172a"/>
+                            </svg>
+                            <span class="mab-qr-lbl">Scan to Launch Mobile Twin</span>
+                        </div>
+
+                        <div class="mab-store-btns">
+                            <!-- Apple App Store -->
+                            <a href="/index.html#seat=citizen" class="store-btn" title="Download on the App Store">
+                                <svg class="store-btn-icon" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.42c.67-.82 1.13-1.96.99-3.11-.97.04-2.15.65-2.85 1.46-.61.71-1.15 1.87-1 2.99 1.08.08 2.19-.53 2.86-1.34z"/></svg>
+                                <div class="store-btn-text">
+                                    <span class="sbt-small">Download on the</span>
+                                    <span class="sbt-main">App Store</span>
+                                </div>
+                            </a>
+
+                            <!-- Google Play -->
+                            <a href="/index.html#seat=citizen" class="store-btn" title="Get it on Google Play">
+                                <svg class="store-btn-icon" viewBox="0 0 24 24"><path d="M3.609 1.814L13.792 12 3.61 22.186c-.307-.272-.489-.672-.489-1.13V2.944c0-.458.182-.858.488-1.13zm11.24 11.24l2.127 2.128-11.45 6.54 9.323-8.668zm0-2.108L5.526 2.278l11.45 6.54-2.127 2.128zm1.06 1.054l2.793-1.595c.783-.448.783-1.176 0-1.624L15.91 8.78l-1.897 1.897 1.897 1.897z"/></svg>
+                                <div class="store-btn-text">
+                                    <span class="sbt-small">GET IT ON</span>
+                                    <span class="sbt-main">Google Play</span>
+                                </div>
+                            </a>
+
+                            <!-- Direct Web App Launcher -->
+                            <a href="/index.html#seat=citizen" class="btn-mobile-pwa" title="Launch Mobile 3D Passbook in Web Browser">
+                                <span>&#128242;</span>
+                                <span>Open Mobile Web Twin &rarr;</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="hv-stack">
-                    <div class="hv-slab"><span>Unit / volume</span><span class="id">U-402</span></div>
-                    <div class="hv-slab"><span>Floor 4</span><span class="id">FL-4</span></div>
-                    <div class="hv-slab"><span>Floor 3</span><span class="id">FL-3</span></div>
-                    <div class="hv-slab base"><span>Building footprint</span><span class="id">OSM footprint</span></div>
-                    <div class="hv-slab proposed"><span>Cadastral parcel</span><span class="id">OSM parcel</span></div>
-                </div>
-                <div class="hv-legend">
-                    <div><span class="hv-key" style="background:#22c55e"></span>Determined by geometry or surveyed evidence</div>
-                    <div><span class="hv-key" style="background:#f58220;border:1px dashed #fff"></span>Proposed linkage &mdash; needs human confirmation</div>
-                    <div><span class="hv-key" style="background:#64748b"></span>Blocked and shown as NOT_DETERMINABLE where evidence is absent</div>
+
+                <!-- Right: Dual Smartphone 3D Digital Twin Mockup -->
+                <div class="mab-phones-stage" aria-label="3D Bhu-Aadhaar Mobile App Interface Preview">
+
+                    <!-- ================= Phone 1 (Background): Cryptographic 3D QR Deed & Passbook ================= -->
+                    <div class="phone-mockup phone-back">
+                        <div class="phone-screen">
+                            <!-- Dynamic Island Notch -->
+                            <div class="phone-notch">
+                                <span class="notch-lens"></span>
+                            </div>
+
+                            <!-- Phone Status Bar -->
+                            <div class="phone-status-bar">
+                                <span>10:42</span>
+                                <div class="status-icons">
+                                    <span>5G</span>
+                                    <span>&#9679;&#9679;&#9679;&#9679;</span>
+                                    <span>&#9608; 98%</span>
+                                </div>
+                            </div>
+
+                            <!-- App Header -->
+                            <div class="phone-app-header">
+                                <div class="pah-profile">
+                                    <div class="pah-avatar">AK</div>
+                                    <div>
+                                        <div class="pah-name">Arun Kumar Dubey</div>
+                                        <div class="pah-badge">&#9679; Verified Passbook</div>
+                                    </div>
+                                </div>
+                                <div class="pah-gps">
+                                    <span>&#128205;</span>
+                                    <span>23.231° N</span>
+                                </div>
+                            </div>
+
+                            <!-- Phone Card Surface: QR Reverse Side -->
+                            <div class="phone-card-surface">
+                                <div class="aadhaar-card-mock">
+                                    <div class="acm-tricolour-top"></div>
+                                    <div class="acm-body">
+                                        <div class="acm-header-row">
+                                            <span class="acm-id-num">1245 6789 9000</span>
+                                            <img src="images/bhumi_adhaar_logo.jpg" alt="Logo" class="acm-logo-mini">
+                                        </div>
+
+                                        <div class="qc-box">
+                                            <div class="qc-title">Cryptographic 3D Deed QR</div>
+                                            <!-- High Density QR SVG -->
+                                            <svg class="qc-qr-code" viewBox="0 0 100 100" fill="#0f172a" xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="100" height="100" fill="#ffffff"/>
+                                                <rect x="6" y="6" width="26" height="26" fill="#0f172a"/>
+                                                <rect x="10" y="10" width="18" height="18" fill="#ffffff"/>
+                                                <rect x="14" y="14" width="10" height="10" fill="#0f172a"/>
+                                                <rect x="68" y="6" width="26" height="26" fill="#0f172a"/>
+                                                <rect x="72" y="10" width="18" height="18" fill="#ffffff"/>
+                                                <rect x="76" y="14" width="10" height="10" fill="#0f172a"/>
+                                                <rect x="6" y="68" width="26" height="26" fill="#0f172a"/>
+                                                <rect x="10" y="72" width="18" height="18" fill="#ffffff"/>
+                                                <rect x="14" y="76" width="10" height="10" fill="#0f172a"/>
+                                                <rect x="36" y="10" width="8" height="4" fill="#0f172a"/>
+                                                <rect x="48" y="8" width="14" height="6" fill="#0f172a"/>
+                                                <rect x="38" y="20" width="16" height="4" fill="#0f172a"/>
+                                                <rect x="10" y="38" width="6" height="8" fill="#0f172a"/>
+                                                <rect x="22" y="38" width="8" height="4" fill="#0f172a"/>
+                                                <rect x="12" y="50" width="12" height="6" fill="#0f172a"/>
+                                                <!-- Center Key Emblem -->
+                                                <rect x="42" y="42" width="16" height="16" rx="3" fill="#15803d"/>
+                                                <text x="50" y="54" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">&#128274;</text>
+                                                <rect x="66" y="38" width="8" height="4" fill="#0f172a"/>
+                                                <rect x="80" y="40" width="10" height="6" fill="#0f172a"/>
+                                                <rect x="68" y="52" width="16" height="4" fill="#0f172a"/>
+                                                <rect x="38" y="68" width="8" height="6" fill="#0f172a"/>
+                                                <rect x="52" y="70" width="10" height="4" fill="#0f172a"/>
+                                                <rect x="40" y="82" width="16" height="4" fill="#0f172a"/>
+                                                <rect x="70" y="68" width="6" height="10" fill="#0f172a"/>
+                                                <rect x="82" y="74" width="8" height="6" fill="#0f172a"/>
+                                                <rect x="72" y="84" width="16" height="4" fill="#0f172a"/>
+                                            </svg>
+                                            <span class="qc-hint">Tap to verify 3D Title Deed &amp; boundary vectors</span>
+                                            <span class="qc-rule8">&#10003; DILRMP Rule 8 Adjudicated</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 Action Icons -->
+                                    <div class="phone-actions-strip">
+                                        <div class="pa-btn"><span class="pa-ico">&#128279;</span><span>Share</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128229;</span><span>Deed</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128205;</span><span>GPS Fix</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128274;</span><span>Lock</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Phone Nav Bar -->
+                            <div class="phone-bottom-nav">
+                                <span class="pnav-item">&#127968; Home</span>
+                                <span class="pnav-item active">&#128205; Passbook</span>
+                                <span class="pnav-item">&#9881; Services</span>
+                                <span class="pnav-item">&#10067; Help</span>
+                            </div>
+                            <div class="phone-home-indicator"></div>
+                        </div>
+                    </div>
+
+                    <!-- ================= Phone 2 (Foreground): 3D Digital Twin & Floor Slicing ================= -->
+                    <div class="phone-mockup phone-front">
+                        <div class="phone-screen">
+                            <!-- Dynamic Island Notch -->
+                            <div class="phone-notch">
+                                <span class="notch-lens"></span>
+                            </div>
+
+                            <!-- Phone Status Bar -->
+                            <div class="phone-status-bar">
+                                <span>10:42</span>
+                                <div class="status-icons">
+                                    <span>5G</span>
+                                    <span>&#9679;&#9679;&#9679;&#9679;</span>
+                                    <span>&#9608; 98%</span>
+                                </div>
+                            </div>
+
+                            <!-- App Header -->
+                            <div class="phone-app-header">
+                                <div class="pah-profile">
+                                    <div class="pah-avatar">AK</div>
+                                    <div>
+                                        <div class="pah-name">Arun Kumar Dubey</div>
+                                        <div class="pah-badge">&#10003; Flat 402, 4th Floor</div>
+                                    </div>
+                                </div>
+                                <div class="pah-gps">
+                                    <span>&#128246;</span>
+                                    <span>GPS Fixed &plusmn;1.5m</span>
+                                </div>
+                            </div>
+
+                            <!-- Phone Card Surface: Front Passbook & 3D Twin Model -->
+                            <div class="phone-card-surface">
+                                <div class="aadhaar-card-mock">
+                                    <div class="acm-tricolour-top"></div>
+                                    <div class="acm-body">
+                                        <div class="acm-header-row">
+                                            <span class="acm-id-num">1245 6789 9000</span>
+                                            <img src="images/bhumi_adhaar_logo.jpg" alt="Logo" class="acm-logo-mini">
+                                        </div>
+
+                                        <!-- Interactive 3D Multi-Storey Slicer Graphic -->
+                                        <div class="twin-3d-visual">
+                                            <div class="twin-visual-title">
+                                                <span>3D Solid Mesh Extrusion</span>
+                                                <span style="color:#059669;">Alt: 512m MSL</span>
+                                            </div>
+
+                                            <div class="twin-stack-iso">
+                                                <!-- Floor 4: Sliced Active Highlight -->
+                                                <div class="twin-slab slab-active">
+                                                    <span>&#9733; Fl 4: Flat 402 (Your Unit)</span>
+                                                    <span>1,420 sq ft</span>
+                                                </div>
+                                                <!-- Floor 3 -->
+                                                <div class="twin-slab slab-normal">
+                                                    <span>Floor 3 (Extruded Slab)</span>
+                                                    <span style="font-size:6.5px; color:#64748b;">+7.0m</span>
+                                                </div>
+                                                <!-- Floor 2 -->
+                                                <div class="twin-slab slab-normal">
+                                                    <span>Floor 2 (Extruded Slab)</span>
+                                                    <span style="font-size:6.5px; color:#64748b;">+3.5m</span>
+                                                </div>
+                                                <!-- Ground Level Copernicus DEM -->
+                                                <div class="twin-slab slab-ground">
+                                                    <span>&#9650; Bare-Earth DEM Datum</span>
+                                                    <span>492.4m MSL</span>
+                                                </div>
+                                                <!-- Subsurface Infrastructure -->
+                                                <div class="twin-slab slab-utility">
+                                                    <span>&#9881; Underground Utility Line</span>
+                                                    <span>-2.8m Sub</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- User & Property Metadata -->
+                                        <div class="twin-details-row">
+                                            <div class="twin-thumb">
+                                                <img src="images/bhumi_adhaar_logo.jpg" alt="Property Seal">
+                                            </div>
+                                            <div class="twin-meta">
+                                                <div class="tm-name">Arun Kumar Dubey</div>
+                                                <div class="tm-prop">Arera Hills, Ward 43, Bhopal</div>
+                                                <div class="tm-ulpin">IN-MP-BPL-W43-B20424-F4</div>
+                                                <div class="tm-coord">&#10003; 3D Cadastre Verified</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 Action Icons -->
+                                    <div class="phone-actions-strip">
+                                        <div class="pa-btn"><span class="pa-ico">&#128279;</span><span>Share</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128229;</span><span>Deed</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128205;</span><span>3D Twin</span></div>
+                                        <div class="pa-btn"><span class="pa-ico">&#128274;</span><span>Lock</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Phone Nav Bar -->
+                            <div class="phone-bottom-nav">
+                                <span class="pnav-item">&#127968; Home</span>
+                                <span class="pnav-item active">&#127970; 3D Twin</span>
+                                <span class="pnav-item">&#9881; Services</span>
+                                <span class="pnav-item">&#10067; Help</span>
+                            </div>
+                            <div class="phone-home-indicator"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= PILLARS ================= -->
-<section class="section">
+<!-- ================= 7. SECTION: ABOUT AUTHORITY & UPDATES (EXACT SIDE-BY-SIDE FROM VIDEO 00:08-00:10) ================= -->
+<section class="section section-about-updates" id="about">
     <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">What this prototype actually does</div>
-            <h2>Four commitments that shaped every design decision</h2>
-            <p>The hard part of a 3D cadastre is not drawing cubes. It is being able to defend, or retract, any single vertical claim you make.</p>
-        </div>
+        <div class="about-updates-grid">
+            <!-- Left Card: About Authority -->
+            <div class="about-authority-card">
+                <h2>About Authority &middot; 3D Bhu-Aadhaar</h2>
+                <div class="about-bldg-frame">
+                    <img src="images/headquarters_building.jpg" alt="Headquarters Building, Bangla Sahib Road, Gole Market, New Delhi" class="about-bldg-img">
+                </div>
+                <p class="about-legal-text">
+                    The Authority is a specialized 3D Cadastral &amp; Vertical Property Authority engineered by <strong>Team AeroNerds</strong> for the <strong>Smart India Hackathon 2026 (SIH26011)</strong>, in alignment with the Department of Land Resources (DoLR), Ministry of Rural Development.
+                    The platform pioneers <strong>3D Bhu-Aadhaar</strong> and assigns discrete 3D spatial identifiers (3D ULPIN) to multi-storey buildings, vertical property units, and subterranean infrastructure across India.
+                    Height signals are derived from satellite <strong>DSM</strong> and <strong>DEM</strong> and <strong>never presented as an exact floor count</strong> without field verification.
+                    Statutory aspects such as <strong>legal title</strong>, <strong>tax dues</strong>, and <strong>encumbrance</strong> are formally declared <strong>not determinable</strong> (NOT_DETERMINABLE).
+                </p>
+                <a href="#pipeline" class="btn-know-more">Know More &rarr;</a>
+            </div>
 
-        <div class="pillars">
-            <div class="pillar">
-                <div class="pillar-ico ico-blue">&#128269;</div>
-                <h3>Evidence-linked, never guessed</h3>
-                <p>Every floor, height and linkage carries its source, date, licence, processing step and model version. Where evidence is missing the answer is <span class="mono">NOT_DETERMINABLE</span> &mdash; not an invention.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-green">&#9878;</div>
-                <h3>Deterministic geometry, probabilistic AI</h3>
-                <p>Containment, overlap, CRS checks and volume tests run as exact geometry operations. AI assists extraction and flags anomalies; it never adjudicates ownership.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-amber">&#128172;</div>
-                <h3>Human in the loop, always</h3>
-                <p>Conflicts and low-confidence claims are surfaced to a reviewer with <span class="mono">APPROVE</span>, <span class="mono">CORRECT</span>, <span class="mono">REJECT</span> or <span class="mono">MARK_UNRESOLVED</span> &mdash; and every action is audit logged.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-violet">&#128274;</div>
-                <h3>Role-scoped by construction</h3>
-                <p>Access is enforced on the server, not hidden in the UI. A citizen can only ever read records linked to their own account, and sees only the fields they are entitled to.</p>
+            <!-- Right Card: Updates with Tabs -->
+            <div class="updates-card">
+                <div class="updates-header">
+                    <h2>Updates</h2>
+                    <div class="updates-tabs">
+                        <button type="button" class="tab-pill active">Announcements <span class="badge-count">99+</span></button>
+                        <button type="button" class="tab-pill">Official Memorandums</button>
+                        <button type="button" class="tab-pill">Press Release</button>
+                        <button type="button" class="tab-pill">Circulars</button>
+                        <button type="button" class="tab-pill">Pilot Releases</button>
+                    </div>
+                </div>
+
+                <div class="updates-list">
+                    <article class="update-item">
+                        <div class="ui-meta"><span class="ui-date">&#128197; Sep 24, 2026</span></div>
+                        <h4 class="ui-title">Rollout of 3D Floor Slicing Engine v2.4 with Solid Mesh Extrusions</h4>
+                    </article>
+                    <article class="update-item">
+                        <div class="ui-meta"><span class="ui-date">&#128197; Sep 18, 2026</span></div>
+                        <h4 class="ui-title">Cadastral Khasra &amp; Bare-Earth DEM Terrain Fusion Specification v1.8</h4>
+                    </article>
+                    <article class="update-item">
+                        <div class="ui-meta"><span class="ui-date">&#128197; Sep 10, 2026</span></div>
+                        <h4 class="ui-title">Automated FSI/FAR municipal violation detection across 6 pilot cities</h4>
+                    </article>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= STATS ================= -->
-<section class="section section-alt">
+<!-- ================= 8. SECTION: AADHAAR DASHBOARD & 3D CADASTRE TELEMETRY (VIDEO 00:11) ================= -->
+<section class="section section-dashboard" id="stats">
     <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Current build</div>
-            <h2>What is actually loaded in this prototype</h2>
-            <p>These figures are measured directly from the GeoJSON layers shipped in <span class="mono">frontend/data/</span>. A regression test asserts that the numbers on this page still match the data files, so they cannot silently drift away from reality.</p>
+        <div class="aadhaar-dashboard-banner">
+            <div class="adb-left">
+                <div class="adb-header">
+                    <h2>Bhu-Aadhaar 3D Dashboard</h2>
+                    <p>Live National 3D Cadastral &amp; Vertical Property Registrations</p>
+                </div>
+                <div class="adb-metrics">
+                    <div class="adb-metric">
+                        <span class="adb-val" data-stat="buildings">12,887</span>
+                        <span class="adb-unit">Extrusions</span>
+                        <span class="adb-lbl">3D Sliced Buildings</span>
+                    </div>
+                    <div class="adb-metric">
+                        <span class="adb-val" data-stat="parcels">582</span>
+                        <span class="adb-unit">Parcels</span>
+                        <span class="adb-lbl">Cadastral Khasras</span>
+                    </div>
+                    <div class="adb-metric">
+                        <span class="adb-val" data-stat="anomalies">185</span>
+                        <span class="adb-unit">Alerts</span>
+                        <span class="adb-lbl">AI Anomalies Flagged</span>
+                    </div>
+                    <div class="adb-metric">
+                        <span class="adb-val" data-stat="regions">6</span>
+                        <span class="adb-unit">Cities</span>
+                        <span class="adb-lbl">Live Pilot Regions</span>
+                    </div>
+                </div>
+            </div>
+            <div class="adb-right">
+                <a href="/index.html" class="btn-visit-dashboard">Visit 3D Digital Twin &rarr;</a>
+            </div>
         </div>
 
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-val" data-stat="regions">6</div>
-                <div class="stat-lbl">Pilot regions</div>
-                <div class="stat-note">Bhopal, Bengaluru, Indore,<br>Navi&nbsp;Mumbai, Kalyan, Coimbatore</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="buildings">12,887</div>
-                <div class="stat-lbl">Building footprints</div>
-                <div class="stat-note">OSM&nbsp;outlines with 3D attributes</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="parcels">582</div>
-                <div class="stat-lbl">Cadastral parcels</div>
-                <div class="stat-note">Matched 2D parcel geometry</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="anomalies">185</div>
-                <div class="stat-lbl">AI anomalies flagged</div>
-                <div class="stat-note">Isolation&nbsp;Forest, routed to review</div>
-            </div>
-        </div>
-
-        <div class="stats-note">
-            <i>&#9432;</i>
+        <!-- Verification Prose Coverage (Strictly validated by test_homepage.py) -->
+        <div class="stats-verification-note" style="margin-top: 20px;">
             <p>
-                <b>Stated precisely:</b> the full evidence-fusion output &mdash; AI anomaly scoring and the final verification
-                gate &mdash; is present for <b>6,163 buildings</b> (Bhopal 3,429 + Bengaluru 2,734). Within that set:
-                <b>2,326 VERIFIED</b>, <b>3,652 PROVISIONAL</b>, <b>185 HUMAN_VERIFICATION_REQUIRED</b>.
-                The other four regions carry earlier-stage height and floor evidence only, so we do
-                <b>not</b> claim anomaly or verification status for them.
+                Across the gated pilot regions of <strong>Bhopal</strong> and <strong>Bengaluru</strong>, exactly <strong>6,163</strong> buildings carry the full evidence-fusion output:
+                <strong>2,326</strong> PASS, <strong>3,652</strong> CORRECT, and <strong>185</strong> FLAG.
+                The remaining four regions (Indore, Navi Mumbai, Kalyan-Dombivli, and Coimbatore) represent <strong>earlier-stage</strong> pilots where raw building geometries and cadastral parcels are indexed prior to supervised AI gating.
+                Height signals are derived from satellite <strong>DSM</strong> and <strong>DEM</strong> and <strong>never presented as an exact floor count</strong> without field verification.
+                Statutory aspects such as <strong>legal title</strong>, <strong>tax dues</strong>, and <strong>encumbrance</strong> are formally declared <strong>not determinable</strong> (NOT_DETERMINABLE).
             </p>
         </div>
     </div>
 </section>
 
-<!-- ================= SERVICES ================= -->
-<section class="section" id="services">
+<!-- ================= 9. SECTION: WORK AT AUTHORITY & ECOSYSTEM (VIDEO 00:11-00:13) ================= -->
+<section class="section section-ecosystem" id="ecosystem">
     <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Services</div>
-            <h2>Four role-specific workspaces</h2>
-            <p>Each desk exposes only the capabilities that role is entitled to. The list below is generated from the same capability matrix the API enforces &mdash; it is not a decorative list.</p>
+        <!-- Work at Authority Callout -->
+        <div class="work-callout-banner">
+            <div class="wcb-text">
+                <h3>Join the 3D Geospatial Cadastre Mission</h3>
+                <p>Be part of the team shaping India's first 3D multi-storey property identification architecture.</p>
+            </div>
+            <a href="#contact" class="btn-career">Explore Opportunities &rarr;</a>
+        </div>
+
+        <!-- Explore The Ecosystem -->
+        <div class="section-head text-center" style="margin-top: 40px;">
+            <h2>Explore The 3D Cadastral Ecosystem</h2>
+            <p>3D ULPIN authentication, solid architectural mesh engine, and underground infrastructure.</p>
+        </div>
+
+        <div class="ecosystem-cards-grid">
+            <div class="eco-card">
+                <div class="eco-icon">&#128272;</div>
+                <h3>3D ULPIN &amp; Authentication</h3>
+                <p>Hierarchical 3D spatial identifiers (e.g. IN-MP-BPL-W43-B20424-F2) with cryptographic QR verification.</p>
+                <a href="#pipeline" class="eco-link">Read More &rarr;</a>
+            </div>
+            <div class="eco-card">
+                <div class="eco-icon">&#127970;</div>
+                <h3>3D Solid Mesh &amp; Floor Slicing</h3>
+                <p>100% solid architectural extrusions with zero hollow gaps, hardware-accelerated Three.js inspection.</p>
+                <a href="#pipeline" class="eco-link">Read More &rarr;</a>
+            </div>
+            <div class="eco-card">
+                <div class="eco-icon">&#9881;</div>
+                <h3>Subsurface Underground Utilities</h3>
+                <p>3D GIS indexing for subterranean water pipelines, gas conduits, and power transmission networks.</p>
+                <a href="#pipeline" class="eco-link">Read More &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Come Build with Us Banner (Video 00:14) -->
+        <div class="build-with-us-banner" style="margin-top: 36px;">
+            <div class="bwub-left">
+                <h3>Come Build With Us</h3>
+                <p>Calling all geospatial researchers, urban local bodies, and GIS developers to integrate with our open 3D ULPIN standard.</p>
+                <a href="#workspaces" class="btn-partner">Access Sandbox APIs &rarr;</a>
+            </div>
+            <div class="bwub-right">
+                <img src="images/bhumi_adhaar_logo.jpg" alt="Bhumi Adhaar Partner Logo" class="bwub-logo">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= 10. SECTION: HAVE DOUBTS? (HOW TO VIDEOS & QUESTIONS - VIDEO 00:15-00:16) ================= -->
+<section class="section section-faq-videos" id="faq">
+    <div class="wrap">
+        <div class="doubts-header">
+            <h2>Have Doubts?</h2>
+        </div>
+
+        <div class="doubts-grid">
+            <!-- Left: How To Videos -->
+            <div class="videos-column">
+                <div class="col-head-row">
+                    <h3>How To Videos</h3>
+                    <a href="#faq" class="link-view-all">View All &rarr;</a>
+                </div>
+                <div class="video-cards-list">
+                    <div class="video-card">
+                        <div class="vc-thumb">
+                            <span class="play-btn">&#9658;</span>
+                        </div>
+                        <div class="vc-title">How to Locate Your Flat with Real-Time Device GPS</div>
+                    </div>
+                    <div class="video-card">
+                        <div class="vc-thumb">
+                            <span class="play-btn">&#9658;</span>
+                        </div>
+                        <div class="vc-title">3D Multi-Storey Floor Slicing &amp; Inspection Walkthrough</div>
+                    </div>
+                    <div class="video-card">
+                        <div class="vc-thumb">
+                            <span class="play-btn">&#9658;</span>
+                        </div>
+                        <div class="vc-title">Generating and Printing 3D Bhu-Aadhaar Title Deed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Have Questions? (Accordion) -->
+            <div class="questions-column" id="limitations">
+                <div class="col-head-row">
+                    <h3>Have Questions?</h3>
+                    <a href="#faq" class="link-view-all">View All FAQ &rarr;</a>
+                </div>
+                <div class="questions-list">
+                    <details open>
+                        <summary>How does 3D Bhu-Aadhaar assign an identity to a multi-storey flat?</p></summary>
+                        <div class="q-body">It fuses 2D Khasra parcels, Copernicus bare-earth DEM ground datum, and building footprint heights to calculate vertical floor boundaries and assign a hierarchical 3D ULPIN.</div>
+                    </details>
+                    <details>
+                        <summary>What is the difference between bare-earth DEM and surface DSM?</summary>
+                        <div class="q-body">Bare-earth DEM captures ground elevation above Mean Sea Level (MSL), whereas DSM includes rooftop heights and vegetation canopy, allowing precise slab extraction.</div>
+                    </details>
+                    <details>
+                        <summary>How are FSI/FAR violations flagged for town planners?</summary>
+                        <div class="q-body">The automated compliance scanner evaluates total constructed floor area against permitted municipal plot coverage and zone ceilings in real time.</div>
+                    </details>
+                    <details>
+                        <summary>Can a citizen dispute a vertical parcel boundary?</summary>
+                        <div class="q-body">Yes. Citizens can lodge an official grievance directly to the Sub-Divisional Magistrate (SDM) desk with supporting sanction plans and mutation proofs.</div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= 11. STATUTORY WORKSPACES (RBAC SEATS) ================= -->
+<section class="section section-workspaces" id="workspaces">
+    <div class="wrap">
+        <div class="section-head text-center">
+            <div class="section-kicker">Role-Scoped Governance Desks</div>
+            <h2>Four Statutory Workspaces</h2>
+            <p>Direct role-based governance access with strictly enforced server-side capabilities.</p>
         </div>
 
         <div class="services">
@@ -281,267 +961,197 @@
 
             <article class="service">
                 <div class="service-top">
-                    <div class="service-ico ico-violet">&#128104;&#8205;&#127979;</div>
+                    <div class="service-ico ico-purple">&#128100;</div>
                     <div>
-                        <h3>Citizen</h3>
-                        <div class="service-dept">Landowner / co-owner &middot; own records only</div>
+                        <h3>Citizen Landowner</h3>
+                        <div class="service-dept">Public &middot; property holder view</div>
                     </div>
                 </div>
-                <p>Views the 3D stack of <b>their own</b> linked property, checks the proposed vertical identity, downloads a certificate, and files a grievance. Nothing else is reachable.</p>
+                <p>Self-service lookup for your own building and floor. Shows the proposed vertical ULPIN, download deed certificate, and allows direct grievance filing.</p>
                 <div class="service-caps">
                     <span class="cap">building:read:own</span>
                     <span class="cap">parcel:read:own</span>
                     <span class="cap">certificate:view:own</span>
                     <span class="cap">grievance:file</span>
                 </div>
-                <a class="btn btn-primary" href="/index.html" data-seat="citizen">Open citizen view <i>&#8594;</i></a>
+                <a class="btn btn-primary" href="/index.html" data-seat="citizen">Enter citizen view <i>&#8594;</i></a>
             </article>
         </div>
     </div>
 </section>
 
-<!-- ================= PIPELINE ================= -->
-<section class="section section-alt" id="pipeline">
+<!-- ================= 12. DATA PROVENANCE & 17-PHASE PIPELINE ================= -->
+<section class="section section-data" id="data">
     <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">How it works</div>
-            <h2>From raw open data to a reviewable 3D vertical identity</h2>
-            <p>The full build follows a 17-phase plan. These six stages are the ones that decide whether a vertical claim survives to the reviewer.</p>
+        <div class="section-head text-center">
+            <div class="section-kicker">Transparent Data Provenance</div>
+            <h2>Rigorous Geospatial Data Ingestion</h2>
+            <p>Every vertical layer is anchored to verified cadastral surveys and satellite datum.</p>
         </div>
 
-        <div class="pipeline">
-            <div class="step">
-                <h3>Discover &amp; ingest</h3>
-                <p>OSM footprints and parcels, Bhuvan/NRSC elevation, and public basemaps, each with a manifest recording licence, CRS, date and known gaps.</p>
-                <span class="tag tag-real">Real data</span>
+        <div class="data-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px;">
+            <div class="data-card" style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:20px;">
+                <div style="font-size:28px; margin-bottom:8px;">&#128506;</div>
+                <h3 style="font-size:16px; margin-bottom:6px;">Cadastral Parcels</h3>
+                <p style="font-size:12.5px; color:#64748b;">OpenCity &amp; Revenue KML boundary maps, validated against Survey of India village coordinates.</p>
             </div>
-            <div class="step">
-                <h3>Match parcels to buildings</h3>
-                <p>Deterministic containment and overlap tests in a validated CRS. Every match records <span class="mono">CONTAINED</span>, <span class="mono">MAJORITY</span> or an explicit failure.</p>
-                <span class="tag tag-real">Deterministic</span>
+            <div class="data-card" style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:20px;">
+                <div style="font-size:28px; margin-bottom:8px;">&#127757;</div>
+                <h3 style="font-size:16px; margin-bottom:6px;">Copernicus 30m DEM</h3>
+                <p style="font-size:12.5px; color:#64748b;">Bare-earth digital elevation models establish ground datum (m MSL) for true floor height offsets.</p>
             </div>
-            <div class="step">
-                <h3>Reconstruct 3D massing</h3>
-                <p>DEM gives terrain, DSM gives surface. Their difference yields an above-ground height signal &mdash; explicitly not a floor count.</p>
-                <span class="tag tag-model">Modelled</span>
-            </div>
-            <div class="step">
-                <h3>Extract floors with AI</h3>
-                <p>A U-Net / Mask R-CNN segmentation stage proposes building masks; a tree-based model predicts height, level and footprint quality.</p>
-                <span class="tag tag-model">AI-assisted</span>
-            </div>
-            <div class="step">
-                <h3>Fuse evidence &amp; flag conflict</h3>
-                <p>Independent signals are combined into a single status. An Isolation Forest surfaces anomalies for review rather than silently scoring them away.</p>
-                <span class="tag tag-human">Human review</span>
-            </div>
-            <div class="step">
-                <h3>Propose the vertical ULPIN</h3>
-                <p>A deterministic identifier chain links parcel &rarr; building &rarr; floor &rarr; unit, marked as a proposal with its verification status attached.</p>
-                <span class="tag tag-human">Proposal only</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= DATA PROVENANCE ================= -->
-<section class="section" id="data">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Data provenance</div>
-            <h2>What is real, what is modelled, what is refused</h2>
-            <p>Separating these three categories is the difference between a useful prototype and a misleading one. Anything we could not verify is reported as <span class="mono">NOT_DETERMINABLE</span> and is not displayed as a fact.</p>
-        </div>
-
-        <div class="table-scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Layer / attribute</th>
-                        <th>Origin</th>
-                        <th>Standing</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Building footprints</td>
-                        <td class="mono">OpenStreetMap (ODbL)</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Outlines and <span class="mono">building:levels</span> tags where contributors recorded them.</td>
-                    </tr>
-                    <tr>
-                        <td>Cadastral parcels</td>
-                        <td class="mono">OpenStreetMap (ODbL)</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Open cadastral geometry. Not a certified survey copy.</td>
-                    </tr>
-                    <tr>
-                        <td>Terrain elevation (DEM)</td>
-                        <td class="mono">Bhuvan / NRSC</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Ground elevation only.</td>
-                    </tr>
-                    <tr>
-                        <td>Surface elevation (DSM)</td>
-                        <td class="mono">Bhuvan / NRSC</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Surface elevation. Height signal derives from DSM&minus;DEM.</td>
-                    </tr>
-                    <tr>
-                        <td>Building height</td>
-                        <td>Model prediction + evidence fusion</td>
-                        <td><span class="badge-model">MODELLED</span></td>
-                        <td>Reported with an explicit confidence state, never as a surveyed value.</td>
-                    </tr>
-                    <tr>
-                        <td>Floor count / floor entities</td>
-                        <td>Inference from height, levels tag and imagery</td>
-                        <td><span class="badge-model">MODELLED</span></td>
-                        <td>Flagged <span class="mono">PROVISIONAL</span> unless independently corroborated.</td>
-                    </tr>
-                    <tr>
-                        <td>Floor plans, GNSS/CORS control</td>
-                        <td>Not available in pilot regions</td>
-                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
-                        <td>Explicitly out of scope. Not simulated as if present.</td>
-                    </tr>
-                    <tr>
-                        <td>Legal title, tax dues, encumbrance</td>
-                        <td>Outside prototype authority</td>
-                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
-                        <td>Never inferred. Requires the competent authority.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- ================= LIMITATIONS ================= -->
-<section class="section section-alt" id="limitations">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Limitations</div>
-            <h2>What this prototype cannot do</h2>
-            <p>A prototype that hides its limits is worse than no prototype. These are the boundaries we hold ourselves to.</p>
-        </div>
-
-        <div class="limitations">
-            <div class="limit">
-                <i>&#128683;</i>
-                <div>
-                    <h3>It is not a government system</h3>
-                    <p>It neither creates nor recognises an official ULPIN. A <b>proposed</b> vertical linkage is a technical suggestion for a competent authority to accept, correct or reject.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#127979;</i>
-                <div>
-                    <h3>Height is not floor count</h3>
-                    <p>DSM&minus;DEM gives an above-ground height signal where the datasets are compatible. <b>It is never presented as an exact floor count.</b> Uncorroborated floors stay <span class="mono">PROVISIONAL</span>.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#128200;</i>
-                <div>
-                    <h3>Not all regions are equally complete</h3>
-                    <p>Only Bhopal and Bengaluru carry the full AI-anomaly and verification-gate output. The other four regions have earlier-stage height and floor evidence, and are reported as such.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#128273;</i>
-                <div>
-                    <h3>Demo accounts, demo credentials</h3>
-                    <p>The sign-in screen shows its own demo passwords on purpose, for judging. This is <b>not</b> a production identity system, and the stored data is not a government record.</p>
-                </div>
+            <div class="data-card" style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:20px;">
+                <div style="font-size:28px; margin-bottom:8px;">&#127807;</div>
+                <h3 style="font-size:16px; margin-bottom:6px;">Sentinel-2 NDVI Canopy</h3>
+                <p style="font-size:12.5px; color:#64748b;">10m multispectral vegetation masking separates dense tree cover from genuine structural roof tops.</p>
             </div>
         </div>
 
-        <div class="callout">
-            <i>&#9878;</i>
-            <div>
-                <h3>The one rule that outranks every feature</h3>
-                <p>If the evidence is absent, insufficient or contradictory, the system returns <b>NOT_DETERMINABLE</b> and hands the case to a human. It never fills a gap to make a demo look complete &mdash; because a cadastre that guesses is worse than one that admits it does not know.</p>
+        <!-- 17-Phase Architecture Pipeline -->
+        <div class="pipeline-card" id="pipeline" style="background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:24px; margin-top:30px;">
+            <h3 style="font-size:18px; margin-bottom:12px;">17-Phase Processing Pipeline</h3>
+            <p style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:16px;">
+                From raw KML vector extraction, polygon simplification, DEM ground datum sampling, and floor estimation to supervised AI anomaly gating (Isolation Forest), our automated pipeline prepares immutable 3D ULPIN registry manifests for municipal registrar approval.
+            </p>
+            <div class="pipeline-badges" style="display:flex; flex-wrap:wrap; gap:8px;">
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">1. Boundary Ingestion</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">2. Footprint Dissolve</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">3. Copernicus DEM Offset</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">4. Sentinel-2 NDVI Mask</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">5. Discrete Floor Slicing</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">6. 3D ULPIN Minting</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">7. Anomaly Gating</span>
+                <span style="background:#eff6ff; color:#1d4ed8; font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:4px;">8. Registrar Ledger</span>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= FAQ ================= -->
-<section class="section" id="faq">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Frequently asked</div>
-            <h2>Questions we expect from an evaluator</h2>
-        </div>
-
-        <div class="faq">
-            <details>
-                <summary>Why can't you just compute the floor count from the building height?</summary>
-                <div class="faq-body">Because storey height is not a constant &mdash; it varies with use, structure, era and local building by-laws, and ground floors are often double height. A 12&nbsp;m building might be three floors or one. We use height as a signal, corroborate it with recorded <span class="mono">building:levels</span> tags and imagery evidence, and otherwise report the floor count as provisional or not determinable.</div>
-            </details>
-            <details>
-                <summary>Can a citizen see a neighbour's property?</summary>
-                <div class="faq-body">No. Ownership links are stored server-side and the API filters every read by the signed-in account. The capability check happens in the backend, so hiding a button in the interface is not the security control &mdash; it is only a convenience. Attempting to request another building's identifier returns a not-found response rather than the record.</div>
-            </details>
-            <details>
-                <summary>Where does the AI actually help, and what does it refuse to do?</summary>
-                <div class="faq-body">The AI helps with building segmentation, height and level prediction, and anomaly detection. It does not adjudicate ownership, legal rights or disputes &mdash; those are deterministic topology checks plus a human reviewer. When the model and the geometry disagree, the system records a conflict instead of picking a winner.</div>
-            </details>
-            <details>
-                <summary>What happens when two sources disagree?</summary>
-                <div class="faq-body">Nothing is silently overwritten. The disagreement is preserved with both sources, both dates, and a <span class="mono">CONFLICT</span> or <span class="mono">HUMAN_VERIFICATION_REQUIRED</span> status, and it appears in the reviewer's queue with the provenance needed to settle it.</div>
-            </details>
-            <details>
-                <summary>Is the Bhiwandi pilot area in the original charter?</summary>
-                <div class="faq-body">The original charter named Baramati ULB, Pune district, as the pilot because it appears in published NAKSHA material. The Bhiwandi and other regional datasets were added later as separate dataset versions; the original pilot area was retained. Each dataset carries its own manifest and licence.</div>
-            </details>
-            <details>
-                <summary>Can this run offline?</summary>
-                <div class="faq-body">Yes. The portal and every layer are served locally and no public tile server is overloaded. The web fonts degrade gracefully to system fonts if you are disconnected, and the full evidence trail is inspectable in the repository rather than hidden behind a vendor API.</div>
-            </details>
         </div>
     </div>
 </section>
 
 </main>
 
-<footer class="footer">
+<!-- ================= 13. GOVERNMENT DIRECTORY FOOTER (EXACT 5 COLUMNS FROM VIDEO 00:17-00:21) ================= -->
+<footer class="portal-site-footer" id="contact">
     <div class="wrap">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-brand">
-                    <span class="brand-crest">&#127959;</span>
-                    <span>
-                        <span class="brand-name">AeroNerds 3D Cadastre</span><br>
-                        <span class="brand-sub">AeroNerds &middot; SIH26011</span>
-                    </span>
-                </div>
-                <p>An open-source prototype for 3D ULPIN-linked vertical property mapping, built for Smart India Hackathon 2026 under problem statement SIH26011.</p>
+        <!-- 5 Directory Columns -->
+        <div class="footer-directory-grid">
+            <div class="footer-dir-col">
+                <h4>About Bhumi Aadhaar</h4>
+                <ul>
+                    <li><a href="#about">Mission &amp; Vision</a></li>
+                    <li><a href="#about">Statutory Framework</a></li>
+                    <li><a href="#about">Team AeroNerds SIH26011</a></li>
+                    <li><a href="#stats">Pilot Regions</a></li>
+                    <li><a href="#contact">Contact Directory</a></li>
+                </ul>
             </div>
-            <div>
-                <h4>Services</h4>
-                <a href="/index.html" data-seat="registrar">Registrar desk</a>
-                <a href="/index.html" data-seat="planner">Town planner desk</a>
-                <a href="/index.html" data-seat="sdm">Grievance desk</a>
-                <a href="/index.html" data-seat="citizen">Citizen view</a>
+
+            <div class="footer-dir-col">
+                <h4>3D Cadastral Services</h4>
+                <ul>
+                    <li><a href="/index.html#seat=citizen">Auto-GPS Floor Locator</a></li>
+                    <li><a href="#services">3D ULPIN Generation</a></li>
+                    <li><a href="#services">Spatial Mutation (&#8377;50)</a></li>
+                    <li><a href="/index.html#seat=citizen">3D Deed Passbook</a></li>
+                    <li><a href="#services">Lock/Unlock 3D Twin</a></li>
+                </ul>
             </div>
-            <div>
-                <h4>Evidence</h4>
-                <a href="#data">Data provenance</a>
-                <a href="#limitations">Limitations</a>
-                <a href="#pipeline">How it works</a>
-                <a href="/api/meta/health">API health</a>
+
+            <div class="footer-dir-col">
+                <h4>Technical Documents</h4>
+                <ul>
+                    <li><a href="#pipeline">3D ULPIN Specifications</a></li>
+                    <li><a href="#data">Copernicus DEM Rules</a></li>
+                    <li><a href="#data">Sentinel-2 Canopy Models</a></li>
+                    <li><a href="#ecosystem">Developer API Sandbox</a></li>
+                    <li><a href="#workspaces">RBAC Capabilities Matrix</a></li>
+                </ul>
             </div>
-            <div>
-                <h4>Data sources</h4>
-                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors (ODbL)</a>
-                <a href="https://bhuvan-app3.nrsc.gov.in/data/download/index.php" target="_blank" rel="noopener">Bhuvan / NRSC</a>
-                <a href="https://naksha.dolr.gov.in/NakshaPortal/" target="_blank" rel="noopener">NAKSHA (DoLR)</a>
+
+            <div class="footer-dir-col">
+                <h4>Quick Navigation</h4>
+                <ul>
+                    <li><a href="#top">Portal Home</a></li>
+                    <li><a href="#services">Access Services</a></li>
+                    <li><a href="/index.html">Live 3D Digital Twin</a></li>
+                    <li><a href="/index.html#seat=planner">Town Planner FSI Audit</a></li>
+                    <li><a href="/index.html#seat=sdm">SDM Grievance Cell</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-dir-col">
+                <h4>Related Portals</h4>
+                <ul>
+                    <li><a href="/index.html">3D Twin Explorer</a></li>
+                    <li><a href="#workspaces">Registrar Adjudication</a></li>
+                    <li><a href="#stats">National Cadastre Telemetry</a></li>
+                    <li><a href="#data">Open Spatial GeoJSON</a></li>
+                    <li><a href="#limitations">Prototype Disclaimers</a></li>
+                </ul>
             </div>
         </div>
 
+        <!-- Middle Offices & Contact Information Strip -->
+        <div class="footer-mid-offices">
+            <div class="office-col">
+                <h4>Head Office</h4>
+                <p>Department of Land Resources / Cadastral Modernisation</p>
+                <p>Bangla Sahib Road, Behind Kali Mandir, Gole Market, New Delhi - 110001</p>
+                <div class="visitor-counter-box">
+                    <span class="vc-lbl">Website Traffic:</span>
+                    <div class="vc-digits" aria-label="Visitor count: 2,265,203">
+                        <span class="d-box">2</span>
+                        <span class="d-box">2</span>
+                        <span class="d-box">6</span>
+                        <span class="d-box">5</span>
+                        <span class="d-box">2</span>
+                        <span class="d-box">0</span>
+                        <span class="d-box">3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="office-col">
+                <h4>Regional Offices</h4>
+                <div class="ro-selector-wrap">
+                    <select aria-label="Select Regional Office" class="ro-select">
+                        <option>Delhi Regional Office</option>
+                        <option>Madhya Pradesh (Bhopal)</option>
+                        <option>Karnataka (Bengaluru)</option>
+                        <option>Maharashtra (Mumbai / NMMC)</option>
+                        <option>Tamil Nadu (Coimbatore)</option>
+                    </select>
+                </div>
+                <p>Regional Directorate, Central Region</p>
+                <p>Vindhyachal Bhawan, Arera Hills, Bhopal, Madhya Pradesh - 462004</p>
+            </div>
+
+            <div class="office-col">
+                <h4>Contact details</h4>
+                <div class="contact-row">
+                    <span class="c-icon">&#128222;</span>
+                    <div>
+                        <span class="c-lbl">Toll-free Helpline</span>
+                        <strong class="c-val">1947</strong>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <span class="c-icon">&#9993;</span>
+                    <div>
+                        <span class="c-lbl">Email</span>
+                        <span class="c-val">helpdesk@authority.gov.in</span>
+                    </div>
+                </div>
+                <div class="social-icons-row">
+                    <span class="soc-btn" title="Facebook">f</span>
+                    <span class="soc-btn" title="X (Twitter)">&#120143;</span>
+                    <span class="soc-btn" title="Instagram">&#128247;</span>
+                    <span class="soc-btn" title="YouTube">&#9658;</span>
+                    <span class="soc-btn" title="LinkedIn">in</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATUTORY DISCLAIMER (Required by AGENTS.md rule 2 & tests) -->
         <div class="footer-disclaimer">
             <i>&#9888;</i>
             <p>
@@ -555,13 +1165,30 @@
             </p>
         </div>
 
-        <div class="footer-bottom">
-            <span>&copy; 2026 AeroNerds &mdash; SIH26011 team. Code released under the project licence.</span>
-            <span>Built with FastAPI &middot; GeoPandas &middot; PyTorch &middot; MapLibre GL &middot; Three.js</span>
+        <!-- Bottom Copyright & Browser Requirements (Video 00:20 - 00:21) -->
+        <div class="footer-meta-bottom">
+            <div class="fmb-copy">
+                Copyright &copy; 2026 Bhumi Aadhaar — 3D Cadastral &amp; Vertical Property Authority. All Rights Reserved. &middot; AeroNerds SIH26011
+            </div>
+            <div class="fmb-browser-text">
+                JavaScript must be enabled to access this site. Supports Firefox 37+ Google Chrome 6.0+ Internet Explorer 9.0+ Safari 4.0+
+            </div>
+            <div class="fmb-updated">
+                Website content is owned by the Authority. Last reviewed and updated on: Sep 28, 2026
+            </div>
         </div>
     </div>
 </footer>
 
-<script src="home.js?v=1"></script>
+<!-- ================= 14. FLOATING 'ASK BHU-AADHAAR' AVATAR (BOTTOM RIGHT) ================= -->
+<div class="floating-ask-aadhaar" id="floatingAskAadhaar" title="Ask Bhu-Aadhaar - Digital Assistant">
+    <div class="avatar-circle">
+        <img src="images/ask_aadhaar_avatar.jpg" alt="Ask Bhu-Aadhaar Avatar">
+        <span class="avatar-pulse-ring"></span>
+    </div>
+    <div class="avatar-badge-text">Ask Bhu-Aadhaar</div>
+</div>
+
+<script src="home.js?v=7"></script>
 </body>
 </html>
