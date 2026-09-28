@@ -27,3 +27,12 @@ data/processed/*
 *.gltf
 data/drdo/*
 data/isro_bhuvan/*
+
+# --- AeroNerds: runtime-generated state, never committed ---
+# SQLite auth/session store created by backend/users.py on first boot
+data/aeronerds_auth.db
+data/aeronerds_auth.db-journal
+data/aeronerds_auth.db-wal
+data/aeronerds_auth.db-shm
+*.sqlite
+*.sqlite3

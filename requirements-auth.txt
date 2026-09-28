@@ -1,0 +1,8 @@
+# AeroNerds SIH26011 — Authenticated portal (backend) requirements
+# Needed only by run_server.py. The offline static demo (run_demo.py) still
+# runs on the Python standard library alone.
+#
+# Password hashing and session signing use hashlib/hmac/secrets from the
+# standard library, so no passlib/bcrypt/PyJWT dependency is required.
+fastapi>=0.110.0
+uvicorn>=0.27.0

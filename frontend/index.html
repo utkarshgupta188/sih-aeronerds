@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhumi Adhaar 3D — Government of India Cadastral &amp; Vertical Property Portal | SIH26011</title>
+    <title>AeroNerds 3D Cadastre — 3D Cadastral &amp; Vertical Property Portal | SIH26011</title>
 
     <!-- MapLibre GL JS -->
     <script src="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
@@ -31,9 +31,9 @@
         <div id="map"></div>
 
         <!-- =========================================================================
-             UIDAI GOVERNMENT OF INDIA (GOI) PORTAL TOP WRAPPER
+             GOVERNMENT PORTAL TOP WRAPPER
              ========================================================================= -->
-        <header class="uidai-top-wrapper">
+        <header class="gov-top-wrapper">
             <!-- 1. Tricolor Top Ribbon & Accessibility Controls -->
             <div class="gov-top-strip">
                 <div class="gov-top-left">
@@ -61,9 +61,9 @@
                 </div>
             </div>
 
-            <!-- 2. Main UIDAI Brand Header -->
-            <div class="uidai-portal-header">
-                <div class="uidai-branding">
+            <!-- 2. Main brand header -->
+            <div class="gov-portal-header">
+                <div class="gov-branding">
                     <div class="ashoka-emblem-box" title="भारत का राष्ट्रीय प्रतीक / State Emblem of India">
                         <svg class="ashoka-svg" viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 8 C42 8 36 14 36 22 C36 29 41 34 46 36 C44 42 41 52 41 62 L59 62 C59 52 56 42 54 36 C59 34 64 29 64 22 C64 14 58 8 50 8 Z" fill="#f59e0b"/>
@@ -76,27 +76,27 @@
                             <text x="50" y="93" font-size="8.5" font-family="'Inter', sans-serif" font-weight="900" fill="#fbbf24" text-anchor="middle" letter-spacing="1.2">सत्यमेव जयते</text>
                         </svg>
                     </div>
-                    <div class="uidai-title-group">
-                        <div class="uidai-logo-text">
-                            <span class="uidai-sunburst-crest" title="भू-आधार 3D संप्रभुता प्रतीक">
+                    <div class="gov-title-group">
+                        <div class="gov-logo-text">
+                            <span class="gov-sunburst-crest" title="एयरोनर्ड्स 3D संप्रभुता प्रतीक">
                                 <i class="ph ph-sun" style="font-size: 16px; color: #ffffff;"></i>
                             </span>
-                            <span class="uidai-hindi-brand" id="brand-hi">भू-आधार</span>
+                            <span class="gov-hindi-brand" id="brand-hi">एयरोनर्ड्स</span>
                             <span style="font-size: 13px; color: #94a3b8; font-weight: 400;">|</span>
                             <span id="brand-en" style="font-size: 13px; color: #e2e8f0; font-weight: 700;">भारतीय विशिष्ट 3D भू-संपत्ति प्राधिकरण</span>
                         </div>
-                        <div class="uidai-sub-dept" id="sub-dept">
+                        <div class="gov-sub-dept" id="sub-dept">
                             Unique Land Parcel & 3D Property Identification Authority of India (DoLR & SVAMITVA, GoI)
                         </div>
                     </div>
                 </div>
 
                 <!-- Universal Search & Header Controls -->
-                <div class="uidai-header-controls">
+                <div class="gov-header-controls">
                     <!-- Universal Land Records Search Bar -->
                     <div class="omni-search-container" style="width: 280px;">
                         <i class="ph ph-magnifying-glass omni-search-icon"></i>
-                        <input type="text" id="omni-search-input" class="omni-search-input" placeholder="खसरा, भू-आधार, वार्ड या सर्वे खोजें..." autocomplete="off">
+                        <input type="text" id="omni-search-input" class="omni-search-input" placeholder="खसरा, एयरोनर्ड्स, वार्ड या सर्वे खोजें..." autocomplete="off">
                         <div id="omni-search-results" class="omni-search-results"></div>
                     </div>
 
@@ -119,35 +119,42 @@
                     </button>
 
                     <!-- Active Government Persona Pill -->
-                    <button id="persona-pill-btn" class="persona-pill-btn" title="अधिकारी भूमिका बदलें / Switch Role Access">
+                    <button id="persona-pill-btn" class="persona-pill-btn" title="Signed-in seat / View your statutory access">
                         <div class="persona-pill-avatar"><i id="persona-pill-icon" class="ph ph-shield-check"></i></div>
                         <div class="persona-pill-text">
-                            <span id="persona-pill-name">डॉ. एस. नायर (DoLR)</span>
-                            <span id="persona-pill-role">मुख्य भू-राजस्व पंजीयक</span>
+                            <span id="persona-pill-name" data-session-name>—</span>
+                            <span id="persona-pill-role" data-session-role>Not signed in</span>
                         </div>
-                        <span id="persona-pill-badge" class="persona-badge badge-admin">REGISTRAR</span>
+                        <span id="persona-pill-badge" class="persona-badge badge-admin">—</span>
                         <i class="ph ph-caret-down" style="font-size: 10px; margin-left: 2px;"></i>
+                    </button>
+
+                    <!-- Sign out -->
+                    <button class="session-signout" data-auth-logout
+                        title="End this session and clear the bearer token / सत्र समाप्त करें">
+                        <i class="ph ph-sign-out"></i>
+                        <span>Sign out</span>
                     </button>
                 </div>
             </div>
 
-            <!-- 3. UIDAI Navigation Bar -->
-            <nav class="uidai-main-nav">
-                <a class="uidai-nav-link active" id="nav-home"><i class="ph ph-house"></i> <span id="nav-lbl-home">मुख्य पृष्ठ (Home)</span></a>
-                <a class="uidai-nav-link" id="nav-my-bhu"><i class="ph ph-identification-card"></i> <span id="nav-lbl-bhu">मेरा 3D भू-आधार कार्ड (My Bhu-Aadhaar)</span></a>
-                <a class="uidai-nav-link" id="nav-3d-map"><i class="ph ph-map-trifold"></i> <span id="nav-lbl-map">3D भू-मानचित्र (3D Map)</span></a>
-                <a class="uidai-nav-link" id="nav-floors"><i class="ph ph-stack"></i> <span id="nav-lbl-floors">तल-वार 3D विभाजन (Floor Slabs)</span></a>
-                <a class="uidai-nav-link" id="nav-fsi"><i class="ph ph-ruler"></i> <span id="nav-lbl-fsi">नगर नियोजन एवं FSI (Town Planning)</span></a>
-                <a class="uidai-nav-link" id="nav-review"><i class="ph ph-scales"></i> <span id="nav-lbl-review">विधिक समीक्षा (Rule 8 Review)</span></a>
-                <a class="uidai-nav-link" id="nav-services"><i class="ph ph-certificate"></i> <span id="nav-lbl-cert">भू-अधिकार विलेख (Title Deed)</span></a>
-                <a class="uidai-nav-link" id="nav-grievance"><i class="ph ph-chat-circle-dots"></i> <span id="nav-lbl-grievance">शिकायत / SDM (Grievance)</span></a>
+            <!-- 3. Navigation bar -->
+            <nav class="gov-main-nav">
+                <a class="gov-nav-link active" id="nav-home"><i class="ph ph-house"></i> <span id="nav-lbl-home">मुख्य पृष्ठ (Home)</span></a>
+                <a class="gov-nav-link" id="nav-my-bhu"><i class="ph ph-identification-card"></i> <span id="nav-lbl-bhu">मेरा 3D एयरोनर्ड्स कार्ड (My 3D ULPIN)</span></a>
+                <a class="gov-nav-link" id="nav-3d-map"><i class="ph ph-map-trifold"></i> <span id="nav-lbl-map">3D भू-मानचित्र (3D Map)</span></a>
+                <a class="gov-nav-link" id="nav-floors"><i class="ph ph-stack"></i> <span id="nav-lbl-floors">तल-वार 3D विभाजन (Floor Slabs)</span></a>
+                <a class="gov-nav-link" id="nav-fsi"><i class="ph ph-ruler"></i> <span id="nav-lbl-fsi">नगर नियोजन एवं FSI (Town Planning)</span></a>
+                <a class="gov-nav-link" id="nav-review"><i class="ph ph-scales"></i> <span id="nav-lbl-review">विधिक समीक्षा (Rule 8 Review)</span></a>
+                <a class="gov-nav-link" id="nav-services"><i class="ph ph-certificate"></i> <span id="nav-lbl-cert">भू-अधिकार विलेख (Title Deed)</span></a>
+                <a class="gov-nav-link" id="nav-grievance"><i class="ph ph-chat-circle-dots"></i> <span id="nav-lbl-grievance">शिकायत / SDM (Grievance)</span></a>
             </nav>
 
-            <!-- 4. UIDAI News Ticker & Quick Controls Bar -->
-            <div class="uidai-ticker-bar">
+            <!-- 4. News ticker & quick controls bar -->
+            <div class="gov-ticker-bar">
                 <div class="ticker-left">
                     <span class="ticker-badge"><i class="ph ph-megaphone-simple"></i> <span id="ticker-lbl-tag">सूचना / NOTICE</span></span>
-                    <marquee class="ticker-marquee" id="ticker-text" scrollamount="4">SVAMITVA एवं DILRMP के अंतर्गत बहुमंजिला इमारतों के लिए 3D ऊर्ध्वाधर भू-आधार (ULPIN) आवंटन एवं नियम 8 विधिक सत्यापन प्रणाली सक्रिय है।</marquee>
+                    <marquee class="ticker-marquee" id="ticker-text" scrollamount="4">SVAMITVA एवं DILRMP के अंतर्गत बहुमंजिला इमारतों के लिए 3D ऊर्ध्वाधर एयरोनर्ड्स (ULPIN) आवंटन एवं नियम 8 विधिक सत्यापन प्रणाली सक्रिय है।</marquee>
                 </div>
                 <div class="ticker-quick-actions">
                     <button id="toggle-cadastral-basemap" class="tqa-btn" title="खसरा आधार नक्शा / Cadastral Basemap"><i class="ph ph-map-trifold"></i> <span id="tqa-lbl-cad">खसरा नक्शा</span></button>
@@ -171,7 +178,7 @@
                         🏛️
                     </div>
                     <div>
-                        <h1 id="sidebar-app-title" style="font-size: 19px; letter-spacing: -0.4px; color: #002855;">Bhumi Adhaar</h1>
+                        <h1 id="sidebar-app-title" style="font-size: 19px; letter-spacing: -0.4px; color: #002855;">AeroNerds</h1>
                         <div style="font-size: 9.5px; color: #c2410c; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">
                             भारत सरकार &bull; Government of India
                         </div>
@@ -188,7 +195,7 @@
             <!-- =========================================================
                  WORKSPACES: 1. CHIEF CADASTRAL SURVEYOR & REGISTRAR
                  ========================================================= -->
-            <div id="admin-workspace" class="omni-workspace" style="display: block;">
+            <div id="registrar-workspace" class="omni-workspace" style="display: none;" data-cap="parcel:read:all,building:read:all">
                 <div class="stats-container">
                     <div class="stat-box">
                         <span class="stat-value" id="stat-buildings">-</span>
@@ -221,13 +228,12 @@
                 <!-- Property Info / Audit Logs Tabs -->
                 <div class="sidebar-tabs" style="margin-top: 16px;">
                     <button class="tab-btn active" id="tab-info">Cadastral Record</button>
-                    <button class="tab-btn" id="tab-logs">Registrar Log</button>
+                    <button class="tab-btn" id="tab-logs" data-cap="auditlog:read">Registrar Log</button>
                 </div>
 
                 <!-- Tab Content: Property Info -->
-                <div id="content-info">
-                    <div id="no-selection-msg" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
-                        Select any 3D structure or search Khasra / Bhu-Aadhaar above.
+                <div id="content-info">                    <div id="no-selection-msg" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px 0;">
+                        Select any 3D structure or search Khasra / 3D ULPIN above.
                     </div>
                     <!-- Selected Property Details -->
                     <div id="property-card" class="property-card hidden">
@@ -294,11 +300,11 @@
                         </div>
 
                         <div class="prop-row" style="align-items: flex-start; padding-top: 12px; border-top: 1px solid var(--glass-border); margin-top: 8px;">
-                            <span class="prop-label">Proposed 3D<br>Bhu-Aadhaar</span>
+                            <span class="prop-label">Proposed 3D<br>3D ULPIN</span>
                             <span class="prop-value parcel-id" id="prop-proposed-ulpin" style="text-align: right; line-height: 1.4; word-break: break-all;">-</span>
                         </div>
                         <div style="font-size: 9.5px; color: var(--text-muted); line-height: 1.3; margin-top: 2px; margin-bottom: 6px;">
-                            * Proposed 3D vertical identifier subject to statutory adjudication by the Revenue Registrar under DILRMP Rule 8.
+                            * Proposed 3D vertical identifier subject to adjudication by the competent authority.
                         </div>
                         <div class="prop-row" style="margin-top: 8px;">
                             <span class="prop-label">Verification Gate</span>
@@ -361,7 +367,7 @@
                             </div>
                         </div>
 
-                        <div class="action-buttons">
+                        <div class="action-buttons" data-cap="review:adjudicate">
                             <span style="font-size: 10px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 8px;">
                                 REGISTRAR STATUTORY ADJUDICATION GATE (RULE 8)
                             </span>
@@ -373,6 +379,12 @@
                                 <button class="btn btn-reject" onclick="window.reviewAction('REJECT')">REJECT</button>
                                 <button class="btn btn-unresolved" onclick="window.reviewAction('UNRESOLVED')">UNRESOLVED</button>
                             </div>
+                            <div id="registrar-gate-denied" style="display: none; margin-top: 10px; padding: 9px 11px; border-radius: 8px; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 10.5px; line-height: 1.5;">
+                                <strong>Adjudication is restricted.</strong>
+                                Only the Registrar seat holds <code>review:adjudicate</code>. Your seat may
+                                view this record and flag it for verification, but cannot approve, correct,
+                                reject or mark it unresolved.
+                            </div>
                         </div>
                     </div>
                 </div> <!-- End Tab Content: Property Info -->
@@ -383,10 +395,10 @@
                         <h3>Registrar Land Audit Log</h3>
                         <span class="badge badge-ai" id="log-count">0 Entries</span>
                     </div>
-                    <div style="margin: 10px 0;">
+                    <div style="margin: 10px 0;" data-cap="manifest:export">
                         <button id="admin-export-csv" class="btn" style="width: 100%; background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); font-size: 11px;">
                             <i class="ph ph-download-simple"></i>
-                            <span>Export DILRMP Manifest (CSV)</span>
+                            <span>Export Dataset Manifest (CSV)</span>
                         </button>
                     </div>
                     <div id="logs-container" class="logs-container">
@@ -395,12 +407,12 @@
                         </div>
                     </div>
                 </div>
-            </div> <!-- End Admin Workspace -->
+            </div> <!-- End Registrar Workspace -->
 
             <!-- =========================================================
                  WORKSPACES: 2. MUNICIPAL TOWN PLANNER (ULB)
                  ========================================================= -->
-            <div id="planner-workspace" class="omni-workspace" style="display: none;">
+            <div id="planner-workspace" class="omni-workspace" style="display: none;" data-cap="zoning:audit">
                 <div class="planner-fsi-card">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="font-size: 12px; font-weight: 800; color: #002855;">
@@ -436,7 +448,7 @@
                         <i class="ph ph-warning-octagon"></i>
                         <span>Scan Vertical FSI / Height Violations</span>
                     </button>
-                    <button id="btn-export-zoning" class="btn" style="width: 100%; margin-top: 8px; background: #ffffff; color: #002855; border: 1px solid #002855; font-size: 11px; font-weight: 700;">
+                    <button id="btn-export-zoning" class="btn" style="width: 100%; margin-top: 8px; background: #ffffff; color: #002855; border: 1px solid #002855; font-size: 11px; font-weight: 700;" data-cap="manifest:export">
                         <i class="ph ph-download-simple"></i>
                         <span>Export Municipal Violation Report (CSV)</span>
                     </button>
@@ -444,7 +456,7 @@
 
                 <div class="glass-panel" style="border-radius: 14px; padding: 14px; margin-top: 12px; background: #ffffff; border: 1px solid #cbd5e1;">
                     <div style="font-size: 11px; font-weight: 800; color: #002855; margin-bottom: 8px;">
-                        SURVEY OF INDIA ELEVATION COMPARISON
+                        SURFACE vs TERRAIN ELEVATION COMPARISON
                     </div>
                     <div class="prop-row">
                         <span class="prop-label">Copernicus DSM Height</span>
@@ -466,9 +478,73 @@
             </div> <!-- End Planner Workspace -->
 
             <!-- =========================================================
-                 WORKSPACES: 3. CITIZEN & LANDOWNER ("BHU-AADHAAR PASSBOOK")
+                 WORKSPACES: 3. SDM / GRIEVANCE OFFICER
                  ========================================================= -->
-            <div id="citizen-workspace" class="omni-workspace" style="display: none;">
+            <div id="sdm-workspace" class="omni-workspace" style="display: none;" data-cap="grievance:adjudicate">
+                <div class="glass-panel" style="border-radius: 14px; padding: 16px; background: #ffffff; border: 1px solid #cbd5e1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div style="font-size: 12px; font-weight: 800; color: #002855;">
+                            <i class="ph ph-gavel" style="color: #c8102e;"></i>
+                            <span>GRIEVANCE ADJUDICATION DESK</span>
+                        </div>
+                        <span class="badge" style="background: #fef2f2; color: #991b1b; font-size: 9px; border: 1px solid #fecaca;">SDM / REVENUE</span>
+                    </div>
+                    <p style="font-size: 11px; color: #475569; line-height: 1.45; margin: 0 0 12px;">
+                        Sub-Divisional Magistrate, Revenue Division. Receives mutation and survey
+                        grievances filed by landowners, verifies them against the evidence ledger, and
+                        escalates to the Registrar for statutory adjudication.
+                    </p>
+
+                    <div class="fsi-stat-grid">
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" id="sdm-total-grievances">0</span>
+                            <span class="fsi-lbl">FILED (ALL)</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #c8102e;" id="sdm-pending">0</span>
+                            <span class="fsi-lbl">PENDING REVIEW</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #0369a1;" id="sdm-escalated">0</span>
+                            <span class="fsi-lbl">ESCALATED</span>
+                        </div>
+                        <div class="fsi-stat-box">
+                            <span class="fsi-val" style="color: #138808;">0</span>
+                            <span class="fsi-lbl">RESOLVED</span>
+                        </div>
+                    </div>
+
+                    <button id="btn-refresh-grievances" class="btn" style="width: 100%; margin-top: 8px; background: #ffffff; color: #002855; border: 1px solid #002855; font-size: 11px; font-weight: 700;">
+                        <i class="ph ph-arrows-clockwise"></i>
+                        <span>Refresh Grievance Register</span>
+                    </button>
+                    <button id="btn-sdm-escalate" class="btn" style="width: 100%; margin-top: 8px; background: #c8102e; color: #ffffff; border: none; font-size: 11.5px; font-weight: 800;" data-cap="review:adjudicate">
+                        <i class="ph ph-arrow-bend-up-right"></i>
+                        <span>Escalate to Registrar (Rule 8)</span>
+                    </button>
+                    <div id="sdm-escalate-note" style="display: none; margin-top: 8px; padding: 9px 11px; border-radius: 8px; background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; font-size: 10.5px; line-height: 1.5;">
+                        Escalation to the Registrar is not available to the SDM seat. Forward the
+                        case through the statutory revenue channel; this prototype does not
+                        simulate that hand-off.
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="border-radius: 14px; padding: 16px; margin-top: 12px; background: #ffffff; border: 1px solid #cbd5e1;">
+                    <div style="font-size: 11px; font-weight: 800; color: #002855; margin-bottom: 8px;">
+                        GRIEVANCE REGISTER
+                    </div>
+                    <div id="sdm-grievance-list" style="font-size: 11px; color: #475569;">
+                        <div style="text-align: center; padding: 22px 0; color: #94a3b8;">
+                            No grievances in the register yet.
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End SDM Workspace -->
+
+            <!-- =========================================================
+                 WORKSPACES: 4. CITIZEN & LANDOWNER ("3D ULPIN PASSBOOK")
+                 ========================================================= -->
+            <div id="citizen-workspace" class="omni-workspace" style="display: none;" data-cap="building:read:own">
                 <!-- Auto-GPS 3D Floor & ULPIN Locator Widget -->
                 <div class="citizen-gps-box">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
@@ -527,7 +603,7 @@
 
                         <!-- Allocated 3D ULPIN Banner -->
                         <div style="margin-top: 10px; background: #002855; color: #ffffff; border-radius: 8px; padding: 10px; text-align: center;">
-                            <div style="font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8;">Allocated 3D Bhu-Aadhaar (ULPIN)</div>
+                            <div style="font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8;">Allocated 3D 3D ULPIN (ULPIN)</div>
                             <div id="gps-allocated-ulpin" style="font-family: monospace; font-size: 13.5px; font-weight: 800; color: #fbbf24; margin: 3px 0; word-break: break-all;">IN-MP-BHP-P104-B3-FL4-U402</div>
                             <div style="font-size: 9px; color: #cbd5e1;">Rule 8 Statutory Vertical Cadastral Identity</div>
                         </div>
@@ -545,25 +621,24 @@
                     </div>
                 </div>
 
-                <!-- Official Bhu-Aadhaar Digital Property Passbook -->
+                <!-- Official Vertical property record -->
                 <div class="bhu-passbook-card">
                     <div class="bhu-passbook-top">
                         <div class="bhu-passbook-chip">
                             <i class="ph ph-seal-check"></i>
-                            <span>BHU-AADHAAR DIGITAL TITLE</span>
+                            <span>PROPOSED VERTICAL IDENTITY (PROTOTYPE)</span>
                         </div>
-                        <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 9px; border: 1px solid #86efac;">VERIFIED</span>
+                        <span class="badge" id="citizen-verif-badge"
+                            style="background: #f1f5f9; color: #475569; font-size: 9px; border: 1px solid #cbd5e1;">LOADING…</span>
                     </div>
 
                     <div class="bhu-qr-wrap">
                         <div id="citizen-passbook-qr" class="bhu-qr-canvas" style="display: flex; align-items: center; justify-content: center;"></div>
                         <div class="bhu-info">
-                            <div class="bhu-unit" id="citizen-prop-unit">Flat 402 &bull; 4th Floor</div>
-                            <div class="bhu-khasra" id="citizen-prop-khasra">Khasra #104/B, Ward 42 (Lotus Heights)</div>
-                            <div class="bhu-ulpin" id="citizen-prop-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
-                            <div id="citizen-prop-elev" style="font-size: 9.5px; color: #64748b; margin-top: 2px;">
-                                Ground Elev: 498.2m MSL &bull; Floor: +14.5m
-                            </div>
+                            <div class="bhu-unit" id="citizen-prop-unit">Loading your linked record…</div>
+                            <div class="bhu-khasra" id="citizen-prop-khasra">—</div>
+                            <div class="bhu-ulpin" id="citizen-prop-ulpin">—</div>
+                            <div id="citizen-prop-elev" style="font-size: 9.5px; color: #64748b; margin-top: 2px;">—</div>
                         </div>
                     </div>
 
@@ -574,42 +649,83 @@
                         </button>
                         <button id="citizen-copy-ulpin-btn" class="bhu-btn secondary">
                             <i class="ph ph-copy"></i>
-                            <span>Copy Bhu-Aadhaar</span>
+                            <span>Copy 3D ULPIN</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Land Parcel Ownership Details -->
+                <!-- Land Parcel Record — populated from the role-scoped API.
+                     Every value below originates in the pipeline output for the
+                     signed-in citizen's own linked building. Nothing here is
+                     invented, and statutory facts the pipeline cannot evidence
+                     (title, encumbrance, tax dues) are reported as
+                     NOT_DETERMINABLE rather than guessed. -->
                 <div class="glass-panel" style="border-radius: 14px; padding: 16px; margin-top: 14px; background: #ffffff; border: 1px solid #cbd5e1;">
-                    <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 10px;">
-                        Official Land Registry Status
+                    <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <span>Your Land Parcel Record</span>
+                        <span class="badge" style="background: #eff6ff; color: #1d4ed8; font-size: 8.5px; border: 1px solid #bfdbfe;" id="citizen-scope-tag">OWN RECORDS ONLY</span>
+                    </div>
+
+                    <div class="prop-row">
+                        <span class="prop-label">Account Holder</span>
+                        <span class="prop-value" id="citizen-owner" style="font-weight: 800; color: #002855;">—</span>
                     </div>
                     <div class="prop-row">
-                        <span class="prop-label">Primary Owner</span>
-                        <span class="prop-value" style="font-weight: 800; color: #002855;">Smt. Priya Sharma</span>
+                        <span class="prop-label">Linked Parcel ID</span>
+                        <span class="prop-value parcel-id" id="citizen-parcel-id">—</span>
                     </div>
                     <div class="prop-row">
-                        <span class="prop-label">Registration No.</span>
-                        <span class="prop-value parcel-id">MP-BHP-REG-2024-8891</span>
+                        <span class="prop-label">Footprint Match</span>
+                        <span class="prop-value" id="citizen-match">—</span>
                     </div>
                     <div class="prop-row">
-                        <span class="prop-label">Cadastral Match</span>
-                        <span class="prop-value" style="color: #138808; font-weight: 700;">100% CONTAINED</span>
+                        <span class="prop-label">Ground Elevation (DEM)</span>
+                        <span class="prop-value" id="citizen-ground-elev">—</span>
                     </div>
                     <div class="prop-row">
-                        <span class="prop-label">Land Revenue Tax</span>
-                        <span class="prop-value" style="color: #138808; font-weight: 700;">Paid (FY 2026-27)</span>
+                        <span class="prop-label">Building Height</span>
+                        <span class="prop-value" id="citizen-height">—</span>
                     </div>
                     <div class="prop-row">
-                        <span class="prop-label">Encumbrance Status</span>
-                        <span class="prop-value" style="color: #138808; font-weight: 700;">NIL (Clear Title)</span>
+                        <span class="prop-label">Floor Delineation</span>
+                        <span class="prop-value" id="citizen-floors">—</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Evidence Source</span>
+                        <span class="prop-value" id="citizen-evidence-source" style="font-size: 9px; text-transform: uppercase;">—</span>
+                    </div>
+                    <div class="prop-row">
+                        <span class="prop-label">Verification Status</span>
+                        <span class="prop-value" id="citizen-verification" style="font-weight: 700;">—</span>
+                    </div>
+
+                    <div style="margin-top: 12px; padding: 10px; border-radius: 8px; background: #fff7ed; border: 1px solid #fed7aa; font-size: 10px; line-height: 1.55; color: #7c2d12;">
+                        <strong>What this portal does not show you.</strong> Ownership title, registration
+                        number, land-revenue tax dues and encumbrance are statutory facts held in state
+                        revenue records, not derivable from geometry. They are deliberately reported as
+                        <code>NOT_DETERMINABLE</code> here rather than guessed. Obtain them from your
+                        District Revenue Office or the State Bhulekh portal.
+                    </div>
+
+                    <div id="citizen-redaction-note" style="margin-top: 8px; padding: 9px 10px; border-radius: 8px; background: #f1f5f9; border: 1px solid #e2e8f0; font-size: 10px; line-height: 1.5; color: #475569;">
+                        <i class="ph ph-eye-slash"></i> <span id="citizen-redaction-text"></span>
                     </div>
 
                     <div style="display: flex; gap: 8px; margin-top: 12px;">
-                        <button id="citizen-grievance-btn" class="btn" style="flex: 1; background: #ffffff; color: #002855; border: 1px solid #002855; font-size: 11px; font-weight: 700;">
+                        <button id="citizen-grievance-btn" class="btn" style="flex: 1; background: #ffffff; color: #002855; border: 1px solid #002855; font-size: 11px; font-weight: 700;" data-cap="grievance:file">
                             <i class="ph ph-file-text"></i>
                             <span>File Mutation / Survey Grievance</span>
                         </button>
+                    </div>
+                </div>
+
+                <!-- No-linked-records state (shown when the account has no linkage) -->
+                <div id="citizen-empty" class="glass-panel" style="display: none; border-radius: 14px; padding: 22px 16px; margin-top: 14px; background: #ffffff; border: 1px solid #cbd5e1; text-align: center;">
+                    <i class="ph ph-link-break" style="font-size: 26px; color: #94a3b8;"></i>
+                    <div style="font-size: 12px; font-weight: 800; color: #002855; margin-top: 6px;">No property linked to this account</div>
+                    <div style="font-size: 10.5px; color: #64748b; margin-top: 4px; line-height: 1.5;">
+                        A landowner record appears here only after the Registrar links your account to a
+                        cadastral parcel. This is a demo fixture — ask the Registrar desk to link it.
                     </div>
                 </div>
             </div> <!-- End Citizen Workspace -->
@@ -632,7 +748,7 @@
             <div id="floor-panel-summary" class="floor-panel-summary"></div>
             <div id="floor-panel-actions" class="floor-panel-actions"></div>
             <div id="floor-panel-body" class="floor-panel-body"></div>
-            <div class="floor-panel-foot">&#9888; STATUTORY 3D VERTICAL BHU-AADHAAR LINKAGE &mdash; SURVEY OF INDIA COMPLIANT</div>
+            <div class="floor-panel-foot">&#9888; PROPOSED 3D VERTICAL LINKAGE &mdash; PROTOTYPE OUTPUT, NOT A STATUTORY RECORD</div>
         </aside>
 
         <!-- Right Sidebar for Legend -->
@@ -696,12 +812,14 @@
                 </div>
             </div>
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
-                Select your designated statutory jurisdiction to access dedicated 3D cadastral delineation, town planning, or citizen title passbook interfaces.
+                Statutory seats available on this portal. Your workspace is bound to the seat you
+                signed in with; switching seats requires different credentials.
             </p>
+            <div id="gov-persona-notice" class="gov-persona-notice"></div>
 
-            <div class="persona-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="persona-grid" style="grid-template-columns: repeat(2, 1fr);">
                 <!-- Registrar Card -->
-                <div class="persona-card admin" data-role="admin">
+                <div class="persona-card admin" data-role="registrar">
                     <div class="persona-card-header">
                         <div class="persona-card-icon"><i class="ph ph-shield-check"></i></div>
                         <div>
@@ -710,7 +828,7 @@
                         </div>
                     </div>
                     <div class="persona-card-desc">
-                        Full statutory authority under DILRMP Rule 8. Review AI anomaly gates, adjudicate boundary disputes, approve proposed 3D Bhu-Aadhaar linkages, and export state land manifests.
+                        Registrar desk (prototype session). Review AI anomaly gates, adjudicate boundary disputes, approve proposed 3D 3D ULPIN linkages, and export state land manifests.
                     </div>
                     <div class="persona-card-tags">
                         <span class="persona-tag">Rule 8 Gate</span>
@@ -746,6 +864,29 @@
                     </button>
                 </div>
 
+                <!-- SDM / Grievance Officer Card -->
+                <div class="persona-card sdm" data-role="sdm">
+                    <div class="persona-card-header">
+                        <div class="persona-card-icon"><i class="ph ph-gavel"></i></div>
+                        <div>
+                            <div class="persona-card-name">Shri A. K. Iyer</div>
+                            <div class="persona-card-title">Sub-Divisional Magistrate</div>
+                        </div>
+                    </div>
+                    <div class="persona-card-desc">
+                        Revenue Administration. Receives citizen mutation and survey grievances, verifies them against the evidence ledger, and escalates boundary disputes to the Registrar.
+                    </div>
+                    <div class="persona-card-tags">
+                        <span class="persona-tag">Grievance Register</span>
+                        <span class="persona-tag">Dispute Verification</span>
+                        <span class="persona-tag">Escalation</span>
+                    </div>
+                    <button class="persona-card-btn">
+                        <span>Open Grievance Desk</span>
+                        <i class="ph ph-arrow-right"></i>
+                    </button>
+                </div>
+
                 <!-- Citizen Landowner Card -->
                 <div class="persona-card citizen" data-role="citizen">
                     <div class="persona-card-header">
@@ -756,7 +897,7 @@
                         </div>
                     </div>
                     <div class="persona-card-desc">
-                        Bhu-Aadhaar Digital Property Passbook. View 3D vertical land title, download official government certificate with QR code, verify ground elevation, and file mutation petitions.
+                        Vertical property record. View 3D vertical land title, download official government certificate with QR code, verify ground elevation, and file mutation petitions.
                     </div>
                     <div class="persona-card-tags">
                         <span class="persona-tag" style="background:#dcfce7; color:#15803d; font-weight:700;">📍 Auto-GPS 3D Floor Locator</span>
@@ -777,7 +918,7 @@
     </div>
 
     <!-- =============================================================
-         MODALS: 2. OFFICIAL BHU-AADHAAR 3D CERTIFICATE MODAL
+         MODALS: 2. OFFICIAL 3D ULPIN 3D CERTIFICATE MODAL
          ============================================================= -->
     <div id="certificate-modal" class="omni-modal-overlay">
         <div class="gov-cert-card">
@@ -793,10 +934,10 @@
             <div style="display: flex; gap: 18px; align-items: center; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
                 <div id="cert-qr-wrap" class="cert-qr-box" style="width: 90px; height: 90px; background: #ffffff; border-radius: 6px; padding: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;"></div>
                 <div>
-                    <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Official 3D Bhu-Aadhaar (ULPIN)</div>
+                    <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Proposed 3D ULPIN (prototype)</div>
                     <div id="cert-ulpin" style="font-family: monospace; font-size: 16px; font-weight: 800; color: #fbbf24; word-break: break-all; margin: 2px 0;">IN-MP-BHP-P104-B3-FL4-U402</div>
                     <div style="font-size: 11px; color: #10b981; font-weight: 700;">
-                        <i class="ph ph-seal-check"></i> Statutorily Verified & Issued under DILRMP Rule 8
+                        <i class="ph ph-seal-check"></i> Verification status from the evidence gate &mdash; not a statutory certificate
                     </div>
                 </div>
             </div>
@@ -808,7 +949,7 @@
                 </tr>
                 <tr>
                     <td class="cert-label">Primary Title Holder:</td>
-                    <td class="cert-value">Smt. Priya Sharma (Aadhaar Verified)</td>
+                    <td class="cert-value">Identity not asserted in a prototype</td>
                 </tr>
                 <tr>
                     <td class="cert-label">Bare-Earth Ground DEM:</td>
@@ -851,7 +992,7 @@
     </div>
 
     <!-- =============================================================
-         MODALS: 3. OFFICIAL 3D BHU-AADHAAR PVC CARD MODAL (UIDAI STYLE)
+         MODALS: 3. OFFICIAL 3D 3D ULPIN PVC CARD MODAL (REFERENCE DESIGN)
          ============================================================= -->
     <div id="bhu-card-modal" class="bhu-card-modal-backdrop" style="display: none;">
         <div class="bhu-pvc-card">
@@ -873,8 +1014,8 @@
                 </div>
                 <div class="pvc-logo-right">
                     <div class="pvc-bhu-logo-text">
-                        <div class="pvc-bl-hi">भू-आधार</div>
-                        <div class="pvc-bl-en">Bhu-Aadhaar 3D</div>
+                        <div class="pvc-bl-hi">एयरोनर्ड्स</div>
+                        <div class="pvc-bl-en">3D ULPIN 3D</div>
                     </div>
                     <div class="pvc-sunburst">
                         <span style="font-size: 16px;">☀️</span>
@@ -899,7 +1040,7 @@
                         </div>
                     </div>
                     <div style="font-size: 9px; color: #64748b; text-align: center; font-weight: 600;">
-                        DILRMP SECURE ID
+                        PROPOSED VERTICAL ID
                     </div>
                 </div>
 
@@ -931,13 +1072,13 @@
 
             <!-- ULPIN 14-Digit Identity Strip -->
             <div class="pvc-ulpin-banner">
-                <div class="pvc-ulpin-lbl">विशिष्ट 3D भू-आधार संख्या / 14-DIGIT 3D ULPIN</div>
+                <div class="pvc-ulpin-lbl">विशिष्ट 3D एयरोनर्ड्स संख्या / 14-DIGIT 3D ULPIN</div>
                 <div class="pvc-ulpin-code" id="pvc-ulpin">IN-MP-BHP-P104-B3-FL4-U402</div>
             </div>
 
             <!-- Card Bottom Bar -->
             <div class="pvc-footer">
-                <div class="pvc-tagline">भू-आधार - संपत्ति का डिजिटल 3D अधिकार</div>
+                <div class="pvc-tagline">एयरोनर्ड्स - संपत्ति का डिजिटल 3D अधिकार</div>
                 <div>भूमि संसाधन विभाग, ग्रामीण विकास मंत्रालय</div>
             </div>
 
@@ -958,11 +1099,74 @@
         </div>
     </div>
 
+    <!-- =============================================================
+         AUTHENTICATION GATE — portal is not usable until signed in
+         ============================================================= -->
+    <div id="auth-gate" class="auth-gate" style="display: none;">
+        <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+            <div class="auth-tricolor"></div>
+
+            <div class="auth-head">
+                <div class="auth-crest" aria-hidden="true">🏛️</div>
+                <div>
+                    <div class="auth-gov-hi">भारत सरकार</div>
+                    <div class="auth-gov-en">GOVERNMENT OF INDIA &bull; MINISTRY OF RURAL DEVELOPMENT</div>
+                    <h1 id="auth-title">एयरोनर्ड्स 3D &mdash; Secure Sign In</h1>
+                    <div class="auth-sub">3D ULPIN 3D Vertical Property Portal &bull; SIH26011 prototype</div>
+                </div>
+            </div>
+
+            <div id="auth-api-warning" class="auth-api-warning" style="display: none;" role="alert">
+                <i class="ph ph-plugs"></i>
+                <div id="auth-api-warning-text"></div>
+            </div>
+
+            <form id="auth-form" class="auth-form" autocomplete="on">
+                <label class="auth-field">
+                    <span class="auth-label">Username / 用户标识</span>
+                    <span class="auth-input-wrap">
+                        <i class="ph ph-user"></i>
+                        <input id="auth-username" name="username" type="text" autocomplete="username"
+                            spellcheck="false" placeholder="e.g. registrar" required>
+                    </span>
+                </label>
+
+                <label class="auth-field">
+                    <span class="auth-label">Password / पासवर्ड</span>
+                    <span class="auth-input-wrap">
+                        <i class="ph ph-lock-key"></i>
+                        <input id="auth-password" name="password" type="password" autocomplete="current-password"
+                            placeholder="Enter your password" required>
+                    </span>
+                </label>
+
+                <div id="auth-status" class="auth-status" role="status" aria-live="polite"></div>
+
+                <button id="auth-submit" type="submit" class="auth-submit">Sign in</button>
+            </form>
+
+            <div class="auth-divider"><span>Statutory access control &mdash; four seats</span></div>
+            <div id="auth-role-grid" class="auth-role-grid"></div>
+
+            <div class="auth-divider"><span>Demo fixtures (local evaluation only)</span></div>
+            <div id="auth-demo-accounts" class="auth-demo-accounts"></div>
+            <p class="auth-footnote">
+                Accounts above are <strong>demo fixtures</strong>, not real government officers or ownership
+                records. Access is decided by the server on every request; a citizen can only ever read
+                cadastral records linked to their own account. Any 3D identifier shown is a
+                <em>proposed</em> linkage, not an official ULPIN issuance.
+            </p>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="qrcode.min.js"></script>
     <script src="floor3d.js?v=3"></script>
+    <script src="auth.js?v=1"></script>
+    <script src="login.js?v=1"></script>
     <script src="app.js?v=32"></script>
-    <script src="omni_roles.js?v=32"></script>
+    <script src="role_data.js?v=1"></script>
+    <script src="omni_roles.js?v=33"></script>
 </body>
 
 </html>

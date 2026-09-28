@@ -1,13 +1,13 @@
 :root {
-    /* Official UIDAI Government Color Scheme (https://uidai.gov.in/hi) */
-    --uidai-navy: #002855;
-    --uidai-navy-dark: #001c3d;
-    --uidai-navy-light: #073b75;
-    --uidai-saffron: #f58220;
-    --uidai-saffron-dark: #c2410c;
-    --uidai-saffron-light: #fff7ed;
-    --uidai-green: #138808;
-    --uidai-red: #c8102e;
+    /* Government-portal colour scheme (Navodaya-like design idiom) */
+    --gov-navy: #002855;
+    --gov-navy-dark: #001c3d;
+    --gov-navy-light: #073b75;
+    --gov-saffron: #f58220;
+    --gov-saffron-dark: #c2410c;
+    --gov-saffron-light: #fff7ed;
+    --gov-green: #138808;
+    --gov-red: #c8102e;
 
     --bg-page: #f1f5f9;
     --bg-card: #ffffff;
@@ -23,7 +23,7 @@
     --text-muted: #475569;
     
     --color-contained: #138808; /* Indian Green */
-    --color-majority: #f58220;  /* UIDAI Saffron */
+    --color-majority: #f58220;  /* saffron */
     --color-conflict: #c8102e;  /* Postal Red */
 }
 
@@ -56,7 +56,7 @@ body, html {
     z-index: 1;
 }
 
-/* Glassmorphism / UIDAI Official Card Utilities */
+/* Card utilities */
 .glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
@@ -127,7 +127,7 @@ body, html {
 
 .sidebar-header .logo i {
     font-size: 28px;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     filter: drop-shadow(0 1px 3px rgba(0, 40, 85, 0.2));
 }
 
@@ -135,7 +135,7 @@ body, html {
     font-size: 20px;
     font-weight: 800;
     letter-spacing: -0.4px;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
 }
 
 .subtitle {
@@ -200,7 +200,7 @@ body, html {
 .stat-value {
     font-size: 24px;
     font-weight: 800;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     margin-bottom: 4px;
 }
 
@@ -220,7 +220,7 @@ body, html {
 .legend-container h3 {
     font-size: 12px;
     text-transform: uppercase;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     font-weight: 800;
     margin-bottom: 12px;
     letter-spacing: 0.5px;
@@ -273,7 +273,7 @@ body, html {
     align-items: center;
     gap: 8px;
     margin-bottom: 14px;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
 }
 
 .prop-row {
@@ -306,12 +306,12 @@ body, html {
     max-width: 60%;
 }
 .prop-value.highlight {
-    color: var(--uidai-saffron-dark);
+    color: var(--gov-saffron-dark);
     font-family: monospace;
     font-size: 13.5px;
 }
 .prop-value.parcel-id {
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     font-family: monospace;
     font-weight: 800;
 }
@@ -832,7 +832,7 @@ body.light-mode #floor-panel-close { background: rgba(0,0,0,0.05); }
 }
 .fpd-est { fill: #fbbf24; font: 700 8px system-ui, sans-serif; letter-spacing: 0.6px; }
 
-/* high-contrast building hover tooltip (UIDAI Government Theme) */
+/* high-contrast building hover tooltip (government theme) */
 .floor-tooltip .maplibregl-popup-content {
     background: #002855; color: #ffffff; border: 2px solid #f58220;
     border-radius: 10px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(0, 40, 85, 0.45);
@@ -879,7 +879,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     background: #eff6ff;
     border: 1px solid #bfdbfe;
     border-radius: 20px;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -888,7 +888,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 }
 .persona-pill-btn:hover {
     background: #dbeafe;
-    border-color: var(--uidai-navy);
+    border-color: var(--gov-navy);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 40, 85, 0.15);
 }
@@ -899,7 +899,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--uidai-navy);
+    background: var(--gov-navy);
     color: #ffffff;
     font-size: 12px;
 }
@@ -912,7 +912,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 .persona-pill-name {
     font-size: 11px;
     font-weight: 800;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
 }
 .persona-pill-role {
     font-size: 9px;
@@ -953,7 +953,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 }
 .omni-search-input:focus {
     width: 320px;
-    border-color: var(--uidai-navy);
+    border-color: var(--gov-navy);
     background: #ffffff;
     box-shadow: 0 0 0 3px rgba(0, 40, 85, 0.12);
 }
@@ -961,7 +961,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     position: absolute;
     left: 12px;
     font-size: 15px;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     pointer-events: none;
 }
 .omni-search-results {
@@ -1005,7 +1005,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     font-size: 17px;
     flex-shrink: 0;
     margin-top: 2px;
@@ -1098,7 +1098,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 }
 .omni-modal-card {
     background: #ffffff;
-    border: 2px solid var(--uidai-navy);
+    border: 2px solid var(--gov-navy);
     border-radius: 20px;
     box-shadow: 0 24px 64px rgba(0, 40, 85, 0.35);
     width: 100%;
@@ -1181,11 +1181,11 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 .persona-card.planner .persona-card-icon { background: #eff6ff; color: #1d4ed8; }
 .persona-card.admin .persona-card-icon { background: #fff7ed; color: #c2410c; }
 
-.persona-card-name { font-size: 15px; font-weight: 800; color: var(--uidai-navy); }
+.persona-card-name { font-size: 15px; font-weight: 800; color: var(--gov-navy); }
 .persona-card-title { font-size: 11px; color: #475569; font-weight: 600; }
 .persona-card-desc { font-size: 12px; color: #334155; line-height: 1.5; margin-bottom: 14px; }
 .persona-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-.persona-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e2e8f0; color: var(--uidai-navy); }
+.persona-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e2e8f0; color: var(--gov-navy); }
 .persona-card-btn {
     width: 100%;
     padding: 10px 12px;
@@ -1201,11 +1201,11 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     transition: filter 0.2s;
 }
 .persona-card.citizen .persona-card-btn { background: #138808; color: #ffffff; }
-.persona-card.planner .persona-card-btn { background: var(--uidai-navy); color: #ffffff; }
+.persona-card.planner .persona-card-btn { background: var(--gov-navy); color: #ffffff; }
 .persona-card.admin .persona-card-btn { background: #c2410c; color: #ffffff; }
 .persona-card-btn:hover { filter: brightness(1.1); }
 
-/* Bhu-Aadhaar Digital Property Passbook Card (Citizen) */
+/* Vertical property record Card (Citizen) */
 .bhu-passbook-card {
     background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
     border: 1px solid #f58220;
@@ -1379,9 +1379,9 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     50% { opacity: 0.4; transform: scale(1.3); }
 }
 .bhu-info { min-width: 0; }
-.bhu-unit { font-size: 14px; font-weight: 800; color: var(--uidai-navy); }
+.bhu-unit { font-size: 14px; font-weight: 800; color: var(--gov-navy); }
 .bhu-khasra { font-size: 11px; color: #475569; margin-top: 2px; font-weight: 600; }
-.bhu-ulpin { font-family: monospace; font-size: 11.5px; color: var(--uidai-navy); font-weight: 800; word-break: break-all; margin-top: 4px; }
+.bhu-ulpin { font-family: monospace; font-size: 11.5px; color: var(--gov-navy); font-weight: 800; word-break: break-all; margin-top: 4px; }
 .bhu-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1400,9 +1400,9 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     gap: 6px;
     transition: all 0.2s;
 }
-.bhu-btn.primary { background: var(--uidai-navy); color: #ffffff; border: none; }
+.bhu-btn.primary { background: var(--gov-navy); color: #ffffff; border: none; }
 .bhu-btn.primary:hover { background: #001c3d; }
-.bhu-btn.secondary { background: #ffffff; color: var(--uidai-navy); border: 1px solid var(--uidai-navy); }
+.bhu-btn.secondary { background: #ffffff; color: var(--gov-navy); border: 1px solid var(--gov-navy); }
 .bhu-btn.secondary:hover { background: #eff6ff; }
 
 /* Town Planning FSI Card */
@@ -1427,7 +1427,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     padding: 10px;
     text-align: center;
 }
-.fsi-val { font-size: 18px; font-weight: 800; color: var(--uidai-navy); font-family: monospace; }
+.fsi-val { font-size: 18px; font-weight: 800; color: var(--gov-navy); font-family: monospace; }
 .fsi-lbl { font-size: 9.5px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 2px; }
 
 /* Official 3D Land Title Certificate Modal */
@@ -1465,7 +1465,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 .cert-title-en {
     font-size: 18px;
     font-weight: 800;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     letter-spacing: -0.3px;
     margin-top: 2px;
 }
@@ -1579,10 +1579,10 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 }
 
 /* =========================================================================
- * UIDAI GOVERNMENT OF INDIA (GOI) PORTAL STYLES & HINDI LOCALIZATION
+ * GOVERNMENT PORTAL STYLES & BILINGUAL LOCALISATION
  * ========================================================================= */
 
-.uidai-top-wrapper {
+.gov-top-wrapper {
     position: absolute;
     top: 0;
     left: 0;
@@ -1674,13 +1674,13 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     transition: all 0.2s;
 }
 .lang-btn.active {
-    background: var(--uidai-saffron);
+    background: var(--gov-saffron);
     color: #ffffff;
     box-shadow: 0 0 8px rgba(245, 130, 32, 0.5);
 }
 
-/* 2. Main UIDAI Brand Header */
-.uidai-portal-header {
+/* 2. Main brand header */
+.gov-portal-header {
     background: #ffffff;
     border-bottom: 1px solid #e2e8f0;
     padding: 10px 24px;
@@ -1691,7 +1691,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     min-height: 60px;
     box-shadow: 0 2px 6px rgba(0, 40, 85, 0.05);
 }
-.uidai-branding {
+.gov-branding {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -1709,52 +1709,52 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     width: auto;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
-.uidai-title-group {
+.gov-title-group {
     display: flex;
     flex-direction: column;
 }
-.uidai-logo-text {
+.gov-logo-text {
     font-size: 18px;
     font-weight: 800;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     letter-spacing: -0.3px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
-.uidai-hindi-brand {
+.gov-hindi-brand {
     font-family: 'Outfit', 'Inter', sans-serif;
-    color: var(--uidai-saffron-dark);
+    color: var(--gov-saffron-dark);
     font-size: 20px;
     font-weight: 900;
 }
-.uidai-sunburst-crest {
+.gov-sunburst-crest {
     width: 28px;
     height: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--uidai-saffron) 20%, var(--uidai-saffron-dark) 85%);
+    background: radial-gradient(circle, var(--gov-saffron) 20%, var(--gov-saffron-dark) 85%);
     box-shadow: 0 0 10px rgba(245, 130, 32, 0.4);
 }
-.uidai-sub-dept {
+.gov-sub-dept {
     font-size: 11px;
     color: #475569;
     margin-top: 1px;
     font-weight: 600;
 }
-.uidai-header-controls {
+.gov-header-controls {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* 3. UIDAI Main Navigation Bar */
-.uidai-main-nav {
-    background: var(--uidai-navy);
+/* 3. Main navigation bar */
+.gov-main-nav {
+    background: var(--gov-navy);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 3px solid var(--uidai-saffron);
+    border-bottom: 3px solid var(--gov-saffron);
     display: flex;
     align-items: center;
     padding: 0 20px;
@@ -1763,10 +1763,10 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     scrollbar-width: none;
     box-shadow: 0 2px 8px rgba(0, 40, 85, 0.2);
 }
-.uidai-main-nav::-webkit-scrollbar {
+.gov-main-nav::-webkit-scrollbar {
     display: none;
 }
-.uidai-nav-link {
+.gov-nav-link {
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -1779,23 +1779,23 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     border-bottom: 3px solid transparent;
     cursor: pointer;
 }
-.uidai-nav-link i {
+.gov-nav-link i {
     font-size: 15px;
     color: #fed7aa;
 }
-.uidai-nav-link:hover {
+.gov-nav-link:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    border-bottom-color: var(--uidai-saffron);
+    border-bottom-color: var(--gov-saffron);
 }
-.uidai-nav-link.active {
+.gov-nav-link.active {
     background: rgba(245, 130, 32, 0.2);
     color: #ffffff;
-    border-bottom-color: var(--uidai-saffron);
+    border-bottom-color: var(--gov-saffron);
 }
 
-/* 4. UIDAI News Ticker & Quick Controls Bar */
-.uidai-ticker-bar {
+/* 4. News ticker & Quick Controls Bar */
+.gov-ticker-bar {
     background: #eef4fc;
     border-bottom: 1px solid #cbd5e1;
     display: flex;
@@ -1813,7 +1813,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     overflow: hidden;
 }
 .ticker-badge {
-    background: var(--uidai-red);
+    background: var(--gov-red);
     color: #ffffff;
     font-weight: 800;
     font-size: 9.5px;
@@ -1826,7 +1826,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     flex-shrink: 0;
 }
 .ticker-marquee {
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
@@ -1840,7 +1840,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 .tqa-btn {
     background: #ffffff;
     border: 1px solid #cbd5e1;
-    color: var(--uidai-navy);
+    color: var(--gov-navy);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 11px;
@@ -1853,13 +1853,13 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .tqa-btn:hover {
-    background: var(--uidai-navy);
-    border-color: var(--uidai-navy);
+    background: var(--gov-navy);
+    border-color: var(--gov-navy);
     color: #ffffff;
 }
 .tqa-btn.active {
-    background: var(--uidai-saffron);
-    border-color: var(--uidai-saffron);
+    background: var(--gov-saffron);
+    border-color: var(--gov-saffron);
     color: #ffffff;
 }
 .tqa-btn.active-underground {
@@ -1902,7 +1902,7 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
 }
 
 /* =========================================================================
- * 5. ICONIC PHYSICAL 3D BHU-AADHAAR PVC CARD MODAL
+ * 5. ICONIC PHYSICAL 3D 3D ULPIN PVC CARD MODAL
  * ========================================================================= */
 .bhu-card-modal-backdrop {
     position: fixed;
@@ -2131,8 +2131,8 @@ body.light-mode .floor-tooltip .maplibregl-popup-content { background: #002855; 
     gap: 10px;
 }
 
-/* Light Mode Overrides for UIDAI */
-body.light-mode .uidai-top-wrapper {
+/* Light-mode overrides */
+body.light-mode .gov-top-wrapper {
     background: #ffffff;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
@@ -2140,20 +2140,20 @@ body.light-mode .gov-top-strip {
     background: #f8fafc;
     color: #334155;
 }
-body.light-mode .uidai-portal-header {
+body.light-mode .gov-portal-header {
     background: #ffffff;
     border-bottom: 1px solid #e2e8f0;
 }
-body.light-mode .uidai-logo-text {
+body.light-mode .gov-logo-text {
     color: #0f172a;
 }
-body.light-mode .uidai-sub-dept {
+body.light-mode .gov-sub-dept {
     color: #475569;
 }
-body.light-mode .uidai-main-nav {
+body.light-mode .gov-main-nav {
     background: #003366;
 }
-body.light-mode .uidai-ticker-bar {
+body.light-mode .gov-ticker-bar {
     background: #f1f5f9;
     border-bottom: 1px solid #cbd5e1;
 }
@@ -2162,3 +2162,348 @@ body.light-mode .ticker-marquee {
 }
 
 
+
+/* =========================================================================
+   AUTHENTICATION GATE
+   Sign-in overlay. Rendered above the portal and removed only after the
+   server confirms a session, so the map/cadastral UI is never shown to an
+   unauthenticated visitor.
+   ========================================================================= */
+
+.auth-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at 20% 15%, rgba(0, 40, 85, 0.55), transparent 55%),
+        radial-gradient(circle at 85% 85%, rgba(19, 136, 8, 0.28), transparent 55%),
+        linear-gradient(160deg, #001c3d 0%, #002855 45%, #00162c 100%);
+    overflow-y: auto;
+}
+
+.auth-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 24px 60px rgba(2, 6, 23, 0.45);
+    overflow: hidden;
+}
+
+.auth-tricolor {
+    height: 5px;
+    background: linear-gradient(90deg, #f58220 0 33.33%, #ffffff 33.33% 66.66%, #138808 66.66% 100%);
+}
+
+.auth-head {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-crest {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f58220, #c2410c);
+    box-shadow: 0 2px 8px rgba(194, 65, 12, 0.35);
+}
+
+.auth-gov-hi { font-size: 12px; font-weight: 800; color: #c2410c; letter-spacing: 0.4px; }
+.auth-gov-en { font-size: 9px; font-weight: 700; color: #64748b; letter-spacing: 0.3px; }
+
+.auth-head h1 {
+    margin: 6px 0 2px;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    color: #002855;
+}
+
+.auth-sub { font-size: 10.5px; color: #475569; line-height: 1.4; }
+
+.auth-api-warning {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 14px 22px 0;
+    padding: 11px 12px;
+    border-radius: 8px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    font-size: 11.5px;
+    line-height: 1.5;
+}
+.auth-api-warning i { font-size: 17px; flex-shrink: 0; }
+.auth-api-warning code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: #fee2e2;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.auth-form { padding: 18px 22px 4px; display: flex; flex-direction: column; gap: 13px; }
+.auth-field { display: block; }
+
+.auth-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.auth-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    height: 42px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.auth-input-wrap:focus-within {
+    border-color: #002855;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 40, 85, 0.12);
+}
+.auth-input-wrap i { font-size: 16px; color: #64748b; flex-shrink: 0; }
+
+.auth-input-wrap input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 13.5px;
+    font-family: inherit;
+    color: #0f172a;
+}
+.auth-input-wrap input::placeholder { color: #94a3b8; }
+
+.auth-status { min-height: 16px; font-size: 11.5px; font-weight: 600; line-height: 1.4; }
+.auth-status:empty { display: none; }
+.auth-status.tone-warn { color: #b45309; }
+.auth-status.tone-error { color: #c8102e; }
+.auth-status.tone-ok { color: #138808; }
+.auth-status.tone-info { color: #0369a1; }
+
+.auth-submit {
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #002855, #073b75);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: filter .15s, transform .05s;
+}
+.auth-submit:hover:not(:disabled) { filter: brightness(1.15); }
+.auth-submit:active:not(:disabled) { transform: translateY(1px); }
+.auth-submit:disabled { opacity: .65; cursor: progress; }
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 22px 10px;
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.auth-role-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 0 22px;
+}
+
+.auth-role-card {
+    padding: 9px 11px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+.auth-role-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #002855;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.auth-role-dept { font-size: 9.5px; color: #64748b; margin-top: 2px; line-height: 1.35; }
+.auth-role-caps { font-size: 9px; font-weight: 700; color: #138808; margin-top: 4px; }
+
+.auth-demo-accounts { display: flex; flex-direction: column; gap: 5px; padding: 0 22px; }
+
+.auth-demo-row {
+    display: grid;
+    grid-template-columns: 96px 92px 1fr;
+    gap: 8px;
+    align-items: center;
+    text-align: left;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+.auth-demo-row:hover { border-color: #002855; background: #f8fafc; }
+.auth-demo-row.is-highlighted {
+    border-color: #f58220; background: #fff7ed;
+    box-shadow: 0 0 0 3px rgba(245, 130, 32, .15);
+}
+.auth-demo-row.is-highlighted .auth-demo-user { color: #c2410c; }
+
+.auth-demo-user { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 700; color: #002855; }
+.auth-demo-role { font-size: 10px; font-weight: 700; color: #c2410c; }
+.auth-demo-seat { font-size: 9.5px; color: #64748b; }
+
+.auth-footnote {
+    margin: 14px 0 0;
+    padding: 12px 22px 18px;
+    font-size: 10px;
+    line-height: 1.55;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+}
+.auth-footnote strong { color: #c2410c; }
+
+/* ---- session bar in the portal header ---- */
+.session-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 11px;
+    border-radius: 8px;
+    background: rgba(0, 40, 85, 0.06);
+    border: 1px solid #cbd5e1;
+    font-size: 10.5px;
+    color: #002855;
+}
+.session-chip .session-name { font-weight: 800; }
+.session-chip .session-sep { color: #94a3b8; }
+.session-chip .session-role { color: #475569; }
+
+.session-signout {
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: #c8102e;
+    color: #ffffff;
+    border: none;
+    font-size: 10.5px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.session-signout:hover { filter: brightness(1.1); }
+
+@media (max-width: 520px) {
+    .auth-role-grid { grid-template-columns: 1fr; }
+    .auth-demo-row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-submit, .auth-demo-row, .auth-input-wrap { transition: none; }
+}
+
+/* ---- RBAC additions ---- */
+.badge-sdm { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+.persona-card.sdm .persona-card-icon { background: #fef2f2; color: #991b1b; }
+.persona-card.sdm .persona-card-btn { background: #991b1b; color: #ffffff; }
+
+.gov-persona-notice {
+    margin: 10px 0 4px;
+    padding: 9px 11px;
+    border-radius: 8px;
+    background: rgba(0, 40, 85, 0.06);
+    border: 1px solid rgba(0, 40, 85, 0.16);
+    font-size: 11px;
+    line-height: 1.5;
+    color: #002855;
+}
+.gov-persona-notice:empty { display: none; }
+
+.grievance-form textarea {
+    width: 100%;
+    min-height: 84px;
+    padding: 9px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: #0f172a;
+    outline: none;
+    resize: vertical;
+}
+.grievance-form textarea:focus {
+    border-color: #002855;
+    box-shadow: 0 0 0 3px rgba(0, 40, 85, 0.12);
+}
+.grievance-form input {
+    width: 100%;
+    height: 40px;
+    padding: 0 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    outline: none;
+}
+.grievance-form input:focus {
+    border-color: #002855;
+    box-shadow: 0 0 0 3px rgba(0, 40, 85, 0.12);
+}
+.grievance-form label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #334155;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}

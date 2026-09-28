@@ -1431,51 +1431,116 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             // Review Action Handler
+            //
+            // Adjudication is a statutory, registrar-only act (AGENTS.md rule 8),
+            // so the decision is posted to the server and the local UI is only
+            // updated after the server accepts it. The capability check below is
+            // a usability guard; the server independently rejects a request from
+            // a seat that does not hold `review:adjudicate`.
             window.reviewAction = function (action) {
                 const gateEl = document.getElementById("prop-verification");
                 const parcel = document.getElementById("prop-ulpin").innerText;
+                const Auth = window.AeroAuth;
 
-                if (currentFeatureId) {
-                    map.setFeatureState(
-                        { source: "buildings", id: currentFeatureId },
-                        { reviewer_status: action }
-                    );
+                function deny(reason) {
+                    if (window.showGovToast) {
+                        window.showGovToast("Adjudication Refused", reason, "ph-lock-key");
+                    }
+                    const denied = document.getElementById("registrar-gate-denied");
+                    if (denied) denied.style.display = "block";
                 }
 
-                if (gateEl) {
-                    if (action === "APPROVE") {
-                        gateEl.innerText = "REVIEWER_APPROVED";
-                        gateEl.style.color = "var(--color-contained)";
-                    } else if (action === "CORRECT") {
-                        gateEl.innerText = "REVIEWER_CORRECTED";
-                        gateEl.style.color = "var(--accent-blue)";
-                    } else if (action === "REJECT") {
-                        gateEl.innerText = "REVIEWER_REJECTED";
-                        gateEl.style.color = "var(--color-conflict)";
-                    } else {
-                        gateEl.innerText = "MARK_UNRESOLVED";
-                        gateEl.style.color = "var(--color-majority)";
+                if (!Auth || !Auth.isSignedIn()) {
+                    if (window.AeroAuthGate) window.AeroAuthGate.open("Sign in as the Registrar to adjudicate.");
+                    return;
+                }
+                if (!Auth.can("review:adjudicate")) {
+                    deny(Auth.denialReason("review:adjudicate"));
+                    return;
+                }
+                if (!currentFeatureId) {
+                    if (window.showGovToast) {
+                        window.showGovToast("No Record Selected", "Select a structure before recording a decision.", "ph-warning");
+                    }
+                    return;
+                }
+
+                const region = window.activeRegionKey || "bhopal";
+                const buildingId = String(currentFeatureId);
+
+                function applyLocalState() {
+                    if (map.getSource("buildings")) {
+                        try {
+                            map.setFeatureState(
+                                { source: "buildings", id: buildingId },
+                                { reviewer_status: action }
+                            );
+                        } catch (e) {
+                            /* feature state is cosmetic only */
+                        }
+                    }
+
+                    if (gateEl) {
+                        if (action === "APPROVE") {
+                            gateEl.innerText = "REVIEWER_APPROVED";
+                            gateEl.style.color = "var(--color-contained)";
+                        } else if (action === "CORRECT") {
+                            gateEl.innerText = "REVIEWER_CORRECTED";
+                            gateEl.style.color = "var(--accent-blue)";
+                        } else if (action === "REJECT") {
+                            gateEl.innerText = "REVIEWER_REJECTED";
+                            gateEl.style.color = "var(--color-conflict)";
+                        } else {
+                            gateEl.innerText = "MARK_UNRESOLVED";
+                            gateEl.style.color = "var(--color-majority)";
+                        }
+                    }
+
+                    const timestamp = new Date().toLocaleTimeString();
+                    auditLogs.unshift({ action: action, parcel: parcel, timestamp: timestamp });
+
+                    const countEl = document.getElementById("log-count");
+                    if (countEl) countEl.innerText = auditLogs.length + " Entries";
+
+                    const container = document.getElementById("logs-container");
+                    if (container) {
+                        container.innerHTML = auditLogs.map(function (log) {
+                            return (
+                                '<div class="log-entry ' + log.action + '">' +
+                                '<div class="log-meta">' +
+                                '<span>' + log.timestamp + "</span>" +
+                                '<span class="log-action ' + log.action + '">' + log.action + "</span>" +
+                                "</div>" +
+                                '<div class="log-ulpin">' + log.parcel + "</div>" +
+                                '<div style="color: var(--text-muted);">Recorded by ' +
+                                (Auth.user ? Auth.user.full_name : "reviewer") +
+                                " (" + (Auth.user ? Auth.user.role_title : "") + ")</div>" +
+                                "</div>"
+                            );
+                        }).join("");
                     }
                 }
 
-                const timestamp = new Date().toLocaleTimeString();
-                auditLogs.unshift({ action: action, parcel: parcel, timestamp: timestamp });
-
-                document.getElementById("log-count").innerText = auditLogs.length + " Entries";
-
-                const container = document.getElementById("logs-container");
-                container.innerHTML = auditLogs.map(function (log) {
-                    return (
-                        '<div class="log-entry ' + log.action + '">' +
-                        '<div class="log-meta">' +
-                        '<span>' + log.timestamp + '</span>' +
-                        '<span class="log-action ' + log.action + '">' + log.action + '</span>' +
-                        '</div>' +
-                        '<div class="log-ulpin">' + log.parcel + '</div>' +
-                        '<div style="color: var(--text-muted);">Status updated by Surveyor</div>' +
-                        '</div>'
-                    );
-                }).join("");
+                Auth.request("/api/review/decision", {
+                    method: "POST",
+                    body: {
+                        region: region,
+                        building_id: buildingId,
+                        decision: action,
+                        note: ""
+                    }
+                }).then(function (res) {
+                    applyLocalState();
+                    if (window.showGovToast) {
+                        window.showGovToast(
+                            "Rule 8 Decision Recorded",
+                            "<b>" + action + "</b> logged for " + res.building_id + " by " + res.reviewer + ".",
+                            "ph-seal-check"
+                        );
+                    }
+                }).catch(function (err) {
+                    deny(err.message);
+                });
             };
 
             map.on("mouseenter", "buildings-3d-layer", function () {

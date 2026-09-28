@@ -1,12 +1,12 @@
-# Bhumi Adhaar: 3D Cadastral & Vertical Property Portal (SIH26011)
-### Official Prototype for the Government of India | Developed by Team AeroNerds
+# AeroNerds: 3D Cadastral & Vertical Property Portal (SIH26011)
+### Smart India Hackathon 2026 Prototype (SIH26011) | Developed by Team AeroNerds
 
-![Bhumi Adhaar 3D Portal - UIDAI Government Design](docs/images/uidai_bhu_aadhaar_portal.png)
+![AeroNerds 3D Cadastre Portal - Government portal design idiom](docs/images/portal_screenshot.png)
 
-**Bhumi Adhaar** (भू-आधार 3D) is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
+**AeroNerds** is an end-to-end 3D multi-storey vertical parcel delineation system and interactive governance portal, engineered by **Team AeroNerds** for the **Smart India Hackathon 2026 (SIH26011)** problem statement: 
 > *"Assigning 3D identities for surface parcels, multi-storey properties and underground infrastructure"*.
 
-Designed adhering strictly to the official **UIDAI Government Portal (`https://uidai.gov.in/hi`)** design standards and the statutory guidelines of the **Ministry of Rural Development (DoLR)**, **SVAMITVA Scheme**, and the **Digital India Land Records Modernization Programme (DILRMP)**. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **Proposed 3D Vertical Bhu-Aadhaar (ULPIN) IDs** for individual floor slabs without fabricating land title records.
+Built in the **government public-service portal design idiom** (tricolour ribbon, bilingual labelling, service cards, notices ticker) as a design study. It is **not** affiliated with, or built to the statutory guidelines of, any government department, scheme, or standards body. It deterministically fuses 2D cadastral Khasra maps, Copernicus bare-earth DEM terrain elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly detection to construct **proposed 3D vertical ULPIN identifiers** for individual floor slabs without fabricating land title records.
 
 ---
 
@@ -18,7 +18,7 @@ The platform provides tailored workspaces for three core statutory stakeholders:
 | :--- | :--- | :--- |
 | **Chief Cadastral Surveyor & Registrar** | Department of Land Resources (DoLR), MoRD | • Statutory Reviewer Gate (Rule 8 Adjudication: `APPROVE`, `CORRECT`, `REJECT`)<br>• Immutable Audit Ledger & Event Logging<br>• DILRMP 3D ULPIN CSV Registry Manifest Export |
 | **Municipal Town Planner** | Urban Local Body (ULB) / Development Authority | • Real-time FSI / FAR & Floor Sanction Violation Scanner<br>• Structural Height vs Permitted Master Plan Zoning Audit<br>• Non-Compliant High-Density Zone CSV Export |
-| **Citizen Landowner** | Indian Citizen / Property Holder | • 3D Bhu-Aadhaar Digital Property Passbook (`Flat 402, 4th Floor`)<br>• Official QR-Coded 3D Land Title Deed Modal (Printable Certificate)<br>• Integrated Revenue SDM Grievance Petition Logging |
+| **Citizen Landowner** | Indian Citizen / Property Holder | • 3D Vertical property record (`Flat 402, 4th Floor`)<br>• Official QR-Coded 3D Land Title Deed Modal (Printable Certificate)<br>• Integrated Revenue SDM Grievance Petition Logging |
 
 ---
 
@@ -30,10 +30,10 @@ The platform provides tailored workspaces for three core statutory stakeholders:
 2. **Dual-View Vertical Floor Selection**:
    - **Main MapLibre GL 3D Map**: Direct click interaction on `fill-extrusion` floor slabs highlights the selected vertical level in glowing solid gold (`#f59e0b`), showing altitude above ground.
    - **Three.js Inspection Panel**: Hardware-accelerated 3D model with recursive raycasting, bevelled slabs, edge illumination, and floor-level spatial identifiers.
-3. **Discrete 3D Bhu-Aadhaar IDs**:
+3. **Discrete 3D 3D ULPIN IDs**:
    - Generates hierarchical floor-level spatial IDs (e.g., `IN-MP-BPL-W43-B20424-F2`, `IN-KA-BLR-P78-B12-F4`) calibrated with ground elevation (m MSL).
 4. **Universal Search & Fast Navigation**:
-   - Universal search bar supporting instant lookup for Khasra numbers, Survey numbers, and 3D Bhu-Aadhaar identifiers with smooth camera fly-to.
+   - Universal search bar supporting instant lookup for Khasra numbers, Survey numbers, and 3D 3D ULPIN identifiers with smooth camera fly-to.
 5. **Statutory Web Audio Feedback**:
    - Native Web Audio API synthesizer producing formal government audio cues (seal stamp, chime, and tactile feedback) without external asset dependencies.
 
@@ -41,7 +41,7 @@ The platform provides tailored workspaces for three core statutory stakeholders:
 
 ## 🗺️ Multi-Region Pilots
 
-**Bhumi Adhaar** features pre-processed real-world pilot datasets across 6 diverse Indian urban environments:
+**AeroNerds** features pre-processed real-world pilot datasets across 6 diverse Indian urban environments:
 
 - **Bhopal Pilot (Madhya Pradesh - MP Bhulekh)**:
   - 85 Urban Wards with OpenCity KML Cadastral Parcels and OSM 3D footprints.
@@ -128,4 +128,4 @@ python run_pipeline.py
 
 ## 📄 Legal & Statutory Disclaimer
 
-*This prototype has been developed for the Smart India Hackathon (SIH 2026) under Problem Statement SIH26011. Proposed 3D vertical spatial linkages and ULPIN formats are generated for demonstration, visual adjudication, and technical review purposes. Official issuance of Bhu-Aadhaar and land title registration remains the exclusive statutory prerogative of the respective State Revenue Departments and the Ministry of Rural Development, Government of India.*
+*This prototype has been developed for the Smart India Hackathon (SIH 2026) under Problem Statement SIH26011. Proposed 3D vertical spatial linkages and ULPIN formats are generated for demonstration, visual adjudication, and technical review purposes. Official issuance of 3D ULPIN and land title registration remains the exclusive statutory prerogative of the competent State authority. This prototype has no official recognition and asserts no legal title.*

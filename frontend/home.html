@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroNerds 3D Cadastre &mdash; AeroNerds | SIH26011 Vertical Property Mapping Prototype</title>
+<meta name="description" content="Open-source prototype for 3D ULPIN-linked vertical property mapping: parcel-to-building-to-floor linkage with full evidence provenance, human verification and role-scoped access. SIH26011.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127968;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css?v=1">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="tricolour"></div>
+
+<div class="gov-strip">
+    <div class="wrap">
+        <div><span class="flag">&#127968;</span><b>Smart India Hackathon 2026 &middot; Problem SIH26011</b> &nbsp;|&nbsp; Smart Automation of Application Procedures</div>
+        <div class="gov-strip-links">
+            <a href="#limitations">Limitations</a>
+            <a href="#data">Data Provenance</a>
+            <a href="/api/meta/health">API Status</a>
+        </div>
+    </div>
+</div>
+
+<header class="masthead">
+    <div class="wrap">
+        <a class="brand" href="#top">
+            <span class="brand-crest">&#127959;</span>
+            <span>
+                <span class="brand-name">AeroNerds 3D Cadastre</span>
+                <span class="brand-sub">AeroNerds &middot; SIH26011</span>
+            </span>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainnav">&#9776;</button>
+
+        <nav class="mainnav" id="mainnav">
+            <a href="#services">Services</a>
+            <a href="#pipeline">How it works</a>
+            <a href="#data">Data Provenance</a>
+            <a href="#limitations">Limitations</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+        <div class="masthead-cta">
+            <a class="btn btn-ghost" href="/index.html" target="_blank" rel="noopener"><i>&#128273;</i><span>Live portal</span></a>
+            <a class="btn btn-primary" href="/index.html"><i>&#128274;</i><span>Sign in</span></a>
+        </div>
+    </div>
+</header>
+
+<div class="ticker">
+    <div class="wrap">
+        <span class="ticker-tag"><i>&#128196;</i>Notice</span>
+        <div class="ticker-track">
+            <ul>
+                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
+                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
+                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
+                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
+                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
+                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
+                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
+                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+    <div class="wrap">
+        <div class="hero-grid">
+            <div>
+                <span class="eyebrow"><span class="dot"></span>SIH26011 &middot; Open-source prototype</span>
+
+                <h1>
+                    <span class="hi">From a flat parcel number to an addressable floor</span>
+                    A <em>3D vertical identity</em> for every property
+                </h1>
+
+                <p class="hero-lead">
+                    AeroNerds 3D Cadastre proposes a vertical linkage &mdash; ULPIN &rarr; building &rarr; floor &rarr; unit &mdash;
+                    so a citizen can locate their own floor in 3D, while a registrar can adjudicate conflicts with a
+                    complete, inspectable evidence trail behind every claim.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="btn btn-accent" href="/index.html"><i>&#127968;</i>Launch the 3D portal</a>
+                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#128100;</i>Sign in as a citizen</a>
+                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#127970;</i>Registrar desk</a>
+                </div>
+
+                <div class="hero-truth">
+                    <i>&#9888;</i>
+                    <p>
+                        <b>Read this first.</b> This is a competition prototype, not a government system. It does
+                        <b>not</b> create, amend or recognise an official ULPIN, and it asserts no legal title, tax or
+                        encumbrance status. Every linkage it produces is a <b>proposal for review</b> by the competent
+                        authority &mdash; never a legal determination.
+                    </p>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hv-title">
+                    <span>Vertical identity stack &mdash; illustrative</span>
+                    <span>&#9679; proposed</span>
+                </div>
+                <div class="hv-stack">
+                    <div class="hv-slab"><span>Unit / volume</span><span class="id">U-402</span></div>
+                    <div class="hv-slab"><span>Floor 4</span><span class="id">FL-4</span></div>
+                    <div class="hv-slab"><span>Floor 3</span><span class="id">FL-3</span></div>
+                    <div class="hv-slab base"><span>Building footprint</span><span class="id">OSM footprint</span></div>
+                    <div class="hv-slab proposed"><span>Cadastral parcel</span><span class="id">OSM parcel</span></div>
+                </div>
+                <div class="hv-legend">
+                    <div><span class="hv-key" style="background:#22c55e"></span>Determined by geometry or surveyed evidence</div>
+                    <div><span class="hv-key" style="background:#f58220;border:1px dashed #fff"></span>Proposed linkage &mdash; needs human confirmation</div>
+                    <div><span class="hv-key" style="background:#64748b"></span>Blocked and shown as NOT_DETERMINABLE where evidence is absent</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= PILLARS ================= -->
+<section class="section">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">What this prototype actually does</div>
+            <h2>Four commitments that shaped every design decision</h2>
+            <p>The hard part of a 3D cadastre is not drawing cubes. It is being able to defend, or retract, any single vertical claim you make.</p>
+        </div>
+
+        <div class="pillars">
+            <div class="pillar">
+                <div class="pillar-ico ico-blue">&#128269;</div>
+                <h3>Evidence-linked, never guessed</h3>
+                <p>Every floor, height and linkage carries its source, date, licence, processing step and model version. Where evidence is missing the answer is <span class="mono">NOT_DETERMINABLE</span> &mdash; not an invention.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-ico ico-green">&#9878;</div>
+                <h3>Deterministic geometry, probabilistic AI</h3>
+                <p>Containment, overlap, CRS checks and volume tests run as exact geometry operations. AI assists extraction and flags anomalies; it never adjudicates ownership.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-ico ico-amber">&#128172;</div>
+                <h3>Human in the loop, always</h3>
+                <p>Conflicts and low-confidence claims are surfaced to a reviewer with <span class="mono">APPROVE</span>, <span class="mono">CORRECT</span>, <span class="mono">REJECT</span> or <span class="mono">MARK_UNRESOLVED</span> &mdash; and every action is audit logged.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-ico ico-violet">&#128274;</div>
+                <h3>Role-scoped by construction</h3>
+                <p>Access is enforced on the server, not hidden in the UI. A citizen can only ever read records linked to their own account, and sees only the fields they are entitled to.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="section section-alt">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">Current build</div>
+            <h2>What is actually loaded in this prototype</h2>
+            <p>These figures are measured directly from the GeoJSON layers shipped in <span class="mono">frontend/data/</span>. A regression test asserts that the numbers on this page still match the data files, so they cannot silently drift away from reality.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-val" data-stat="regions">6</div>
+                <div class="stat-lbl">Pilot regions</div>
+                <div class="stat-note">Bhopal, Bengaluru, Indore,<br>Navi&nbsp;Mumbai, Kalyan, Coimbatore</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val" data-stat="buildings">12,887</div>
+                <div class="stat-lbl">Building footprints</div>
+                <div class="stat-note">OSM&nbsp;outlines with 3D attributes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val" data-stat="parcels">582</div>
+                <div class="stat-lbl">Cadastral parcels</div>
+                <div class="stat-note">Matched 2D parcel geometry</div>
+            </div>
+            <div class="stat">
+                <div class="stat-val" data-stat="anomalies">185</div>
+                <div class="stat-lbl">AI anomalies flagged</div>
+                <div class="stat-note">Isolation&nbsp;Forest, routed to review</div>
+            </div>
+        </div>
+
+        <div class="stats-note">
+            <i>&#9432;</i>
+            <p>
+                <b>Stated precisely:</b> the full evidence-fusion output &mdash; AI anomaly scoring and the final verification
+                gate &mdash; is present for <b>6,163 buildings</b> (Bhopal 3,429 + Bengaluru 2,734). Within that set:
+                <b>2,326 VERIFIED</b>, <b>3,652 PROVISIONAL</b>, <b>185 HUMAN_VERIFICATION_REQUIRED</b>.
+                The other four regions carry earlier-stage height and floor evidence only, so we do
+                <b>not</b> claim anomaly or verification status for them.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section" id="services">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">Services</div>
+            <h2>Four role-specific workspaces</h2>
+            <p>Each desk exposes only the capabilities that role is entitled to. The list below is generated from the same capability matrix the API enforces &mdash; it is not a decorative list.</p>
+        </div>
+
+        <div class="services">
+            <article class="service">
+                <div class="service-top">
+                    <div class="service-ico ico-blue">&#127970;</div>
+                    <div>
+                        <h3>Registrar</h3>
+                        <div class="service-dept">Sub-Registrar office &middot; final adjudication</div>
+                    </div>
+                </div>
+                <p>Full read access to every building, floor and parcel. Adjudicates conflicting vertical claims, issues certificates, and owns the audit trail.</p>
+                <div class="service-caps">
+                    <span class="cap">building:read:all</span>
+                    <span class="cap">parcel:read:all</span>
+                    <span class="cap">review:adjudicate</span>
+                    <span class="cap">review:annotate</span>
+                    <span class="cap">certificate:issue</span>
+                    <span class="cap">manifest:export</span>
+                    <span class="cap">auditlog:read</span>
+                </div>
+                <a class="btn btn-primary" href="/index.html" data-seat="registrar">Open registrar desk <i>&#8594;</i></a>
+            </article>
+
+            <article class="service">
+                <div class="service-top">
+                    <div class="service-ico ico-green">&#127959;</div>
+                    <div>
+                        <h3>Town Planner</h3>
+                        <div class="service-dept">Municipal planning office &middot; zoning</div>
+                    </div>
+                </div>
+                <p>Reads the full 3D stack for planning and zoning studies &mdash; floor-area potential, vertical density, and parcel-level development capacity.</p>
+                <div class="service-caps">
+                    <span class="cap">building:read:all</span>
+                    <span class="cap">parcel:read:all</span>
+                    <span class="cap">zoning:audit</span>
+                    <span class="cap">review:annotate</span>
+                    <span class="cap">manifest:export</span>
+                </div>
+                <a class="btn btn-primary" href="/index.html" data-seat="planner">Open planner desk <i>&#8594;</i></a>
+            </article>
+
+            <article class="service">
+                <div class="service-top">
+                    <div class="service-ico ico-amber">&#128220;</div>
+                    <div>
+                        <h3>SDM / Grievance Officer</h3>
+                        <div class="service-dept">Revenue administration &middot; grievances</div>
+                    </div>
+                </div>
+                <p>Owns the citizen grievance register: triages submissions, tracks resolution state, and escalates unresolved vertical-identity disputes for human review.</p>
+                <div class="service-caps">
+                    <span class="cap">grievance:adjudicate</span>
+                    <span class="cap">review:annotate</span>
+                    <span class="cap">building:read:all</span>
+                    <span class="cap">parcel:read:all</span>
+                </div>
+                <a class="btn btn-primary" href="/index.html" data-seat="sdm">Open grievance desk <i>&#8594;</i></a>
+            </article>
+
+            <article class="service">
+                <div class="service-top">
+                    <div class="service-ico ico-violet">&#128104;&#8205;&#127979;</div>
+                    <div>
+                        <h3>Citizen</h3>
+                        <div class="service-dept">Landowner / co-owner &middot; own records only</div>
+                    </div>
+                </div>
+                <p>Views the 3D stack of <b>their own</b> linked property, checks the proposed vertical identity, downloads a certificate, and files a grievance. Nothing else is reachable.</p>
+                <div class="service-caps">
+                    <span class="cap">building:read:own</span>
+                    <span class="cap">parcel:read:own</span>
+                    <span class="cap">certificate:view:own</span>
+                    <span class="cap">grievance:file</span>
+                </div>
+                <a class="btn btn-primary" href="/index.html" data-seat="citizen">Open citizen view <i>&#8594;</i></a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ================= PIPELINE ================= -->
+<section class="section section-alt" id="pipeline">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">How it works</div>
+            <h2>From raw open data to a reviewable 3D vertical identity</h2>
+            <p>The full build follows a 17-phase plan. These six stages are the ones that decide whether a vertical claim survives to the reviewer.</p>
+        </div>
+
+        <div class="pipeline">
+            <div class="step">
+                <h3>Discover &amp; ingest</h3>
+                <p>OSM footprints and parcels, Bhuvan/NRSC elevation, and public basemaps, each with a manifest recording licence, CRS, date and known gaps.</p>
+                <span class="tag tag-real">Real data</span>
+            </div>
+            <div class="step">
+                <h3>Match parcels to buildings</h3>
+                <p>Deterministic containment and overlap tests in a validated CRS. Every match records <span class="mono">CONTAINED</span>, <span class="mono">MAJORITY</span> or an explicit failure.</p>
+                <span class="tag tag-real">Deterministic</span>
+            </div>
+            <div class="step">
+                <h3>Reconstruct 3D massing</h3>
+                <p>DEM gives terrain, DSM gives surface. Their difference yields an above-ground height signal &mdash; explicitly not a floor count.</p>
+                <span class="tag tag-model">Modelled</span>
+            </div>
+            <div class="step">
+                <h3>Extract floors with AI</h3>
+                <p>A U-Net / Mask R-CNN segmentation stage proposes building masks; a tree-based model predicts height, level and footprint quality.</p>
+                <span class="tag tag-model">AI-assisted</span>
+            </div>
+            <div class="step">
+                <h3>Fuse evidence &amp; flag conflict</h3>
+                <p>Independent signals are combined into a single status. An Isolation Forest surfaces anomalies for review rather than silently scoring them away.</p>
+                <span class="tag tag-human">Human review</span>
+            </div>
+            <div class="step">
+                <h3>Propose the vertical ULPIN</h3>
+                <p>A deterministic identifier chain links parcel &rarr; building &rarr; floor &rarr; unit, marked as a proposal with its verification status attached.</p>
+                <span class="tag tag-human">Proposal only</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= DATA PROVENANCE ================= -->
+<section class="section" id="data">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">Data provenance</div>
+            <h2>What is real, what is modelled, what is refused</h2>
+            <p>Separating these three categories is the difference between a useful prototype and a misleading one. Anything we could not verify is reported as <span class="mono">NOT_DETERMINABLE</span> and is not displayed as a fact.</p>
+        </div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer / attribute</th>
+                        <th>Origin</th>
+                        <th>Standing</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Building footprints</td>
+                        <td class="mono">OpenStreetMap (ODbL)</td>
+                        <td><span class="badge-real">REAL</span></td>
+                        <td>Outlines and <span class="mono">building:levels</span> tags where contributors recorded them.</td>
+                    </tr>
+                    <tr>
+                        <td>Cadastral parcels</td>
+                        <td class="mono">OpenStreetMap (ODbL)</td>
+                        <td><span class="badge-real">REAL</span></td>
+                        <td>Open cadastral geometry. Not a certified survey copy.</td>
+                    </tr>
+                    <tr>
+                        <td>Terrain elevation (DEM)</td>
+                        <td class="mono">Bhuvan / NRSC</td>
+                        <td><span class="badge-real">REAL</span></td>
+                        <td>Ground elevation only.</td>
+                    </tr>
+                    <tr>
+                        <td>Surface elevation (DSM)</td>
+                        <td class="mono">Bhuvan / NRSC</td>
+                        <td><span class="badge-real">REAL</span></td>
+                        <td>Surface elevation. Height signal derives from DSM&minus;DEM.</td>
+                    </tr>
+                    <tr>
+                        <td>Building height</td>
+                        <td>Model prediction + evidence fusion</td>
+                        <td><span class="badge-model">MODELLED</span></td>
+                        <td>Reported with an explicit confidence state, never as a surveyed value.</td>
+                    </tr>
+                    <tr>
+                        <td>Floor count / floor entities</td>
+                        <td>Inference from height, levels tag and imagery</td>
+                        <td><span class="badge-model">MODELLED</span></td>
+                        <td>Flagged <span class="mono">PROVISIONAL</span> unless independently corroborated.</td>
+                    </tr>
+                    <tr>
+                        <td>Floor plans, GNSS/CORS control</td>
+                        <td>Not available in pilot regions</td>
+                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
+                        <td>Explicitly out of scope. Not simulated as if present.</td>
+                    </tr>
+                    <tr>
+                        <td>Legal title, tax dues, encumbrance</td>
+                        <td>Outside prototype authority</td>
+                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
+                        <td>Never inferred. Requires the competent authority.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ================= LIMITATIONS ================= -->
+<section class="section section-alt" id="limitations">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">Limitations</div>
+            <h2>What this prototype cannot do</h2>
+            <p>A prototype that hides its limits is worse than no prototype. These are the boundaries we hold ourselves to.</p>
+        </div>
+
+        <div class="limitations">
+            <div class="limit">
+                <i>&#128683;</i>
+                <div>
+                    <h3>It is not a government system</h3>
+                    <p>It neither creates nor recognises an official ULPIN. A <b>proposed</b> vertical linkage is a technical suggestion for a competent authority to accept, correct or reject.</p>
+                </div>
+            </div>
+            <div class="limit">
+                <i>&#127979;</i>
+                <div>
+                    <h3>Height is not floor count</h3>
+                    <p>DSM&minus;DEM gives an above-ground height signal where the datasets are compatible. <b>It is never presented as an exact floor count.</b> Uncorroborated floors stay <span class="mono">PROVISIONAL</span>.</p>
+                </div>
+            </div>
+            <div class="limit">
+                <i>&#128200;</i>
+                <div>
+                    <h3>Not all regions are equally complete</h3>
+                    <p>Only Bhopal and Bengaluru carry the full AI-anomaly and verification-gate output. The other four regions have earlier-stage height and floor evidence, and are reported as such.</p>
+                </div>
+            </div>
+            <div class="limit">
+                <i>&#128273;</i>
+                <div>
+                    <h3>Demo accounts, demo credentials</h3>
+                    <p>The sign-in screen shows its own demo passwords on purpose, for judging. This is <b>not</b> a production identity system, and the stored data is not a government record.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout">
+            <i>&#9878;</i>
+            <div>
+                <h3>The one rule that outranks every feature</h3>
+                <p>If the evidence is absent, insufficient or contradictory, the system returns <b>NOT_DETERMINABLE</b> and hands the case to a human. It never fills a gap to make a demo look complete &mdash; because a cadastre that guesses is worse than one that admits it does not know.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="section" id="faq">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="section-kicker">Frequently asked</div>
+            <h2>Questions we expect from an evaluator</h2>
+        </div>
+
+        <div class="faq">
+            <details>
+                <summary>Why can't you just compute the floor count from the building height?</summary>
+                <div class="faq-body">Because storey height is not a constant &mdash; it varies with use, structure, era and local building by-laws, and ground floors are often double height. A 12&nbsp;m building might be three floors or one. We use height as a signal, corroborate it with recorded <span class="mono">building:levels</span> tags and imagery evidence, and otherwise report the floor count as provisional or not determinable.</div>
+            </details>
+            <details>
+                <summary>Can a citizen see a neighbour's property?</summary>
+                <div class="faq-body">No. Ownership links are stored server-side and the API filters every read by the signed-in account. The capability check happens in the backend, so hiding a button in the interface is not the security control &mdash; it is only a convenience. Attempting to request another building's identifier returns a not-found response rather than the record.</div>
+            </details>
+            <details>
+                <summary>Where does the AI actually help, and what does it refuse to do?</summary>
+                <div class="faq-body">The AI helps with building segmentation, height and level prediction, and anomaly detection. It does not adjudicate ownership, legal rights or disputes &mdash; those are deterministic topology checks plus a human reviewer. When the model and the geometry disagree, the system records a conflict instead of picking a winner.</div>
+            </details>
+            <details>
+                <summary>What happens when two sources disagree?</summary>
+                <div class="faq-body">Nothing is silently overwritten. The disagreement is preserved with both sources, both dates, and a <span class="mono">CONFLICT</span> or <span class="mono">HUMAN_VERIFICATION_REQUIRED</span> status, and it appears in the reviewer's queue with the provenance needed to settle it.</div>
+            </details>
+            <details>
+                <summary>Is the Bhiwandi pilot area in the original charter?</summary>
+                <div class="faq-body">The original charter named Baramati ULB, Pune district, as the pilot because it appears in published NAKSHA material. The Bhiwandi and other regional datasets were added later as separate dataset versions; the original pilot area was retained. Each dataset carries its own manifest and licence.</div>
+            </details>
+            <details>
+                <summary>Can this run offline?</summary>
+                <div class="faq-body">Yes. The portal and every layer are served locally and no public tile server is overloaded. The web fonts degrade gracefully to system fonts if you are disconnected, and the full evidence trail is inspectable in the repository rather than hidden behind a vendor API.</div>
+            </details>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="wrap">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand">
+                    <span class="brand-crest">&#127959;</span>
+                    <span>
+                        <span class="brand-name">AeroNerds 3D Cadastre</span><br>
+                        <span class="brand-sub">AeroNerds &middot; SIH26011</span>
+                    </span>
+                </div>
+                <p>An open-source prototype for 3D ULPIN-linked vertical property mapping, built for Smart India Hackathon 2026 under problem statement SIH26011.</p>
+            </div>
+            <div>
+                <h4>Services</h4>
+                <a href="/index.html" data-seat="registrar">Registrar desk</a>
+                <a href="/index.html" data-seat="planner">Town planner desk</a>
+                <a href="/index.html" data-seat="sdm">Grievance desk</a>
+                <a href="/index.html" data-seat="citizen">Citizen view</a>
+            </div>
+            <div>
+                <h4>Evidence</h4>
+                <a href="#data">Data provenance</a>
+                <a href="#limitations">Limitations</a>
+                <a href="#pipeline">How it works</a>
+                <a href="/api/meta/health">API health</a>
+            </div>
+            <div>
+                <h4>Data sources</h4>
+                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors (ODbL)</a>
+                <a href="https://bhuvan-app3.nrsc.gov.in/data/download/index.php" target="_blank" rel="noopener">Bhuvan / NRSC</a>
+                <a href="https://naksha.dolr.gov.in/NakshaPortal/" target="_blank" rel="noopener">NAKSHA (DoLR)</a>
+            </div>
+        </div>
+
+        <div class="footer-disclaimer">
+            <i>&#9888;</i>
+            <p>
+                <b>Disclaimer.</b> AeroNerds 3D Cadastre is an academic prototype submitted to Smart India Hackathon 2026. It is
+                <b>not</b> affiliated with, endorsed by, or operated on behalf of the Government of India, UIDAI, the
+                Department of Lands Records, any State government, or any municipal body. It does not create, alter or
+                recognise an official Unique Land Parcel Identification Number (ULPIN), and it asserts no legal title,
+                tax or encumbrance status. All vertical linkages are <b>proposals for human verification</b>. Any
+                resemblance to a government portal is a design study of the public-service information architecture,
+                not an identity claim. Underlying open data remains the property of its respective publishers.
+            </p>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 AeroNerds &mdash; SIH26011 team. Code released under the project licence.</span>
+            <span>Built with FastAPI &middot; GeoPandas &middot; PyTorch &middot; MapLibre GL &middot; Three.js</span>
+        </div>
+    </div>
+</footer>
+
+<script src="home.js?v=1"></script>
+</body>
+</html>

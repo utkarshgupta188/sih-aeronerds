@@ -1,14 +1,14 @@
 /**
- * AeroNerds — Government of India 3D Vertical Cadastral & Bhu-Aadhaar Portal
+ * AeroNerds — 3D Vertical Cadastral & 3D ULPIN Portal
  * Developed for Ministry of Rural Development (DoLR), MoHUA & Smart India Hackathon (SIH26011)
  * 
  * Features:
  * 1. 3 Official Government Personas:
  *    - Chief Cadastral Surveyor & Registrar (DoLR / State Land Records)
  *    - Municipal Town Planner & Urban Local Body (ULB / Smart City Mission)
- *    - Citizen & Landowner (Bhu-Aadhaar Citizen Portal)
- * 2. Universal Land Records Search (Khasra No., Bhu-Aadhaar 3D ULPIN, Ward, Survey No.)
- * 3. Official 3D Bhu-Aadhaar Land Title Certificate Modal with QR Verification & Download
+ *    - Citizen & Landowner (3D ULPIN Citizen Portal)
+ * 2. Universal Land Records Search (Khasra No., 3D ULPIN 3D ULPIN, Ward, Survey No.)
+ * 3. Proposed 3D vertical identity certificate Modal with QR Verification & Download
  * 4. FSI / FAR Height Compliance & Vertical Encroachment Scanner for Town Planners
  * 5. Statutory Reviewer Audit Gate (APPROVE / CORRECT / REJECT / UNRESOLVED)
  * 6. Mutation & Grievance Petition Lodging for Citizens
@@ -140,16 +140,20 @@
     // =========================================================================
     // 2. GOVERNMENT ROLES DEFINITION
     // =========================================================================
+    // NOTE: this table is presentational only. It mirrors backend/rbac.py so
+    // the header can label the signed-in seat, but it grants nothing. The
+    // authoritative role and capability set comes from the server on every
+    // request; a role not held by the session is never applied here.
     const GOV_ROLES = {
-        admin: {
-            id: "admin",
+        registrar: {
+            id: "registrar",
             title: "Chief Cadastral Surveyor",
             name: "Dr. S. Nair, DoLR",
             dept: "Directorate of Land Records & SVAMITVA",
             badge: "REGISTRAR",
             badgeClass: "badge-admin",
             icon: "ph-shield-check",
-            workspaceId: "admin-workspace",
+            workspaceId: "registrar-workspace",
             subtitle: "Statutory 3D Cadastral Delineation & ULPIN Adjudication Desk"
         },
         planner: {
@@ -163,21 +167,41 @@
             workspaceId: "planner-workspace",
             subtitle: "Vertical FSI / Height Compliance & Encroachment Auditing"
         },
+        sdm: {
+            id: "sdm",
+            title: "Sub-Divisional Magistrate",
+            name: "Shri A. K. Iyer",
+            dept: "Revenue Administration / Grievance Cell",
+            badge: "SDM",
+            badgeClass: "badge-sdm",
+            icon: "ph-gavel",
+            workspaceId: "sdm-workspace",
+            subtitle: "Citizen Grievance Adjudication & Escalation Desk"
+        },
         citizen: {
             id: "citizen",
             title: "Citizen Landowner",
             name: "Smt. Priya Sharma",
-            dept: "Bhu-Aadhaar Digital Property Passbook",
+            dept: "Vertical property record",
             badge: "PROPERTY OWNER",
             badgeClass: "badge-resident",
             icon: "ph-user-circle",
             workspaceId: "citizen-workspace",
-            subtitle: "3D Bhu-Aadhaar Passbook & Title Self-Verification"
+            subtitle: "3D property passbook & self-verification"
         }
     };
 
-    let activeGovRole = localStorage.getItem("aeronerds_gov_role") || "admin";
-    if (!GOV_ROLES[activeGovRole]) activeGovRole = "admin";
+    //: Legacy saved keys mapped onto the current seat names.
+    const ROLE_ALIASES = { admin: "registrar" };
+
+    function resolveRoleKey(key) {
+        const k = ROLE_ALIASES[key] || key;
+        return GOV_ROLES[k] ? k : "registrar";
+    }
+
+    // The active role is derived from the signed-in session, never from a
+    // value the visitor can set in local storage.
+    let activeGovRole = "registrar";
 
     // =========================================================================
     // 3. PURE SVG QR CODE ALLOTTER (Using datalog/qrcode-svg)
@@ -193,8 +217,11 @@
         const opts = options || {};
         const size = opts.size || (target.clientWidth && target.clientWidth > 0 ? target.clientWidth : (target.width || 90));
 
-        // Formulate official statutory DoLR / SVAMITVA Bhu-Aadhaar verification URL
-        const verifyUrl = opts.rawUrl || `https://bhumiadhaar.dolr.gov.in/verify?ulpin=${encodeURIComponent(u)}&auth=svamitva&v=1`;
+        // Formulate official statutory DoLR / SVAMITVA 3D ULPIN verification URL
+        // Resolve within this prototype. Never point at a real government domain:
+    // a prototype must not mint QR codes that look like official verification.
+    const verifyUrl = opts.rawUrl
+        || `${window.location.origin}/index.html?ulpin=${encodeURIComponent(u)}`;
 
         let svgElement = null;
 
@@ -238,9 +265,9 @@
 
         // Target is a DIV or container element: inject crisp pure SVG DOM node
         if (svgElement) {
-            svgElement.setAttribute("title", `Official 3D Bhu-Aadhaar: ${u}`);
+            svgElement.setAttribute("title", `Official 3D 3D ULPIN: ${u}`);
             svgElement.setAttribute("role", "img");
-            svgElement.setAttribute("aria-label", `QR Code for Bhu-Aadhaar ${u}`);
+            svgElement.setAttribute("aria-label", `QR Code for 3D ULPIN ${u}`);
             svgElement.style.width = "100%";
             svgElement.style.height = "100%";
             svgElement.style.display = "block";
@@ -256,19 +283,47 @@
         return null;
     }
 
-    const drawBhuAadhaarQR = renderUlpinQRCode;
+    const drawVerticalIdQR = renderUlpinQRCode;
     window.renderUlpinQRCode = renderUlpinQRCode;
-    window.drawBhuAadhaarQR = renderUlpinQRCode;
+    window.drawVerticalIdQR = renderUlpinQRCode;
 
     // =========================================================================
-    // 4. PERSONA SWITCHER ENGINE
+    // 4. SESSION-BOUND WORKSPACE ENGINE
     // =========================================================================
-    function setGovRole(roleKey) {
-        if (!GOV_ROLES[roleKey]) roleKey = "admin";
-        activeGovRole = roleKey;
-        localStorage.setItem("aeronerds_gov_role", roleKey);
+    // setGovRole() renders the workspace for a seat, but ONLY for the seat the
+    // server actually issued. Requesting any other seat is refused and logged
+    // rather than silently switching the dashboard -- the old behaviour let a
+    // visitor click a card and become the Registrar with no credential at all.
+    function setGovRole(roleKey, opts) {
+        const options = opts || {};
+        const Auth = window.AeroAuth;
+        const sessionRole = Auth && Auth.isSignedIn() ? Auth.roleId : null;
+        const requested = resolveRoleKey(roleKey);
 
-        const r = GOV_ROLES[roleKey];
+        if (sessionRole) {
+            if (requested !== sessionRole) {
+                console.warn(
+                    "[rbac] refused role change: session holds '" + sessionRole +
+                    "', requested '" + requested + "'"
+                );
+                if (options.notify !== false) {
+                    showGovToast(
+                        "Access Control",
+                        "Your signed-in seat is <b>" + (GOV_ROLES[sessionRole] || {}).title +
+                        "</b>. Escalation requires re-authentication.",
+                        "ph-lock-key"
+                    );
+                }
+                return false;
+            }
+        } else if (!options.silent) {
+            // No session: do not reveal any workspace.
+            if (window.AeroAuthGate) window.AeroAuthGate.open("Sign in to access a role workspace.");
+            return false;
+        }
+
+        activeGovRole = requested;
+        const r = GOV_ROLES[requested];
         AudioFX.play("switch");
 
         // Top bar pill sync
@@ -276,7 +331,7 @@
         const pillRole = document.getElementById("persona-pill-role");
         const pillIcon = document.getElementById("persona-pill-icon");
         const pillBadge = document.getElementById("persona-pill-badge");
-        if (pillName) pillName.innerText = r.name;
+        if (pillName) pillName.innerText = (Auth && Auth.user && Auth.user.full_name) || r.name;
         if (pillRole) pillRole.innerText = r.title;
         if (pillIcon) pillIcon.className = `ph ${r.icon}`;
         if (pillBadge) {
@@ -300,18 +355,68 @@
         }
 
         // Adjust body classes
-        document.body.classList.remove("role-admin", "role-planner", "role-citizen");
-        document.body.classList.add(`role-${roleKey}`);
+        document.body.classList.remove(
+            "role-registrar", "role-planner", "role-sdm", "role-citizen", "role-admin"
+        );
+        document.body.classList.add(`role-${requested}`);
 
-        showGovToast("Official Access Changed", `Switched to: <b>${r.title}</b> (${r.dept})`, r.icon);
+        // Role-scoped nav + control visibility
+        if (Auth) Auth.applyCapabilityVisibility();
+
+        // Notify listeners so each workspace can load its own data
+        window.dispatchEvent(new CustomEvent("govrole:changed", {
+            detail: { role: requested, user: Auth ? Auth.user : null }
+        }));
+
+        if (options.notify) {
+            showGovToast("Official Access Active", `Signed in as <b>${r.title}</b> (${r.dept})`, r.icon);
+        }
+        return true;
     }
 
+    // The persona modal is retained only as a read-only "your access" panel.
+    // Selecting a card no longer changes the role; it explains the seat and
+    // points the visitor at signing in.
     function openGovModal() {
         const modal = document.getElementById("gov-persona-modal");
-        if (modal) {
-            modal.style.display = "flex";
-            AudioFX.play("click");
+        if (!modal) return;
+        const Auth = window.AeroAuth;
+        const notice = document.getElementById("gov-persona-notice");
+        if (notice) {
+            if (Auth && Auth.isSignedIn()) {
+                notice.innerHTML =
+                    "You are signed in as <b>" + Auth.user.full_name + "</b> — " +
+                    Auth.user.role_title + ". Your workspace is fixed to this seat; " +
+                    "switching seats requires signing in with different credentials.";
+            } else {
+                notice.innerHTML = "Sign in to be assigned a statutory seat.";
+            }
         }
+        modal.style.display = "flex";
+        AudioFX.play("click");
+    }
+
+    /**
+     * Navigate to another seat's desk, but only if the signed-in role actually
+     * holds the required capability. Returns false and explains the refusal
+     * when it does not, so a nav click can never grant a role.
+     */
+    function requestWorkspace(roleKey, capability) {
+        const Auth = window.AeroAuth;
+        if (!Auth || !Auth.isSignedIn()) {
+            if (window.AeroAuthGate) window.AeroAuthGate.open("Sign in to open this desk.");
+            return false;
+        }
+        if (capability && !Auth.can(capability)) {
+            showGovToast(
+                "Not Permitted",
+                Auth.denialReason(capability) +
+                "<br>Your seat: <b>" + Auth.user.role_title + "</b>",
+                "ph-lock-key"
+            );
+            return false;
+        }
+        return setGovRole(roleKey, { notify: true });
     }
 
     function closeGovModal() {
@@ -323,7 +428,7 @@
     }
 
     // =========================================================================
-    // 5. OFFICIAL BHU-AADHAAR 3D CERTIFICATE MODAL
+    // 5. OFFICIAL 3D ULPIN 3D CERTIFICATE MODAL
     // =========================================================================
     function openCertificateModal(ulpin, khasra, elevation, floors, area) {
         const modal = document.getElementById("certificate-modal");
@@ -365,7 +470,7 @@
     window.closeCertificateModal = closeCertificateModal;
 
     // =========================================================================
-    // 5B. OFFICIAL 3D BHU-AADHAAR PVC CARD MODAL (UIDAI PHYSICAL REPLICA)
+    // 5B. OFFICIAL 3D 3D ULPIN PVC CARD MODAL (PHYSICAL-STYLE REPLICA)
     // =========================================================================
     function openBhuCardModal(ulpin, khasra, floor, elev, area, owner) {
         const modal = document.getElementById("bhu-card-modal");
@@ -400,7 +505,7 @@
         }
 
         modal.style.display = "flex";
-        showGovToast("3D भू-आधार कार्ड", `विशिष्ट भू-आधार QR आवंटित: ${u}`, "ph-qr-code");
+        showGovToast("3D ULPIN कार्ड", `प्रस्तावित 3D ULPIN QR: ${u}`, "ph-qr-code");
     }
 
     function closeBhuCardModal() {
@@ -422,13 +527,13 @@
         hi: {
             gov_name: "भारत सरकार",
             dept_name: "ग्रामीण विकास मंत्रालय | भूमि संसाधन विभाग (DoLR)",
-            brand_title: "भू-आधार 3D",
-            sidebar_title: "भू-आधार 3D",
+            brand_title: "एयरोनर्ड्स 3D",
+            sidebar_title: "एयरोनर्ड्स 3D",
             brand_sub: "भूमि संसाधन विभाग • ग्रामीण विकास मंत्रालय, भारत सरकार",
             skip_link: "मुख्य सामग्री पर जाएं",
             screen_reader: "स्क्रीन रीडर",
             nav_home: "मुख्य पृष्ठ",
-            nav_my_bhu: "मेरा भू-आधार कार्ड",
+            nav_my_bhu: "मेरा 3D ULPIN कार्ड",
             nav_3d_map: "3D भू-नक्शा",
             nav_floors: "मंजिल विभाजन",
             nav_fsi: "नगर नियोजन FSI",
@@ -436,14 +541,14 @@
             nav_title: "भू-अधिकार प्रमाण-पत्र",
             nav_grievance: "शिकायत निवारण",
             ticker_label: "नवीनतम सूचना",
-            ticker_msg: "डिजिटल भारत भूमि रिकॉर्ड आधुनिकीकरण कार्यक्रम (DILRMP) के अंतर्गत 3D बहुमंजिला भवनों के लिए भू-आधार (ULPIN) जारी किए जा रहे हैं।",
-            search_ph: "खसरा नं., 14-अंकीय भू-आधार (ULPIN), वार्ड संख्या खोजें...",
+            ticker_msg: "डिजिटल भारत भूमि रिकॉर्ड आधुनिकीकरण कार्यक्रम (DILRMP) के अंतर्गत 3D बहप्रत्येक 3D ऊर्ध्वाधर लिंकेज सक्षम प्राधिकारी के मानव सत्यापन हेतु प्रस्ताव है।",
+            search_ph: "खसरा नं., 14-अंकीय 3D ULPIN, वार्ड संख्या खोजें...",
             tqa_soi: "SoI 1मी ड्रोन DEM",
             tqa_dilrmp: "DILRMP निर्यात",
-            tqa_pvc: "मेरा भू-आधार कार्ड",
-            role_admin_sub: "वैधानिक 3D भू-सीमांकन व भू-आधार अधिनिर्णय पटल",
+            tqa_pvc: "मेरा 3D ULPIN कार्ड",
+            role_admin_sub: "3D भू-सीमांकन समीक्षा व अधिनिर्णय पटल (प्रोटोटाइप)",
             role_planner_sub: "ऊर्ध्वाधर FSI / ऊंचाई अनुपालन एवं अतिक्रमण ऑडिट",
-            role_citizen_sub: "3D भू-आधार पासबुक एवं डिजिटल स्व-सत्यापन",
+            role_citizen_sub: "3D संपत्ति पासबुक एवं डिजिटल स्व-सत्यापन",
             stat_bldgs: "3D संरचनाएं",
             stat_parcels: "खसरा भूखंड",
             elev_title: "भू-स्थानिक ऊंचाई मॉडल",
@@ -451,7 +556,7 @@
             elev_sim: "1मी ड्रोन सर्वेक्षण",
             tab_info: "भू-अभिलेख",
             tab_logs: "पंजीयक लॉग",
-            no_sel: "ऊपर किसी भी 3D संरचना का चयन करें या खसरा / भू-आधार खोजें।",
+            no_sel: "ऊपर किसी भी 3D संरचना का चयन करें या खसरा / 3D ULPIN खोजें।",
             prop_spatial_link: "भूकर स्थानिक लिंकेज",
             prop_khasra: "खसरा / भूखंड आईडी",
             prop_topology: "सीमा टोपोलॉजी",
@@ -466,7 +571,7 @@
             prop_floor_est: "मंजिल सीमांकन",
             prop_est_conf: "अनुमान विश्वसनीयता",
             prop_view_floors: "मंजिल स्तर देखें (3D निरीक्षण)",
-            prop_prop_ulpin: "प्रस्तावित 3D भू-आधार",
+            prop_prop_ulpin: "प्रस्तावित 3D ULPIN",
             prop_verif: "सत्यापन द्वार",
             prop_gate_title: "पंजीयक वैधानिक अधिनिर्णय द्वार (नियम 8)",
             btn_approve: "स्वीकृत (APPROVE)",
@@ -481,10 +586,10 @@
             fsi_compliance: "जोन अनुपालन",
             btn_scan_fsi: "ऊर्ध्वाधर FSI / ऊंचाई उल्लंघन जांचें",
             btn_export_zoning: "नगर निगम उल्लंघन रिपोर्ट (CSV)",
-            citizen_card_title: "भू-आधार डिजिटल संपत्ति अधिकार",
+            citizen_card_title: "प्रस्तावित 3D ऊर्ध्वाधर पहचान",
             citizen_verified: "सत्यापित",
             citizen_view_cert: "3D अधिकार प्रमाण-पत्र देखें",
-            citizen_copy_ulpin: "भू-आधार कॉपी करें",
+            citizen_copy_ulpin: "3D ULPIN कॉपी करें",
             citizen_registry_status: "आधिकारिक भूमि रजिस्ट्री स्थिति",
             citizen_owner: "मुख्य स्वामी",
             citizen_reg_no: "पंजीकरण संख्या",
@@ -504,13 +609,13 @@
         en: {
             gov_name: "GOVERNMENT OF INDIA",
             dept_name: "Ministry of Rural Development | Department of Land Resources (DoLR)",
-            brand_title: "Bhumi Adhaar 3D",
-            sidebar_title: "Bhumi Adhaar",
+            brand_title: "AeroNerds 3D Cadastre",
+            sidebar_title: "AeroNerds",
             brand_sub: "Department of Land Resources • Ministry of Rural Development, Govt. of India",
             skip_link: "Skip to Main Content",
             screen_reader: "Screen Reader",
             nav_home: "Home",
-            nav_my_bhu: "My Bhu-Aadhaar Card",
+            nav_my_bhu: "My 3D ULPIN Card",
             nav_3d_map: "3D Cadastral Map",
             nav_floors: "Floor Slabs",
             nav_fsi: "Town Planning FSI",
@@ -518,14 +623,14 @@
             nav_title: "3D Title Deed",
             nav_grievance: "Grievance",
             ticker_label: "LATEST NOTICE",
-            ticker_msg: "3D ULPIN (Bhu-Aadhaar) roll-out active for multi-storey high-rise parcels under Digital India Land Records Modernization Programme (DILRMP).",
-            search_ph: "Search Khasra No., 14-digit Bhu-Aadhaar (ULPIN), Ward No...",
+            ticker_msg: "3D ULPIN (3D ULPIN) roll-out active for multi-storey high-rise parcels under national land-records modernisation programme.",
+            search_ph: "Search Khasra No., 14-digit 3D ULPIN (ULPIN), Ward No...",
             tqa_soi: "SoI 1m Drone DEM",
             tqa_dilrmp: "DILRMP Export",
-            tqa_pvc: "My Bhu-Aadhaar Card",
+            tqa_pvc: "My 3D ULPIN Card",
             role_admin_sub: "Statutory 3D Cadastral Delineation & ULPIN Adjudication Desk",
             role_planner_sub: "Vertical FSI / Height Compliance & Encroachment Auditing",
-            role_citizen_sub: "3D Bhu-Aadhaar Passbook & Title Self-Verification",
+            role_citizen_sub: "3D property passbook & self-verification",
             stat_bldgs: "3D STRUCTURES",
             stat_parcels: "KHASRA PARCELS",
             elev_title: "Cartographic Elevation Model",
@@ -533,7 +638,7 @@
             elev_sim: "1m Drone Survey",
             tab_info: "Cadastral Record",
             tab_logs: "Registrar Log",
-            no_sel: "Select any 3D structure or search Khasra / Bhu-Aadhaar above.",
+            no_sel: "Select any 3D structure or search Khasra / 3D ULPIN above.",
             prop_spatial_link: "Cadastral Spatial Linkage",
             prop_khasra: "Khasra / Parcel ID",
             prop_topology: "Boundary Topology",
@@ -548,7 +653,7 @@
             prop_floor_est: "Floor Delineation",
             prop_est_conf: "Estimation Confidence",
             prop_view_floors: "View Floor Levels (3D Inspection)",
-            prop_prop_ulpin: "Proposed 3D Bhu-Aadhaar",
+            prop_prop_ulpin: "Proposed 3D 3D ULPIN",
             prop_verif: "Verification Gate",
             prop_gate_title: "REGISTRAR STATUTORY ADJUDICATION GATE (RULE 8)",
             btn_approve: "APPROVE",
@@ -563,10 +668,10 @@
             fsi_compliance: "ZONE COMPLIANCE",
             btn_scan_fsi: "Scan Vertical FSI / Height Violations",
             btn_export_zoning: "Export Municipal Violation Report (CSV)",
-            citizen_card_title: "BHU-AADHAAR DIGITAL TITLE",
+            citizen_card_title: "PROPOSED VERTICAL IDENTITY (PROTOTYPE)",
             citizen_verified: "VERIFIED",
             citizen_view_cert: "View 3D Title Certificate",
-            citizen_copy_ulpin: "Copy Bhu-Aadhaar",
+            citizen_copy_ulpin: "Copy 3D ULPIN",
             citizen_registry_status: "Official Land Registry Status",
             citizen_owner: "Primary Owner",
             citizen_reg_no: "Registration No.",
@@ -598,15 +703,15 @@
         if (btnEn) btnEn.classList.toggle("active", lang === "en");
 
         // Top strip
-        const brandText = document.querySelector(".uidai-hindi-brand");
+        const brandText = document.querySelector(".gov-hindi-brand");
         if (brandText) brandText.innerText = t.brand_title;
 
-        const subDept = document.querySelector(".uidai-sub-dept");
+        const subDept = document.querySelector(".gov-sub-dept");
         if (subDept) subDept.innerHTML = t.brand_sub;
 
         // Sidebar Product Title
         const sidebarTitle = document.getElementById("sidebar-app-title") || document.querySelector(".sidebar-header .logo h1");
-        if (sidebarTitle) sidebarTitle.innerText = t.sidebar_title || "Bhumi Adhaar";
+        if (sidebarTitle) sidebarTitle.innerText = t.sidebar_title || "AeroNerds";
 
         // Nav Links
         const mapNav = {
@@ -737,10 +842,10 @@
     }
 
     // =========================================================================
-    // 7. UNIVERSAL LAND RECORD SEARCH (KHASRA / BHU-AADHAAR)
+    // 7. UNIVERSAL LAND RECORD SEARCH (KHASRA / 3D ULPIN)
     // =========================================================================
     // =========================================================================
-    // 7. UNIVERSAL PAN-INDIA & MULTI-CITY LAND RECORD SEARCH (BHU-AADHAAR / ULPIN)
+    // 7. UNIVERSAL PAN-INDIA & MULTI-CITY LAND RECORD SEARCH (3D ULPIN / ULPIN)
     // =========================================================================
     let panIndiaCatalog = null;
     let catalogLoadingPromise = null;
@@ -778,7 +883,7 @@
             case "PILOT_3D_CITY": return cityName ? cityName.toUpperCase() : "PILOT 3D";
             case "UNDERGROUND_METRO": return "SUBTERRANEAN";
             case "PAN_INDIA_GATEWAY": return "STATE RoR GATEWAY";
-            case "RESOLVED_ULPIN": return "BHU-AADHAAR";
+            case "RESOLVED_ULPIN": return "3D ULPIN";
             default: return "PAN-INDIA ULPIN";
         }
     }
@@ -853,7 +958,7 @@
                                   parcelStr.toLowerCase().includes(query) ||
                                   nameStr.toLowerCase().includes(query) ||
                                   (queryDigits.length >= 2 && (bNum.includes(queryDigits) || pNum.includes(queryDigits))) ||
-                                  (query === "ulpin" || query === "bhu" || query === "aadhaar" || query === "khasra");
+                                  (query === "ulpin" || query === "bhu" || query === "ulpin" || query === "khasra");
 
                     if (match && !seenIds.has(idStr)) {
                         seenIds.add(idStr);
@@ -955,7 +1060,7 @@
             }
 
             // -------------------------------------------------------------
-            // 4. PAN-INDIA STATE / UT BHU-AADHAAR DIRECTORY SEARCH
+            // 4. PAN-INDIA STATE / UT 3D ULPIN DIRECTORY SEARCH
             // -------------------------------------------------------------
             if (panIndiaCatalog && panIndiaCatalog.pan_india_states) {
                 for (let st of panIndiaCatalog.pan_india_states) {
@@ -973,8 +1078,8 @@
 
                     if (match) {
                         results.push({
-                            title: `Bhu-Aadhaar Gateway &bull; ${st.name} (${st.code})`,
-                            sub: `Official RoR: ${st.portal} &bull; LGD Code: ${st.lgd} &bull; DILRMP 3D Digital Twin Integration`,
+                            title: `3D ULPIN Gateway &bull; ${st.name} (${st.code})`,
+                            sub: `Official RoR: ${st.portal} &bull; LGD Code: ${st.lgd} &bull; Open cadastral source (OpenStreetMap)`,
                             type: "pan_india_state",
                             category: "PAN_INDIA_GATEWAY",
                             city_key: null,
@@ -992,7 +1097,7 @@
             // -------------------------------------------------------------
             if (results.length === 0) {
                 let resolvedStateName = "Government of India (DoLR / SVAMITVA)";
-                let resolvedPortal = "National Bhu-Aadhaar Land Registry";
+                let resolvedPortal = "Open cadastral source";
                 let centerCoords = [78.9629, 20.5937];
                 let targetCityKey = "bhopal";
 
@@ -1020,7 +1125,7 @@
                 }
 
                 results.push({
-                    title: `Official Bhu-Aadhaar 3D Delineation &bull; ${rawQuery.toUpperCase()}`,
+                    title: `Official 3D ULPIN 3D Delineation &bull; ${rawQuery.toUpperCase()}`,
                     sub: `State: ${resolvedStateName} &bull; Portal: ${resolvedPortal} &bull; Rule 8 Statutory Adjudication Gate`,
                     type: "pan_india_synthetic",
                     category: "RESOLVED_ULPIN",
@@ -1098,7 +1203,7 @@
                     if (map && !isNaN(lng) && !isNaN(lat)) {
                         const targetZoom = (type.startsWith("pan_india") ? 11 : 18);
                         map.flyTo({ center: [lng, lat], zoom: targetZoom, pitch: 60, bearing: -20, duration: 1400 });
-                        showGovToast("Bhu-Aadhaar Located", `${ulpin || id} &bull; Pan-India Cadastral Resolution`, "ph-seal-check");
+                        showGovToast("3D ULPIN Located", `${ulpin || id} &bull; Pan-India Cadastral Resolution`, "ph-seal-check");
                     }
                 });
             });
@@ -1119,19 +1224,33 @@
     document.addEventListener("DOMContentLoaded", function () {
         document.addEventListener("pointerdown", () => AudioFX.init(), { once: true });
 
-        // Persona Modal triggers
+        // Persona Modal triggers — the modal is now a read-only access panel.
         const pillBtn = document.getElementById("persona-pill-btn");
         if (pillBtn) pillBtn.addEventListener("click", openGovModal);
 
         const modalClose = document.getElementById("gov-modal-close");
         if (modalClose) modalClose.addEventListener("click", closeGovModal);
 
+        // Persona cards no longer grant a role. Clicking one explains that the
+        // seat is bound to the signed-in credential.
         document.querySelectorAll(".persona-card").forEach(card => {
             card.addEventListener("click", function () {
-                const role = this.getAttribute("data-role");
-                if (role) {
-                    setGovRole(role);
+                const role = resolveRoleKey(this.getAttribute("data-role"));
+                const Auth = window.AeroAuth;
+                if (Auth && Auth.isSignedIn()) {
+                    if (role === Auth.roleId) {
+                        closeGovModal();
+                        return;
+                    }
+                    showGovToast(
+                        "Seat Not Available",
+                        "Your credential is bound to <b>" + Auth.user.role_title +
+                        "</b>. Sign out and sign in with " + GOV_ROLES[role].title + " credentials.",
+                        "ph-lock-key"
+                    );
+                } else if (window.AeroAuthGate) {
                     closeGovModal();
+                    window.AeroAuthGate.open("Sign in as " + GOV_ROLES[role].title + " to open that desk.");
                 }
             });
         });
@@ -1157,7 +1276,7 @@
                 const code = document.getElementById("pvc-ulpin")?.innerText || "IN-MP-BHP-P104-B3-FL4-U402";
                 navigator.clipboard.writeText(code);
                 AudioFX.play("click");
-                showGovToast("3D भू-आधार संख्या कॉपी हुई", `${code} क्लिपबोर्ड पर कॉपी किया गया`, "ph-copy");
+                showGovToast("3D ULPIN कॉपी हुई", `${code} क्लिपबोर्ड पर कॉपी किया गया`, "ph-copy");
             });
         }
 
@@ -1186,12 +1305,12 @@
         const btnFontInc = document.getElementById("btn-font-inc");
         if (btnFontInc) btnFontInc.addEventListener("click", () => setFontScale(currentFontScale + 5));
 
-        // UIDAI Main Navigation Bar Handlers
+        // Main navigation bar handlers
         const navHome = document.getElementById("nav-home");
         if (navHome) {
             navHome.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navHome.classList.add("active");
                 const map = window.boundaryMap;
                 if (map) {
@@ -1205,7 +1324,7 @@
         if (navMyBhu) {
             navMyBhu.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navMyBhu.classList.add("active");
                 openBhuCardModal();
             });
@@ -1215,7 +1334,7 @@
         if (nav3dMap) {
             nav3dMap.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 nav3dMap.classList.add("active");
                 const btn3d = document.getElementById("btn-3d");
                 if (btn3d) btn3d.click();
@@ -1226,7 +1345,7 @@
         if (navFloors) {
             navFloors.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navFloors.classList.add("active");
                 const toggleFloors = document.getElementById("toggle-floors");
                 if (toggleFloors) toggleFloors.click();
@@ -1237,9 +1356,10 @@
         if (navFsi) {
             navFsi.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                // Town Planning seat only (zoning:audit)
+                if (!requestWorkspace("planner", "zoning:audit")) return;
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navFsi.classList.add("active");
-                setGovRole("planner");
                 toggleFsiViolationFilter();
             });
         }
@@ -1248,9 +1368,10 @@
         if (navRule8) {
             navRule8.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                // Registrar seat only (review:adjudicate)
+                if (!requestWorkspace("registrar", "review:adjudicate")) return;
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navRule8.classList.add("active");
-                setGovRole("admin");
             });
         }
 
@@ -1258,9 +1379,20 @@
         if (navTitle) {
             navTitle.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navTitle.classList.add("active");
-                openCertificateModal("IN-MP-BHP-P104-B3-FL4-U402", "Khasra #104/B (Lotus Heights)", 498.2, 4, 1420);
+                // Certificates may only be issued by the Registrar seat; a
+                // citizen viewing their own title is handled by the passbook.
+                const Auth = window.AeroAuth;
+                if (Auth && Auth.can("certificate:view:own")) {
+                    if (!requestWorkspace("citizen", "certificate:view:own")) return;
+                    const btn = document.getElementById("citizen-view-certificate-btn");
+                    if (btn) btn.click();
+                } else if (!requestWorkspace("registrar", "certificate:issue")) {
+                    return;
+                } else {
+                    openCertificateModal(null, null, null, null, null);
+                }
             });
         }
 
@@ -1268,9 +1400,24 @@
         if (navGrievance) {
             navGrievance.addEventListener("click", (e) => {
                 e.preventDefault();
-                document.querySelectorAll(".uidai-nav-link").forEach(l => l.classList.remove("active"));
+                // Either the citizen who files, or the SDM who adjudicates.
+                const Auth = window.AeroAuth;
+                const canFile = Auth && Auth.can("grievance:file");
+                const canAdjudicate = Auth && Auth.can("grievance:adjudicate");
+                if (canAdjudicate) {
+                    if (!requestWorkspace("sdm", "grievance:adjudicate")) return;
+                } else if (canFile) {
+                    if (!requestWorkspace("citizen", "grievance:file")) return;
+                } else {
+                    if (Auth) {
+                        showGovToast("Not Permitted", Auth.denialReason("grievance:file"), "ph-lock-key");
+                    } else if (window.AeroAuthGate) {
+                        window.AeroAuthGate.open("Sign in to file or review a grievance.");
+                    }
+                    return;
+                }
+                document.querySelectorAll(".gov-nav-link").forEach(l => l.classList.remove("active"));
                 navGrievance.classList.add("active");
-                setGovRole("citizen");
                 const btnGrievance = document.getElementById("citizen-grievance-btn");
                 if (btnGrievance) btnGrievance.click();
             });
@@ -1319,7 +1466,7 @@
                 const u = active.ulpin || "IN-MP-BHP-P104-B3-FL4-U402";
                 navigator.clipboard.writeText(u);
                 AudioFX.play("click");
-                showGovToast("Bhu-Aadhaar Copied", `${u} copied to clipboard`, "ph-copy");
+                showGovToast("3D ULPIN Copied", `${u} copied to clipboard`, "ph-copy");
             });
         }
 
@@ -1350,7 +1497,7 @@
         if (btnExportCsv) {
             btnExportCsv.addEventListener("click", () => {
                 AudioFX.play("click");
-                showGovToast("Exporting DILRMP Manifest", "Generating verified 3D ULPIN registry manifest for State Land Portal...", "ph-download-simple");
+                showGovToast("Exporting dataset manifest", "Generating verified 3D ULPIN registry manifest for State Land Portal...", "ph-download-simple");
             });
         }
 
@@ -1655,7 +1802,8 @@
             const btnHeaderGps = document.getElementById("btn-header-gps");
             if (btnHeaderGps) {
                 btnHeaderGps.addEventListener("click", () => {
-                    setGovRole("citizen");
+                    // "Locate my property" is a citizen-scoped action.
+                    if (!requestWorkspace("citizen", "building:read:own")) return;
                     setTimeout(() => autoLocateCitizenGps(), 300);
                 });
             }
@@ -1664,8 +1812,8 @@
             const btnModalGps = document.getElementById("btn-modal-citizen-gps");
             if (btnModalGps) {
                 btnModalGps.addEventListener("click", () => {
+                    if (!requestWorkspace("citizen", "building:read:own")) return;
                     closeGovModal();
-                    setGovRole("citizen");
                     setTimeout(() => autoLocateCitizenGps(), 350);
                 });
             }
@@ -1708,10 +1856,36 @@
 
         // Sync with boundaryDataLoaded
         window.addEventListener("boundaryDataLoaded", function () {
-            setGovRole(activeGovRole);
+            applySessionRole();
         });
 
-        setGovRole(activeGovRole);
+        applySessionRole();
+
+        // Re-apply the seat whenever the session changes (sign in / sign out).
+        window.addEventListener("auth:ready", function () { applySessionRole(); });
+        window.addEventListener("auth:expired", function () {
+            document.querySelectorAll(".omni-workspace").forEach(el => {
+                el.style.display = "none";
+                el.classList.remove("active");
+            });
+        });
+
+        /**
+         * Render the workspace that matches the signed-in credential. When no
+         * session exists, every workspace stays hidden and the sign-in gate is
+         * shown instead -- the portal is never rendered unauthenticated.
+         */
+        function applySessionRole() {
+            const Auth = window.AeroAuth;
+            if (Auth && Auth.isSignedIn()) {
+                setGovRole(Auth.roleId, { silent: true, notify: false });
+            } else {
+                document.querySelectorAll(".omni-workspace").forEach(el => {
+                    el.style.display = "none";
+                    el.classList.remove("active");
+                });
+            }
+        }
     });
 
 })();
