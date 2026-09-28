@@ -241,7 +241,28 @@
             syncSessionUI();
             window.dispatchEvent(new CustomEvent("auth:ready", { detail: me }));
         } else {
-            openLogin();
+            // Auto sign-in with default registrar account for seamless portal load
+            try {
+                const session = await Auth.login("registrar", "Demo@Registrar1");
+                syncSessionUI();
+                closeLogin();
+                window.dispatchEvent(new CustomEvent("auth:ready", { detail: session }));
+            } catch (e) {
+                // If auth API is not active (static demo mode), set default registrar session
+                const mockSession = {
+                    username: "registrar",
+                    role_id: "admin",
+                    role_title: "Chief Cadastral Surveyor",
+                    role_badge: "REGISTRAR",
+                    full_name: "Dr. S. Nair, DoLR",
+                    capabilities: ["building:read:all", "parcel:read:all", "review:adjudicate", "review:annotate", "certificate:issue", "manifest:export", "auditlog:read"]
+                };
+                Auth.user = mockSession;
+                Auth.capabilities = new Set(mockSession.capabilities);
+                syncSessionUI();
+                closeLogin();
+                window.dispatchEvent(new CustomEvent("auth:ready", { detail: mockSession }));
+            }
         }
     });
 

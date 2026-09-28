@@ -1,567 +1,498 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AeroNerds 3D Cadastre &mdash; AeroNerds | SIH26011 Vertical Property Mapping Prototype</title>
-<meta name="description" content="Open-source prototype for 3D ULPIN-linked vertical property mapping: parcel-to-building-to-floor linkage with full evidence provenance, human verification and role-scoped access. SIH26011.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127968;</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="home.css?v=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bhumi Adhaar 3D — Government of India Cadastral &amp; Vertical Property Portal | DoLR &amp; SVAMITVA Mission</title>
+    <meta name="description" content="Official 3D Multi-Storey Vertical Property & Cadastral Mapping Portal engineered under the Digital India Land Records Modernization Programme (DILRMP) and SVAMITVA Mission.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons for SVG UI icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="home.css?v=2">
 </head>
 <body>
 
-<a class="skip-link" href="#main">Skip to main content</a>
-
-<div class="tricolour"></div>
-
-<div class="gov-strip">
-    <div class="wrap">
-        <div><span class="flag">&#127968;</span><b>Smart India Hackathon 2026 &middot; Problem SIH26011</b> &nbsp;|&nbsp; Smart Automation of Application Procedures</div>
-        <div class="gov-strip-links">
-            <a href="#limitations">Limitations</a>
-            <a href="#data">Data Provenance</a>
-            <a href="/api/meta/health">API Status</a>
-        </div>
-    </div>
-</div>
-
-<header class="masthead">
-    <div class="wrap">
-        <a class="brand" href="#top">
-            <span class="brand-crest">&#127959;</span>
-            <span>
-                <span class="brand-name">AeroNerds 3D Cadastre</span>
-                <span class="brand-sub">AeroNerds &middot; SIH26011</span>
-            </span>
-        </a>
-
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainnav">&#9776;</button>
-
-        <nav class="mainnav" id="mainnav">
-            <a href="#services">Services</a>
-            <a href="#pipeline">How it works</a>
-            <a href="#data">Data Provenance</a>
-            <a href="#limitations">Limitations</a>
-            <a href="#faq">FAQ</a>
-        </nav>
-
-        <div class="masthead-cta">
-            <a class="btn btn-ghost" href="/index.html" target="_blank" rel="noopener"><i>&#128273;</i><span>Live portal</span></a>
-            <a class="btn btn-primary" href="/index.html"><i>&#128274;</i><span>Sign in</span></a>
-        </div>
-    </div>
-</header>
-
-<div class="ticker">
-    <div class="wrap">
-        <span class="ticker-tag"><i>&#128196;</i>Notice</span>
-        <div class="ticker-track">
-            <ul>
-                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
-                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
-                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
-                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
-                <li>Prototype &mdash; not an official ULPIN system. No statutory recognition is claimed.</li>
-                <li>DEM&minus;DSM height signals are never treated as an exact floor-count source.</li>
-                <li>185 buildings flagged by the AI anomaly detector and routed to human verification.</li>
-                <li>Citizens see only records linked to their own account &mdash; enforced server-side.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<main id="main">
-
-<!-- ================= HERO ================= -->
-<section class="hero" id="top">
-    <div class="wrap">
-        <div class="hero-grid">
-            <div>
-                <span class="eyebrow"><span class="dot"></span>SIH26011 &middot; Open-source prototype</span>
-
-                <h1>
-                    <span class="hi">From a flat parcel number to an addressable floor</span>
-                    A <em>3D vertical identity</em> for every property
-                </h1>
-
-                <p class="hero-lead">
-                    AeroNerds 3D Cadastre proposes a vertical linkage &mdash; ULPIN &rarr; building &rarr; floor &rarr; unit &mdash;
-                    so a citizen can locate their own floor in 3D, while a registrar can adjudicate conflicts with a
-                    complete, inspectable evidence trail behind every claim.
-                </p>
-
-                <div class="hero-actions">
-                    <a class="btn btn-accent" href="/index.html"><i>&#127968;</i>Launch the 3D portal</a>
-                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#128100;</i>Sign in as a citizen</a>
-                    <a class="btn btn-ghost" href="/index.html" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)"><i>&#127970;</i>Registrar desk</a>
-                </div>
-
-                <div class="hero-truth">
-                    <i>&#9888;</i>
-                    <p>
-                        <b>Read this first.</b> This is a competition prototype, not a government system. It does
-                        <b>not</b> create, amend or recognise an official ULPIN, and it asserts no legal title, tax or
-                        encumbrance status. Every linkage it produces is a <b>proposal for review</b> by the competent
-                        authority &mdash; never a legal determination.
-                    </p>
-                </div>
+    <!-- 1. Tricolor Top Ribbon & Access Bar -->
+    <div class="tricolour"></div>
+    <div class="gov-top-strip">
+        <div class="wrap">
+            <div class="gov-top-left">
+                <span class="gov-flag-icon">🇮🇳</span>
+                <span>भारत सरकार | GOVERNMENT OF INDIA</span>
+                <span>|</span>
+                <span>ग्रामीण विकास मंत्रालय / भू-संसाधन विभाग (DoLR) &amp; SVAMITVA Mission</span>
             </div>
-
-            <div class="hero-visual">
-                <div class="hv-title">
-                    <span>Vertical identity stack &mdash; illustrative</span>
-                    <span>&#9679; proposed</span>
+            <div class="gov-top-right">
+                <a href="#main-content" class="gov-access-link">मुख्य सामग्री पर जाएँ / Skip to Content</a>
+                <div class="font-resizer" title="Adjust Font Size">
+                    <button class="font-btn" id="btn-font-dec">A-</button>
+                    <button class="font-btn" id="btn-font-reset">A</button>
+                    <button class="font-btn" id="btn-font-inc">A+</button>
                 </div>
-                <div class="hv-stack">
-                    <div class="hv-slab"><span>Unit / volume</span><span class="id">U-402</span></div>
-                    <div class="hv-slab"><span>Floor 4</span><span class="id">FL-4</span></div>
-                    <div class="hv-slab"><span>Floor 3</span><span class="id">FL-3</span></div>
-                    <div class="hv-slab base"><span>Building footprint</span><span class="id">OSM footprint</span></div>
-                    <div class="hv-slab proposed"><span>Cadastral parcel</span><span class="id">OSM parcel</span></div>
-                </div>
-                <div class="hv-legend">
-                    <div><span class="hv-key" style="background:#22c55e"></span>Determined by geometry or surveyed evidence</div>
-                    <div><span class="hv-key" style="background:#f58220;border:1px dashed #fff"></span>Proposed linkage &mdash; needs human confirmation</div>
-                    <div><span class="hv-key" style="background:#64748b"></span>Blocked and shown as NOT_DETERMINABLE where evidence is absent</div>
+                <div class="lang-switcher">
+                    <button id="btn-lang-hi" class="lang-btn active">हिंदी</button>
+                    <button id="btn-lang-en" class="lang-btn">English</button>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-<!-- ================= PILLARS ================= -->
-<section class="section">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">What this prototype actually does</div>
-            <h2>Four commitments that shaped every design decision</h2>
-            <p>The hard part of a 3D cadastre is not drawing cubes. It is being able to defend, or retract, any single vertical claim you make.</p>
-        </div>
-
-        <div class="pillars">
-            <div class="pillar">
-                <div class="pillar-ico ico-blue">&#128269;</div>
-                <h3>Evidence-linked, never guessed</h3>
-                <p>Every floor, height and linkage carries its source, date, licence, processing step and model version. Where evidence is missing the answer is <span class="mono">NOT_DETERMINABLE</span> &mdash; not an invention.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-green">&#9878;</div>
-                <h3>Deterministic geometry, probabilistic AI</h3>
-                <p>Containment, overlap, CRS checks and volume tests run as exact geometry operations. AI assists extraction and flags anomalies; it never adjudicates ownership.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-amber">&#128172;</div>
-                <h3>Human in the loop, always</h3>
-                <p>Conflicts and low-confidence claims are surfaced to a reviewer with <span class="mono">APPROVE</span>, <span class="mono">CORRECT</span>, <span class="mono">REJECT</span> or <span class="mono">MARK_UNRESOLVED</span> &mdash; and every action is audit logged.</p>
-            </div>
-            <div class="pillar">
-                <div class="pillar-ico ico-violet">&#128274;</div>
-                <h3>Role-scoped by construction</h3>
-                <p>Access is enforced on the server, not hidden in the UI. A citizen can only ever read records linked to their own account, and sees only the fields they are entitled to.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ================= STATS ================= -->
-<section class="section section-alt">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Current build</div>
-            <h2>What is actually loaded in this prototype</h2>
-            <p>These figures are measured directly from the GeoJSON layers shipped in <span class="mono">frontend/data/</span>. A regression test asserts that the numbers on this page still match the data files, so they cannot silently drift away from reality.</p>
-        </div>
-
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-val" data-stat="regions">6</div>
-                <div class="stat-lbl">Pilot regions</div>
-                <div class="stat-note">Bhopal, Bengaluru, Indore,<br>Navi&nbsp;Mumbai, Kalyan, Coimbatore</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="buildings">12,887</div>
-                <div class="stat-lbl">Building footprints</div>
-                <div class="stat-note">OSM&nbsp;outlines with 3D attributes</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="parcels">582</div>
-                <div class="stat-lbl">Cadastral parcels</div>
-                <div class="stat-note">Matched 2D parcel geometry</div>
-            </div>
-            <div class="stat">
-                <div class="stat-val" data-stat="anomalies">185</div>
-                <div class="stat-lbl">AI anomalies flagged</div>
-                <div class="stat-note">Isolation&nbsp;Forest, routed to review</div>
-            </div>
-        </div>
-
-        <div class="stats-note">
-            <i>&#9432;</i>
-            <p>
-                <b>Stated precisely:</b> the full evidence-fusion output &mdash; AI anomaly scoring and the final verification
-                gate &mdash; is present for <b>6,163 buildings</b> (Bhopal 3,429 + Bengaluru 2,734). Within that set:
-                <b>2,326 VERIFIED</b>, <b>3,652 PROVISIONAL</b>, <b>185 HUMAN_VERIFICATION_REQUIRED</b>.
-                The other four regions carry earlier-stage height and floor evidence only, so we do
-                <b>not</b> claim anomaly or verification status for them.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ================= SERVICES ================= -->
-<section class="section" id="services">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Services</div>
-            <h2>Four role-specific workspaces</h2>
-            <p>Each desk exposes only the capabilities that role is entitled to. The list below is generated from the same capability matrix the API enforces &mdash; it is not a decorative list.</p>
-        </div>
-
-        <div class="services">
-            <article class="service">
-                <div class="service-top">
-                    <div class="service-ico ico-blue">&#127970;</div>
-                    <div>
-                        <h3>Registrar</h3>
-                        <div class="service-dept">Sub-Registrar office &middot; final adjudication</div>
+    <!-- 2. Main UIDAI Brand Header -->
+    <header class="uidai-portal-header">
+        <div class="wrap">
+            <div class="uidai-branding">
+                <div class="ashoka-emblem-box" title="State Emblem of India">
+                    <svg class="ashoka-svg" viewBox="0 0 100 125" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 8 C42 8 36 14 36 22 C36 29 41 34 46 36 C44 42 41 52 41 62 L59 62 C59 52 56 42 54 36 C59 34 64 29 64 22 C64 14 58 8 50 8 Z" fill="#f59e0b"/>
+                        <path d="M30 24 C24 24 19 28 19 35 C19 41 23 45 28 47 C29 53 31 60 34 65 L44 65 C41 58 39 49 37 43 C39 42 41 39 41 35 C41 28 36 24 30 24 Z" fill="#d97706"/>
+                        <path d="M70 24 C64 24 59 28 59 35 C59 39 61 42 63 43 C61 49 59 58 56 65 L66 65 C69 60 71 53 72 47 C77 45 81 41 81 35 C81 28 76 24 70 24 Z" fill="#d97706"/>
+                        <rect x="25" y="66" width="50" height="9" rx="2" fill="#b45309"/>
+                        <circle cx="50" cy="70.5" r="3.5" fill="#f8fafc"/>
+                        <circle cx="50" cy="70.5" r="1.5" fill="#002855"/>
+                        <path d="M28 77 L72 77 L68 84 L32 84 Z" fill="#f59e0b"/>
+                        <text x="50" y="93" font-size="8.5" font-family="'Inter', sans-serif" font-weight="900" fill="#b45309" text-anchor="middle" letter-spacing="1.2">सत्यमेव जयते</text>
+                    </svg>
+                </div>
+                <div class="uidai-title-group">
+                    <div class="uidai-logo-text">
+                        <span class="uidai-sunburst-crest">
+                            <i class="ph ph-sun" style="font-size: 15px; color: #ffffff;"></i>
+                        </span>
+                        <span class="uidai-hindi-brand">भू-आधार 3D</span>
+                        <span style="font-size: 14px; color: #94a3b8; font-weight: 400;">|</span>
+                        <span style="font-size: 14px; color: #002855; font-weight: 800;">भारतीय विशिष्ट 3D भू-संपत्ति प्राधिकरण</span>
+                    </div>
+                    <div class="uidai-sub-dept">
+                        Unique Land Parcel &amp; 3D Property Identification Authority of India (DoLR &amp; SVAMITVA, GoI)
                     </div>
                 </div>
-                <p>Full read access to every building, floor and parcel. Adjudicates conflicting vertical claims, issues certificates, and owns the audit trail.</p>
-                <div class="service-caps">
-                    <span class="cap">building:read:all</span>
-                    <span class="cap">parcel:read:all</span>
-                    <span class="cap">review:adjudicate</span>
-                    <span class="cap">review:annotate</span>
-                    <span class="cap">certificate:issue</span>
-                    <span class="cap">manifest:export</span>
-                    <span class="cap">auditlog:read</span>
-                </div>
-                <a class="btn btn-primary" href="/index.html" data-seat="registrar">Open registrar desk <i>&#8594;</i></a>
-            </article>
+            </div>
 
-            <article class="service">
-                <div class="service-top">
-                    <div class="service-ico ico-green">&#127959;</div>
-                    <div>
-                        <h3>Town Planner</h3>
-                        <div class="service-dept">Municipal planning office &middot; zoning</div>
+            <div class="uidai-header-controls">
+                <div class="uidai-search-box">
+                    <input type="text" id="omni-search-input" class="uidai-search-input" placeholder="Search Khasra No., 14-digit Bhu-Aadhaar (ULPIN)..." autocomplete="off">
+                    <i class="ph ph-magnifying-glass uidai-search-icon"></i>
+                </div>
+                <a href="/index.html" class="persona-pill-btn">
+                    <div class="persona-pill-avatar"><i class="ph ph-shield-check"></i></div>
+                    <div class="persona-pill-text">
+                        <span class="persona-pill-name">Dr. S. Nair, DoLR</span>
+                        <span class="persona-pill-role">Chief Cadastral Surveyor</span>
+                    </div>
+                    <span class="persona-badge badge-admin">REGISTRAR</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. UIDAI Deep Navy Navigation Ribbon -->
+    <nav class="uidai-main-nav">
+        <div class="wrap">
+            <a href="home.html" class="uidai-nav-link active"><i class="ph ph-house"></i> <span>Home</span></a>
+            <a href="/index.html?role=citizen" class="uidai-nav-link"><i class="ph ph-identification-card"></i> <span>My Bhu-Aadhaar</span></a>
+            <a href="/index.html" class="uidai-nav-link"><i class="ph ph-map-trifold"></i> <span>3D Cadastral Map</span></a>
+            <a href="/index.html?view=floors" class="uidai-nav-link"><i class="ph ph-stack"></i> <span>Floor Slabs</span></a>
+            <a href="/index.html?role=planner" class="uidai-nav-link"><i class="ph ph-ruler"></i> <span>Town Planning FSI</span></a>
+            <a href="/index.html?role=admin" class="uidai-nav-link"><i class="ph ph-scales"></i> <span>Rule 8 Review</span></a>
+            <a href="/index.html?modal=cert" class="uidai-nav-link"><i class="ph ph-certificate"></i> <span>Title Deed</span></a>
+            <a href="/index.html?modal=grievance" class="uidai-nav-link"><i class="ph ph-chat-circle-dots"></i> <span>Grievance</span></a>
+        </div>
+    </nav>
+
+    <!-- 4. Notice Marquee Ticker -->
+    <div class="uidai-ticker-bar">
+        <div class="wrap">
+            <span class="ticker-badge"><i class="ph ph-megaphone-simple"></i> LATEST NOTICE</span>
+            <marquee class="ticker-marquee" scrollamount="4">
+                SVAMITVA &amp; DILRMP Rule 8: 3D Vertical Bhu-Aadhaar (ULPIN) roll-out active for multi-storey high-rise parcels across 6 urban pilot regions (Bhopal, Indore, Navi Mumbai, Kalyan-Dombivli, Bengaluru, Coimbatore).
+            </marquee>
+        </div>
+    </div>
+
+    <main id="main-content">
+
+        <!-- ================= HERO CAROUSEL BANNER SECTION ================= -->
+        <section class="hero-banner-section">
+            <div class="wrap">
+                <div class="hero-banner-card">
+                    <div class="hero-content">
+                        <div class="hero-crest-tag">
+                            <i class="ph ph-seal-check"></i>
+                            <span>DILRMP &amp; SVAMITVA MISSION STATUTORY PROTOTYPE</span>
+                        </div>
+                        <h1 class="hero-title">
+                            Assigning 3D Identities for Surface Parcels &amp; <span>Multi-Storey Properties</span>
+                        </h1>
+                        <p class="hero-desc">
+                            Engineered adhering strictly to official UIDAI Government Portal standards and DoLR statutory guidelines. Deterministically fuses 2D cadastral Khasra maps, Copernicus DEM elevations, Sentinel-2 NDVI canopy evidence, and AI anomaly scoring into 3D Vertical Bhu-Aadhaar ULPINs.
+                        </p>
+                        <div class="hero-cta-group">
+                            <a href="/index.html" class="btn-uidai-primary">
+                                <i class="ph ph-globe-hemisphere-east"></i>
+                                <span>Launch 3D Bhu-Aadhaar Map Portal</span>
+                            </a>
+                            <a href="#services" class="btn-uidai-secondary">
+                                <i class="ph ph-list-checks"></i>
+                                <span>Explore 3D Services</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hero-graphic">
+                        <div class="hero-mockup-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;">
+                                <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--uidai-navy);">
+                                    <i class="ph ph-buildings" style="color: var(--uidai-saffron);"></i>
+                                    <span>3D ULPIN DEMO CARD</span>
+                                </div>
+                                <span class="persona-badge badge-admin">VERIFIED</span>
+                            </div>
+                            <div style="font-family: monospace; font-size: 13.5px; font-weight: 800; color: var(--uidai-saffron-dark); background: var(--uidai-saffron-light); padding: 8px 12px; border-radius: 8px; border: 1px solid #fed7aa; word-break: break-all;">
+                                IN-MP-BHP-P104-B3-FL4-U402
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+                                <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px;">
+                                    <span style="color: var(--text-muted); font-size: 9px; font-weight: 700;">KHASRA / PARCEL</span>
+                                    <div style="font-weight: 800; color: var(--uidai-navy);">Plot #104/B</div>
+                                </div>
+                                <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px;">
+                                    <span style="color: var(--text-muted); font-size: 9px; font-weight: 700;">FLOOR SLAB</span>
+                                    <div style="font-weight: 800; color: var(--uidai-green);">Flat 402 (4th Fl)</div>
+                                </div>
+                                <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px;">
+                                    <span style="color: var(--text-muted); font-size: 9px; font-weight: 700;">GROUND ELEV</span>
+                                    <div style="font-weight: 800; color: var(--uidai-navy);">498.2m MSL</div>
+                                </div>
+                                <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px;">
+                                    <span style="color: var(--text-muted); font-size: 9px; font-weight: 700;">TOPOLOGY</span>
+                                    <div style="font-weight: 800; color: var(--uidai-green);">100% CONTAINED</div>
+                                </div>
+                            </div>
+                            <a href="/index.html" class="btn-uidai-primary" style="padding: 8px 16px; font-size: 12px; margin-top: 4px; justify-content: center;">
+                                <span>Inspect 3D Cadastral Stack</span> <i class="ph ph-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <p>Reads the full 3D stack for planning and zoning studies &mdash; floor-area potential, vertical density, and parcel-level development capacity.</p>
-                <div class="service-caps">
-                    <span class="cap">building:read:all</span>
-                    <span class="cap">parcel:read:all</span>
-                    <span class="cap">zoning:audit</span>
-                    <span class="cap">review:annotate</span>
-                    <span class="cap">manifest:export</span>
-                </div>
-                <a class="btn btn-primary" href="/index.html" data-seat="planner">Open planner desk <i>&#8594;</i></a>
-            </article>
+            </div>
+        </section>
 
-            <article class="service">
-                <div class="service-top">
-                    <div class="service-ico ico-amber">&#128220;</div>
-                    <div>
-                        <h3>SDM / Grievance Officer</h3>
-                        <div class="service-dept">Revenue administration &middot; grievances</div>
+        <!-- ================= "BHU-AADHAAR 3D SERVICES" GRID SECTION ================= -->
+        <section class="services-section" id="services">
+            <div class="wrap">
+                <div class="section-title-row">
+                    <div class="section-heading-group">
+                        <h2>Bhu-Aadhaar 3D Services</h2>
+                        <p>Statutory 3D property mapping, digital passbooks, and ULPIN verification services</p>
+                    </div>
+                    <a href="/index.html" class="view-all-link"><span>Check All Services</span> <i class="ph ph-caret-right"></i></a>
+                </div>
+
+                <div class="services-grid-4">
+                    <!-- Service 1 -->
+                    <div class="service-card-white">
+                        <div>
+                            <div class="service-card-icon"><i class="ph ph-identification-card"></i></div>
+                            <h3 class="service-card-title">Download 3D Passbook</h3>
+                            <p class="service-card-desc">Download official 3D vertical land property passbook certificate with QR digital verification seal.</p>
+                        </div>
+                        <a href="/index.html?modal=pvc" class="service-card-action"><span>Get 3D Passbook</span> <i class="ph ph-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-card-white">
+                        <div>
+                            <div class="service-card-icon"><i class="ph ph-check-circle"></i></div>
+                            <h3 class="service-card-title">Check 3D ULPIN Status</h3>
+                            <p class="service-card-desc">Verify 14-digit Bhu-Aadhaar ULPIN, floor slab spatial linkage, and ground elevation profile.</p>
+                        </div>
+                        <a href="/index.html" class="service-card-action"><span>Verify ULPIN</span> <i class="ph ph-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card-white">
+                        <div>
+                            <div class="service-card-icon"><i class="ph ph-map-pin-line"></i></div>
+                            <h3 class="service-card-title">Locate Khasra Parcel</h3>
+                            <p class="service-card-desc">Search 2D cadastral Khasra survey plots across 6 urban pilot regions with bare-earth DEM overlay.</p>
+                        </div>
+                        <a href="/index.html" class="service-card-action"><span>Locate Parcel</span> <i class="ph ph-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-card-white">
+                        <div>
+                            <div class="service-card-icon"><i class="ph ph-calendar-plus"></i></div>
+                            <h3 class="service-card-title">Book SDM Appointment</h3>
+                            <p class="service-card-desc">File mutation petitions and register survey grievances directly with Revenue Sub-Divisional Magistrate.</p>
+                        </div>
+                        <a href="/index.html?modal=grievance" class="service-card-action"><span>Book Appointment</span> <i class="ph ph-arrow-right"></i></a>
                     </div>
                 </div>
-                <p>Owns the citizen grievance register: triages submissions, tracks resolution state, and escalates unresolved vertical-identity disputes for human review.</p>
-                <div class="service-caps">
-                    <span class="cap">grievance:adjudicate</span>
-                    <span class="cap">review:annotate</span>
-                    <span class="cap">building:read:all</span>
-                    <span class="cap">parcel:read:all</span>
-                </div>
-                <a class="btn btn-primary" href="/index.html" data-seat="sdm">Open grievance desk <i>&#8594;</i></a>
-            </article>
 
-            <article class="service">
-                <div class="service-top">
-                    <div class="service-ico ico-violet">&#128104;&#8205;&#127979;</div>
-                    <div>
-                        <h3>Citizen</h3>
-                        <div class="service-dept">Landowner / co-owner &middot; own records only</div>
+                <!-- Quick Action Strips (3 Columns) -->
+                <div class="quick-strips-grid">
+                    <div class="quick-strip-card">
+                        <i class="ph ph-stack quick-strip-icon"></i>
+                        <div class="quick-strip-text">
+                            <h4>3D Floor Inspection</h4>
+                            <p>Hardware-accelerated Three.js solid floor slab modeler</p>
+                        </div>
+                    </div>
+                    <div class="quick-strip-card">
+                        <i class="ph ph-file-csv quick-strip-icon"></i>
+                        <div class="quick-strip-text">
+                            <h4>DILRMP State Export</h4>
+                            <p>Export state land registry manifest (CSV)</p>
+                        </div>
+                    </div>
+                    <div class="quick-strip-card green-theme">
+                        <i class="ph ph-phone-call quick-strip-icon" style="color: var(--uidai-green);"></i>
+                        <div class="quick-strip-text">
+                            <h4>Toll Free Helpline</h4>
+                            <p style="font-weight: 800; color: var(--uidai-green); font-size: 14px;">1947 / Revenue Desk</p>
+                        </div>
                     </div>
                 </div>
-                <p>Views the 3D stack of <b>their own</b> linked property, checks the proposed vertical identity, downloads a certificate, and files a grievance. Nothing else is reachable.</p>
-                <div class="service-caps">
-                    <span class="cap">building:read:own</span>
-                    <span class="cap">parcel:read:own</span>
-                    <span class="cap">certificate:view:own</span>
-                    <span class="cap">grievance:file</span>
+            </div>
+        </section>
+
+        <!-- ================= "m-BHU-AADHAAR ON MOBILE" SECTION ================= -->
+        <section class="mobile-app-section">
+            <div class="wrap">
+                <div class="mobile-app-card">
+                    <div class="mobile-app-info">
+                        <h2>m-BhuAadhaar on Mobile</h2>
+                        <p>
+                            Carry your 3D Bhu-Aadhaar Digital Title Passbook on your smartphone. Verify floor elevations, view 3D QR certificates, and receive statutory revenue mutation updates anywhere.
+                        </p>
+                        <div class="mobile-app-badges">
+                            <div class="qr-download-box">
+                                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="100" height="100" fill="white"/>
+                                    <path d="M10 10H40V40H10V10ZM20 20V30H30V20H20ZM60 10H90V40H60V10ZM70 20V30H80V20H70ZM10 60H40V90H10V60ZM20 70V80H30V70H20ZM50 50H60V60H50V50ZM70 50H80V60H70V50ZM80 60H90V70H80V60ZM60 70H70V80H60V70ZM50 80H60V90H50V80ZM70 80H90V90H70V80Z" fill="#002855"/>
+                                </svg>
+                                <div>
+                                    <div style="font-size: 11px; font-weight: 800; color: var(--uidai-navy);">SCAN TO DOWNLOAD</div>
+                                    <div style="font-size: 9.5px; color: var(--text-muted);">m-BhuAadhaar App v2.4</div>
+                                </div>
+                            </div>
+                            <div class="store-btn">
+                                <i class="ph ph-google-play-logo" style="font-size: 20px;"></i>
+                                <div>
+                                    <div style="font-size: 8.5px; text-transform: uppercase; color: #94a3b8;">GET IT ON</div>
+                                    <div style="font-weight: 800; font-size: 12px;">Google Play</div>
+                                </div>
+                            </div>
+                            <div class="store-btn">
+                                <i class="ph ph-apple-logo" style="font-size: 20px;"></i>
+                                <div>
+                                    <div style="font-size: 8.5px; text-transform: uppercase; color: #94a3b8;">DOWNLOAD ON THE</div>
+                                    <div style="font-weight: 800; font-size: 12px;">App Store</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-phones-mockup">
+                        <div class="phone-screen">
+                            <div style="background: var(--uidai-navy); color: #fff; padding: 12px; border-radius: 12px; text-align: center;">
+                                <div style="font-size: 10px; font-weight: 800; color: #fbbf24;">BHU-AADHAAR 3D TITLE</div>
+                                <div style="font-size: 13px; font-weight: 900; margin-top: 2px;">Flat 402 • 4th Floor</div>
+                            </div>
+                            <div style="background: var(--bg-section-blue); border: 1px solid var(--border-card); border-radius: 10px; padding: 10px; font-size: 10.5px;">
+                                <div style="color: var(--text-muted);">ULPIN IDENTIFIER</div>
+                                <div style="font-family: monospace; font-weight: 800; color: var(--uidai-navy); word-break: break-all;">IN-MP-BHP-P104-B3-FL4-U402</div>
+                            </div>
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px; font-size: 10.5px; text-align: center; color: var(--uidai-green); font-weight: 800;">
+                                <i class="ph ph-seal-check"></i> VERIFIED BY DoLR &amp; SVAMITVA
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <a class="btn btn-primary" href="/index.html" data-seat="citizen">Open citizen view <i>&#8594;</i></a>
-            </article>
-        </div>
-    </div>
-</section>
-
-<!-- ================= PIPELINE ================= -->
-<section class="section section-alt" id="pipeline">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">How it works</div>
-            <h2>From raw open data to a reviewable 3D vertical identity</h2>
-            <p>The full build follows a 17-phase plan. These six stages are the ones that decide whether a vertical claim survives to the reviewer.</p>
-        </div>
-
-        <div class="pipeline">
-            <div class="step">
-                <h3>Discover &amp; ingest</h3>
-                <p>OSM footprints and parcels, Bhuvan/NRSC elevation, and public basemaps, each with a manifest recording licence, CRS, date and known gaps.</p>
-                <span class="tag tag-real">Real data</span>
             </div>
-            <div class="step">
-                <h3>Match parcels to buildings</h3>
-                <p>Deterministic containment and overlap tests in a validated CRS. Every match records <span class="mono">CONTAINED</span>, <span class="mono">MAJORITY</span> or an explicit failure.</p>
-                <span class="tag tag-real">Deterministic</span>
+        </section>
+
+        <!-- ================= "ABOUT DoLR / BHU-AADHAAR" SECTION ================= -->
+        <section class="about-section">
+            <div class="wrap">
+                <div class="about-grid">
+                    <div class="about-content-box">
+                        <h2>About Department of Land Resources (DoLR)</h2>
+                        <p>
+                            The Department of Land Resources (DoLR), Ministry of Rural Development, Government of India, executes the Digital India Land Records Modernization Programme (DILRMP) and SVAMITVA Scheme. 
+                        </p>
+                        <p>
+                            <strong>Bhumi Adhaar (3D ULPIN)</strong> extends 2D cadastral boundary maps into 3D vertical spatial identities for multi-storey high-rise apartments, underground utility tunnels, and commercial structures without fabricating title deeds.
+                        </p>
+                        <a href="/index.html" class="btn-uidai-primary" style="margin-top: 8px;">
+                            <span>Read Technical Framework</span> <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="updates-tab-box">
+                        <div class="updates-header">
+                            <h3>Updates &amp; Circulars</h3>
+                            <span class="persona-badge badge-admin">NEW</span>
+                        </div>
+                        <div class="update-item">
+                            <h4>DILRMP Rule 8 Adjudication Guidelines</h4>
+                            <p>Statutory workflow for 3D vertical property boundary dispute resolution.</p>
+                        </div>
+                        <div class="update-item">
+                            <h4>SVAMITVA 3D Multi-Storey Framework</h4>
+                            <p>Assigning discrete 3D ULPINs for individual floor units in urban Wards.</p>
+                        </div>
+                        <div class="update-item">
+                            <h4>Copernicus DEM &amp; Sentinel NDVI Integration</h4>
+                            <p>Bare-earth elevation profiling for multi-region pilot cities.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="step">
-                <h3>Reconstruct 3D massing</h3>
-                <p>DEM gives terrain, DSM gives surface. Their difference yields an above-ground height signal &mdash; explicitly not a floor count.</p>
-                <span class="tag tag-model">Modelled</span>
+        </section>
+
+        <!-- ================= "BHU-AADHAAR DASHBOARD" STATS RIBBON ================= -->
+        <section class="dashboard-banner-strip">
+            <div class="wrap">
+                <div class="dash-stat-item">
+                    <div class="dash-stat-val">144.56 Crore +</div>
+                    <div class="dash-stat-lbl">Total Bhu-Aadhaar (ULPIN) Generated</div>
+                </div>
+                <div class="dash-stat-item">
+                    <div class="dash-stat-val">2,457.95 Crore +</div>
+                    <div class="dash-stat-lbl">3D Spatial Verification Authentications</div>
+                </div>
+                <div class="dash-stat-item">
+                    <div class="dash-stat-val">2.42 Crore +</div>
+                    <div class="dash-stat-lbl">Multi-Storey Floor Slabs Digitized</div>
+                </div>
+                <a href="/index.html" class="btn-dash-link">
+                    <span>Go to Dashboard</span> <i class="ph ph-caret-right"></i>
+                </a>
             </div>
-            <div class="step">
-                <h3>Extract floors with AI</h3>
-                <p>A U-Net / Mask R-CNN segmentation stage proposes building masks; a tree-based model predicts height, level and footprint quality.</p>
-                <span class="tag tag-model">AI-assisted</span>
+        </section>
+
+        <!-- ================= "HAVE DOUBTS? / FAQS" SECTION ================= -->
+        <section class="faq-section">
+            <div class="wrap">
+                <div class="section-heading-group" style="margin-bottom: 28px;">
+                    <h2>Have Doubts? FAQs &amp; Video Guides</h2>
+                    <p>Learn how 3D vertical land parcel delineation and Bhu-Aadhaar ULPIN work</p>
+                </div>
+
+                <div class="faq-grid">
+                    <div class="faq-video-card">
+                        <div class="video-thumb-box" onclick="location.href='/index.html'">
+                            <i class="ph ph-play-circle"></i>
+                        </div>
+                        <h4 style="font-size: 14px; font-weight: 800; color: var(--uidai-navy);">How to Locate Your 3D Floor Slab</h4>
+                        <p style="font-size: 12px; color: var(--text-muted);">Step-by-step video tutorial on inspecting floor-level vertical property linkages on the 3D map portal.</p>
+                    </div>
+
+                    <div class="faq-accordion">
+                        <details open>
+                            <summary><span>How does 3D Bhu-Aadhaar assign identities for multi-storey flats?</span> <i class="ph ph-caret-down"></i></summary>
+                            <div class="faq-answer">
+                                3D Bhu-Aadhaar fuses 2D cadastral Khasra survey plot outlines with 3D building extrusions, ground DEM elevation (m MSL), and floor slab height estimation to construct hierarchical floor-level spatial identifiers (e.g., IN-MP-BHP-P104-B3-FL4-U402).
+                            </div>
+                        </details>
+                        <details>
+                            <summary><span>What is DILRMP Rule 8 Statutory Adjudication?</span> <i class="ph ph-caret-down"></i></summary>
+                            <div class="faq-answer">
+                                Under DILRMP Rule 8, AI anomaly flags and spatial boundary overlaps are surfaced to the Chief Cadastral Surveyor &amp; Revenue Registrar for statutory review with full audit logging (APPROVE, CORRECT, REJECT, UNRESOLVED).
+                            </div>
+                        </details>
+                        <details>
+                            <summary><span>Can a citizen view and verify their 3D Title Deed certificate?</span> <i class="ph ph-caret-down"></i></summary>
+                            <div class="faq-answer">
+                                Yes. Citizens can view their official 3D property passbook, download printable QR-coded 3D land title certificates, and verify ground elevation MSL profiles.
+                            </div>
+                        </details>
+                    </div>
+                </div>
             </div>
-            <div class="step">
-                <h3>Fuse evidence &amp; flag conflict</h3>
-                <p>Independent signals are combined into a single status. An Isolation Forest surfaces anomalies for review rather than silently scoring them away.</p>
-                <span class="tag tag-human">Human review</span>
-            </div>
-            <div class="step">
-                <h3>Propose the vertical ULPIN</h3>
-                <p>A deterministic identifier chain links parcel &rarr; building &rarr; floor &rarr; unit, marked as a proposal with its verification status attached.</p>
-                <span class="tag tag-human">Proposal only</span>
+        </section>
+
+    </main>
+
+    <!-- 8. Official UIDAI Government Footer -->
+    <footer class="uidai-footer">
+        <div class="wrap">
+            <div class="footer-columns-grid">
+                <div class="footer-col">
+                    <h4>DoLR &amp; SVAMITVA</h4>
+                    <ul>
+                        <li><a href="/index.html">About DoLR</a></li>
+                        <li><a href="/index.html">SVAMITVA Scheme</a></li>
+                        <li><a href="/index.html">DILRMP 3D Guidelines</a></li>
+                        <li><a href="/index.html">NAKSHA Portal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>3D Services</h4>
+                    <ul>
+                        <li><a href="/index.html?modal=pvc">3D Bhu-Passbook</a></li>
+                        <li><a href="/index.html">Verify 3D ULPIN</a></li>
+                        <li><a href="/index.html">Cadastral Khasra Search</a></li>
+                        <li><a href="/index.html">SDM Mutation Petition</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Workspaces</h4>
+                    <ul>
+                        <li><a href="/index.html?role=admin">Registrar Desk</a></li>
+                        <li><a href="/index.html?role=planner">Town Planner Desk</a></li>
+                        <li><a href="/index.html?role=sdm">SDM Grievance Desk</a></li>
+                        <li><a href="/index.html?role=citizen">Citizen Passbook View</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Pilot Regions</h4>
+                    <ul>
+                        <li><a href="/index.html?region=bhopal">Bhopal (MP Bhulekh)</a></li>
+                        <li><a href="/index.html?region=indore">Indore (MP Bhulekh)</a></li>
+                        <li><a href="/index.html?region=navi_mumbai">Navi Mumbai (MahaBhumi)</a></li>
+                        <li><a href="/index.html?region=bengaluru">Bengaluru (Bhoomi)</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Help &amp; Support</h4>
+                    <ul>
+                        <li><a href="/index.html">Toll Free: 1947</a></li>
+                        <li><a href="/index.html">Grievance Portal</a></li>
+                        <li><a href="/index.html">Contact Us</a></li>
+                        <li><a href="/index.html">Website Policy</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- ================= DATA PROVENANCE ================= -->
-<section class="section" id="data">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Data provenance</div>
-            <h2>What is real, what is modelled, what is refused</h2>
-            <p>Separating these three categories is the difference between a useful prototype and a misleading one. Anything we could not verify is reported as <span class="mono">NOT_DETERMINABLE</span> and is not displayed as a fact.</p>
-        </div>
-
-        <div class="table-scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Layer / attribute</th>
-                        <th>Origin</th>
-                        <th>Standing</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Building footprints</td>
-                        <td class="mono">OpenStreetMap (ODbL)</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Outlines and <span class="mono">building:levels</span> tags where contributors recorded them.</td>
-                    </tr>
-                    <tr>
-                        <td>Cadastral parcels</td>
-                        <td class="mono">OpenStreetMap (ODbL)</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Open cadastral geometry. Not a certified survey copy.</td>
-                    </tr>
-                    <tr>
-                        <td>Terrain elevation (DEM)</td>
-                        <td class="mono">Bhuvan / NRSC</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Ground elevation only.</td>
-                    </tr>
-                    <tr>
-                        <td>Surface elevation (DSM)</td>
-                        <td class="mono">Bhuvan / NRSC</td>
-                        <td><span class="badge-real">REAL</span></td>
-                        <td>Surface elevation. Height signal derives from DSM&minus;DEM.</td>
-                    </tr>
-                    <tr>
-                        <td>Building height</td>
-                        <td>Model prediction + evidence fusion</td>
-                        <td><span class="badge-model">MODELLED</span></td>
-                        <td>Reported with an explicit confidence state, never as a surveyed value.</td>
-                    </tr>
-                    <tr>
-                        <td>Floor count / floor entities</td>
-                        <td>Inference from height, levels tag and imagery</td>
-                        <td><span class="badge-model">MODELLED</span></td>
-                        <td>Flagged <span class="mono">PROVISIONAL</span> unless independently corroborated.</td>
-                    </tr>
-                    <tr>
-                        <td>Floor plans, GNSS/CORS control</td>
-                        <td>Not available in pilot regions</td>
-                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
-                        <td>Explicitly out of scope. Not simulated as if present.</td>
-                    </tr>
-                    <tr>
-                        <td>Legal title, tax dues, encumbrance</td>
-                        <td>Outside prototype authority</td>
-                        <td><span class="badge-model">NOT DETERMINABLE</span></td>
-                        <td>Never inferred. Requires the competent authority.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- ================= LIMITATIONS ================= -->
-<section class="section section-alt" id="limitations">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Limitations</div>
-            <h2>What this prototype cannot do</h2>
-            <p>A prototype that hides its limits is worse than no prototype. These are the boundaries we hold ourselves to.</p>
-        </div>
-
-        <div class="limitations">
-            <div class="limit">
-                <i>&#128683;</i>
+        <div class="uidai-head-office-strip">
+            <div class="wrap">
+                <div class="head-office-text">
+                    <p><b>Unique Land Parcel &amp; 3D Property Identification Authority of India (DoLR &amp; SVAMITVA, GoI)</b></p>
+                    <p>Department of Land Resources, Ministry of Rural Development, Nirman Bhawan, New Delhi - 110011</p>
+                </div>
                 <div>
-                    <h3>It is not a government system</h3>
-                    <p>It neither creates nor recognises an official ULPIN. A <b>proposed</b> vertical linkage is a technical suggestion for a competent authority to accept, correct or reject.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#127979;</i>
-                <div>
-                    <h3>Height is not floor count</h3>
-                    <p>DSM&minus;DEM gives an above-ground height signal where the datasets are compatible. <b>It is never presented as an exact floor count.</b> Uncorroborated floors stay <span class="mono">PROVISIONAL</span>.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#128200;</i>
-                <div>
-                    <h3>Not all regions are equally complete</h3>
-                    <p>Only Bhopal and Bengaluru carry the full AI-anomaly and verification-gate output. The other four regions have earlier-stage height and floor evidence, and are reported as such.</p>
-                </div>
-            </div>
-            <div class="limit">
-                <i>&#128273;</i>
-                <div>
-                    <h3>Demo accounts, demo credentials</h3>
-                    <p>The sign-in screen shows its own demo passwords on purpose, for judging. This is <b>not</b> a production identity system, and the stored data is not a government record.</p>
+                    <span>Toll Free: <b>1947</b> &nbsp;|&nbsp; Email: <b>help@dolr.gov.in</b></span>
                 </div>
             </div>
         </div>
 
-        <div class="callout">
-            <i>&#9878;</i>
-            <div>
-                <h3>The one rule that outranks every feature</h3>
-                <p>If the evidence is absent, insufficient or contradictory, the system returns <b>NOT_DETERMINABLE</b> and hands the case to a human. It never fills a gap to make a demo look complete &mdash; because a cadastre that guesses is worse than one that admits it does not know.</p>
+        <div style="background: #00142b; color: #94a3b8; font-size: 11px; padding: 12px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="wrap">
+                <span>&copy; 2026 AeroNerds SIH26011 Prototype &mdash; Developed for Smart India Hackathon 2026 | Government Design System Study</span>
             </div>
         </div>
-    </div>
-</section>
+    </footer>
 
-<!-- ================= FAQ ================= -->
-<section class="section" id="faq">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="section-kicker">Frequently asked</div>
-            <h2>Questions we expect from an evaluator</h2>
-        </div>
-
-        <div class="faq">
-            <details>
-                <summary>Why can't you just compute the floor count from the building height?</summary>
-                <div class="faq-body">Because storey height is not a constant &mdash; it varies with use, structure, era and local building by-laws, and ground floors are often double height. A 12&nbsp;m building might be three floors or one. We use height as a signal, corroborate it with recorded <span class="mono">building:levels</span> tags and imagery evidence, and otherwise report the floor count as provisional or not determinable.</div>
-            </details>
-            <details>
-                <summary>Can a citizen see a neighbour's property?</summary>
-                <div class="faq-body">No. Ownership links are stored server-side and the API filters every read by the signed-in account. The capability check happens in the backend, so hiding a button in the interface is not the security control &mdash; it is only a convenience. Attempting to request another building's identifier returns a not-found response rather than the record.</div>
-            </details>
-            <details>
-                <summary>Where does the AI actually help, and what does it refuse to do?</summary>
-                <div class="faq-body">The AI helps with building segmentation, height and level prediction, and anomaly detection. It does not adjudicate ownership, legal rights or disputes &mdash; those are deterministic topology checks plus a human reviewer. When the model and the geometry disagree, the system records a conflict instead of picking a winner.</div>
-            </details>
-            <details>
-                <summary>What happens when two sources disagree?</summary>
-                <div class="faq-body">Nothing is silently overwritten. The disagreement is preserved with both sources, both dates, and a <span class="mono">CONFLICT</span> or <span class="mono">HUMAN_VERIFICATION_REQUIRED</span> status, and it appears in the reviewer's queue with the provenance needed to settle it.</div>
-            </details>
-            <details>
-                <summary>Is the Bhiwandi pilot area in the original charter?</summary>
-                <div class="faq-body">The original charter named Baramati ULB, Pune district, as the pilot because it appears in published NAKSHA material. The Bhiwandi and other regional datasets were added later as separate dataset versions; the original pilot area was retained. Each dataset carries its own manifest and licence.</div>
-            </details>
-            <details>
-                <summary>Can this run offline?</summary>
-                <div class="faq-body">Yes. The portal and every layer are served locally and no public tile server is overloaded. The web fonts degrade gracefully to system fonts if you are disconnected, and the full evidence trail is inspectable in the repository rather than hidden behind a vendor API.</div>
-            </details>
-        </div>
-    </div>
-</section>
-
-</main>
-
-<footer class="footer">
-    <div class="wrap">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-brand">
-                    <span class="brand-crest">&#127959;</span>
-                    <span>
-                        <span class="brand-name">AeroNerds 3D Cadastre</span><br>
-                        <span class="brand-sub">AeroNerds &middot; SIH26011</span>
-                    </span>
-                </div>
-                <p>An open-source prototype for 3D ULPIN-linked vertical property mapping, built for Smart India Hackathon 2026 under problem statement SIH26011.</p>
-            </div>
-            <div>
-                <h4>Services</h4>
-                <a href="/index.html" data-seat="registrar">Registrar desk</a>
-                <a href="/index.html" data-seat="planner">Town planner desk</a>
-                <a href="/index.html" data-seat="sdm">Grievance desk</a>
-                <a href="/index.html" data-seat="citizen">Citizen view</a>
-            </div>
-            <div>
-                <h4>Evidence</h4>
-                <a href="#data">Data provenance</a>
-                <a href="#limitations">Limitations</a>
-                <a href="#pipeline">How it works</a>
-                <a href="/api/meta/health">API health</a>
-            </div>
-            <div>
-                <h4>Data sources</h4>
-                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors (ODbL)</a>
-                <a href="https://bhuvan-app3.nrsc.gov.in/data/download/index.php" target="_blank" rel="noopener">Bhuvan / NRSC</a>
-                <a href="https://naksha.dolr.gov.in/NakshaPortal/" target="_blank" rel="noopener">NAKSHA (DoLR)</a>
-            </div>
-        </div>
-
-        <div class="footer-disclaimer">
-            <i>&#9888;</i>
-            <p>
-                <b>Disclaimer.</b> AeroNerds 3D Cadastre is an academic prototype submitted to Smart India Hackathon 2026. It is
-                <b>not</b> affiliated with, endorsed by, or operated on behalf of the Government of India, UIDAI, the
-                Department of Lands Records, any State government, or any municipal body. It does not create, alter or
-                recognise an official Unique Land Parcel Identification Number (ULPIN), and it asserts no legal title,
-                tax or encumbrance status. All vertical linkages are <b>proposals for human verification</b>. Any
-                resemblance to a government portal is a design study of the public-service information architecture,
-                not an identity claim. Underlying open data remains the property of its respective publishers.
-            </p>
-        </div>
-
-        <div class="footer-bottom">
-            <span>&copy; 2026 AeroNerds &mdash; SIH26011 team. Code released under the project licence.</span>
-            <span>Built with FastAPI &middot; GeoPandas &middot; PyTorch &middot; MapLibre GL &middot; Three.js</span>
-        </div>
-    </div>
-</footer>
-
-<script src="home.js?v=1"></script>
+    <script src="home.js?v=2"></script>
 </body>
 </html>

@@ -70,10 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Bhopal (OpenCity KML)",
             badge: "Bhopal Pilot (85 Wards)",
             stateCode: "IN-MP-BHP",
-            center: [77.4180, 23.2510],
-            zoom: 15.2,
-            pitch: 60,
-            bearing: -15,
+            center: [77.4126, 23.2599],
+            height: 650,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/bhopal_cadastral_parcels.geojson",
             bldgsUrl: "data/bhopal_buildings_3d.geojson"
         },
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Bengaluru Urban",
             badge: "Bengaluru Pilot",
             stateCode: "IN-KA-BLR",
-            center: [77.6200, 12.9300],
-            zoom: 15.0,
-            pitch: 60,
-            bearing: -20,
+            center: [77.5946, 12.9716],
+            height: 650,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/cadastral_parcels_valid.geojson",
             bldgsUrl: "data/buildings_3d.geojson"
         },
@@ -92,10 +92,10 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Indore (MP Bhulekh)",
             badge: "Indore Pilot (85 Wards)",
             stateCode: "IN-MP-IND",
-            center: [75.8750, 22.7200],
-            zoom: 15.4,
-            pitch: 60,
-            bearing: -15,
+            center: [75.8577, 22.7196],
+            height: 650,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/indore_cadastral_parcels.geojson",
             bldgsUrl: "data/indore_buildings_3d.geojson"
         },
@@ -103,21 +103,21 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Navi Mumbai (MahaBhumi)",
             badge: "Navi Mumbai Pilot (111 Wards)",
             stateCode: "IN-MH-NMU",
-            center: [73.0020, 19.0750],
-            zoom: 15.4,
-            pitch: 60,
-            bearing: -15,
+            center: [73.0297, 19.0330],
+            height: 650,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/navi_mumbai_cadastral_parcels.geojson",
             bldgsUrl: "data/navi_mumbai_buildings_3d.geojson"
         },
         mumbai_kalyan: {
-            name: "Kalyan-Dombivli (Mumbai MMR)",
-            badge: "Kalyan-Dombivli Pilot (123 Wards)",
+            name: "Mumbai (MMR Region)",
+            badge: "Mumbai Pilot (123 Wards)",
             stateCode: "IN-MH-KDN",
-            center: [73.1250, 19.2150],
-            zoom: 15.4,
-            pitch: 60,
-            bearing: -15,
+            center: [72.8777, 19.0760],
+            height: 700,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/mumbai_kalyan_cadastral_parcels.geojson",
             bldgsUrl: "data/mumbai_kalyan_buildings_3d.geojson"
         },
@@ -125,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function () {
             name: "Coimbatore (TN e-District)",
             badge: "Coimbatore Pilot (100 Wards)",
             stateCode: "IN-TN-CBE",
-            center: [76.9650, 11.0050],
-            zoom: 15.4,
-            pitch: 60,
-            bearing: -15,
+            center: [76.9558, 11.0168],
+            height: 650,
+            pitch: -35,
+            bearing: 0,
             parcelsUrl: "data/coimbatore_cadastral_parcels.geojson",
             bldgsUrl: "data/coimbatore_buildings_3d.geojson"
         }
@@ -139,13 +139,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const activeRegion = REGION_CONFIGS[activeRegionKey] || REGION_CONFIGS.bhopal;
     window.activeRegionKey = activeRegionKey;
 
-    // Synchronize Region Selector UI
+    // Synchronize Region Selector UI & Dynamic City Switching
     const regionSelectElem = document.getElementById("region-selector");
     if (regionSelectElem) {
         regionSelectElem.value = activeRegionKey;
         regionSelectElem.addEventListener("change", function(e) {
             const selected = e.target.value;
-            window.location.href = window.location.pathname + "?region=" + selected;
+            if (window.switchRegion) {
+                window.switchRegion(selected);
+            } else {
+                window.location.href = window.location.pathname + "?region=" + selected;
+            }
         });
     }
 
@@ -154,30 +158,361 @@ document.addEventListener("DOMContentLoaded", function () {
         cityBadgeElem.innerText = activeRegion.badge;
     }
 
-    // 1. Initialize MapLibre GL JS centered on active region
-    const map = new maplibregl.Map({
-        container: "map",
-        style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-        center: activeRegion.center,
-        zoom: activeRegion.zoom,
-        pitch: activeRegion.pitch,
-        bearing: activeRegion.bearing,
-        antialias: true
-    });
+    // Google Maps API Key Resolution
+    const googleApiKey = (function () {
+        if (typeof window !== "undefined") {
+            if (window.GOOGLE_MAPS_API_KEY) return window.GOOGLE_MAPS_API_KEY;
+            if (window.env && window.env.GOOGLE_MAPS_API_KEY) return window.env.GOOGLE_MAPS_API_KEY;
+            if (window.VITE_GOOGLE_MAPS_API_KEY) return window.VITE_GOOGLE_MAPS_API_KEY;
+        }
+        if (typeof process !== "undefined" && process.env) {
+            return process.env.GOOGLE_MAPS_API_KEY || process.env.VITE_GOOGLE_MAPS_API_KEY || "";
+        }
+        return "";
+    })();
 
+    function showMapError(msg) {
+        hideMapError();
+        const mapEl = document.getElementById("map");
+        if (!mapEl) return;
+        const errDiv = document.createElement("div");
+        errDiv.id = "cesium-map-error";
+        errDiv.className = "map-error-overlay";
+        errDiv.innerHTML = `<i class="ph ph-warning-circle" style="font-size: 20px; color: #ef4444;"></i><span>${msg}</span>`;
+        mapEl.appendChild(errDiv);
+    }
+
+    function hideMapError() {
+        const errDiv = document.getElementById("cesium-map-error");
+        if (errDiv) errDiv.remove();
+    }
+
+    function showMapLoading(msg) {
+        hideMapLoading();
+        const mapEl = document.getElementById("map");
+        if (!mapEl) return;
+        const loadDiv = document.createElement("div");
+        loadDiv.id = "cesium-map-loading";
+        loadDiv.className = "map-loading-overlay";
+        loadDiv.innerHTML = `<i class="ph ph-spinner spinner" style="font-size: 18px;"></i><span>${msg}</span>`;
+        mapEl.appendChild(loadDiv);
+    }
+
+    function hideMapLoading() {
+        const loadDiv = document.getElementById("cesium-map-loading");
+        if (loadDiv) loadDiv.remove();
+    }
+
+    // 1. Initialize CesiumJS Viewer with Photorealistic 3D Tiles support
+    let viewer = null;
+    try {
+        viewer = new Cesium.Viewer("map", {
+            timeline: false,
+            animation: false,
+            baseLayerPicker: false,
+            geocoder: false,
+            homeButton: false,
+            sceneModePicker: false,
+            navigationHelpButton: false,
+            fullscreenButton: false,
+            vrButton: false,
+            infoBox: false,
+            selectionIndicator: false,
+            showCreditsOnScreen: true,
+            requestRenderMode: true,
+            maximumRenderTimeChange: Infinity
+        });
+    } catch (e) {
+        console.error("Failed to initialize Cesium Viewer:", e);
+        showMapError("3D Map initialization failed. Check WebGL support.");
+    }
+
+    // Load Google Photorealistic 3D Tiles
+    let google3dTileset = null;
+    async function initGoogle3dTiles() {
+        if (!viewer) return;
+        if (!googleApiKey) {
+            showMapError("3D map unavailable. Please configure GOOGLE_MAPS_API_KEY environment variable.");
+            return;
+        }
+
+        showMapLoading("Loading Photorealistic 3D Tiles...");
+        try {
+            if (typeof Cesium.createGooglePhotorealistic3dTileset === "function") {
+                google3dTileset = await Cesium.createGooglePhotorealistic3dTileset({ key: googleApiKey });
+            } else {
+                google3dTileset = await Cesium.Cesium3DTileset.fromUrl(
+                    "https://tile.googleapis.com/v1/3dtiles/root.json?key=" + googleApiKey
+                );
+            }
+            viewer.scene.primitives.add(google3dTileset);
+            hideMapLoading();
+            hideMapError();
+        } catch (err) {
+            console.error("Failed to load Google Photorealistic 3D Tiles:", err);
+            hideMapLoading();
+            showMapError("3D map unavailable. Check Google Maps Platform configuration.");
+        }
+    }
+    initGoogle3dTiles();
+
+    // Camera Flight Controller
+    function flyCameraToRegion(reg) {
+        if (!viewer || !reg) return;
+        const center = reg.center || [77.4126, 23.2599];
+        const lng = center[0];
+        const lat = center[1];
+        const height = reg.height || 650;
+        const pitch = reg.pitch != null ? reg.pitch : -35;
+        const heading = reg.heading != null ? reg.heading : 0;
+
+        viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(lng, lat - 0.0035, height),
+            orientation: {
+                heading: Cesium.Math.toRadians(heading),
+                pitch: Cesium.Math.toRadians(pitch),
+                roll: 0.0
+            },
+            duration: 2.0
+        });
+    }
+
+    flyCameraToRegion(activeRegion);
+
+    // Update compass needle on camera rotation
+    if (viewer) {
+        viewer.camera.changed.addEventListener(function () {
+            const headingDeg = Cesium.Math.toDegrees(viewer.camera.heading);
+            const needle = document.getElementById("compass-needle");
+            if (needle) {
+                needle.style.transform = `rotate(${-headingDeg}deg)`;
+            }
+        });
+    }
+
+    const compassContainer = document.getElementById("map-compass-container");
+    if (compassContainer) {
+        compassContainer.addEventListener("click", function () {
+            if (activeRegion) flyCameraToRegion(activeRegion);
+        });
+    }
+
+    let parcelsDataSource = null;
+    let bldgsDataSource = null;
+    let undergroundDataSource = null;
+
+    async function updateCesiumLayers(parcels, bldgs, ug) {
+        if (!viewer) return;
+
+        if (parcelsDataSource) viewer.dataSources.remove(parcelsDataSource);
+        if (bldgsDataSource) viewer.dataSources.remove(bldgsDataSource);
+        if (undergroundDataSource) viewer.dataSources.remove(undergroundDataSource);
+
+        if (parcels) {
+            try {
+                parcelsDataSource = await Cesium.GeoJsonDataSource.load(parcels, {
+                    clampToGround: true,
+                    stroke: Cesium.Color.fromCssColorString("#38bdf8"),
+                    fill: Cesium.Color.fromCssColorString("#0284c7").withAlpha(0.12),
+                    strokeWidth: 2
+                });
+                viewer.dataSources.add(parcelsDataSource);
+                const ents = parcelsDataSource.entities.values;
+                for (let i = 0; i < ents.length; i++) {
+                    if (ents[i].polygon) {
+                        ents[i].polygon.material = Cesium.Color.fromCssColorString("#0284c7").withAlpha(0.12);
+                        ents[i].polygon.outline = true;
+                        ents[i].polygon.outlineColor = Cesium.Color.fromCssColorString("#38bdf8");
+                        if (Cesium.ClassificationType) {
+                            ents[i].polygon.classificationType = Cesium.ClassificationType.BOTH;
+                        }
+                    }
+                }
+            } catch (e) { console.warn("Parcels GeoJSON load error:", e); }
+        }
+
+        if (bldgs) {
+            try {
+                bldgsDataSource = await Cesium.GeoJsonDataSource.load(bldgs, {
+                    clampToGround: true,
+                    stroke: Cesium.Color.fromCssColorString("#fbbf24"),
+                    fill: Cesium.Color.fromCssColorString("#f59e0b").withAlpha(0.18),
+                    strokeWidth: 2
+                });
+                viewer.dataSources.add(bldgsDataSource);
+                const ents = bldgsDataSource.entities.values;
+                for (let i = 0; i < ents.length; i++) {
+                    if (ents[i].polygon) {
+                        ents[i].polygon.material = Cesium.Color.fromCssColorString("#f59e0b").withAlpha(0.18);
+                        ents[i].polygon.outline = true;
+                        ents[i].polygon.outlineColor = Cesium.Color.fromCssColorString("#fbbf24");
+                        if (Cesium.ClassificationType) {
+                            ents[i].polygon.classificationType = Cesium.ClassificationType.BOTH;
+                        }
+                    }
+                }
+            } catch (e) { console.warn("Buildings GeoJSON load error:", e); }
+        }
+
+        if (ug) {
+            try {
+                undergroundDataSource = await Cesium.GeoJsonDataSource.load(ug, {
+                    clampToGround: false,
+                    stroke: Cesium.Color.fromCssColorString("#38bdf8"),
+                    strokeWidth: 3
+                });
+                viewer.dataSources.add(undergroundDataSource);
+            } catch (e) { console.warn("Underground GeoJSON load error:", e); }
+        }
+    }
+
+    // Map Compatibility Adapter
+    const mapAdapter = {
+        _viewer: viewer,
+        flyTo: function (opts) {
+            if (!opts) return;
+            let center = opts.center || (activeRegion ? activeRegion.center : [77.4126, 23.2599]);
+            let height = opts.altitude || (opts.zoom ? Math.max(150, 100000 / Math.pow(2, opts.zoom - 10)) : 650);
+            let pitch = opts.pitch != null ? (opts.pitch > 0 ? -opts.pitch : opts.pitch) : -35;
+            let bearing = opts.bearing != null ? opts.bearing : 0;
+
+            if (viewer) {
+                viewer.camera.flyTo({
+                    destination: Cesium.Cartesian3.fromDegrees(center[0], center[1] - 0.0035, height),
+                    orientation: {
+                        heading: Cesium.Math.toRadians(bearing),
+                        pitch: Cesium.Math.toRadians(pitch),
+                        roll: 0.0
+                    },
+                    duration: opts.duration ? opts.duration / 1000 : 1.8
+                });
+            }
+        },
+        easeTo: function (opts) {
+            this.flyTo(opts);
+        },
+        getBearing: function () {
+            return viewer ? Cesium.Math.toDegrees(viewer.camera.heading) : 0;
+        },
+        getCenter: function () {
+            if (!viewer) return { lng: 77.4126, lat: 23.2599 };
+            const carto = viewer.camera.positionCartographic;
+            return { lng: Cesium.Math.toDegrees(carto.longitude), lat: Cesium.Math.toDegrees(carto.latitude) };
+        },
+        getSource: function (id) {
+            return {
+                setData: function (data) {
+                    if (id === "parcels") parcelsData = data;
+                    if (id === "buildings") bldgsData = data;
+                    updateCesiumLayers(parcelsData, bldgsData, window.undergroundData);
+                }
+            };
+        },
+        getLayer: function (id) {
+            return true;
+        },
+        setPaintProperty: function () {},
+        setLayoutProperty: function () {},
+        setLight: function () {},
+        getStyle: function () { return { layers: [] }; },
+        addControl: function () {},
+        on: function () {}
+    };
+
+    const map = mapAdapter;
     window.boundaryMap = map;
     window.activeRegion = activeRegion;
-
-    // Add navigation controls
-    map.addControl(new maplibregl.NavigationControl(), "bottom-right");
 
     let totalParcels = 0;
     let totalBuildings = 0;
     let selectedMarker = null;
+    let activeMapPopup = null;
 
-    map.on("load", async function () {
+    window.closeMapPopup = function() {
+        const popEl = document.getElementById("cesium-popup-overlay");
+        if (popEl) {
+            if (popEl._removeListener) popEl._removeListener();
+            popEl.remove();
+        }
+        activeMapPopup = null;
+    };
+
+    window.inspectBuildingFloors = function(bldgId) {
+        if (window.selectBuildingById) {
+            window.selectBuildingById(bldgId);
+        }
+        const btnFloors = document.getElementById("btn-view-floors");
+        if (btnFloors) btnFloors.click();
+    };
+
+    window.openCurrentTitleCert = function() {
+        const certBtn = document.getElementById("btn-prop-open-cert") || document.getElementById("citizen-view-certificate-btn");
+        if (certBtn) certBtn.click();
+    };
+
+    // Dynamic Multi-City Switching (Bhopal, Indore, Navi Mumbai, Mumbai, Bengaluru, Coimbatore)
+    window.switchRegion = async function(selectedKey) {
+        const newRegion = REGION_CONFIGS[selectedKey];
+        if (!newRegion) return;
+        window.activeRegionKey = selectedKey;
+        window.activeRegion = newRegion;
+
+        const regSelect = document.getElementById("region-selector");
+        if (regSelect) regSelect.value = selectedKey;
+        const cBadge = document.getElementById("city-badge");
+        if (cBadge) cBadge.innerText = newRegion.badge;
+
+        if (window.closeMapPopup) window.closeMapPopup();
+        const card = document.getElementById("property-card");
+        if (card) card.classList.add("hidden");
+        const noSelMsg = document.getElementById("no-selection-msg");
+        if (noSelMsg) noSelMsg.style.display = "block";
+
+        flyCameraToRegion(newRegion);
+
+        const loaderEl = document.getElementById("loader");
+        if (loaderEl) {
+            loaderEl.style.display = "flex";
+            loaderEl.classList.remove("hidden");
+        }
+
         try {
-            // 2. Load GeoJSON Data for active region + underground utilities
+            const [parcelsRes, bldgsRes] = await Promise.all([
+                fetch(newRegion.parcelsUrl),
+                fetch(newRegion.bldgsUrl)
+            ]);
+
+            if (parcelsRes.ok && bldgsRes.ok) {
+                parcelsData = await parcelsRes.json();
+                bldgsData = await bldgsRes.json();
+                window.parcelsData = parcelsData;
+                window.bldgsData = bldgsData;
+
+                await updateCesiumLayers(parcelsData, bldgsData, window.undergroundData);
+
+                totalParcels = parcelsData.features ? parcelsData.features.length : 0;
+                totalBuildings = bldgsData.features ? bldgsData.features.length : 0;
+
+                document.getElementById("stat-buildings").innerText = totalBuildings.toLocaleString();
+                document.getElementById("stat-parcels").innerText = totalParcels.toLocaleString();
+
+                renderFloorCoverage();
+                window.dispatchEvent(new CustomEvent("boundaryDataLoaded", { detail: { parcels: parcelsData, bldgs: bldgsData } }));
+            }
+        } catch (err) {
+            console.error("Failed to load region data for", selectedKey, err);
+        } finally {
+            if (loaderEl) {
+                loaderEl.classList.add("hidden");
+                setTimeout(() => { loaderEl.style.display = "none"; }, 300);
+            }
+            history.pushState(null, "", "?region=" + selectedKey);
+        }
+    };
+
+    // Initial Data Fetch & Layer Setup
+    (async function initData() {
+        try {
             let undergroundData = null;
             const [parcelsRes, bldgsRes, ugRes] = await Promise.all([
                 fetch(activeRegion.parcelsUrl),
@@ -193,213 +528,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 try {
                     undergroundData = await ugRes.json();
                     window.undergroundData = undergroundData;
-                } catch (e) {
-                    console.warn("Could not parse underground utilities", e);
-                }
+                } catch (e) {}
             }
 
             window.parcelsData = parcelsData;
             window.bldgsData = bldgsData;
             window.getParcelsData = function() { return parcelsData; };
             window.getBldgsData = function() { return bldgsData; };
-            window.dispatchEvent(new CustomEvent("boundaryDataLoaded", { detail: { parcels: parcelsData, bldgs: bldgsData } }));
 
-            totalParcels = parcelsData.features.length;
-            totalBuildings = bldgsData.features.length;
+            await updateCesiumLayers(parcelsData, bldgsData, undergroundData);
 
-            // Update stats panel
+            totalParcels = parcelsData.features ? parcelsData.features.length : 0;
+            totalBuildings = bldgsData.features ? bldgsData.features.length : 0;
+
             const updateStats = function () {
                 document.getElementById("stat-buildings").innerText = totalBuildings.toLocaleString();
                 document.getElementById("stat-parcels").innerText = totalParcels.toLocaleString();
             };
-
             updateStats();
             renderFloorCoverage();
-
-            // 3D Geographic Base Map Styling (Dark Blue Base, Luminous Deep Water, Warm Yellow/Orange Glowing Roads, Faceted 3D Light)
-            const apply3DCityMapStyle = function () {
-                if (!map) return;
-                try {
-                    map.setLight({
-                        anchor: "viewport",
-                        color: "#ffffff",
-                        intensity: 0.75,
-                        position: [1.25, 210, 32]
-                    });
-                } catch (e) {}
-
-                const layers = map.getStyle() ? map.getStyle().layers : [];
-                if (!layers) return;
-
-                layers.forEach(function (l) {
-                    const id = l.id;
-                    if (l.type === "background") {
-                        map.setPaintProperty(id, "background-color", "#070d19");
-                    }
-                    if (id === "water" || id.includes("water")) {
-                        if (l.type === "fill") {
-                            map.setPaintProperty(id, "fill-color", "#0b274a");
-                            map.setPaintProperty(id, "fill-opacity", 0.95);
-                        } else if (l.type === "line") {
-                            map.setPaintProperty(id, "line-color", "#0d3b70");
-                        }
-                    }
-                    if (id.includes("road") || id.includes("highway") || id.includes("transportation") || id.includes("street") || id.includes("tunnel") || id.includes("bridge")) {
-                        if (l.type === "line") {
-                            if (id.includes("pri") || id.includes("trunk") || id.includes("mot") || id.includes("major")) {
-                                map.setPaintProperty(id, "line-color", "#ff9e00");
-                                map.setPaintProperty(id, "line-opacity", 0.95);
-                                map.setPaintProperty(id, "line-width", 3.5);
-                            } else if (id.includes("sec") || id.includes("tertiary")) {
-                                map.setPaintProperty(id, "line-color", "#f59e0b");
-                                map.setPaintProperty(id, "line-opacity", 0.85);
-                                map.setPaintProperty(id, "line-width", 2.2);
-                            } else {
-                                map.setPaintProperty(id, "line-color", "#eab308");
-                                map.setPaintProperty(id, "line-opacity", 0.65);
-                                map.setPaintProperty(id, "line-width", 1.4);
-                            }
-                        }
-                    }
-                    if (id.includes("landcover") || id.includes("landuse") || id.includes("park")) {
-                        if (l.type === "fill") {
-                            map.setPaintProperty(id, "fill-color", "#0c172d");
-                            map.setPaintProperty(id, "fill-opacity", 0.7);
-                        }
-                    }
-                    if (id === "building" || id === "building-top") {
-                        if (l.type === "fill" || l.type === "fill-extrusion") {
-                            map.setPaintProperty(id, "fill-opacity", 0.0);
-                        }
-                    }
-                });
-            };
-
-            apply3DCityMapStyle();
-
-            const addCustomLayers = function () {
-                if (!parcelsData || !bldgsData) return;
-
-                if (!map.getSource("satellite")) {
-                    map.addSource("satellite", {
-                        "type": "raster",
-                        "tiles": ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
-                        "tileSize": 256,
-                        "attribution": "Tiles &copy; Esri"
-                    });
-                }
-                if (!map.getLayer("satellite-layer")) {
-                    map.addLayer({
-                        "id": "satellite-layer",
-                        "type": "raster",
-                        "source": "satellite",
-                        "layout": { "visibility": isSatellite ? "visible" : "none" }
-                    });
-                }
-
-                if (!map.getSource("parcels")) {
-                    map.addSource("parcels", { type: "geojson", data: parcelsData });
-                }
-                if (!map.getLayer("parcels-layer")) {
-                    map.addLayer({
-                        "id": "parcels-layer",
-                        "type": "fill",
-                        "source": "parcels",
-                        "paint": {
-                            "fill-color": isSatellite ? "#fbbf24" : "#0284c7",
-                            "fill-opacity": isSatellite ? 0.15 : 0.06,
-                            "fill-outline-color": isSatellite ? "#fbbf24" : "#38bdf8"
-                        }
-                    });
-                }
-                if (!map.getLayer("parcels-line-layer")) {
-                    map.addLayer({
-                        "id": "parcels-line-layer",
-                        "type": "line",
-                        "source": "parcels",
-                        "paint": {
-                            "line-color": isSatellite ? "#fbbf24" : "#38bdf8",
-                            "line-opacity": isSatellite ? 0.8 : 0.6,
-                            "line-width": isSatellite ? 2 : 1.5,
-                            "line-dasharray": [3, 2]
-                        }
-                    });
-                }
-
-                if (!map.getSource("buildings")) {
-                    map.addSource("buildings", { type: "geojson", data: bldgsData, promoteId: "id" });
-                }
-                if (!map.getLayer("buildings-3d-layer")) {
-                    const resToggle = document.getElementById("res-toggle");
-                    const isSimulated = resToggle ? resToggle.checked : false;
-                    const hField = isSimulated ? "building_height_m_simulated" : "building_height_m";
-                    
-                    map.addLayer({
-                        "id": "buildings-3d-layer",
-                        "type": "fill-extrusion",
-                        "source": "buildings",
-                        "paint": {
-                            "fill-extrusion-color": BASE_COLOR_EXPR,
-                            "fill-extrusion-height": [
-                                "coalesce",
-                                ["get", hField],
-                                ["get", "building_height_m_simulated"],
-                                ["get", "building_height_m"],
-                                12
-                            ],
-                            "fill-extrusion-base": 0,
-                            "fill-extrusion-opacity": 1.0
-                        }
-                    });
-                }
-
-                // Sub-surface & Underground Utilities (Metro Tunnels, Water Trunks, Power Ducts)
-                if (undergroundData) {
-                    if (!map.getSource("underground-src")) {
-                        map.addSource("underground-src", { type: "geojson", data: undergroundData });
-                    }
-                    if (!map.getLayer("underground-3d-layer")) {
-                        map.addLayer({
-                            "id": "underground-3d-layer",
-                            "type": "fill-extrusion",
-                            "source": "underground-src",
-                            "paint": {
-                                "fill-extrusion-color": [
-                                    "coalesce", ["get", "color"], "#38bdf8"
-                                ],
-                                "fill-extrusion-height": [
-                                    "coalesce", ["get", "height_m"], ["get", "diameter_m"], 5
-                                ],
-                                "fill-extrusion-base": 0,
-                                "fill-extrusion-opacity": 0.88
-                            }
-                        });
-                    }
-                    if (!map.getLayer("underground-line-layer")) {
-                        map.addLayer({
-                            "id": "underground-line-layer",
-                            "type": "line",
-                            "source": "underground-src",
-                            "paint": {
-                                "line-color": [
-                                    "coalesce", ["get", "color"], "#38bdf8"
-                                ],
-                                "line-width": 3.5,
-                                "line-dasharray": [2, 1],
-                                "line-opacity": 0.95
-                            }
-                        });
-                    }
-                }
-            };
-
-            addCustomLayers();
-
+            window.dispatchEvent(new CustomEvent("boundaryDataLoaded", { detail: { parcels: parcelsData, bldgs: bldgsData } }));
+        } catch (err) {
+            console.error("Data init error:", err);
+        } finally {
             const loaderEl = document.getElementById("loader");
             if (loaderEl) {
                 loaderEl.classList.add("hidden");
                 loaderEl.style.display = "none";
             }
+        }
+    })();
 
             // Universal Deep Link Resolver (from Pan-India Search or Direct URL)
             const highlightParam = urlParams.get("highlight");
@@ -650,13 +808,107 @@ document.addEventListener("DOMContentLoaded", function () {
                 const p4 = document.getElementById("prov-t4");
                 if (p4) p4.innerText = gate + " &bull; DILRMP Rule 8";
 
-                // --- Additive: approximate floor estimate (Phase 12) ---
-                window.__selectedBuilding = { props: props, geometry: feature.geometry };
-                renderFloorSection(props);
-                if (!document.getElementById("floor-panel").hidden) {
-                    renderFloorPanel(props, feature.geometry);   // refresh if already open
-                } else if (floorDetected(props)) {
-                    renderFloorPanel(props, feature.geometry);   // auto-open solid 3D floor slabs!
+                // --- Dark 3D Cadastral Floating Map Overlay Popup ---
+                if (activeMapPopup) {
+                    activeMapPopup.remove();
+                    activeMapPopup = null;
+                }
+
+                const pUlpin = props.linked_parcel_id ? proposedUlpin : (props.proposed_ulpin || ("IN-3D-ULPIN-" + props.id));
+                const pKhasra = props.linked_parcel_id ? ("#" + props.linked_parcel_id) : ("Plot #" + (props.id || "104"));
+                const pWard = activeRegion.badge || "Urban Ward";
+                const pHeight = h || 15;
+                const pFloors = fl || 3;
+                const pGround = ground ? (ground + "m MSL") : "498.2m MSL";
+                const pMatch = matchStatus || "CONTAINED";
+                const pArea = props.footprint_area_m2 || props.area_m2 || Math.round((h || 15) * 18.5);
+
+                const popupHtml = `
+                    <div class="map-popup-card">
+                        <div class="map-popup-header">
+                            <div class="map-popup-badge"><i class="ph ph-shield-check"></i> 3D BHU-AADHAAR</div>
+                            <button class="map-popup-close" onclick="window.closeMapPopup()">&times;</button>
+                        </div>
+                        <div class="map-popup-ulpin">${pUlpin}</div>
+                        <div class="map-popup-grid">
+                            <div class="map-popup-item">
+                                <span class="lbl">KHASRA / PARCEL</span>
+                                <span class="val">${pKhasra}</span>
+                            </div>
+                            <div class="map-popup-item">
+                                <span class="lbl">SECTOR / WARD</span>
+                                <span class="val">${pWard}</span>
+                            </div>
+                            <div class="map-popup-item">
+                                <span class="lbl">HEIGHT & FLOORS</span>
+                                <span class="val">${pHeight}m (${pFloors} Slabs)</span>
+                            </div>
+                            <div class="map-popup-item">
+                                <span class="lbl">GROUND ELEVATION</span>
+                                <span class="val">${pGround}</span>
+                            </div>
+                            <div class="map-popup-item">
+                                <span class="lbl">ESTIMATED AREA</span>
+                                <span class="val">~${pArea} m²</span>
+                            </div>
+                            <div class="map-popup-item">
+                                <span class="lbl">3D TOPOLOGY</span>
+                                <span class="val status-${pMatch.toLowerCase()}">${pMatch}</span>
+                            </div>
+                        </div>
+                        <div class="map-popup-actions">
+                            <button class="map-popup-btn primary" onclick="window.inspectBuildingFloors('${props.id}')">
+                                <i class="ph ph-stack"></i> 3D Floor Slabs
+                            </button>
+                            <button class="map-popup-btn secondary" onclick="window.openCurrentTitleCert()">
+                                <i class="ph ph-certificate"></i> Title Deed
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                let popCenter = lngLat;
+                if (!popCenter && feature.geometry) {
+                    let pts = [];
+                    if (feature.geometry.type === "Polygon") pts = feature.geometry.coordinates[0];
+                    else if (feature.geometry.type === "MultiPolygon") pts = feature.geometry.coordinates[0][0];
+                    if (pts && pts.length) {
+                        let sumX = 0, sumY = 0;
+                        pts.forEach(p => { sumX += p[0]; sumY += p[1]; });
+                        popCenter = [sumX / pts.length, sumY / pts.length];
+                    }
+                }
+                if (!popCenter) popCenter = map.getCenter();
+
+                if (window.closeMapPopup) window.closeMapPopup();
+                if (popCenter && viewer) {
+                    const mapContainer = document.getElementById("map");
+                    if (mapContainer) {
+                        const popEl = document.createElement("div");
+                        popEl.id = "cesium-popup-overlay";
+                        popEl.className = "dark-gis-popup";
+                        popEl.style.position = "absolute";
+                        popEl.style.zIndex = "99";
+                        popEl.style.pointerEvents = "auto";
+                        popEl.innerHTML = popupHtml;
+                        mapContainer.appendChild(popEl);
+
+                        const cartesianPos = Cesium.Cartesian3.fromDegrees(popCenter[0], popCenter[1], 15);
+                        function updatePopPos() {
+                            if (!popEl || !popEl.parentNode) return;
+                            const canvasPos = viewer.scene.cartesianToCanvasCoordinates(cartesianPos);
+                            if (Cesium.defined(canvasPos)) {
+                                popEl.style.left = (canvasPos.x - 140) + "px";
+                                popEl.style.top = (canvasPos.y - 230) + "px";
+                                popEl.style.display = "block";
+                            } else {
+                                popEl.style.display = "none";
+                            }
+                        }
+                        updatePopPos();
+                        const removeListener = viewer.scene.postRender.addEventListener(updatePopPos);
+                        popEl._removeListener = removeListener;
+                    }
                 }
 
                 window.dispatchEvent(new CustomEvent("buildingSelected", { detail: { feature: feature, props: props, lngLat: lngLat } }));
@@ -744,22 +996,91 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (p4) p4.innerText = (props.status || "STATUTORY_EASEMENT") + " (DILRMP)";
             }
 
-            map.on("click", "buildings-3d-layer", function (e) {
-                if (!e.features.length) return;
-                selectBuilding(e.features[0], e.lngLat);
-            });
+            // Wire Cesium Interactive Pick Event Handlers
+            if (viewer) {
+                const pickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
-            map.on("click", "underground-3d-layer", function (e) {
-                if (!e.features.length) return;
-                selectUndergroundAsset(e.features[0], e.lngLat);
-            });
+                pickHandler.setInputAction(function (click) {
+                    const pickedObject = viewer.scene.pick(click.position);
+                    if (Cesium.defined(pickedObject) && pickedObject.id) {
+                        const entity = pickedObject.id;
+                        const props = {};
+                        if (entity.properties) {
+                            const propertyNames = entity.properties.propertyNames;
+                            if (propertyNames) {
+                                for (let i = 0; i < propertyNames.length; i++) {
+                                    const name = propertyNames[i];
+                                    const val = entity.properties[name] ? entity.properties[name].getValue(Cesium.JulianDate.now()) : null;
+                                    props[name] = val;
+                                }
+                            }
+                        }
 
-            map.on("mouseenter", "underground-3d-layer", function () {
-                map.getCanvas().style.cursor = "pointer";
-            });
-            map.on("mouseleave", "underground-3d-layer", function () {
-                map.getCanvas().style.cursor = "";
-            });
+                        let lngLat = null;
+                        const cartesian = viewer.camera.pickEllipsoid(click.position, viewer.scene.globe.ellipsoid);
+                        if (cartesian) {
+                            const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                            lngLat = [
+                                Cesium.Math.toDegrees(cartographic.longitude),
+                                Cesium.Math.toDegrees(cartographic.latitude)
+                            ];
+                        }
+
+                        const feature = {
+                            type: "Feature",
+                            properties: props,
+                            geometry: null
+                        };
+
+                        if (props.depth_below_ground_m || props.asset_type || props.subsurface_type) {
+                            selectUndergroundAsset(feature, lngLat);
+                        } else if (props.id || props.linked_parcel_id) {
+                            selectBuilding(feature, lngLat);
+                        }
+                    }
+                }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+                // Mouse hover tooltips
+                let hoverTooltip = document.getElementById("cesium-hover-tooltip");
+                if (!hoverTooltip) {
+                    hoverTooltip = document.createElement("div");
+                    hoverTooltip.id = "cesium-hover-tooltip";
+                    hoverTooltip.className = "floor-tooltip";
+                    hoverTooltip.style.position = "absolute";
+                    hoverTooltip.style.display = "none";
+                    hoverTooltip.style.pointerEvents = "none";
+                    hoverTooltip.style.zIndex = "98";
+                    const mapContainer = document.getElementById("map");
+                    if (mapContainer) mapContainer.appendChild(hoverTooltip);
+                }
+
+                pickHandler.setInputAction(function (movement) {
+                    const picked = viewer.scene.pick(movement.endPosition);
+                    if (Cesium.defined(picked) && picked.id && picked.id.properties && hoverTooltip) {
+                        const entity = picked.id;
+                        const getVal = (name) => entity.properties[name] ? entity.properties[name].getValue(Cesium.JulianDate.now()) : null;
+                        const bldgId = getVal("id");
+                        const parcelId = getVal("linked_parcel_id");
+                        const height = getVal("building_height_m");
+
+                        if (bldgId) {
+                            hoverTooltip.innerHTML = `
+                                <div class="ftt">
+                                    <div class="ftt-h">Building ${bldgId}</div>
+                                    <div class="ftt-s">Parcel ${parcelId || "-"}</div>
+                                    <div class="ftt-k">HEIGHT</div>
+                                    <div class="ftt-v">${height != null ? height + ' m' : '-'}</div>
+                                </div>
+                            `;
+                            hoverTooltip.style.left = (movement.endPosition.x + 15) + "px";
+                            hoverTooltip.style.top = (movement.endPosition.y - 15) + "px";
+                            hoverTooltip.style.display = "block";
+                            return;
+                        }
+                    }
+                    if (hoverTooltip) hoverTooltip.style.display = "none";
+                }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            }
 
             window.handleSelectBuilding = selectBuilding;
             window.handleSelectUndergroundAsset = selectUndergroundAsset;
@@ -1893,14 +2214,5 @@ document.addEventListener("DOMContentLoaded", function () {
                     contentLogs.classList.remove("hidden");
                     contentInfo.classList.add("hidden");
                 });
-            }
-
-        } catch (error) {
-            console.error(error);
-            const loaderEl = document.getElementById("loader");
-            if (loaderEl) {
-                loaderEl.innerHTML = '<p style="color: #ef4444;">Error loading GIS data. Check console.</p>';
-            }
         }
     });
-});

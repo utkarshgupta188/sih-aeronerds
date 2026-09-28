@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AeroNerds 3D Cadastre — 3D Cadastral &amp; Vertical Property Portal | SIH26011</title>
 
-    <!-- MapLibre GL JS -->
-    <script src="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@3.3.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <!-- CesiumJS for Google Photorealistic 3D Tiles -->
+    <script>window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.119.0/Build/Cesium/';</script>
+    <script src="https://cdn.jsdelivr.net/npm/cesium@1.119.0/Build/Cesium/Cesium.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/cesium@1.119.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -788,6 +789,17 @@
                 </div>
             </div>
         </aside>
+
+        <!-- Circular 3D Compass Control (Bottom-Left Map Canvas) -->
+        <div id="map-compass-container" class="map-compass-container" title="उत्तर दिशा / Reset Bearing (North)">
+            <div id="map-compass-dial" class="map-compass-dial">
+                <span class="compass-n">N</span>
+                <span class="compass-s">S</span>
+                <span class="compass-w">W</span>
+                <span class="compass-e">E</span>
+                <div id="compass-needle" class="compass-needle"></div>
+            </div>
+        </div>
 
         <!-- Loader -->
         <div id="loader" class="loader-overlay glass-panel">
