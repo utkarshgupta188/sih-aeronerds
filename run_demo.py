@@ -11,6 +11,7 @@ Does NOT contact external APIs.
 import http.server
 import os
 import socketserver
+import ssl
 import sys
 
 PORT = 8000
@@ -90,6 +91,27 @@ def get_local_ip_addresses():
     return ips
 
 
+HTTPS_PORT = 8443
+CERT_FILE = os.path.join("config", "cert.pem")
+KEY_FILE = os.path.join("config", "key.pem")
+
+
+def start_https_server():
+    """Starts background HTTPS server for secure mobile device GPS access."""
+    if not (os.path.exists(CERT_FILE) and os.path.exists(KEY_FILE)):
+        return
+    try:
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
+        socketserver.TCPServer.allow_reuse_address = True
+        with socketserver.TCPServer(("", HTTPS_PORT), DemoHttpRequestHandler) as httpsd:
+            httpsd.socket = context.wrap_socket(httpsd.socket, server_side=True)
+            print(f"[SECURE] HTTPS Server active on port {HTTPS_PORT} for Mobile Device GNSS/GPS.")
+            httpsd.serve_forever()
+    except Exception as e:
+        print(f"[INFO] HTTPS Server note: {e}")
+
+
 def main():
     print("==================================================")
     print(" AeroNerds SIH26011 Demo — Team areonerds      ")
@@ -97,17 +119,36 @@ def main():
 
     verify_demo_data()
 
+    # Launch HTTPS server in background thread for real mobile GPS access
+    has_https = os.path.exists(CERT_FILE) and os.path.exists(KEY_FILE)
+    if has_https:
+        import threading
+        t = threading.Thread(target=start_https_server, daemon=True)
+        t.start()
+
     lan_ips = get_local_ip_addresses()
     print("[OK] Verified all required frontend and 3D datasets.")
     print(f"\n==================================================")
     print(f" Web UI Access URLs (Local Machine & Local Network):")
-    print(f"  > Localhost:      http://localhost:{PORT}/")
+    print(f"  > HTTP Localhost:           http://localhost:{PORT}/")
     for ip in lan_ips:
-        print(f"  > Local Network:  http://{ip}:{PORT}/")
+        print(f"  > HTTP LAN Network:         http://{ip}:{PORT}/")
+    if has_https:
+        print(f"  ------------------------------------------------")
+        print(f"  > HTTPS Mobile (Real GPS):  https://localhost:{HTTPS_PORT}/")
+        for ip in lan_ips:
+            print(f"  > HTTPS Mobile (Real GPS):  https://{ip}:{HTTPS_PORT}/")
     print(f"==================================================\n")
-    if lan_ips:
+
+    if has_https and lan_ips:
+        print(f"📱 TO ACCESS REAL-TIME DEVICE GPS ON MOBILE PHONE / TABLET:")
+        print(f"   1. Open on mobile:  https://{lan_ips[0]}:{HTTPS_PORT}/")
+        print(f"   2. Tap 'Advanced' -> 'Proceed' (for local self-signed SSL)")
+        print(f"   3. Mobile Chrome/Safari will allow full hardware GNSS & Barometer access!\n")
+    elif lan_ips:
         print(f"To open on a mobile phone / tablet on the same Wi-Fi / LAN:")
         print(f"  ==>  http://{lan_ips[0]}:{PORT}/\n")
+
     print("Use this mode for reliable, offline, zero-latency evaluation.")
     print("Press Ctrl+C to stop the demo server.\n")
 
@@ -124,6 +165,8 @@ def main():
             print(f"Check if AeroNerds is already open at http://localhost:{PORT}/")
             if lan_ips:
                 print(f"Or via local network: http://{lan_ips[0]}:{PORT}/")
+                if has_https:
+                    print(f"Or via secure HTTPS:  https://{lan_ips[0]}:{HTTPS_PORT}/")
         else:
             print(f"\n[ERROR] Could not start server: {e}")
         sys.exit(1)

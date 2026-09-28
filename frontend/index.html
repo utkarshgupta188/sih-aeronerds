@@ -549,17 +549,37 @@
                 <div class="citizen-gps-box">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
                         <div style="display: flex; align-items: center; gap: 6px;">
-                            <span class="gps-pulse-dot"></span>
+                            <span class="gps-pulse-dot" id="gps-pulse-indicator"></span>
                             <span style="font-size: 11px; font-weight: 800; color: #002855; text-transform: uppercase; letter-spacing: 0.5px;">Auto-GPS 3D Floor Locator</span>
                         </div>
-                        <span class="badge" style="background: #dcfce7; color: #15803d; font-size: 8.5px; font-weight: 800;">GNSS + DEM DATUM</span>
+                        <span id="gps-status-badge" class="badge" style="background: #dcfce7; color: #15803d; font-size: 8.5px; font-weight: 800;">READY</span>
                     </div>
+
+                    <!-- HTTPS Warning Banner for Mobile Devices on Local Network -->
+                    <div id="gps-insecure-warning" style="display: none; background: #fff1f2; border: 1.5px solid #f43f5e; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: flex-start; gap: 8px;">
+                            <i class="ph ph-shield-warning" style="font-size: 18px; color: #e11d48; flex-shrink: 0; margin-top: 1px;"></i>
+                            <div style="flex: 1;">
+                                <div style="font-size: 10.5px; font-weight: 800; color: #9f1239;">Mobile GPS Requires Secure Context (HTTPS)</div>
+                                <div style="font-size: 9.5px; color: #881337; margin: 3px 0 6px 0; line-height: 1.35;">
+                                    Mobile Chrome & Safari block hardware GPS over plain <code>http://</code>. Switch to the secure HTTPS server:
+                                </div>
+                                <button id="btn-switch-https" type="button" style="background: #e11d48; color: #ffffff; font-size: 10px; font-weight: 800; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; width: 100%; justify-content: center;">
+                                    <i class="ph ph-lock-key"></i> Switch to HTTPS:8443 for Device GPS
+                                </button>
+                                <div style="font-size: 8.5px; color: #9f1239; margin-top: 4px; text-align: center;">
+                                    *(Tap "Advanced" → "Proceed" on phone to accept local SSL)*
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="font-size: 10.5px; color: #475569; line-height: 1.4; margin-bottom: 10px;">
-                        Detect your device's exact GPS location, calibrate relative elevation against the Copernicus Bare-Earth DEM, and instantly identify your <b>multi-storey building, floor level, and unique 3D ULPIN</b>.
+                        Acquires your phone or PC's <b>real-time hardware GNSS coordinates</b>, computes height above Copernicus DEM datum, and assigns your official <b>3D Bhu-Aadhaar (ULPIN)</b>.
                     </div>
                     <button id="btn-citizen-gps-locate" class="btn" style="width: 100%; background: #138808; color: #ffffff; font-weight: 800; font-size: 11.5px; padding: 9px 12px; border-radius: 8px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(19, 136, 8, 0.35);">
                         <i class="ph ph-crosshair" style="font-size: 16px;"></i>
-                        <span>Locate My Device & 3D Floor (जीपीएस द्वारा ULPIN खोजें)</span>
+                        <span id="btn-citizen-gps-text">Acquire Real Device GPS (जीपीएस स्थान प्राप्त करें)</span>
                     </button>
 
                     <!-- Live GPS & Floor Resolution Results (Expands on click) -->
@@ -608,9 +628,21 @@
                             <div style="font-size: 9px; color: #cbd5e1;">Rule 8 Statutory Vertical Cadastral Identity</div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
-                            <button id="btn-gps-fly-floor" class="btn" style="background: rgba(0,40,85,0.08); color: #002855; font-size: 10px; font-weight: 700; border: 1px solid rgba(0,40,85,0.2); padding: 6px;">
+                        <!-- Dual Navigation Switcher: Real Device GPS vs Bhopal 3D Pilot -->
+                        <div style="display: flex; gap: 6px; margin-top: 10px;">
+                            <button id="btn-gps-fly-real" type="button" class="btn" style="flex: 1; background: #138808; color: #ffffff; font-size: 10px; font-weight: 700; border: none; padding: 6px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                                <i class="ph ph-crosshair"></i>
+                                <span>Track Device GPS</span>
+                            </button>
+                            <button id="btn-gps-fly-bhopal" type="button" class="btn" style="flex: 1; background: #002855; color: #ffffff; font-size: 10px; font-weight: 700; border: none; padding: 6px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
                                 <i class="ph ph-buildings"></i>
+                                <span>Bhopal 3D Pilot</span>
+                            </button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
+                            <button id="btn-gps-fly-floor" class="btn" style="background: rgba(0,40,85,0.08); color: #002855; font-size: 10px; font-weight: 700; border: 1px solid rgba(0,40,85,0.2); padding: 6px;">
+                                <i class="ph ph-stack"></i>
                                 <span>Highlight 3D Floor</span>
                             </button>
                             <button id="btn-gps-open-card" class="btn" style="background: #f59e0b; color: #020617; font-size: 10px; font-weight: 800; border: none; padding: 6px;">

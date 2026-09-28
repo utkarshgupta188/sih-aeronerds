@@ -1614,8 +1614,78 @@
             return s[(v - 20) % 10] || s[v] || s[0];
         }
 
+        // =========================================================================
+        // REAL-TIME DEVICE GNSS & PAN-INDIA 3D ULPIN ENGINE
+        // =========================================================================
+        let liveGpsWatchId = null;
+        let lastKnownCoords = null; // [lng, lat]
+        let lastKnownAltitude = null;
+        let lastKnownAccuracy = null;
+        let currentCitizenFloor = 4;
+        let isShowcaseMode = false;
+
+        function detectIndianRegion(lat, lng) {
+            // Bhopal Pilot Zone
+            if (lat >= 23.15 && lat <= 23.35 && lng >= 77.30 && lng <= 77.55) {
+                return { code: "IN-MP-BHP", state: "Madhya Pradesh", dist: "Bhopal (Pilot)", dem: 498.2, isPilot: true };
+            }
+            // Mumbai Metro
+            if (lat >= 18.88 && lat <= 19.35 && lng >= 72.75 && lng <= 73.15) {
+                return { code: "IN-MH-MUM", state: "Maharashtra", dist: "Mumbai Metro", dem: 14.0 };
+            }
+            // Pune Urban
+            if (lat >= 18.40 && lat <= 18.70 && lng >= 73.70 && lng <= 74.05) {
+                return { code: "IN-MH-PUN", state: "Maharashtra", dist: "Pune Urban Region", dem: 560.0 };
+            }
+            // Maharashtra State
+            if (lat >= 15.6 && lat <= 22.0 && lng >= 72.6 && lng <= 80.9) {
+                return { code: "IN-MH-CAD", state: "Maharashtra", dist: "Maharashtra Cadastral Zone", dem: 450.0 };
+            }
+            // Bengaluru Urban
+            if (lat >= 12.80 && lat <= 13.20 && lng >= 77.45 && lng <= 77.80) {
+                return { code: "IN-KA-BLR", state: "Karnataka", dist: "Bengaluru Urban", dem: 920.0 };
+            }
+            // Karnataka State
+            if (lat >= 11.5 && lat <= 18.5 && lng >= 74.0 && lng <= 78.6) {
+                return { code: "IN-KA-CAD", state: "Karnataka", dist: "Karnataka Cadastral Zone", dem: 650.0 };
+            }
+            // Delhi NCR
+            if (lat >= 28.35 && lat <= 28.90 && lng >= 76.85 && lng <= 77.45) {
+                return { code: "IN-DL-NDL", state: "Delhi NCT", dist: "New Delhi / National Capital", dem: 216.0 };
+            }
+            // Chennai Metro
+            if (lat >= 12.85 && lat <= 13.30 && lng >= 80.00 && lng <= 80.35) {
+                return { code: "IN-TN-CHN", state: "Tamil Nadu", dist: "Chennai Metropolitan", dem: 9.0 };
+            }
+            // Hyderabad Metro
+            if (lat >= 17.25 && lat <= 17.60 && lng >= 78.20 && lng <= 78.65) {
+                return { code: "IN-TG-HYD", state: "Telangana", dist: "Hyderabad Metro", dem: 505.0 };
+            }
+            // Ahmedabad Metro
+            if (lat >= 22.90 && lat <= 23.20 && lng >= 72.45 && lng <= 72.75) {
+                return { code: "IN-GJ-AHM", state: "Gujarat", dist: "Ahmedabad Municipal", dem: 53.0 };
+            }
+            // Jaipur Metro
+            if (lat >= 26.75 && lat <= 27.05 && lng >= 75.65 && lng <= 75.95) {
+                return { code: "IN-RJ-JPR", state: "Rajasthan", dist: "Jaipur Municipal", dem: 431.0 };
+            }
+            // Kolkata Metro
+            if (lat >= 22.40 && lat <= 22.75 && lng >= 88.25 && lng <= 88.50) {
+                return { code: "IN-WB-KOL", state: "West Bengal", dist: "Kolkata Metropolitan", dem: 9.0 };
+            }
+            // Lucknow Metro
+            if (lat >= 26.75 && lat <= 27.00 && lng >= 80.80 && lng <= 81.05) {
+                return { code: "IN-UP-LKO", state: "Uttar Pradesh", dist: "Lucknow Urban", dem: 123.0 };
+            }
+            // Pan-India Survey bounds
+            if (lat >= 8.0 && lat <= 37.0 && lng >= 68.0 && lng <= 97.5) {
+                return { code: "IN-SURV", state: "Survey of India", dist: "Urban Cadastral Sector", dem: 320.0 };
+            }
+            return { code: "GLOBAL-GPS", state: "Autonomous GNSS", dist: "Global Spatial Sector", dem: 150.0 };
+        }
+
         function placeGpsRadar(map, coords) {
-            if (!map) return;
+            if (!map || !coords) return;
             if (gpsRadarMarker) {
                 gpsRadarMarker.remove();
                 gpsRadarMarker = null;
@@ -1632,179 +1702,326 @@
                 .addTo(map);
         }
 
-        function autoLocateCitizenGps(targetFloorOverride) {
-            showGovToast("GPS Device Acquisition", "Detecting GNSS coordinates & barometric elevation...", "ph-crosshair");
-            AudioFX.play("click");
+        function resolveAndAllot(lat, lng, accuracy, rawAltitude, targetFloorOverride, forceShowcase) {
+            const bldgs = (window.bldgsData && window.bldgsData.features) || [];
+            const regionInfo = detectIndianRegion(lat, lng);
 
+            let matchedBuilding = null;
+            let bldgCenter = [lng, lat];
+            let groundElev = regionInfo.dem;
+            let totalFloors = 6;
+            let bldgName = `Live Device Position (${regionInfo.dist})`;
+            let khasraName = `Plot #${Math.abs(Math.round(lat * 1000) % 899 + 101)}, Ward 12`;
+            let pIdNum = String(Math.abs(Math.round(lat * 10000) % 899 + 101));
+            let bIdNum = String(Math.abs(Math.round(lng * 10000) % 89 + 11));
+
+            // Check if coordinates fall within 300 meters of a pilot building OR forceShowcase
+            if (forceShowcase || regionInfo.isPilot) {
+                matchedBuilding = bldgs.find(f => {
+                    const p = f.properties || {};
+                    return String(p.id).includes("104") || String(p.linked_parcel_id).includes("104") || (p.derived_floors && p.derived_floors >= 4);
+                }) || (bldgs.length ? bldgs[0] : null);
+
+                if (matchedBuilding) {
+                    const props = matchedBuilding.properties || {};
+                    bldgCenter = getFeatCenter(matchedBuilding) || [77.4180, 23.2510];
+                    groundElev = parseFloat(props.ground_elevation_m || 498.2);
+                    totalFloors = parseInt(props.derived_floors || props.floor_count_estimated || 5, 10);
+                    bldgName = props.name || "Lotus Heights (Tower B3)";
+                    pIdNum = String(props.linked_parcel_id || "104").replace(/\D/g, "") || "104";
+                    bIdNum = String(props.id || "03").replace(/\D/g, "") || "03";
+                    khasraName = props.khasra_no || `Khasra #${pIdNum}/B, Ward 42`;
+                }
+            } else if (bldgs.length > 0) {
+                // Check if user is physically standing inside/near any pilot polygon (< 300 meters)
+                let closestDistKm = Infinity;
+                let closestFeat = null;
+                for (let i = 0; i < bldgs.length; i++) {
+                    const feat = bldgs[i];
+                    const c = getFeatCenter(feat);
+                    if (c) {
+                        const d = Math.hypot((c[0] - lng) * Math.cos(lat * Math.PI / 180), c[1] - lat) * 111.32;
+                        if (d < closestDistKm) {
+                            closestDistKm = d;
+                            closestFeat = feat;
+                        }
+                    }
+                }
+                if (closestFeat && closestDistKm < 0.3) {
+                    matchedBuilding = closestFeat;
+                    const props = matchedBuilding.properties || {};
+                    bldgCenter = getFeatCenter(matchedBuilding) || [lng, lat];
+                    groundElev = parseFloat(props.ground_elevation_m || groundElev);
+                    totalFloors = parseInt(props.derived_floors || 5, 10);
+                    bldgName = props.name || `Cadastral Parcel Unit #${props.id}`;
+                    pIdNum = String(props.linked_parcel_id || pIdNum).replace(/\D/g, "") || pIdNum;
+                    bIdNum = String(props.id || bIdNum).replace(/\D/g, "") || bIdNum;
+                    khasraName = props.khasra_no || `Khasra #${pIdNum}/A, ${regionInfo.dist}`;
+                }
+            }
+
+            // Determine vertical floor level from device barometer/altitude or override
+            let floorIndex = 4;
+            let relHeight = 14.5;
+            let deviceMsl = groundElev + relHeight;
+
+            if (targetFloorOverride) {
+                floorIndex = parseInt(targetFloorOverride, 10);
+                relHeight = Math.max(0, (floorIndex - 1) * 3.2);
+                deviceMsl = groundElev + relHeight;
+            } else if (rawAltitude && !isNaN(rawAltitude) && rawAltitude > groundElev) {
+                deviceMsl = rawAltitude;
+                relHeight = Math.max(0, deviceMsl - groundElev);
+                floorIndex = Math.max(1, Math.min(totalFloors, Math.floor(relHeight / 3.2) + 1));
+            } else {
+                floorIndex = currentCitizenFloor || 4;
+                relHeight = Math.max(0, (floorIndex - 1) * 3.2);
+                deviceMsl = groundElev + relHeight;
+            }
+            currentCitizenFloor = floorIndex;
+
+            const unitNum = floorIndex * 100 + 2;
+            const regionStateCode = forceShowcase ? "IN-MP-BHP" : regionInfo.code;
+            const generatedUlpin = `${regionStateCode}-P${pIdNum}-B${bIdNum}-FL${floorIndex}-U${unitNum}`;
+
+            // Update Telemetry Panel
             const teleBox = document.getElementById("citizen-gps-telemetry");
             if (teleBox) teleBox.style.display = "block";
 
-            const bldgs = (window.bldgsData && window.bldgsData.features) || [];
-            
-            // Find showcase building or nearest
-            let matchedBuilding = bldgs.find(f => {
-                const p = f.properties || {};
-                return String(p.id).includes("104") || String(p.linked_parcel_id).includes("104") || (p.derived_floors && p.derived_floors >= 4);
-            }) || (bldgs.length ? bldgs[0] : null);
+            const elCoords = document.getElementById("gps-tele-coords");
+            if (elCoords) {
+                const targetLat = forceShowcase ? bldgCenter[1] : lat;
+                const targetLng = forceShowcase ? bldgCenter[0] : lng;
+                elCoords.innerText = `${targetLat.toFixed(6)}°N, ${targetLng.toFixed(6)}°E ${forceShowcase ? '(Showcase)' : '(LIVE GNSS)'}`;
+            }
 
-            function resolveAndAllot(lat, lng, accuracy, rawAltitude) {
-                if (bldgs.length > 0) {
-                    let closestDist = Infinity;
-                    let closestFeat = null;
-                    for (let i = 0; i < bldgs.length; i++) {
-                        const feat = bldgs[i];
-                        const c = getFeatCenter(feat);
-                        if (c) {
-                            const d = Math.hypot(c[0] - lng, c[1] - lat);
-                            if (d < closestDist) {
-                                closestDist = d;
-                                closestFeat = feat;
-                            }
-                        }
-                    }
-                    if (closestFeat && closestDist < 0.05) {
-                        matchedBuilding = closestFeat;
-                    }
-                }
+            const elElev = document.getElementById("gps-tele-elev");
+            if (elElev) elElev.innerText = `${deviceMsl.toFixed(1)} m MSL (+${relHeight.toFixed(1)}m AGL)`;
 
-                const props = (matchedBuilding && matchedBuilding.properties) || {};
-                const bldgCenter = getFeatCenter(matchedBuilding) || [lng, lat];
-                const groundElev = parseFloat(props.ground_elevation_m || 498.2);
-                const totalFloors = parseInt(props.derived_floors || props.floor_count_estimated || 5, 10);
-                const bldgHeight = parseFloat(props.building_height_m || totalFloors * 3.2);
+            const elGround = document.getElementById("gps-tele-ground");
+            if (elGround) elGround.innerText = `${groundElev.toFixed(1)} m MSL (Copernicus DEM Datum)`;
 
-                // Determine floor level from altitude or override
-                let floorIndex = 4; // default showcase 4th floor
-                let relHeight = 14.5;
-                let deviceMsl = groundElev + relHeight;
+            const elBldg = document.getElementById("gps-tele-bldg");
+            if (elBldg) elBldg.innerText = bldgName;
 
-                if (targetFloorOverride) {
-                    floorIndex = parseInt(targetFloorOverride, 10);
-                    relHeight = Math.max(0, (floorIndex - 1) * 3.2);
-                    deviceMsl = groundElev + relHeight;
-                } else if (rawAltitude && !isNaN(rawAltitude) && rawAltitude > groundElev) {
-                    deviceMsl = rawAltitude;
-                    relHeight = deviceMsl - groundElev;
-                    floorIndex = Math.max(1, Math.min(totalFloors, Math.floor(relHeight / 3.2) + 1));
-                }
+            const elBadge = document.getElementById("gps-detected-floor-badge");
+            if (elBadge) elBadge.innerText = `${floorIndex}${getOrdinalSuffix(floorIndex)} Floor (Flat ${unitNum})`;
 
-                const unitNum = floorIndex * 100 + 2; // Flat 402, 302, etc.
-                const regionStateCode = (window.activeRegion && window.activeRegion.stateCode) || "IN-MP-BHP";
-                const bIdNum = String(props.id || "0").replace(/\D/g, "") || "03";
-                const pIdNum = String(props.linked_parcel_id || "104").replace(/\D/g, "") || "104";
+            const elAcc = document.getElementById("gps-accuracy-tag");
+            if (elAcc) {
+                const accVal = Math.round(accuracy || 3.0);
+                elAcc.innerText = `±${accVal}m Sat Lock`;
+                elAcc.style.color = accVal <= 10 ? "#15803d" : "#b45309";
+            }
 
-                const generatedUlpin = `${regionStateCode}-P${pIdNum}-B${bIdNum}-FL${floorIndex}-U${unitNum}`;
-                const bldgName = props.name || "Lotus Heights (Tower B3)";
-                const khasraName = props.khasra_no || `Khasra #${pIdNum}/B, Ward 42`;
+            const elUlpin = document.getElementById("gps-allocated-ulpin");
+            if (elUlpin) elUlpin.innerText = generatedUlpin;
 
-                // Update DOM Telemetry fields
-                const elCoords = document.getElementById("gps-tele-coords");
-                if (elCoords) elCoords.innerText = `${lat.toFixed(5)}°N, ${lng.toFixed(5)}°E`;
-                const elElev = document.getElementById("gps-tele-elev");
-                if (elElev) elElev.innerText = `${deviceMsl.toFixed(1)} m MSL (+${relHeight.toFixed(1)}m AGL)`;
-                const elGround = document.getElementById("gps-tele-ground");
-                if (elGround) elGround.innerText = `${groundElev.toFixed(1)} m MSL (Copernicus DEM)`;
-                const elBldg = document.getElementById("gps-tele-bldg");
-                if (elBldg) elBldg.innerText = `${bldgName}`;
-                const elBadge = document.getElementById("gps-detected-floor-badge");
-                if (elBadge) elBadge.innerText = `${floorIndex}${getOrdinalSuffix(floorIndex)} Floor (Flat ${unitNum})`;
-                const elAcc = document.getElementById("gps-accuracy-tag");
-                if (elAcc) elAcc.innerText = `±${Math.min(15, Math.round(accuracy))}m Lock`;
-                const elUlpin = document.getElementById("gps-allocated-ulpin");
-                if (elUlpin) elUlpin.innerText = generatedUlpin;
+            // Highlight Floor Pills
+            document.querySelectorAll(".gps-floor-btn").forEach(btn => {
+                const fl = parseInt(btn.getAttribute("data-floor"), 10);
+                btn.classList.toggle("active", fl === floorIndex);
+            });
 
-                // Highlight active floor pill
-                document.querySelectorAll(".gps-floor-btn").forEach(btn => {
-                    const fl = parseInt(btn.getAttribute("data-floor"), 10);
-                    btn.classList.toggle("active", fl === floorIndex);
+            // Update Citizen Passbook card details
+            const citizenUlpin = document.getElementById("citizen-prop-ulpin");
+            if (citizenUlpin) citizenUlpin.innerText = generatedUlpin;
+            const citizenKhasra = document.getElementById("citizen-prop-khasra");
+            if (citizenKhasra) citizenKhasra.innerText = `${khasraName} (${bldgName})`;
+            const citizenUnit = document.getElementById("citizen-prop-unit");
+            if (citizenUnit) citizenUnit.innerText = `Flat ${unitNum} • ${floorIndex}${getOrdinalSuffix(floorIndex)} Floor`;
+            const citizenElev = document.getElementById("citizen-prop-elev");
+            if (citizenElev) citizenElev.innerText = `Ground: ${groundElev.toFixed(1)}m MSL • Height: +${relHeight.toFixed(1)}m AGL`;
+
+            // Generate crisp vector SVG QR codes with datalog/qrcode-svg
+            renderUlpinQRCode("citizen-passbook-qr", generatedUlpin, { size: 80, pad: 2 });
+            renderUlpinQRCode("prop-qr-box", generatedUlpin, { size: 52, pad: 1 });
+
+            // Store active property state for modals
+            window.__activeSelectedProperty = {
+                ulpin: generatedUlpin,
+                khasra: khasraName,
+                floor: `${floorIndex}${getOrdinalSuffix(floorIndex)} Floor / Unit ${unitNum} (+${relHeight.toFixed(1)}m)`,
+                elev: `${deviceMsl.toFixed(1)} m MSL (Copernicus DEM)`,
+                elevNum: deviceMsl.toFixed(1),
+                floorsNum: totalFloors,
+                area: `1,420 sq.ft • Built-Up Space`,
+                areaNum: 1420,
+                owner: "श्रीमती प्रिया शर्मा / Priya Sharma"
+            };
+
+            // Fly 3D map camera and place animated GPS beacon marker
+            const map = window.boundaryMap;
+            const flyTarget = forceShowcase ? bldgCenter : [lng, lat];
+            if (map) {
+                map.flyTo({
+                    center: flyTarget,
+                    zoom: 18.2,
+                    pitch: 58,
+                    bearing: forceShowcase ? -20 : 0,
+                    duration: 1400
                 });
-
-                // Update Citizen Passbook card details
-                const citizenUlpin = document.getElementById("citizen-prop-ulpin");
-                if (citizenUlpin) citizenUlpin.innerText = generatedUlpin;
-                const citizenKhasra = document.getElementById("citizen-prop-khasra");
-                if (citizenKhasra) citizenKhasra.innerText = `${khasraName} (${bldgName})`;
-                const citizenUnit = document.getElementById("citizen-prop-unit");
-                if (citizenUnit) citizenUnit.innerText = `Flat ${unitNum} • ${floorIndex}${getOrdinalSuffix(floorIndex)} Floor`;
-                const citizenElev = document.getElementById("citizen-prop-elev");
-                if (citizenElev) citizenElev.innerText = `Ground Elev: ${groundElev.toFixed(1)}m MSL • Floor Height: +${relHeight.toFixed(1)}m`;
-
-                // Generate specific SVG QR code in passbook and property card
-                renderUlpinQRCode("citizen-passbook-qr", generatedUlpin, { size: 80, pad: 2 });
-                renderUlpinQRCode("prop-qr-box", generatedUlpin, { size: 52, pad: 1 });
-
-                // Update active property state for modals
-                window.__activeSelectedProperty = {
-                    ulpin: generatedUlpin,
-                    khasra: khasraName,
-                    floor: `${floorIndex}${getOrdinalSuffix(floorIndex)} Floor / Unit ${unitNum} (+${relHeight.toFixed(1)}m)`,
-                    elev: `${deviceMsl.toFixed(1)} m MSL (Copernicus DEM)`,
-                    elevNum: deviceMsl.toFixed(1),
-                    floorsNum: totalFloors,
-                    area: `1,420 sq.ft • Built-Up Space`,
-                    areaNum: 1420,
-                    owner: "श्रीमती प्रिया शर्मा / Priya Sharma"
-                };
-
-                // Fly 3D map camera and place animated GPS beacon marker
-                const map = window.boundaryMap;
-                if (map) {
-                    map.flyTo({
-                        center: bldgCenter,
-                        zoom: 18.2,
-                        pitch: 65,
-                        bearing: -20,
-                        duration: 1600
-                    });
-                    placeGpsRadar(map, bldgCenter);
-                }
-
-                // Highlight building on map and trigger floor levels
-                if (window.handleSelectBuilding && matchedBuilding) {
-                    window.handleSelectBuilding(matchedBuilding, bldgCenter);
-                }
-
-                AudioFX.play("seal");
-                showGovToast("GPS 3D ULPIN Allotted", `Building: ${bldgName} • Floor: ${floorIndex} (${unitNum}) • ${generatedUlpin}`, "ph-crosshair");
+                placeGpsRadar(map, flyTarget);
             }
 
-            // Real Browser GPS Geolocation attempt with graceful calibration fallback
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                        const lat = pos.coords.latitude;
-                        const lng = pos.coords.longitude;
-                        const acc = pos.coords.accuracy || 3.2;
-                        const alt = pos.coords.altitude;
-                        resolveAndAllot(lat, lng, acc, alt);
-                    },
-                    (err) => {
-                        console.log("[GPS] Hardware access info/fallback:", err.message);
-                        const c = getFeatCenter(matchedBuilding) || [77.4180, 23.2510];
-                        resolveAndAllot(c[1], c[0], 2.4, 512.7);
-                    },
-                    { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
-                );
-            } else {
-                const c = getFeatCenter(matchedBuilding) || [77.4180, 23.2510];
-                resolveAndAllot(c[1], c[0], 2.4, 512.7);
+            if (forceShowcase && window.handleSelectBuilding && matchedBuilding) {
+                window.handleSelectBuilding(matchedBuilding, bldgCenter);
             }
+
+            return generatedUlpin;
+        }
+
+        function startRealTimeGpsTracking(targetFloorOverride) {
+            AudioFX.play("click");
+
+            const isInsecureLan = !window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1";
+            const warnBanner = document.getElementById("gps-insecure-warning");
+            if (isInsecureLan && warnBanner) {
+                warnBanner.style.display = "block";
+            }
+
+            if (!navigator.geolocation) {
+                showGovToast("GPS Unsupported", "Device browser does not support Geolocation.", "ph-warning");
+                resolveAndAllot(23.2510, 77.4180, 5.0, 512.7, targetFloorOverride || 4, true);
+                return;
+            }
+
+            showGovToast("Connecting GNSS Satellites", "Accessing real-time device hardware coordinates...", "ph-crosshair");
+            
+            const btnText = document.getElementById("btn-citizen-gps-text");
+            if (btnText) btnText.innerText = "Tracking Live GPS... (स्थान ट्रैक हो रहा है)";
+
+            const badge = document.getElementById("gps-status-badge");
+            if (badge) {
+                badge.innerText = "LOCKING...";
+                badge.style.background = "#fef3c7";
+                badge.style.color = "#b45309";
+            }
+
+            // Continuous watchPosition for live real-time hardware positioning
+            if (liveGpsWatchId !== null) {
+                navigator.geolocation.clearWatch(liveGpsWatchId);
+                liveGpsWatchId = null;
+            }
+
+            let firstFixAchieved = false;
+
+            liveGpsWatchId = navigator.geolocation.watchPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+                    const acc = pos.coords.accuracy || 3.5;
+                    const alt = pos.coords.altitude;
+
+                    lastKnownCoords = [lng, lat];
+                    lastKnownAltitude = alt;
+                    lastKnownAccuracy = acc;
+                    isShowcaseMode = false;
+
+                    if (badge) {
+                        badge.innerText = "LIVE GPS LOCK";
+                        badge.style.background = "#dcfce7";
+                        badge.style.color = "#15803d";
+                    }
+
+                    const pulse = document.getElementById("gps-pulse-indicator");
+                    if (pulse) pulse.style.background = "#10b981";
+
+                    const ulpin = resolveAndAllot(lat, lng, acc, alt, targetFloorOverride, false);
+
+                    if (!firstFixAchieved) {
+                        firstFixAchieved = true;
+                        AudioFX.play("seal");
+                        showGovToast("Real-Time Device GPS Locked", `${lat.toFixed(5)}°N, ${lng.toFixed(5)}°E • ULPIN: ${ulpin}`, "ph-crosshair");
+                    }
+                },
+                (err) => {
+                    console.warn("[GPS] Device GNSS warning/error:", err.code, err.message);
+                    if (badge) {
+                        badge.innerText = err.code === 1 ? "PERMISSION DENIED" : "SIGNAL TIMEOUT";
+                        badge.style.background = "#fee2e2";
+                        badge.style.color = "#b91c1c";
+                    }
+
+                    if (err.code === 1) {
+                        // Permission denied
+                        showGovToast("GPS Permission Required", "Please allow Location Access in browser settings to read device coordinates.", "ph-lock-key");
+                        if (isInsecureLan && warnBanner) warnBanner.style.display = "block";
+                    } else {
+                        showGovToast("GNSS Weak Signal", "Using calibrated demonstration coordinates.", "ph-warning");
+                    }
+
+                    if (!lastKnownCoords) {
+                        // Demonstration fallback
+                        resolveAndAllot(23.2510, 77.4180, 4.2, 512.7, targetFloorOverride || 4, true);
+                    }
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                }
+            );
         }
 
         function initCitizenGpsEngine() {
-            // Locate Button in citizen workspace
+            // Check for insecure LAN connection and wire switch button
+            const isInsecureLan = !window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1";
+            const warnBanner = document.getElementById("gps-insecure-warning");
+            if (isInsecureLan && warnBanner) {
+                warnBanner.style.display = "block";
+                const hostSpan = warnBanner.querySelector(".lan-host-label");
+                if (hostSpan) hostSpan.innerText = location.hostname;
+            }
+
+            const btnSwitchHttps = document.getElementById("btn-switch-https");
+            if (btnSwitchHttps) {
+                btnSwitchHttps.addEventListener("click", () => {
+                    const targetPort = 8443;
+                    window.location.href = `https://${location.hostname}:${targetPort}${location.pathname}${location.search}`;
+                });
+            }
+
+            // Primary Locate Button
             const btnLocate = document.getElementById("btn-citizen-gps-locate");
             if (btnLocate) {
-                btnLocate.addEventListener("click", () => autoLocateCitizenGps());
+                btnLocate.addEventListener("click", () => startRealTimeGpsTracking());
+            }
+
+            // Dual Target: Track Device GPS
+            const btnFlyReal = document.getElementById("btn-gps-fly-real");
+            if (btnFlyReal) {
+                btnFlyReal.addEventListener("click", () => {
+                    if (lastKnownCoords) {
+                        isShowcaseMode = false;
+                        resolveAndAllot(lastKnownCoords[1], lastKnownCoords[0], lastKnownAccuracy || 3.0, lastKnownAltitude, currentCitizenFloor, false);
+                        showGovToast("Live Device Coordinates", `Centered on real device GPS: ${lastKnownCoords[1].toFixed(5)}°N, ${lastKnownCoords[0].toFixed(5)}°E`, "ph-crosshair");
+                    } else {
+                        startRealTimeGpsTracking(currentCitizenFloor);
+                    }
+                });
+            }
+
+            // Dual Target: Bhopal 3D Pilot
+            const btnFlyBhopal = document.getElementById("btn-gps-fly-bhopal");
+            if (btnFlyBhopal) {
+                btnFlyBhopal.addEventListener("click", () => {
+                    isShowcaseMode = true;
+                    resolveAndAllot(23.2510, 77.4180, 2.4, 512.7, currentCitizenFloor, true);
+                    showGovToast("Bhopal 3D Pilot", "Viewing Lotus Heights Tower B3 3D building extrusions.", "ph-buildings");
+                });
             }
 
             // Header Quick GPS Button
             const btnHeaderGps = document.getElementById("btn-header-gps");
             if (btnHeaderGps) {
                 btnHeaderGps.addEventListener("click", () => {
-                    // "Locate my property" is a citizen-scoped action.
-                    if (!requestWorkspace("citizen", "building:read:own")) return;
-                    setTimeout(() => autoLocateCitizenGps(), 300);
+                    if (typeof requestWorkspace === "function") {
+                        if (!requestWorkspace("citizen", "building:read:own")) return;
+                    } else {
+                        setGovRole("citizen");
+                    }
+                    setTimeout(() => startRealTimeGpsTracking(), 300);
                 });
             }
 
@@ -1812,9 +2029,13 @@
             const btnModalGps = document.getElementById("btn-modal-citizen-gps");
             if (btnModalGps) {
                 btnModalGps.addEventListener("click", () => {
-                    if (!requestWorkspace("citizen", "building:read:own")) return;
+                    if (typeof requestWorkspace === "function") {
+                        if (!requestWorkspace("citizen", "building:read:own")) return;
+                    } else {
+                        setGovRole("citizen");
+                    }
                     closeGovModal();
-                    setTimeout(() => autoLocateCitizenGps(), 350);
+                    setTimeout(() => startRealTimeGpsTracking(), 350);
                 });
             }
 
@@ -1822,7 +2043,12 @@
             document.querySelectorAll(".gps-floor-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const fl = parseInt(btn.getAttribute("data-floor"), 10);
-                    autoLocateCitizenGps(fl);
+                    currentCitizenFloor = fl;
+                    if (lastKnownCoords && !isShowcaseMode) {
+                        resolveAndAllot(lastKnownCoords[1], lastKnownCoords[0], lastKnownAccuracy || 3.0, lastKnownAltitude, fl, false);
+                    } else {
+                        resolveAndAllot(23.2510, 77.4180, 2.4, 512.7, fl, true);
+                    }
                 });
             });
 
@@ -1844,6 +2070,9 @@
                 });
             }
         }
+
+        // Backward compatibility alias
+        window.autoLocateCitizenGps = startRealTimeGpsTracking;
 
         // Initialize GPS engine
         initCitizenGpsEngine();
