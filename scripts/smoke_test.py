@@ -94,7 +94,7 @@ def main() -> int:
         return 2
 
     print(f"{GREEN}server reachable{RESET}  {args.base}")
-    print(f"  regions loaded: {len(health.get('regions', []))}")
+    print(f"  regions with data: {len(health.get('regions_with_data', []))}  {health.get('regions_with_data', [])}")
 
     # ---- public homepage needs no session, portal does not leak data ----
     try:
@@ -112,7 +112,11 @@ def main() -> int:
     check("no token -> health is public", 200, c.get("/api/meta/health")[0])
     check("bad password rejected", 401, c.post("/api/auth/login", body={"username": "citizen", "password": "wrong"})[0])
     check("unknown user rejected", 401, c.post("/api/auth/login", body={"username": "nobody", "password": "x"})[0])
-    check("empty password rejected", 401, c.post("/api/auth/login", body={"username": "citizen", "password": ""})[0])
+    # 422 is correct for a blank password: the schema rejects it before the
+    # credential check, so no account is probed with an empty secret. A short
+    # non-empty password reaches the credential check and is refused there.
+    check("empty password rejected by schema", 422, c.post("/api/auth/login", body={"username": "citizen", "password": ""})[0])
+    check("short password rejected at credential check", 401, c.post("/api/auth/login", body={"username": "citizen", "password": "a"})[0])
 
     # ---- sign in ----
     tokens, users = {}, {}
@@ -136,7 +140,9 @@ def main() -> int:
     check("citizen reads own record", 200, c.get(f"/api/records/building/{b1}?region={r1}", tokens["citizen"])[0])
     check("citizen blocked from other citizen's record", 403, c.get(f"/api/records/building/{b2}?region={r2}", tokens["citizen"])[0])
     check("citizen blocked from own id in wrong region", 403, c.get(f"/api/records/building/{b1}?region=bengaluru", tokens["citizen"])[0])
-    check("citizen blocked from nonexistent id", 404, c.get(f"/api/records/building/osm_way_999999999?region={r1}", tokens["citizen"])[0])
+    # 403 rather than 404 for an unlinked id, on purpose: a citizen must not be
+    # able to probe which building ids exist in the corpus.
+    check("citizen cannot probe an unlinked id", 403, c.get(f"/api/records/building/osm_way_999999999?region={r1}", tokens["citizen"])[0])
 
     # ---- authority reach ----
     check("registrar reads any record", 200, c.get(f"/api/records/building/{b2}?region={r2}", tokens["registrar"])[0])
@@ -162,7 +168,22 @@ def main() -> int:
     check("planner may not read audit log", 403, c.get("/api/audit/log", tokens["planner"])[0])
 
     # ---- grievances ----
-    check("citizen may file a grievance", 200, c.post("/api/grievances", tokens["citizen"], {"subject": "Floor 4 not shown", "description": "Smoke test submission."})[0])
+    check(
+        "citizen may file a grievance",
+        201,
+        c.post("/api/grievances", tokens["citizen"], {
+            "region": r1, "building_id": b1, "category": "FLOOR_COUNT",
+            "subject": "Floor 4 not shown", "narrative": "Smoke test submission.",
+        })[0],
+    )
+    check(
+        "grievance for a record the citizen does not own is refused",
+        403,
+        c.post("/api/grievances", tokens["citizen"], {
+            "region": r2, "building_id": b2, "category": "FLOOR_COUNT",
+            "subject": "not mine", "narrative": "Should be refused.",
+        })[0],
+    )
     check("sdm may read grievances", 200, c.get("/api/grievances", tokens["sdm"])[0])
     check("citizen may read own grievances", 200, c.get("/api/grievances", tokens["citizen"])[0])
 

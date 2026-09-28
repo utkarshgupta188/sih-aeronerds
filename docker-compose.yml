@@ -1,0 +1,48 @@
+# AeroNerds SIH26011 — production deployment.
+#
+#   docker compose up -d --build
+#
+# Put a TLS terminator in front of this (see docs/DEPLOY_AWS.md). The service
+# itself speaks plain HTTP and trusts X-Forwarded-* from the proxy.
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aeronerds/sih26011:latest
+    container_name: aeronerds-portal
+    restart: unless-stopped
+    ports:
+      # bound to loopback so only the reverse proxy can reach the app
+      - "127.0.0.1:8000:8000"
+    environment:
+      # REQUIRED. Generate with: openssl rand -hex 32
+      # Signing keys must survive restarts or every session dies on deploy.
+      AERONERDS_TOKEN_SECRET: "${AERONERDS_TOKEN_SECRET:?set AERONERDS_TOKEN_SECRET in .env}"
+      # must match the variable backend/main.py reads
+      AERONERDS_AUTH_DB: /data/aeronerds_auth.db
+      # keep the GeoJSON layers reasonably small in memory
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      # the SQLite auth/session store must persist across deploys
+      - auth-db:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/meta/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  auth-db:

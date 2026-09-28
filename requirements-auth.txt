@@ -1,8 +1,10 @@
-# AeroNerds SIH26011 — Authenticated portal (backend) requirements
-# Needed only by run_server.py. The offline static demo (run_demo.py) still
-# runs on the Python standard library alone.
+# AeroNerds SIH26011 — runtime dependencies for the authenticated portal.
 #
-# Password hashing and session signing use hashlib/hmac/secrets from the
-# standard library, so no passlib/bcrypt/PyJWT dependency is required.
-fastapi>=0.110.0
-uvicorn>=0.27.0
+# Only what the FastAPI service needs to run. The heavy geospatial/ML stack
+# (GeoPandas, Rasterio, GDAL, PyTorch) is used by the offline pipeline that
+# produced the GeoJSON in frontend/data/, and is NOT required to serve the
+# portal. Add it here only if you intend to run processing on the server.
+
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.32,<1.0
+pydantic>=2.9,<3.0
