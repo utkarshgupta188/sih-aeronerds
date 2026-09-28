@@ -134,7 +134,29 @@ sudo certbot --nginx -d your-domain.example
 sudo certbot renew --dry-run     # verify auto-renewal
 ```
 
-#### No domain? The IP-only variant
+#### Later got a domain? Switch the live instance to TLS
+
+If the instance is already running on the IP-only config, do not repeat the
+install. Add the A record, wait for it to resolve, then:
+
+```bash
+getent hosts your-domain.example        # must return this instance's IP
+sudo bash /opt/aeronerds-src/deploy/enable_tls.sh your-domain.example
+```
+
+That checks DNS, serves the domain over plain HTTP for the ACME challenge,
+requests the certificate, swaps in the full TLS config, and verifies the result —
+rolling back to the previous config rather than leaving nginx down if any step
+fails. Afterwards `http://` redirects to `https://` automatically.
+
+To get expiry warnings, pass an address:
+
+```bash
+sudo AERONERDS_CERTBOT_EMAIL=you@example.com \
+  bash deploy/enable_tls.sh your-domain.example
+```
+
+#### No domain yet? The IP-only variant
 
 Let's Encrypt cannot issue a certificate for a bare IP address, so an instance
 reached only as `http://65.0.71.122` can never serve HTTPS. Use the

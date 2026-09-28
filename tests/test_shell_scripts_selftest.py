@@ -116,6 +116,16 @@ ACCEPT = [
         "die() { log \"ERROR: $*\"; exit 1; }\n"
         "log ok\n",
     ),
+    (
+        "case_glob_arms.sh",
+        "#!/usr/bin/env bash\nset -euo pipefail\n"
+        "case \"$x\" in\n"
+        "  *.*) ;;\n"
+        "  1.2.3.4) die \"bare IP\" ;;\n"
+        "  *) die \"bare\" ;;\n"
+        "esac\n"
+        "echo ok\n",
+    ),
 ]
 
 

@@ -29,6 +29,7 @@ DEPLOY = ROOT / "deploy" / "deploy_docker.sh"
 INSTALL = ROOT / "deploy" / "install.sh"
 NATIVE_DEPLOY = ROOT / "deploy" / "deploy.sh"
 UNIT = ROOT / "deploy" / "aeronerds.service"
+ENABLE_TLS = ROOT / "deploy" / "enable_tls.sh"
 DOCS = ROOT / "docs" / "DEPLOY_AWS.md"
 REQS = ROOT / "requirements-auth.txt"
 GITIGNORE = ROOT / ".gitignore"
@@ -542,6 +543,91 @@ def test_unit_paths_are_created_by_the_installer(unit_file, install_script):
         assert root in install_script, (
             f"the unit references {path} but install.sh never creates {root}"
         )
+
+
+def test_tls_switch_script_exists():
+    assert ENABLE_TLS.exists(), (
+        "an IP-only instance needs a way to move to HTTPS once a domain resolves"
+    )
+
+
+def test_tls_switch_refuses_a_bare_ip():
+    """The single most likely mistake: passing the instance IP and expecting a
+    certificate. Let's Encrypt will not issue for one, so say so plainly."""
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    assert "cannot issue a certificate for a bare IP" in text, (
+        "the script must explain why an IP will not get a certificate"
+    )
+    assert re.search(r"\[ -z \"\$\{1", text) or 'DOMAIN="${1:-}"' in text, (
+        "the domain must be a required argument, not a default"
+    )
+
+
+def test_tls_switch_checks_dns_before_touching_nginx():
+    """The order matters. If DNS has not propagated, the ACME challenge fails and
+    the operator is left with a half-configured nginx for no visible reason."""
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    dns_at = text.find("getent hosts")
+    certbot_at = text.find("certbot --nginx")
+    assert dns_at != -1, "the script must verify the domain resolves"
+    assert certbot_at != -1
+    assert dns_at < certbot_at, (
+        "DNS must be checked before requesting a certificate, not after"
+    )
+
+
+def test_tls_switch_rolls_back_on_failure():
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    assert ".pre-tls" in text, "the working config must be kept before being replaced"
+    assert text.count("cp -a") >= 2, (
+        "there must be a restore path if the TLS config fails to load"
+    )
+
+
+def test_tls_switch_never_leaves_nginx_down():
+    """nginx will not start with a config referencing a certificate that does
+    not exist, so the first pass must be HTTP-only."""
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    assert re.search(r"server\s*\{[^}]*listen 80", text, re.S), (
+        "a temporary HTTP-only server block is required before certbot runs"
+    )
+    # the first written config must not reference a certificate path
+    first_config = text[text.find("cat > \"$SITE\""): text.find("nginx -t")]
+    assert "ssl_certificate" not in first_config, (
+        "referencing a certificate before it exists stops nginx from starting"
+    )
+    assert "nginx -t" in text, "every nginx config change must be validated"
+
+
+def test_tls_switch_verifies_over_https():
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    assert "https://$DOMAIN" in text, "the script must confirm the site works over TLS"
+    assert "renew --dry-run" in text, (
+        "a certificate that cannot renew is a silent future outage"
+    )
+
+
+def test_tls_switch_keeps_the_app_off_the_internet():
+    """The switch must not become a way to expose :8000, so the only place a
+    0.0.0.0:8000 may appear is the check that asserts it is absent."""
+    text = ENABLE_TLS.read_text(encoding="utf-8")
+    assert "0.0.0.0:8000" in text, (
+        "the script must re-check that the app is still loopback-only after "
+        "the switch, not just assume it"
+    )
+    for line in text.splitlines():
+        if "0.0.0.0" not in line:
+            continue
+        assert "grep -q" in line or "die" in line or line.strip().startswith("#"), (
+            f"unexpected 0.0.0.0 in the TLS switch: {line.strip()}"
+        )
+
+
+def test_tls_switch_is_documented():
+    doc = DOCS.read_text(encoding="utf-8")
+    assert "enable_tls.sh" in doc, (
+        "the IP-to-HTTPS path must be documented, or nobody finds it"
+    )
 
 
 def test_native_path_is_documented_first():

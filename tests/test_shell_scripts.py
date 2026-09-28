@@ -156,9 +156,10 @@ def _is_case_arm_delim(raw: str, j: int) -> bool:
     prev = raw[j - 1]
     if not (prev.isalnum() or prev in "*?[]\"'"):
         return False
-    # walk back over the pattern to see whether it starts a command
+    # walk back over the pattern to see whether it starts a command. Globs must
+    # be included or "case $x in *.*)" reads its ')' as a closing paren.
     k = j
-    while k > 0 and (raw[k - 1].isalnum() or raw[k - 1] in "*?[]\"'_-"):
+    while k > 0 and (raw[k - 1].isalnum() or raw[k - 1] in "*?[]\"'_-."):
         k -= 1
     return _ARM_START.match(raw[:k] + " ") is not None
 
