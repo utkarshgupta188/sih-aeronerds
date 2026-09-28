@@ -21,8 +21,13 @@ sys.path.insert(0, str(ROOT))
 DOCKERFILE = ROOT / "Dockerfile"
 COMPOSE = ROOT / "docker-compose.yml"
 NGINX = ROOT / "deploy" / "nginx" / "aeronerds.conf"
-SETUP = ROOT / "deploy" / "setup_aws.sh"
-DEPLOY = ROOT / "deploy" / "deploy.sh"
+# Two deployment paths, both covered. Native (systemd) is the default; the
+# Docker path is retained because the setup guide documents both.
+SETUP = ROOT / "deploy" / "setup_aws_docker.sh"
+DEPLOY = ROOT / "deploy" / "deploy_docker.sh"
+INSTALL = ROOT / "deploy" / "install.sh"
+NATIVE_DEPLOY = ROOT / "deploy" / "deploy.sh"
+UNIT = ROOT / "deploy" / "aeronerds.service"
 DOCS = ROOT / "docs" / "DEPLOY_AWS.md"
 REQS = ROOT / "requirements-auth.txt"
 GITIGNORE = ROOT / ".gitignore"
@@ -301,10 +306,143 @@ def setup_script():
     return SETUP.read_text(encoding="utf-8")
 
 
+@pytest.fixture(scope="module")
+def install_script():
+    return INSTALL.read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="module")
+def native_deploy():
+    return NATIVE_DEPLOY.read_text(encoding="utf-8")
+
+
+@pytest.fixture(scope="module")
+def unit_file():
+    return UNIT.read_text(encoding="utf-8")
+
+
 def test_setup_script_is_idempotent_and_scoped(setup_script):
     assert "set -euo pipefail" in setup_script
     assert "command -v docker" in setup_script, "re-running setup must be safe"
     assert "get.docker.com" not in setup_script, "install from the official apt repo, not a curl|sh script"
+
+
+# ---------------------------------------------------------------------------
+# native (systemd) path — the default, and the one that needs no Docker
+# ---------------------------------------------------------------------------
+def test_native_path_exists_without_docker():
+    for path in (INSTALL, NATIVE_DEPLOY, UNIT):
+        assert path.exists(), f"the Docker-free path needs {path.name}"
+
+
+def test_install_script_generates_the_secret_once(install_script):
+    assert "openssl rand -hex 32" in install_script, (
+        "the signing secret must be randomly generated"
+    )
+    # it must reuse an existing secret, or every reinstall logs all users out
+    assert re.search(r"if \[ -f \"?\$ENV_FILE", install_script), (
+        "the secret must only be generated when absent, so a re-run does not "
+        "invalidate every session"
+    )
+    assert "chmod 0640" in install_script, (
+        "the secret file must not be readable by other accounts"
+    )
+
+
+def test_install_script_verifies_the_service(install_script):
+    assert "systemctl is-active" in install_script, (
+        "the installer must confirm the service is up, not assume it"
+    )
+    assert "smoke_test" in install_script, (
+        "the installer must run the access-model smoke test"
+    )
+    # a service that is listening but serving the wrong thing is the failure
+    # mode that actually happens
+    assert "401" in install_script, (
+        "verify unauthenticated API access is refused"
+    )
+
+
+def test_native_deploy_keeps_a_rollback_copy(native_deploy):
+    assert "app.prev" in native_deploy, (
+        "a redeploy must keep the previous tree so a bad release can be undone"
+    )
+    assert "smoke_test" in native_deploy
+    assert "curl" in native_deploy, "the deploy must gate on a health check"
+
+
+def test_native_deploy_never_touches_the_secret_or_database(native_deploy):
+    """A redeploy must not regenerate the secret or delete the auth database.
+    Either would log out every user or destroy the session store."""
+    assert "openssl rand" not in native_deploy, (
+        "deploy.sh must not regenerate the signing secret"
+    )
+    assert "rm -rf /var/lib/aeronerds" not in native_deploy
+    assert "rm -f /etc/aeronerds" not in native_deploy
+
+
+def test_service_unit_runs_unprivileged(unit_file):
+    assert re.search(r"^User=aeronerds", unit_file, re.M), (
+        "the service must run as a dedicated user, not root"
+    )
+    assert "ProtectSystem=strict" in unit_file
+    assert "NoNewPrivileges=true" in unit_file
+    assert "PrivateTmp=true" in unit_file
+    assert "Restart=always" in unit_file, "a crash should not leave a dead listener"
+
+
+def test_service_unit_binds_loopback_only(unit_file):
+    assert "127.0.0.1" in unit_file, (
+        "nginx is the only thing that should reach the app; the port must not "
+        "be exposed directly"
+    )
+    assert "0.0.0.0" not in unit_file
+
+
+def test_service_unit_secret_is_not_inline(unit_file):
+    """The secret lives in an EnvironmentFile, so `systemctl cat` — which
+    often ends up pasted into bug reports — cannot leak it."""
+    assert "EnvironmentFile=/etc/aeronerds/aeronerds.env" in unit_file
+    assert "AERONERDS_TOKEN_SECRET" not in unit_file, (
+        "the secret must not be written into the unit file"
+    )
+
+
+def test_service_unit_has_exactly_one_writable_path(unit_file):
+    writable = re.findall(r"^ReadWritePaths=(\S+)", unit_file, re.M)
+    assert writable == ["/var/lib/aeronerds"], (
+        f"only the auth database directory should be writable, got {writable}"
+    )
+    env = (ROOT / "deploy" / "install.sh").read_text(encoding="utf-8")
+    assert "AERONERDS_AUTH_DB=$DATA_DIR/aeronerds_auth.db" in env, (
+        "the database must live on that writable volume, not in the app tree"
+    )
+    assert 'DATA_DIR=/var/lib/aeronerds' in env, (
+        "the writable path in the unit and the installer must be the same"
+    )
+
+
+def test_unit_paths_are_created_by_the_installer(unit_file, install_script):
+    """A unit referencing a directory the installer never creates fails at boot
+    with a message that does not obviously point at the installer."""
+    for path in re.findall(
+        r"(?:WorkingDirectory|ExecStart|EnvironmentFile)=(\S+)", unit_file
+    ):
+        root = "/".join(path.split("/")[:3])
+        assert root in install_script, (
+            f"the unit references {path} but install.sh never creates {root}"
+        )
+
+
+def test_native_path_is_documented_first():
+    doc = DOCS.read_text(encoding="utf-8")
+    native_at = doc.find("install.sh")
+    docker_at = doc.find("setup_aws_docker.sh")
+    assert native_at != -1, "the Docker-free path must be documented"
+    assert docker_at != -1, "the Docker path must stay documented"
+    assert native_at < docker_at, (
+        "the native path is the default, so it must be documented first"
+    )
 
 
 def test_setup_script_does_not_open_the_app_port(setup_script):

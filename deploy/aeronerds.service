@@ -1,0 +1,80 @@
+[Unit]
+Description=AeroNerds SIH26011 — authenticated 3D ULPIN portal
+Documentation=https://github.com/<your-org>/aeronerds
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=aeronerds
+Group=aeronerds
+WorkingDirectory=/opt/aeronerds/app
+
+# The signing secret and the SQLite path. Kept out of the unit file so the
+# secret can be rotated without touching this file, and never lands in
+# `systemctl cat` output that gets pasted into bug reports.
+EnvironmentFile=/etc/aeronerds/aeronerds.env
+
+# Bind to loopback. nginx is the only thing that should reach the app.
+Environment=HOST=127.0.0.1
+Environment=PORT=8000
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+# uvicorn directly, not run_server.py: the launcher prints a demo banner that
+# is noise in a service log. Both serve the same app on the same port.
+ExecStart=/opt/aeronerds/venv/bin/python -m uvicorn backend.main:app \
+    --host 127.0.0.1 \
+    --port 8000 \
+    --proxy-headers \
+    --forwarded-allow-ips=127.0.0.1 \
+    --workers 2 \
+    --timeout-keep-alive 30 \
+    --no-server-header
+
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3s
+
+# If the app wedges, systemd restarts it rather than leaving a dead listener.
+WatchdogSec=0
+
+# ---- hardening ----------------------------------------------------------
+# The service reads code and GeoJSON, and writes only its own SQLite file.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+ProtectProc=invisible
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RemoveIPC=true
+UMask=0077
+
+# ProtectSystem=strict makes everything read-only, so the only writable path
+# must be opened up explicitly: the directory holding the auth database.
+ReadWritePaths=/var/lib/aeronerds
+
+# ---- limits -------------------------------------------------------------
+LimitNOFILE=8192
+MemoryMax=1G
+TasksMax=256
+
+# ---- logging ------------------------------------------------------------
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=aeronerds
+
+[Install]
+WantedBy=multi-user.target

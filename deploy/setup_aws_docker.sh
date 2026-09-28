@@ -2,10 +2,10 @@
 # AeroNerds SIH26011 — first-boot server setup for Ubuntu 24.04 on AWS EC2.
 #
 # Safe to re-run. Installs Docker, opens the firewall, and leaves the app
-# deployment itself to deploy/deploy.sh.
+# deployment itself to deploy/deploy_docker.sh.
 #
 #   ssh -i your-key.pem ubuntu@<ec2-public-ip>
-#   bash setup_aws.sh
+#   bash deploy/setup_aws_docker.sh
 #
 # If you would rather not run a script from the internet, paste the commands
 # individually — they are all from the official Docker and Ubuntu apt repos.
@@ -85,7 +85,7 @@ Next steps
 
 3. Deploy:
        cd /opt/aeronerds/app
-       bash deploy/deploy.sh
+       bash deploy/deploy_docker.sh
 
 4. Point DNS at the instance's Elastic IP.
 
